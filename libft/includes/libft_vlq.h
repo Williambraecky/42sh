@@ -6,14 +6,14 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:52:03 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/10/18 17:55:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/06/27 16:48:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_VLQ_H
 # define LIBFT_VLQ_H
 
-# include "libft_int.h"
+# include "libft.h"
 
 # define _NOMSB_ 0x7FFFFFFFFFFFFFFF
 

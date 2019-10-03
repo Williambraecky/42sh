@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 15:17:18 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/06/12 15:20:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2018/11/30 14:50:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,8 @@ t_list	*ft_lstnew(const void *content, size_t content_size)
 {
 	t_list *list;
 
-	list = (t_list *)malloc(sizeof(t_list));
-	if (list == NULL)
+	if ((list = (t_list *)ft_memalloc(sizeof(t_list))) == NULL)
 		return (NULL);
-	list->content = NULL;
-	list->content_size = 0;
-	list->next = NULL;
 	if (content != NULL)
 	{
 		if ((list->content = ft_memalloc(content_size)) == NULL)

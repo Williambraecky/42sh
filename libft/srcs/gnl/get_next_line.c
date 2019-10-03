@@ -6,13 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/19 10:51:19 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/08/14 16:09:01 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/05/23 14:32:00 by jstraetm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdlib.h>
-#include <unistd.h>
 
 static t_line	*ft_new_line(const int fd, char *buffer, size_t len)
 {
@@ -113,10 +111,8 @@ int				get_next_line(const int fd, char **line)
 		return (-1);
 	count = 0;
 	result = ft_read_next_line(&list, fd, &count, buffer);
-	if (result == -1)
-		return (-1);
-	if (result == 0)
-		return (0);
+	if (result == -1 || result == 0)
+		return (result);
 	*line = ft_join_lines(list, fd, (size_t)count);
 	ft_lstremoveif(&list, (void *)&fd, &ft_clean);
 	return (result);

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/17 12:38:03 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/09/27 12:25:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/04/25 12:16:12 by jstraetm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	ft_lstsortinsert(t_list **begin_list, void *content, size_t size,
 	t_list *prev;
 
 	current = *begin_list;
-	insert = ft_lstnew(content, size);
+	if (!(insert = ft_lstnew(content, size)))
+		return ;
 	if (current == NULL || cmp(current->content, content) > 0)
 	{
 		insert->next = current;

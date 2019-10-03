@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 11:03:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/09/14 11:09:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/05/27 18:50:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include <string.h>
 
-void		ft_putchar_fd(int c, int fd);
-void		ft_putchar(int c);
+int			ft_putchar_fd(int c, int fd);
+int			ft_putchar(int c);
 void		ft_putstr_fd(const char *str, int fd);
 void		ft_putstr(const char *str);
 void		ft_putendl_fd(const char *str, int fd);

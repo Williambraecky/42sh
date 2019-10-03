@@ -6,7 +6,7 @@
 #    By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/06/12 08:11:26 by wbraeckm          #+#    #+#              #
-#    Updated: 2019/02/21 15:56:24 by wbraeckm         ###   ########.fr        #
+#    Updated: 2018/09/25 17:56:45 by wbraeckm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,20 +37,21 @@ all: $(NAME)
 
 $(OBJFOLDER)/%.o:$(SRCSFOLDER)/%.c
 	@printf $(ccblue)
-	@printf "Compiling "
-	@printf "%-$(LONGEST)s" $(notdir $<)
+	@printf "Compiling %-$(LONGEST)s" $(notdir $<)
 	@$(CC) $(FLAGS) -o $@ -c $< -I $(INCLUDES)
 	@printf $(cclightgray)[$(ccgreenhard)√$(cclightgray)]$(ccreset)
-	@printf "\n"
+	@printf "\r"
 
 $(OBJSUBS):
 	@mkdir $@
 
 $(NAME): $(OBJSUBS) $(OBJ)
 	@printf $(cccyan)
-	ar rc $(NAME) $(OBJ)
-	ranlib $(NAME)
-	@printf $(ccreset)
+	@printf "Compiling $(NAME) "
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
+	@printf $(cclightgray)[$(ccgreenhard)√$(cclightgray)]$(ccreset)
+	@printf "                                                     \n"
 
 clean:
 	@printf $(ccred)

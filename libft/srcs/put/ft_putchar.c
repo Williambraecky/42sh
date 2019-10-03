@@ -6,13 +6,13 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:39:36 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/07/03 10:52:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/05/27 18:51:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putchar(int c)
+int	ft_putchar(int c)
 {
-	ft_putchar_fd(c, 1);
+	return (ft_putchar_fd(c, 1));
 }

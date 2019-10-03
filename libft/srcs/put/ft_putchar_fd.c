@@ -6,14 +6,14 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 14:38:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/07/03 11:25:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/05/27 18:51:27 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <unistd.h>
 
-static int		ft_get_and_shift(int *i)
+static int	ft_get_and_shift(int *i)
 {
 	int tmp;
 
@@ -22,7 +22,7 @@ static int		ft_get_and_shift(int *i)
 	return (tmp);
 }
 
-static void		ft_default_unicode(char *buffer)
+static void	ft_default_unicode(char *buffer)
 {
 	buffer[2] = 0xEF;
 	buffer[1] = 0xBF;
@@ -38,7 +38,7 @@ static void		ft_default_unicode(char *buffer)
 ** Un charactere n'utilises jamais tout les bits
 */
 
-static void		ft_putunicode(int c, int fd)
+static void	ft_putunicode(int c, int fd)
 {
 	char	buffer[5];
 
@@ -66,10 +66,11 @@ static void		ft_putunicode(int c, int fd)
 	ft_putstr_fd(buffer, fd);
 }
 
-void			ft_putchar_fd(int c, int fd)
+int			ft_putchar_fd(int c, int fd)
 {
 	if (c <= 0x7F)
 		write(fd, &c, 1);
 	else
 		ft_putunicode(c, fd);
+	return (1);
 }

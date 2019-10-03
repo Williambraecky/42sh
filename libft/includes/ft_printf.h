@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/05 16:40:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/09/14 15:58:22 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/05/18 17:58:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ struct		s_handler
 };
 
 int			ft_printf(const char *str, ...);
-int			ft_printf_fd(int fd, const char *str, ...);
+int			ft_dprintf(int fd, const char *str, ...);
 void		ft_parse_printf(char *str, va_list *list, t_flags *flags);
 void		ft_handle_colors(char **str, t_flags *flags);
 t_flags		*ft_new_flags(void);

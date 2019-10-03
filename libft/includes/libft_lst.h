@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 10:57:15 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/09/21 11:23:38 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2018/12/01 01:11:05 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,5 +37,9 @@ void		ft_lstremoveif(t_list **alst, void *data_ref,
 void		ft_lstsortinsert(t_list **begin_list, void *content, size_t size,
 		int (*cmp)());
 size_t		ft_lstlen(t_list *list);
+void		**ft_lsttoarray(t_list *list);
+void		ft_lstpop(t_list **list, void (*del)(void *, size_t));
+void		ft_lstpushfront(t_list **alst, const void *content,
+		size_t content_size);
 
 #endif

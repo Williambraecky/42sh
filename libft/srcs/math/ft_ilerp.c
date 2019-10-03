@@ -6,13 +6,13 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/12 11:32:25 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/09/12 11:33:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2018/11/15 15:10:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-float	ft_ilerp(float start, float end, float target)
+double	ft_ilerp(double start, double end, double target)
 {
 	if (target == start)
 		return (0.00);

@@ -6,13 +6,13 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/12 11:25:49 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/09/14 11:01:39 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2018/11/15 15:11:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-float	ft_lerp(float start, float end, float percent)
+double	ft_lerp(double start, double end, double percent)
 {
 	if (percent == 0.00)
 		return (start);
