@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/10 16:32:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/09/14 12:19:44 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/04 16:53:13 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,9 @@ t_handler		g_handlers[] =
 	{'U', &ft_printf_handle_unsignedlong},
 	{'f', &ft_printf_handle_float},
 	{'F', &ft_printf_handle_float},
+	{'b', &ft_printf_handle_binary},
+	{'t', &ft_printf_handle_joiner},
+	{'T', &ft_printf_handle_tab},
 	{'\0', NULL}
 };
 

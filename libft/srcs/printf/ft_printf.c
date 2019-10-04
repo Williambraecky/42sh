@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/05 16:37:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2018/09/14 15:58:23 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/04 16:49:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ t_flags	*ft_new_flags(void)
 	if (!(flags = ft_memalloc(sizeof(t_flags))))
 		return (NULL);
 	flags->width = UNDEFINED_WIDTH;
+	flags->joiner = ", ";
 	return (flags);
 }
 

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/05 16:40:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/05/18 17:58:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/04 16:52:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ struct		s_printf
 	int		arg_pos;
 	int		printed;
 	char	*str;
+	char	*joiner;
 };
 
 typedef struct s_handler	t_handler;
@@ -92,6 +93,9 @@ void		ft_printf_handle_hexa_high(va_list *list, t_flags *flags);
 void		ft_printf_handle_unsigned(va_list *list, t_flags *flags);
 void		ft_printf_handle_unsignedlong(va_list *list, t_flags *flags);
 void		ft_printf_handle_float(va_list *list, t_flags *flags);
+void		ft_printf_handle_binary(va_list *list, t_flags *flags);
+void		ft_printf_handle_tab(va_list *list, t_flags *flags);
+void		ft_printf_handle_joiner(va_list *list, t_flags *flags);
 
 char		*ft_printf_itoa(ssize_t value, size_t base, t_flags *flags);
 char		*ft_printf_uitoa(size_t value, size_t base, t_flags *flags);
