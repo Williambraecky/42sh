@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 11:03:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/05/27 18:50:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/04 16:15:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,9 @@ void		ft_putnstr_fd(const char *str, size_t len, int fd);
 void		ft_putnstr(const char *str, size_t len);
 void		ft_putnchar_fd(int c, int fd, size_t amount);
 void		ft_putnchar(int c, size_t amount);
+void		ft_puttab(char **tab);
+void		ft_puttab_fd(char **tab, int fd);
+void		ft_puttab_join(char **tab, char *joiner);
+void		ft_puttab_join_fd(char **tab, char *joiner, int fd);
 
 #endif

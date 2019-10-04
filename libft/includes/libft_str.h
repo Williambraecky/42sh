@@ -6,12 +6,19 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 11:04:28 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/05/29 17:13:13 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/04 16:13:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_STR_H
 # define LIBFT_STR_H
+
+# ifndef WSPACE_SET
+#  define WSPACE_SET "\t\v\n\r\f "
+# endif
+# ifndef JOIN_EMPTY
+#  define JOIN_EMPTY 1
+# endif
 
 # include "libft.h"
 
@@ -41,6 +48,8 @@ char	*ft_strsub(const char *s1, unsigned int start, size_t len);
 char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strtrim(const char *s1);
 char	**ft_strsplit(const char *s, char c);
+char	**ft_strsplitcharset(const char *str, char *set);
+char	**ft_strsplitwspace(const char *str);
 void	ft_strrepl(char *str, char find, char repl);
 size_t	ft_strfind(const char *str, char c);
 char	*ft_strtoupper(char *str);
@@ -65,5 +74,6 @@ t_u64	ft_strhash(char *keystring);
 int		ft_strisascii(const char *str);
 int		ft_strisalnum(const char *str);
 void	ft_strndel(size_t n, ...);
+char	*ft_tabjoin(char **tab, char *joiner);
 
 #endif
