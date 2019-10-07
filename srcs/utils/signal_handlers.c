@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_sh.c                                          :+:      :+:    :+:   */
+/*   signal_handlers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/07 18:28:59 by wbraeckm         ###   ########.fr       */
+/*   Created: 2019/10/07 18:29:41 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/10/07 18:50:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-/*
-** NOTE: Main shell free procedure add fields to be freed here
-*/
-
-void	free_sh(t_sh *shell)
+void	ignore_signal(int signo)
 {
-	ft_mapdel(shell->env);
-	tcsetattr(SH_OUT, TCSADRAIN, &shell->old_termios);
+	(void)signo;
 }

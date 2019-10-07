@@ -1,23 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_sh.c                                          :+:      :+:    :+:   */
+/*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/07 18:28:59 by wbraeckm         ###   ########.fr       */
+/*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/10/07 18:11:25 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#ifndef PROMPT_H
+# define PROMPT_H
 
 /*
-** NOTE: Main shell free procedure add fields to be freed here
+** Includes
 */
 
-void	free_sh(t_sh *shell)
+# include "sh.h"
+
+/*
+** Defines
+*/
+
+/*
+** Typedefs
+*/
+
+typedef struct s_prompt	t_prompt;
+
+/*
+** Structures
+*/
+
+struct		s_prompt
 {
-	ft_mapdel(shell->env);
-	tcsetattr(SH_OUT, TCSADRAIN, &shell->old_termios);
-}
+	char	*prompt;
+};
+
+/*
+** Prototypes
+*/
+
+#endif

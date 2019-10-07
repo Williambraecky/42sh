@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/07 17:57:51 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/07 18:58:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@ static int	init_shell(t_sh *shell, const char **env)
 	if (!(shell->env = ft_mapnew(ft_splitlen((char**)env))))
 		return (1);
 	copy_env(shell, env);
+	if ((shell->prompt_mode = isatty(SH_IN)))
+		if (init_interactive_mode(shell))
+			return (1);
 	return (0);
 }
 
@@ -36,6 +39,7 @@ int			main(int argc, const char **argv, const char **env)
 	}
 	(void)argc;
 	(void)argv;
+	ft_printf("Mode %d\n", shell.prompt_mode);
 	free_sh(&shell);
 	// ft_printf("executed %s\n", argv[0]);
 	return (0);
