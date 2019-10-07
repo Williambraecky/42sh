@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/17 15:52:03 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/06/27 16:48:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/07 18:17:05 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,5 @@ void	ft_vlqadd_set(t_vlq *vlq, t_vlq b);
 t_vlq	ft_vlqof(t_u64 value);
 t_u32	ft_vlq_count_actbits(t_vlq vlq);
 t_u32	ft_vlq_count_actbits(t_vlq vlq);
-
 
 #endif
