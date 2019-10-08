@@ -1,38 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   copy_env.c                                         :+:      :+:    :+:   */
+/*   make_env_array.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 17:42:38 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:25:17 by wbraeckm         ###   ########.fr       */
+/*   Created: 2019/10/08 17:30:07 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/10/08 17:35:46 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-int		copy_env(t_sh *shell, const char **env)
+int		make_env_array(t_sh *shell, char ***array)
 {
-	char	*key;
-	char	*value;
-	char	*equals;
+	t_map	*env_map;
+	size_t	len;
 	size_t	i;
+	size_t	j;
 
-	key = NULL;
-	value = NULL;
+	env_map = shell->env;
+	len = ft_mapsize(shell->env);
+	if (!(*array = ft_memalloc(sizeof(**array) * (len + 1))))
+		return (SH_ERR_MALLOC);
 	i = 0;
-	while (env[i])
+	j = 0;
+	while (i < env_map->max_size)
 	{
-		if ((equals = ft_strchr(env[i], '=')) != NULL)
+		if (env_map->nodes[i].is_used)
 		{
-			key = ft_strndup((char*)env[i], equals - (char*)env[i]);
-			value = ft_strdup(equals + 1);
-			if (!key || !value)
+			if (!(*array[j++] = ft_strformat("%s=%s", env_map->nodes[i].key,
+			(char*)env_map->nodes[i].value)))
+			{
+				ft_freesplit(*array);
 				return (SH_ERR_MALLOC);
-			if (ft_mapputnoclone(shell->env, key, value, ft_strlen(value))
-				!= MAP_OK)
-				return (SH_ERR_MALLOC);
+			}
 		}
 		i++;
 	}
