@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 16:44:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:05:26 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/10 15:10:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,13 +46,13 @@ int			get_cursor_pos(t_sh *sh, int *x, int *y)
 	ft_memset(buf, 0, 30);
 	write(1, "\033[6n", 4);
 	i = 0;
-	while (i == 0 || buf[i - 1] != 'R')
+	while (i == 0 || (buf[i - 1] != 'R' && i < 30))
 	{
 		if (!(ret = read(0, buf + i, 1)))
 			return (2);
 		i++;
 	}
-	if (i < 2 || read_pos_from_buffer(buf, x, y))
+	if (i < 2 || read_pos_from_buffer(buf, x, y) || i == 30)
 		return (2);
 	return (0);
 }

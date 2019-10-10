@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:26:27 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/10 15:07:22 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int			main(int argc, const char **argv, const char **env)
 	}
 	(void)argc;
 	(void)argv;
-	ft_printf("Mode %d", shell.prompt_mode);
 	handle_prompt(&shell);
 	free_sh(&shell);
 	// ft_printf("executed %s\n", argv[0]);

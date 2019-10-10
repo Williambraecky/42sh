@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:36:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/10 15:12:34 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,19 @@
 static char	*interactive_prompt(t_sh *shell, t_prompt *prompt)
 {
 	int		buffer;
+	ssize_t	j;
 
 	(void)shell;
 	if (prompt->valid_pos && prompt->cursor_pos.x != 1)
 	{
-		ft_printf("{invert}{bold}%%{eoc}\n");
+		ft_dprintf(0, "{invert}{bold}%%{eoc}\n");
 		prompt->cursor_pos.x = 1;
 		prompt->cursor_pos.y++;
 	}
-	ft_putstr(prompt->prompt);
+	ft_putstr_fd(prompt->prompt, 0);
 	prompt->cursor_pos.x += ft_strlen(prompt->prompt);
-	read(0, &buffer, 4);
-	write(1, &buffer, 1);
+	j = read(0, &buffer, 4);
+	write(0, &buffer, j);
 	free_prompt(prompt);
 	return (NULL);
 }
