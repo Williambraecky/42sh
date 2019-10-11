@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/12 08:10:53 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/06/27 17:08:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/11 16:34:06 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@
 # include "libft_tree.h"
 # include "libft_vec.h"
 # include "libft_vlq.h"
+# include "libft_wstr.h"
 
 #endif
