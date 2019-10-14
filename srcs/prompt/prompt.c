@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/10 15:12:34 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/14 17:57:09 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ static char	*interactive_prompt(t_sh *shell, t_prompt *prompt)
 	}
 	ft_putstr_fd(prompt->prompt, 0);
 	prompt->cursor_pos.x += ft_strlen(prompt->prompt);
-	j = read(0, &buffer, 4);
+	j = read(0, &buffer, 1);
+	j += read(0, (char *)(&buffer) + 1, wcharlen(buffer) - 1);
+	// 1110 4 char 110 3 char 10 2 char
 	write(0, &buffer, j);
 	free_prompt(prompt);
 	return (NULL);

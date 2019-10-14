@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:36:19 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/14 17:33:05 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ struct		s_prompt
 char		*handle_prompt(t_sh *shell);
 int			gen_prompt(t_sh *shell, t_prompt *prompt);
 void		free_prompt(t_prompt *prompt);
+size_t		wcharlen(char c);
 
 #endif

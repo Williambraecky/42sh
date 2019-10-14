@@ -1,25 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gen_prompt.c                                       :+:      :+:    :+:   */
+/*   wcharlen.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
+/*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 16:37:51 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/14 16:40:33 by ntom             ###   ########.fr       */
+/*   Created: 2019/10/14 17:27:36 by ntom              #+#    #+#             */
+/*   Updated: 2019/10/14 17:32:33 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-/*
-** NOTE: Main prompt generation procedure
-*/
-
-int		gen_prompt(t_sh *shell, t_prompt *prompt)
+size_t		wcharlen(char c)
 {
-	prompt->prompt = ft_strformat("{cyan}42sh{eoc} > ");
-	if (!get_cursor_pos(shell, &prompt->cursor_pos.x, &prompt->cursor_pos.y))
-		prompt->valid_pos = 1;
-	return (0);
+	if ((c & 0xF0) == 0xF0)
+		return (4);
+	else if ((c & 0xE0) == 0xE0)
+		return (3);
+	else if ((c & 0xC0) == 0xC0)
+		return (2);
+	return (1);
 }
