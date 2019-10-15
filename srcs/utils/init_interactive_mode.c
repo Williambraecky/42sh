@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:24:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/07 18:57:53 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/15 16:09:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,12 @@ static int	init_signals(t_sh *shell)
 int			init_interactive_mode(t_sh *shell)
 {
 	pid_t	pid;
+	char	*term_env;
 
+	tcgetattr(SH_IN, &shell->old_termios);
+	if (get_env(shell, "TERM", &term_env))
+		return (1);
+	tgetent(NULL, term_env);
 	while (tcgetpgrp(SH_IN) != (pid = getpgrp()))
 		kill(-pid, SIGTTIN);
 	if (init_signals(shell))
@@ -42,7 +47,6 @@ int			init_interactive_mode(t_sh *shell)
 		return (1);
 	}
 	tcsetpgrp(SH_IN, shell->pid);
-	tcgetattr(SH_IN, &shell->old_termios);
 	tcgetattr(SH_IN, &shell->current_termios);
 	shell->current_termios.c_lflag &= ~(ICANON | ECHO);
 	shell->current_termios.c_cc[VMIN] = 1;
