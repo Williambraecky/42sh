@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 14:18:28 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:27:47 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/15 16:06:18 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define MAP_MAX_COLL 5
 # define MAP_OK 0
 # define MAP_OMEM 1
-# define MAP_FULL 2
+# define MAP_FULL -2
 
 typedef struct s_node	t_node;
 typedef struct s_map	t_map;
