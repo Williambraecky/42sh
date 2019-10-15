@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:29:52 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/15 19:13:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <signal.h>
 # include <termios.h>
 # include <term.h>
+# include <limits.h>
+# include <sys/ioctl.h>
 
 /*
 ** Defines
@@ -36,6 +38,9 @@
 # define SH_ERR_NOEXIST 1
 # define SH_ERR_MALLOC 2
 # define SH_ERR_ENV_NOEXIST 3
+# ifndef PATH_MAX
+#  define PATH_MAX 4096
+# endif
 
 /*
 ** Typedefs
@@ -44,6 +49,7 @@
 typedef struct s_sh	t_sh;
 typedef struct stat	t_stat;
 typedef struct termios	t_termi;
+typedef struct winsize	t_winsiz;
 
 /*
 ** Structures
@@ -82,5 +88,8 @@ int			init_interactive_mode(t_sh *shell);
 void		ignore_signal(int signo);
 int			is_char_escaped(char *str, int index);
 int			get_cursor_pos(t_sh *sh, int *x, int *y);
+char		*getpwd(t_sh *shell);
+char		*getpwd_short(t_sh *shell);
+t_winsiz	gettermsize(void);
 
 #endif

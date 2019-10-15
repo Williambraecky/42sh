@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wcharlen.c                                         :+:      :+:    :+:   */
+/*   gettermsize.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
+/*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/14 17:27:36 by ntom              #+#    #+#             */
-/*   Updated: 2019/10/15 18:57:51 by wbraeckm         ###   ########.fr       */
+/*   Created: 2019/10/15 19:10:30 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/10/15 19:13:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "prompt.h"
+#include "sh.h"
 
-size_t		wcharlen(char c)
+t_winsiz	gettermsize(void)
 {
-	if (c == 27)
-		return (5);
-	if ((c & 0xF0) == 0xF0)
-		return (4);
-	else if ((c & 0xE0) == 0xE0)
-		return (3);
-	else if ((c & 0xC0) == 0xC0)
-		return (2);
-	return (1);
+	t_winsiz	winsize;
+
+	ioctl(0, TIOCGWINSZ, &winsize);
+	return (winsize);
 }

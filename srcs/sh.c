@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/10 15:07:22 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/15 19:08:46 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ static int	init_shell(t_sh *shell, const char **env)
 int			main(int argc, const char **argv, const char **env)
 {
 	t_sh	shell;
+	char	*line;
 
 	if (init_shell(&shell, env))
 	{
@@ -44,7 +45,9 @@ int			main(int argc, const char **argv, const char **env)
 	}
 	(void)argc;
 	(void)argv;
-	handle_prompt(&shell);
+	handle_prompt(&shell, &line);
+	ft_printf("\nLine: %s\n", line);
+	free(line);
 	free_sh(&shell);
 	// ft_printf("executed %s\n", argv[0]);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/14 17:33:05 by ntom             ###   ########.fr       */
+/*   Updated: 2019/10/15 19:12:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ struct		s_pos
 /*
 ** NOTE: For cursor_pos, y = 0 is the line where we supposedly started, no way
 ** to correctly read current cursor position
+** buffer_index = index in buffer
+** char_idex = index in char (unicode char are multibytes)
 */
 
 struct		s_prompt
@@ -50,6 +52,10 @@ struct		s_prompt
 	char	*prompt;
 	char	*buffer;
 	t_pos	cursor_pos;
+	size_t	prompt_len;
+	t_pos	relative_pos;
+	size_t	buffer_index;
+	size_t	char_index;
 	int		valid_pos;
 };
 
@@ -57,7 +63,7 @@ struct		s_prompt
 ** Prototypes
 */
 
-char		*handle_prompt(t_sh *shell);
+int			handle_prompt(t_sh *shell, char **result);
 int			gen_prompt(t_sh *shell, t_prompt *prompt);
 void		free_prompt(t_prompt *prompt);
 size_t		wcharlen(char c);
