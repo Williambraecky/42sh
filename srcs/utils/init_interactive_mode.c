@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:24:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/15 16:09:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/16 16:36:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static int	init_signals(t_sh *shell)
 	ft_memset(&action, 0, sizeof(action));
 	action.sa_handler = ignore_signal;
 	sigaction(SIGINT, &action, NULL);
+	signal(SIGWINCH, window_change_signal);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGTTIN, SIG_IGN);
