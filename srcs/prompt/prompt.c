@@ -6,43 +6,37 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/15 19:08:36 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/16 23:04:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-static int	add_to_buffer(t_prompt *prompt, char *buffer)
-{
-	char	*result;
+extern sig_atomic_t	g_winchange;
 
-	if (!(result =
-		ft_strinsert(prompt->buffer, buffer, prompt->buffer_index)))
-	{
-		ft_strdel(&prompt->buffer);
-		return (1);
-	}
-	prompt->buffer_index += wcharlen(*buffer);
-	prompt->char_index++;
-	ft_strdel(&prompt->buffer);
-	prompt->buffer = result;
-	return (0);
+static void	recalc_cursor(t_prompt *prompt)
+{
+	size_t	written;
+
+	g_winchange = 0;
+	if (!prompt->valid_size)
+		return ;
+	gettermsize(&prompt->winsize);
+	written = prompt->prompt_len;
+	prompt->prompt_pos = calc_cursor_pos(prompt, written);
+	if (prompt->buffer)
+		written += prompt->char_index;
+	prompt->cursor_pos = calc_cursor_pos(prompt, written);
 }
 
 static void	print_prompt(t_sh *shell, t_prompt *prompt)
 {
+	(void)shell;
 	if (prompt->valid_pos && prompt->cursor_pos.x != 1)
-	{
 		ft_dprintf(0, "{invert}{bold}%%{eoc}\n");
-		prompt->cursor_pos.x = 1;
-		prompt->cursor_pos.y++;
-	}
 	ft_putstr_fd(prompt->prompt, 0);
-	if (prompt->valid_pos)
-	{
-		get_cursor_pos(shell, &prompt->cursor_pos.x, &prompt->cursor_pos.y);
-		prompt->prompt_len = prompt->cursor_pos.x;
-	}
+	prompt->prompt_len = strlen_nocolor(prompt->prompt);
+	recalc_cursor(prompt);
 }
 
 /*
@@ -51,6 +45,7 @@ static void	print_prompt(t_sh *shell, t_prompt *prompt)
 
 static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 {
+	int		ret;
 	long	buffer;
 	ssize_t	j;
 
@@ -60,10 +55,17 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 		buffer = 0;
 		j = read(0, &buffer, 1);
 		j += read(0, (char *)(&buffer) + 1, wcharlen(buffer) - 1);
-		if (buffer == '\n')
+		if (g_winchange)
+			recalc_cursor(prompt);
+		ret = handle_new_char(prompt, (char*)&buffer);
+		if (ret & RET_PRINT)
+		{
+			//ft_putstr_fd(tgetstr("cd", NULL), 0);
+			//ft_putstr_fd(prompt->buffer + prompt->buffer_index - 1, 0);
+			write(0, &buffer, wcharlen(buffer)); //TODO: advanced write function for insert
+		}
+		if (!(ret & RET_CONT))
 			break ;
-		add_to_buffer(prompt, (char *)&buffer);
-		write(0, &buffer, wcharlen(buffer));
 	}
 	free_prompt(prompt);
 	return (0);
