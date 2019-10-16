@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/15 19:13:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/16 16:35:53 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int			is_char_escaped(char *str, int index);
 int			get_cursor_pos(t_sh *sh, int *x, int *y);
 char		*getpwd(t_sh *shell);
 char		*getpwd_short(t_sh *shell);
-t_winsiz	gettermsize(void);
+int			gettermsize(t_winsiz *winsize);
+size_t		strlen_nocolor(char *str);
+void		window_change_signal(int signo);
 
 #endif

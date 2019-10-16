@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 16:37:51 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/15 16:07:19 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/16 19:32:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,7 @@ int		gen_prompt(t_sh *shell, t_prompt *prompt)
 		prompt->valid_pos = 1;
 	if (!(prompt->buffer = ft_strnew(0)))
 		return (1);
+	if (!gettermsize(&prompt->winsize))
+		prompt->valid_size = 1;
 	return (0);
 }
