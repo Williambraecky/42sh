@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/16 23:04:00 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/17 01:08:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,13 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 		ret = handle_new_char(prompt, (char*)&buffer);
 		if (ret & RET_PRINT)
 		{
+			// print_buffer(prompt);
 			//ft_putstr_fd(tgetstr("cd", NULL), 0);
 			//ft_putstr_fd(prompt->buffer + prompt->buffer_index - 1, 0);
 			write(0, &buffer, wcharlen(buffer)); //TODO: advanced write function for insert
 		}
+		else if (ret & RET_REPRINT)
+			print_buffer(prompt);
 		if (!(ret & RET_CONT))
 			break ;
 	}

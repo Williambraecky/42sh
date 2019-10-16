@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/16 23:11:29 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/17 01:48:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,24 +22,35 @@ static int	default_char_handler(t_prompt *prompt, char *buffer)
 		ft_strdel(&prompt->buffer);
 		return (RET_ERR);
 	}
+	ft_strdel(&prompt->buffer);
+	prompt->buffer = result;
 	prompt->buffer_index += wcharlen(*buffer);
 	prompt->char_index++;
 	prompt->cursor_pos.x++;
-	if (prompt->cursor_pos.x > prompt->winsize.ws_col)
+	if (prompt->cursor_pos.x == prompt->winsize.ws_col)
 	{
 		prompt->cursor_pos.y++;
 		prompt->cursor_pos.x = 0;
 	}
-	ft_strdel(&prompt->buffer);
-	prompt->buffer = result;
 	return (RET_PRINT | RET_CONT);
 }
 
-static int	handle_tab(t_prompt *prompt, char *buffer)
+static int	handle_backspace(t_prompt *prompt, char *buffer)
 {
-	(void)prompt;
+	char	*result;
+
 	(void)buffer;
-	return (RET_CONT);
+	if (prompt->char_index == 0)
+		return (RET_CONT);
+	if (!(result = wstr_remove_char(prompt->buffer, prompt->char_index - 1)))
+	{
+		ft_strdel(&prompt->buffer);
+		return (RET_ERR);
+	}
+	ft_strdel(&prompt->buffer);
+	prompt->buffer = result;
+	move_left(prompt, 1);
+	return (RET_CONT | RET_REPRINT);
 }
 
 static int	handle_newline(t_prompt *prompt, char *buffer)
@@ -67,8 +78,8 @@ static int	handle_arrows(t_prompt *prompt, char *buffer)
 
 int			(*g_dispatch_char[])(t_prompt *, char *buffer) =
 {
-	[127] = handle_tab,
-	['\t'] = handle_tab,
+	[127] = handle_backspace,
+	['\t'] = handle_newline,
 	['\n'] = handle_newline,
 	[0x1B] = handle_arrows
 };

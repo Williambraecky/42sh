@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/16 19:03:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/17 01:07:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define RET_NL (1 << 1)
 # define RET_ERR (1 << 2)
 # define RET_PRINT (1 << 3)
+# define RET_REPRINT (1 << 4)
 
 /*
 ** Typedefs
@@ -77,5 +78,7 @@ int				handle_new_char(t_prompt *prompt, char *buffer);
 void			move_cursor(t_pos rel_pos);
 void			move_left(t_prompt *prompt, size_t amnt);
 void			move_right(t_prompt *prompt, size_t amnt);
+char			*wstr_remove_char(char *str, size_t index);
+void			print_buffer(t_prompt *prompt);
 
 #endif
