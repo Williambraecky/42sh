@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/17 01:48:47 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/17 17:42:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	default_char_handler(t_prompt *prompt, char *buffer)
 		return (RET_ERR);
 	}
 	ft_strdel(&prompt->buffer);
+	write(0, buffer, wcharlen(*buffer));
 	prompt->buffer = result;
 	prompt->buffer_index += wcharlen(*buffer);
 	prompt->char_index++;
@@ -30,8 +31,11 @@ static int	default_char_handler(t_prompt *prompt, char *buffer)
 	if (prompt->cursor_pos.x == prompt->winsize.ws_col)
 	{
 		prompt->cursor_pos.y++;
+		move_cursor((t_pos){.y = 1, .x = -prompt->cursor_pos.x});
 		prompt->cursor_pos.x = 0;
 	}
+	if (ft_wstrlen(prompt->buffer) != prompt->char_index)
+		return (RET_REPRINT | RET_CONT);
 	return (RET_PRINT | RET_CONT);
 }
 
