@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 17:42:12 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/17 17:51:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/17 21:10:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ void		move_right(t_prompt *prompt, size_t amnt)
 	prompt->buffer_index =
 		ft_wstrindex(prompt->buffer, prompt->char_index) - prompt->buffer;
 	back = pos;
-	pos.x -= prompt->cursor_pos.x;
 	pos.y -= prompt->cursor_pos.y;
+	if (pos.y == 0)
+		pos.x -= prompt->cursor_pos.x;
 	prompt->cursor_pos = back;
 	move_cursor(pos);
 }

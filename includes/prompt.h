@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/17 01:07:33 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/17 21:12:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # define RET_NL (1 << 1)
 # define RET_ERR (1 << 2)
 # define RET_PRINT (1 << 3)
-# define RET_REPRINT (1 << 4)
 
 /*
 ** Typedefs
@@ -48,7 +47,7 @@ struct			s_pos
 
 /*
 ** buffer_index = index in buffer
-** char_idex = index in char (unicode char are multibytes)
+** char_index = index in char (unicode char are multibytes)
 */
 
 struct			s_prompt
@@ -74,11 +73,13 @@ int				gen_prompt(t_sh *shell, t_prompt *prompt);
 void			free_prompt(t_prompt *prompt);
 size_t			wcharlen(char c);
 t_pos			calc_cursor_pos(t_prompt *prompt, size_t written);
+t_pos			calc_write_cursor_pos(t_prompt *prompt, size_t written);
 int				handle_new_char(t_prompt *prompt, char *buffer);
 void			move_cursor(t_pos rel_pos);
 void			move_left(t_prompt *prompt, size_t amnt);
 void			move_right(t_prompt *prompt, size_t amnt);
 char			*wstr_remove_char(char *str, size_t index);
 void			print_buffer(t_prompt *prompt);
+void			reprint_buffer(t_prompt *prompt);
 
 #endif
