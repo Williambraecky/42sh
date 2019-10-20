@@ -6,7 +6,7 @@
 #    By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/25 16:38:11 by wbraeckm          #+#    #+#              #
-#    Updated: 2019/10/20 18:20:45 by wbraeckm         ###   ########.fr        #
+#    Updated: 2019/10/20 18:26:55 by wbraeckm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ LONGEST = $(shell echo $(notdir $(SRCS)) | tr " " "\n" | \
 
 all: $(NAME)
 
-$(OBJFOLDER)/%.o:$(SRCSFOLDER)/%.c $(HEADERS) $(LIBFT_HEADER)
+$(OBJFOLDER)/%.o:$(SRCSFOLDER)/%.c $(HEADERS) $(LIBFT_HEADERS)
 	@printf "\r$(CC_BLUE)Compiling %-$(LONGEST)s" $(notdir $<)
 	@$(CC) $(FLAGS) -o $@ -c $< -I$(INCLUDES) -I$(LIBFT_INCLUDES)
 	@printf "$(CC_GRAY)[$(CC_LIGHT_GREEN)√$(CC_GRAY)]$(CC_EOC)"
