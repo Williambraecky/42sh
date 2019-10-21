@@ -6,13 +6,14 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/17 21:12:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/21 17:15:05 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
 extern sig_atomic_t	g_winchange;
+extern sig_atomic_t	g_sigint;
 
 static void	recalc_cursor(t_prompt *prompt)
 {
@@ -50,14 +51,18 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 	ssize_t	j;
 
 	print_prompt(shell, prompt);
+	ret = 0;
 	while (19)
 	{
 		buffer = 0;
+		g_sigint = 0;
 		j = read(0, &buffer, 1);
-		j += read(0, (char *)(&buffer) + 1, wcharlen(buffer) - 1);
+		if (j != -1)
+			j += read(0, (char *)(&buffer) + 1, wcharlen(buffer) - 1);
 		if (g_winchange)
 			recalc_cursor(prompt); //TODO: reprint everything
-		ret = handle_new_char(prompt, (char*)&buffer);
+		if (j != -1)
+			ret = handle_new_char(prompt, (char*)&buffer);
 		if (ret & RET_PRINT)
 			reprint_buffer(prompt);
 		if (!(ret & RET_CONT))

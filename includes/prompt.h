@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/17 21:12:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/21 16:42:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ size_t			wcharlen(char c);
 t_pos			calc_cursor_pos(t_prompt *prompt, size_t written);
 t_pos			calc_write_cursor_pos(t_prompt *prompt, size_t written);
 int				handle_new_char(t_prompt *prompt, char *buffer);
+void			move_goto(t_prompt *prompt, t_pos pos);
 void			move_cursor(t_pos rel_pos);
 void			move_left(t_prompt *prompt, size_t amnt);
 void			move_right(t_prompt *prompt, size_t amnt);

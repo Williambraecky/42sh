@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 17:42:12 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/17 21:10:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/21 17:01:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ static int	can_move(t_prompt *prompt, t_pos pos)
 	return (0);
 }
 
+void		move_goto(t_prompt *prompt, t_pos pos)
+{
+	t_pos	rel;
+
+	rel.y = pos.y - prompt->cursor_pos.y;
+	if (rel.y > 0)
+		rel.x = pos.x;
+	else
+		rel.x = pos.x - prompt->cursor_pos.x;
+	move_cursor(rel);
+	prompt->cursor_pos = pos;
+}
+
 void		move_cursor(t_pos rel_pos)
 {
 	if (rel_pos.y > 0)
@@ -42,7 +55,7 @@ void		move_cursor(t_pos rel_pos)
 		while (rel_pos.x--)
 			ft_putstr_fd(tgoto(tgetstr("nd", NULL), 0, 0), 0);
 	else if (rel_pos.x < 0)
-		while(rel_pos.x++)
+		while (rel_pos.x++)
 			ft_putstr_fd(tgoto(tgetstr("le", NULL), 0, 0), 0);
 }
 

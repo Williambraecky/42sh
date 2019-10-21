@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/17 21:12:20 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/21 16:53:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static int	handle_newline(t_prompt *prompt, char *buffer)
 
 static int	handle_arrows(t_prompt *prompt, char *buffer)
 {
-	(void)prompt;
 	if (buffer[1] != '[')
 		return (1);
 	if (buffer[2] == 'A')
@@ -67,6 +66,20 @@ static int	handle_arrows(t_prompt *prompt, char *buffer)
 		move_right(prompt, 1); //TODO: Move left
 	else if (buffer[2] == 'D')
 		move_left(prompt, 1); //TODO: Move right
+	else if (buffer[2] == 'H')
+	{
+		prompt->buffer_index = 0;
+		prompt->char_index = 0;
+		move_goto(prompt, prompt->prompt_pos); //TODO: home
+	}
+	else if (buffer[2] == 'F')
+	{
+		prompt->char_index = ft_wstrlen(prompt->buffer);
+		prompt->buffer_index = ft_wstrindex(prompt->buffer, prompt->char_index)
+									- prompt->buffer;
+		move_goto(prompt, calc_cursor_pos(prompt,
+			prompt->prompt_len + prompt->char_index)); //TODO: end
+	}
 	return (RET_CONT);
 }
 
