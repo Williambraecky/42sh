@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/16 16:35:53 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/22 18:12:01 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <termios.h>
 # include <term.h>
 # include <limits.h>
+# include <fcntl.h>
 # include <sys/ioctl.h>
 
 /*
@@ -58,6 +59,7 @@ typedef struct winsize	t_winsiz;
 struct		s_sh
 {
 	t_map	*env;
+	t_vec	history;
 	int		prompt_mode;
 	t_termi	old_termios;
 	t_termi	current_termios;
@@ -78,6 +80,12 @@ int			get_env_clone(t_sh *shell, char *key, char **result);
 int			get_env(t_sh *shell, char *key, char **result);
 int			has_env(t_sh *shell, char *key);
 int			repl_env(t_sh *shell, char *key, char *value);
+
+/*
+** History
+*/
+
+int			init_history(t_sh *shell);
 
 /*
 **  Utils
