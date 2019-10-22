@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/22 18:12:01 by ntom             ###   ########.fr       */
+/*   Updated: 2019/10/22 18:40:17 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ int			repl_env(t_sh *shell, char *key, char *value);
 */
 
 int			init_history(t_sh *shell);
+int			get_history(t_sh *shell, size_t index, char **histo);
 
 /*
 **  Utils
