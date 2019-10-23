@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/15 19:08:46 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/23 18:18:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int			main(int argc, const char **argv, const char **env)
 	(void)argc;
 	(void)argv;
 	handle_prompt(&shell, &line);
-	ft_printf("\nLine: %s\n", line);
+	ft_printf("\nLine: ");
+	ft_putnonprint(line);
+	ft_putchar('\n');
 	free(line);
 	free_sh(&shell);
 	// ft_printf("executed %s\n", argv[0]);
