@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:27:00 by ntom              #+#    #+#             */
-/*   Updated: 2019/10/23 16:27:10 by ntom             ###   ########.fr       */
+/*   Updated: 2019/10/23 16:50:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int		get_binaries(t_sh *shell, char **paths, char ***binaries)
 	size_t			i;
 	size_t			j;
 
+	(void)shell;
 	i = 0;
 	while (paths[i])
 	{
