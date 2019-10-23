@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 11:03:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/04 16:15:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/23 15:03:23 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,7 @@ void		ft_puttab(char **tab);
 void		ft_puttab_fd(char **tab, int fd);
 void		ft_puttab_join(char **tab, char *joiner);
 void		ft_puttab_join_fd(char **tab, char *joiner, int fd);
+void		ft_putnonprint(char *str);
+void		ft_putnonprint_fd(char *str, int fd);
 
 #endif
