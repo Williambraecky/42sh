@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/21 16:42:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/23 17:45:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int				handle_prompt(t_sh *shell, char **result);
 int				gen_prompt(t_sh *shell, t_prompt *prompt);
 void			free_prompt(t_prompt *prompt);
 size_t			wcharlen(char c);
-t_pos			calc_cursor_pos(t_prompt *prompt, size_t written);
-t_pos			calc_write_cursor_pos(t_prompt *prompt, size_t written);
+t_pos			new_calc(t_prompt *prompt, size_t written);
+t_pos			new_calc_write(t_prompt *prompt, size_t written);
 int				handle_new_char(t_prompt *prompt, char *buffer);
 void			move_goto(t_prompt *prompt, t_pos pos);
 void			move_cursor(t_pos rel_pos);
@@ -82,5 +82,11 @@ void			move_right(t_prompt *prompt, size_t amnt);
 char			*wstr_remove_char(char *str, size_t index);
 void			print_buffer(t_prompt *prompt);
 void			reprint_buffer(t_prompt *prompt);
+int				default_char_handler(t_prompt *prompt, char *buffer);
+int				handle_arrows(t_prompt *prompt, char *buffer);
+int				handle_newline(t_prompt *prompt, char *buffer);
+int				handle_backspace(t_prompt *prompt, char *buffer);
+int				handle_tab(t_prompt *prompt, char *buffer);
+int				handle_escape(t_prompt *prompt, char *buffer);
 
 #endif

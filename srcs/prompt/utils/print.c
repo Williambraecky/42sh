@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 00:51:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/17 21:12:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/23 17:51:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,14 @@ void	reprint_buffer(t_prompt *prompt)
 	t_pos	max;
 	t_pos	max_back;
 
-	new.x = prompt->prompt_pos.x - prompt->cursor_pos.x;
-	new.y = prompt->prompt_pos.y - prompt->cursor_pos.y;
-	move_cursor(new);
+	move_goto(prompt, prompt->prompt_pos);
 	ft_putstr_fd(tgetstr("cd", NULL), 0);
 	ft_putstr_fd(prompt->buffer, 0);
-	new = calc_write_cursor_pos(prompt,
+	new = new_calc_write(prompt,
 		prompt->prompt_len + ft_wstrlen(prompt->buffer));
-	max = calc_cursor_pos(prompt,
+	max = new_calc(prompt,
 		prompt->prompt_len + ft_wstrlen(prompt->buffer));
-	prompt->cursor_pos = calc_cursor_pos(prompt,
+	prompt->cursor_pos = new_calc(prompt,
 		prompt->prompt_len + prompt->char_index);
 	max_back = max;
 	max.x -= new.x;
@@ -47,7 +45,7 @@ void	print_buffer(t_prompt *prompt)
 {
 	t_pos	new;
 
-	new = calc_cursor_pos(prompt,
+	new = new_calc(prompt,
 		prompt->prompt_len + ft_wstrlen(prompt->buffer));
 	if (new.x == 0)
 	{

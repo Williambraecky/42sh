@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/21 17:15:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/23 18:09:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ static void	recalc_cursor(t_prompt *prompt)
 		return ;
 	gettermsize(&prompt->winsize);
 	written = prompt->prompt_len;
-	prompt->prompt_pos = calc_cursor_pos(prompt, written);
+	prompt->prompt_pos = new_calc(prompt, written);
 	if (prompt->buffer)
 		written += prompt->char_index;
-	prompt->cursor_pos = calc_cursor_pos(prompt, written);
+	prompt->cursor_pos = new_calc(prompt, written);
 }
 
 static void	print_prompt(t_sh *shell, t_prompt *prompt)
@@ -68,7 +68,8 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 		if (!(ret & RET_CONT))
 			break ;
 	}
-	free_prompt(prompt);
+	move_goto(prompt, new_calc(prompt,
+		prompt->prompt_len + ft_wstrlen(prompt->buffer)));
 	return (0);
 }
 
@@ -97,5 +98,6 @@ int			handle_prompt(t_sh *shell, char **result)
 		err_code = basic_prompt(shell, &prompt);
 	if (!err_code)
 		*result = prompt.buffer;
+	free_prompt(&prompt);
 	return (err_code);
 }

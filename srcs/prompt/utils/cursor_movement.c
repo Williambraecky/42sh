@@ -6,29 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 17:42:12 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/21 17:01:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/23 16:26:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
-
-static int	can_move(t_prompt *prompt, t_pos pos)
-{
-	t_pos	prompt_pos;
-	t_pos	max_pos;
-
-	prompt_pos = prompt->prompt_pos;
-	if (prompt_pos.y > pos.y
-		|| (prompt_pos.y == pos.y && prompt_pos.x > pos.x))
-		return (0);
-	max_pos = calc_cursor_pos(prompt,
-		prompt->prompt_len + ft_wstrlen(prompt->buffer) + 1);
-	if (pos.y < max_pos.y)
-		return (1);
-	else if (pos.y == max_pos.y && pos.x < max_pos.x)
-		return (1);
-	return (0);
-}
 
 void		move_goto(t_prompt *prompt, t_pos pos)
 {
@@ -68,10 +50,10 @@ void		move_left(t_prompt *prompt, size_t amnt)
 	t_pos	pos;
 	t_pos	back;
 
-	pos = calc_cursor_pos(prompt,
-		prompt->prompt_len + prompt->char_index - amnt);
-	if (!can_move(prompt, pos))
+	if (prompt->char_index == 0)
 		return ;
+	pos = new_calc(prompt,
+		prompt->prompt_len + prompt->char_index - amnt);
 	prompt->char_index -= amnt;
 	prompt->buffer_index =
 		ft_wstrindex(prompt->buffer, prompt->char_index) - prompt->buffer;
@@ -91,10 +73,10 @@ void		move_right(t_prompt *prompt, size_t amnt)
 	t_pos	pos;
 	t_pos	back;
 
-	pos = calc_cursor_pos(prompt,
-		prompt->prompt_len + prompt->char_index + amnt);
-	if (!can_move(prompt, pos))
+	if (prompt->char_index == ft_wstrlen(prompt->buffer))
 		return ;
+	pos = new_calc(prompt,
+		prompt->prompt_len + prompt->char_index + amnt);
 	prompt->char_index += amnt;
 	prompt->buffer_index =
 		ft_wstrindex(prompt->buffer, prompt->char_index) - prompt->buffer;
