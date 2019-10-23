@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/22 18:40:17 by ntom             ###   ########.fr       */
+/*   Updated: 2019/10/23 16:29:11 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <limits.h>
 # include <fcntl.h>
 # include <sys/ioctl.h>
+# include <dirent.h>
 
 /*
 ** Defines
@@ -39,6 +40,8 @@
 # define SH_ERR_NOEXIST 1
 # define SH_ERR_MALLOC 2
 # define SH_ERR_ENV_NOEXIST 3
+# define SH_OPEN_HIST_FAIL 4
+# define SH_OPEN_DIR_FAIL 5
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -102,5 +105,8 @@ char		*getpwd_short(t_sh *shell);
 int			gettermsize(t_winsiz *winsize);
 size_t		strlen_nocolor(char *str);
 void		window_change_signal(int signo);
+int			get_paths(t_sh *shell, char ***paths);
+int			get_binaries(t_sh *shell, char **paths, char ***binaries);
+
 
 #endif
