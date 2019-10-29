@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/23 16:29:11 by ntom             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:04:39 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ size_t		strlen_nocolor(char *str);
 void		window_change_signal(int signo);
 int			get_paths(t_sh *shell, char ***paths);
 int			get_binaries(t_sh *shell, char **paths, char ***binaries);
+void		*bell_retnull(void);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/23 17:45:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/29 15:15:56 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,18 @@
 
 typedef struct s_prompt	t_prompt;
 typedef struct s_pos	t_pos;
+typedef struct s_hquery	t_hquery;
 
 /*
 ** Structures
 */
+
+struct s_hquery
+{
+	char *query; //buffer from 0 to buffer_index
+	char *orig; //prompt->buffer
+	size_t curr_index; //index in history vec, starts at history->size
+};
 
 struct			s_pos
 {

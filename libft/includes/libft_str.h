@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 11:04:28 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/15 16:12:51 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/10/29 17:00:10 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ int		ft_strisalnum(const char *str);
 void	ft_strndel(size_t n, ...);
 char	*ft_tabjoin(char **tab, char *joiner);
 char	*ft_strinsert(char *base, char *insert, size_t pos);
+int		ft_strstartswith_ncs(const char *str, const char *find);
 
 #endif
