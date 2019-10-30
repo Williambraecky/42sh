@@ -1,19 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   bell_retchar.c                                     :+:      :+:    :+:   */
+/*   ring_bell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 17:03:06 by ntom              #+#    #+#             */
-/*   Updated: 2019/10/29 17:04:17 by ntom             ###   ########.fr       */
+/*   Updated: 2019/10/30 10:48:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-void		*bell_retnull(void)
+void		*ring_bell(void)
 {
-	ft_printf("\a");
+	if (USE_BELL)
+		ft_putstr_fd(tgetstr("bl", NULL), 0);
 	return (NULL);
 }

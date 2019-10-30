@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:07:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/10/29 17:05:02 by ntom             ###   ########.fr       */
+/*   Updated: 2019/10/30 10:51:52 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*hquery_prev(t_sh *shell, t_hquery *hquery)
 			return (shell->history.vec[hquery->curr_index]);
 	}
 	hquery->curr_index = last;
-	return (bell_retnull());
+	return (ring_bell());
 }
 
 char	*hquery_next(t_sh *shell, t_hquery *hquery)
@@ -35,7 +35,7 @@ char	*hquery_next(t_sh *shell, t_hquery *hquery)
 
 	history = shell->history;
 	if (hquery->curr_index == shell->history.size)
-		return (bell_retnull());
+		return (ring_bell());
 	while (hquery->curr_index < shell->history.size)
 	{
 		if (ft_strstartswith_ncs

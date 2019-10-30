@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/29 17:04:39 by ntom             ###   ########.fr       */
+/*   Updated: 2019/10/30 10:50:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@
 # define SH_OPEN_DIR_FAIL 5
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
+# endif
+# ifndef USE_BELL
+#  define USE_BELL 1
 # endif
 
 /*
@@ -107,7 +110,7 @@ size_t		strlen_nocolor(char *str);
 void		window_change_signal(int signo);
 int			get_paths(t_sh *shell, char ***paths);
 int			get_binaries(t_sh *shell, char **paths, char ***binaries);
-void		*bell_retnull(void);
+void		*ring_bell(void);
 
 
 #endif
