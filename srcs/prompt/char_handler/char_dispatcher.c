@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/23 15:59:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/13 16:43:52 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int			(*g_dispatch_char[])(t_prompt *, char *buffer) =
 {
 	[127] = handle_backspace,
-	['\t'] = handle_newline,
+	['\t'] = handle_tab,
 	['\n'] = handle_newline,
 	[0x1B] = handle_escape
 };

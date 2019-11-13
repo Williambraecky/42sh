@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/30 10:44:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/13 16:15:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define RET_NL (1 << 1)
 # define RET_ERR (1 << 2)
 # define RET_PRINT (1 << 3)
+# define RET_REPRINT (1 << 4)
 
 /*
 ** Typedefs
@@ -69,6 +70,7 @@ struct			s_prompt
 	size_t		prompt_len;
 	size_t		buffer_index;
 	size_t		char_index;
+	size_t		from_line;
 	int			valid_pos;
 };
 
@@ -88,13 +90,14 @@ void			move_cursor(t_pos rel_pos);
 void			move_left(t_prompt *prompt, size_t amnt);
 void			move_right(t_prompt *prompt, size_t amnt);
 char			*wstr_remove_char(char *str, size_t index);
-void			print_buffer(t_prompt *prompt);
 void			reprint_buffer(t_prompt *prompt);
+void			print_from_cursor(t_prompt *prompt);
 int				default_char_handler(t_prompt *prompt, char *buffer);
 int				handle_arrows(t_prompt *prompt, char *buffer);
 int				handle_newline(t_prompt *prompt, char *buffer);
 int				handle_backspace(t_prompt *prompt, char *buffer);
 int				handle_tab(t_prompt *prompt, char *buffer);
 int				handle_escape(t_prompt *prompt, char *buffer);
+int				pos_equals(t_pos pos1, t_pos pos2);
 
 #endif

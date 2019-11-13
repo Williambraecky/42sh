@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:31:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/23 18:22:52 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/07 15:12:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ static t_pos	new_calc_write_prompt(t_prompt *prompt, size_t written)
 	}
 	return (pos);
 }
+
+/*
+** TODO: obsolete this by printing every line separately and forcing newline
+*/
 
 t_pos			new_calc_write(t_prompt *prompt, size_t written)
 {
@@ -120,6 +124,61 @@ t_pos			new_calc(t_prompt *prompt, size_t written)
 		}
 		p_index += wcharlen(prompt->buffer[p_index]);
 		i++;
+	}
+	return (pos);
+}
+
+/*
+** NOTE: are there any other special cases?
+*/
+
+static void		transform_pos(t_prompt *prompt, t_pos *pos, char c)
+{
+	if (c == '\n')
+		pos->x = prompt->winsize.ws_col;
+	else if (c == '\t')
+		pos->x += 8 - pos->x % 8;
+	else
+		pos->x++;
+	if (pos->x == prompt->winsize.ws_col)
+	{
+		pos->x = 0;
+		pos->y++;
+	}
+}
+
+/*
+** New method handles tabs and newlines better needs another function to
+** calculate prompt position //assumes prompt->prompt_pos is always correct
+** TODO: pos to written method
+*/
+
+t_pos			calc_prompt_pos(t_prompt *prompt)
+{
+	t_pos	pos;
+	size_t	i;
+
+	pos = (t_pos){.x = 0, .y = 0};
+	i = 0;
+	while (prompt->prompt[i])
+	{
+		transform_pos(prompt, &pos, prompt->prompt[i]);
+		i += wcharlen(prompt->prompt[i]);
+	}
+	return (pos);
+}
+
+t_pos			calc_cursor_pos(t_prompt *prompt, size_t written)
+{
+	t_pos	pos;
+	size_t	i;
+
+	pos = prompt->prompt_pos;
+	i = 0;
+	while (written-- && prompt->buffer[i])
+	{
+		transform_pos(prompt, &pos, prompt->buffer[i]);
+		i += wcharlen(prompt->buffer[i]);
 	}
 	return (pos);
 }

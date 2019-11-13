@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/23 18:09:43 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/13 15:16:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static void	recalc_cursor(t_prompt *prompt)
 	gettermsize(&prompt->winsize);
 	written = prompt->prompt_len;
 	prompt->prompt_pos = new_calc(prompt, written);
+	prompt->from_line = prompt->prompt_pos.y;
 	if (prompt->buffer)
 		written += prompt->char_index;
 	prompt->cursor_pos = new_calc(prompt, written);
@@ -64,6 +65,8 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 		if (j != -1)
 			ret = handle_new_char(prompt, (char*)&buffer);
 		if (ret & RET_PRINT)
+			print_from_cursor(prompt);
+		else if (ret & RET_REPRINT)
 			reprint_buffer(prompt);
 		if (!(ret & RET_CONT))
 			break ;

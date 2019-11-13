@@ -1,22 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_escape.c                                    :+:      :+:    :+:   */
+/*   pos_equals.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/23 15:59:07 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/13 17:29:04 by wbraeckm         ###   ########.fr       */
+/*   Created: 2019/11/07 15:26:32 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/11/07 15:27:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-int	handle_escape(t_prompt *prompt, char *buffer)
+int		pos_equals(t_pos pos1, t_pos pos2)
 {
-	if (buffer[1] == '[')
-		return (handle_arrows(prompt, buffer));
-	// else if (buffer[1] == '\n')
-	return (default_char_handler(prompt, buffer + 1));
-	// return (RET_CONT);
+	return (pos1.x == pos2.x && pos1.y == pos2.y);
 }
