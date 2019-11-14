@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/13 17:59:34 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/14 16:50:13 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,14 @@
 ** ( ) (()) > < >> << >& <& && || { } ' " wspace word ; &> >&
 */
 
-int		is_char_escaped(char *str, int index)
-{
-	if (!str || index == 0)
-		return (0);
-	return (str[index - 1] == '\\' && !is_char_escaped(str, index - 1));
-}
-
 size_t		get_next_token(t_lexer lexer)
 {
 	//while ((t_token*)ft_vecget(&lexer->tokens, lexer.i)->type != WORD);
 	return (0);
+}
+
+void		init_lexer(t_lexer *lexer)
+{
 }
 
 t_lexer		tokenization(char *line)
@@ -37,6 +34,7 @@ t_lexer		tokenization(char *line)
 
 	i = 0;
 	ret = 0;
+	init_lexer(&lexer);
 	while (get_next_token(lexer))
 	{
 
