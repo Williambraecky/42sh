@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/18 16:09:49 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/20 16:25:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,9 @@
 # define SH_ERR_NOEXIST 1
 # define SH_ERR_MALLOC 2
 # define SH_ERR_ENV_NOEXIST 3
-# define SH_OPEN_HIST_FAIL 4
-# define SH_OPEN_DIR_FAIL 5
+# define SH_ERR_SYNTAX 4
+# define SH_ERR_OPEN_HIST 5
+# define SH_ERR_OPEN_DIR 6
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif

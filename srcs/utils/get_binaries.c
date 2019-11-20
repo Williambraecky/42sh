@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 16:27:00 by ntom              #+#    #+#             */
-/*   Updated: 2019/10/23 16:50:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/20 16:27:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		get_binaries(t_sh *shell, char **paths, char ***binaries)
 	{
 		j = 0;
 		if (!(dirp = opendir(paths[i])))
-			return (SH_OPEN_DIR_FAIL);
+			return (SH_ERR_OPEN_DIR);
 		while ((dp = readdir(dirp)))
 			*binaries[j++] = dp->d_name;
 		i++;
