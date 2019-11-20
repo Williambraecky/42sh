@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/30 10:50:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/18 16:09:49 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,12 @@
 # ifndef USE_BELL
 #  define USE_BELL 1
 # endif
+
+/*
+** Global variables
+*/
+
+char	*g_aliases;
 
 /*
 ** Typedefs
@@ -111,6 +117,5 @@ void		window_change_signal(int signo);
 int			get_paths(t_sh *shell, char ***paths);
 int			get_binaries(t_sh *shell, char **paths, char ***binaries);
 void		*ring_bell(void);
-
 
 #endif
