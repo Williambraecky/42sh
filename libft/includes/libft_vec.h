@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 14:36:03 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/06/17 23:18:00 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/20 15:56:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ struct		s_vec
 	size_t	size_max;
 };
 
-void		ft_vecinit(t_vec *vec);
+int			ft_vecinit(t_vec *vec);
 size_t		ft_vecsize(t_vec *vec);
 size_t		ft_vecmaxsize(t_vec *vec);
 int			ft_vecresize(t_vec *vec, size_t new_size);
