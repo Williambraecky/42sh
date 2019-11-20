@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/20 16:25:42 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/20 22:50:43 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,18 @@
 
 t_tdef		g_def_table[] =
 {
-	{T_NEWLINE, is_newline_token, create_newline_token},
+	{T_NEWLINE, istok_newline, createtok_newline},
+	{T_AMPERSAND, istok_ampersand, createtok_ampersand},
+	{T_DOUBLE_AMPERSAND, istok_double_ampersand, createtok_double_ampersand},
+	{T_DOUBLE_PIPE, istok_double_pipe, createtok_double_pipe},
+	{T_DOUBLE_QUOTE, istok_double_quote, createtok_double_quote},
+	{T_GREATER, istok_greater, createtok_greater},
+	{T_GREATER_AND, istok_greaterand, createtok_greaterand},
+	{T_LESSER, istok_lesser, createtok_lesser},
+	{T_LESSER_AND, istok_lesserand, createtok_lesserand},
+	{T_PIPE, istok_pipe, createtok_pipe},
+	{T_QUOTE, istok_quote, createtok_quote},
+	{T_SEMICOLON, istok_semicolon, createtok_semicolon},
 };
 
 size_t		g_size = sizeof(g_def_table) / sizeof(*g_def_table);

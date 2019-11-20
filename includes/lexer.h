@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/20 18:11:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/20 23:00:39 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,26 @@
 ** Defines
 */
 
+/*
+** Re order e_type and g_def_table depending on priority
+*/
+
 enum		e_type
 {
 	T_NEWLINE,
-	T_SEMICOLON,
 	T_GREATER_AND,
 	T_LESSER_AND,
 	T_DOUBLE_PIPE,
-	T_PIPE,
 	T_DOUBLE_AMPERSAND,
-	T_AMPERSAND,
 	T_QUOTE,
 	T_DOUBLE_QUOTE,
 	T_DOUBLE_LESSER,
 	T_LESSER,
 	T_DOUBLE_GREATER,
 	T_GREATER,
+	T_SEMICOLON,
+	T_AMPERSAND,
+	T_PIPE,
 	T_WSPACE,
 	T_WORD
 };
@@ -102,7 +106,29 @@ int			token_process(t_lexer *lexer, t_token *token);
 ** Tokens
 */
 
-int			is_newline_token(t_lexer *lexer);
-int			create_newline_token(t_lexer *lexer);
+int			istok_ampersand(t_lexer *lexer);
+int			createtok_ampersand(t_lexer *lexer);
+int			istok_double_ampersand(t_lexer *lexer);
+int			createtok_double_ampersand(t_lexer *lexer);
+int			istok_double_pipe(t_lexer *lexer);
+int			createtok_double_pipe(t_lexer *lexer);
+int			istok_double_quote(t_lexer *lexer);
+int			createtok_double_quote(t_lexer *lexer);
+int			istok_greater(t_lexer *lexer);
+int			createtok_greater(t_lexer *lexer);
+int			istok_greaterand(t_lexer *lexer);
+int			createtok_greaterand(t_lexer *lexer);
+int			istok_lesser(t_lexer *lexer);
+int			createtok_lesser(t_lexer *lexer);
+int			istok_lesserand(t_lexer *lexer);
+int			istok_pipe(t_lexer *lexer);
+int			createtok_pipe(t_lexer *lexer);
+int			createtok_lesserand(t_lexer *lexer);
+int			istok_quote(t_lexer *lexer);
+int			createtok_quote(t_lexer *lexer);
+int			istok_semicolon(t_lexer *lexer);
+int			createtok_semicolon(t_lexer *lexer);
+int			istok_newline(t_lexer *lexer);
+int			createtok_newline(t_lexer *lexer);
 
 #endif
