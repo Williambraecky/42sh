@@ -6,50 +6,42 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/20 15:17:59 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/20 16:25:42 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-/*
-** ( ) (()) { } wspace word >> <<
-** ' " > <  >& <& | || &> >& & && ;
-*/
-
-int			stock_token(t_lexer *lexer)
+t_tdef		g_def_table[] =
 {
-	if (lexer)
-		;
-	return (0);
-}
+	{T_NEWLINE, is_newline_token, create_newline_token},
+};
 
-int			is_token(t_lexer *lexer, int escaped)
+size_t		g_size = sizeof(g_def_table) / sizeof(*g_def_table);
+
+t_tdef		*get_next_def(t_lexer *lexer)
 {
-	if (lexer || escaped)
-		;
-	return (0);
-}
+	size_t	i;
 
-//while ((t_token*)ft_vecget(&lexer->tokens, lexer.i)->type != WORD);
-
-int			get_next_token(t_lexer *lexer)
-{
-	int		escaped;
-
-	escaped = is_char_escaped(lexer->line, lexer->i);
-	if (is_token(lexer, escaped))
-		return (stock_token(lexer));
-	return (0);
-}
-
-t_lexer		*tokenization(t_lexer *lexer)
-{
-	size_t		ret;
-
-	ret = 0;
-	while (get_next_token(lexer))
+	i = 0;
+	while (i < g_size)
 	{
+		if (g_def_table[i].is_tok(lexer))
+			return (&g_def_table[i]);
+		i++;
 	}
-	return (lexer);
+	return (NULL);
+}
+
+int			tokenization(t_lexer *lexer)
+{
+	t_tdef	*new_tok_def;
+
+	while (lexer->line[lexer->i])
+	{
+		if (!(new_tok_def = get_next_def(lexer)))
+			return (SH_ERR);
+	}
+	//TODO: is stack is not empty get rest of line
+	return (SH_SUCCESS);
 }

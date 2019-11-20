@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   alias.c                                            :+:      :+:    :+:   */
+/*   lexer_free.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
+/*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/18 15:57:44 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/20 15:17:29 by ntom             ###   ########.fr       */
+/*   Created: 2019/11/20 15:59:02 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/11/20 16:05:16 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int		parse_aliases(char	*line)
+/*
+** NOTE: add new fields to be freed
+*/
+
+void	lexer_free(t_lexer *lexer)
 {
-	if (line)
-		;
-	return (0);
+	if (lexer->tokens.vec)
+		ft_vecdestroy(&lexer->tokens, token_free);
+	ft_strdel(&lexer->line);
+	if (lexer->stack.vec)
+		ft_vecdestroy(&lexer->stack, default_vec_destroy_function);
 }

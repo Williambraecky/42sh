@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_escape.c                                    :+:      :+:    :+:   */
+/*   token_process.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/23 15:59:07 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/20 15:12:03 by wbraeckm         ###   ########.fr       */
+/*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/11/20 17:43:06 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "prompt.h"
+#include "lexer.h"
 
-int	handle_escape(t_prompt *prompt, char *buffer)
+/*
+** TODO: dispatch token to correct function to build commands
+*/
+
+int		token_process(t_lexer *lexer, t_token *token)
 {
-	if (buffer[1] == '[')
-		return (handle_arrows(prompt, buffer));
-	else if (ft_isprint(*buffer + 1))
-		return (default_char_handler(prompt, buffer + 1));
-	return (RET_CONT);
+	(void)lexer;
+	(void)token;
+	return (SH_SUCCESS);
 }

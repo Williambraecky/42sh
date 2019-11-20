@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/19 18:24:20 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/20 18:11:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@
 enum		e_type
 {
 	T_NEWLINE,
-	SEMICOLON,
-	GREATER_AND,
-	LESSER_AND,
-	DOUBLE_PIPE,
-	PIPE,
-	DOUBLE_AMPERSAND,
-	AMPERSAND,
-	QUOTE,
-	DOUBLE_QUOTE,
-	DOUBLE_LESSER,
-	LESSER,
-	DOUBLE_GREATER,
-	GREATER,
-	WSPACE,
-	WORD
+	T_SEMICOLON,
+	T_GREATER_AND,
+	T_LESSER_AND,
+	T_DOUBLE_PIPE,
+	T_PIPE,
+	T_DOUBLE_AMPERSAND,
+	T_AMPERSAND,
+	T_QUOTE,
+	T_DOUBLE_QUOTE,
+	T_DOUBLE_LESSER,
+	T_LESSER,
+	T_DOUBLE_GREATER,
+	T_GREATER,
+	T_WSPACE,
+	T_WORD
 };
 
 /*
@@ -48,18 +48,31 @@ enum		e_type
 */
 
 typedef struct s_token	t_token;
+typedef struct s_word	t_word;
 typedef struct s_lexer	t_lexer;
+typedef struct s_tdef	t_tdef;
 typedef enum e_type		t_type;
 
 /*
 ** Structures
 */
 
+/*
+** NOTE: size = size of real struct; used for inheritance
+*/
+
 struct		s_token
 {
+	size_t	size;
+	t_type	type;
 	char	*str;
 	size_t	len;
-	t_type	type;
+};
+
+struct		s_word
+{
+	t_token	token;
+	char	*transformed;
 };
 
 struct		s_lexer
@@ -70,10 +83,26 @@ struct		s_lexer
 	t_vec	stack;
 };
 
+struct		s_tdef
+{
+	t_type	type;
+	int		(*is_tok)(t_lexer *);
+	int		(*create_tok)(t_lexer *);
+};
+
 /*
-** Tokenization.c
+** Tokenization
 */
 
-t_lexer		*tokenization(t_lexer *lexer);
+int			tokenization(t_lexer *lexer);
+void		token_free(t_token *token);
+int			token_process(t_lexer *lexer, t_token *token);
+
+/*
+** Tokens
+*/
+
+int			is_newline_token(t_lexer *lexer);
+int			create_newline_token(t_lexer *lexer);
 
 #endif
