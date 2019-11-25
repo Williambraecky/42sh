@@ -6,13 +6,13 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 16:04:53 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/20 22:50:04 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/25 15:19:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int		istok_semicolon(t_lexer *lexer)
+int			istok_semicolon(t_lexer *lexer)
 {
 	if (lexer->line[lexer->i] == ';')
 		return (1);
@@ -28,6 +28,5 @@ int			createtok_semicolon(t_lexer *lexer)
 	if (!(tok.str = ft_strdup(";")))
 		return (SH_ERR_MALLOC);
 	tok.len = 1;
-	token_process(lexer, &tok);
-	return (SH_SUCCESS);
+	return (token_process(lexer, &tok));
 }

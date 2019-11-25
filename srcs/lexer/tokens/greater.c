@@ -6,15 +6,15 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 20:08:07 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/22 15:08:57 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/25 15:25:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static int	is_valid_greater(char *str, int i)
+static size_t	is_valid_greater(char *str, size_t i)
 {
-	int		len;
+	size_t	len;
 
 	len = 0;
 	if (isdigit(str[i]))
@@ -27,7 +27,7 @@ static int	is_valid_greater(char *str, int i)
 	return (len);
 }
 
-int			istok_greater(t_lexer *lexer)
+int				istok_greater(t_lexer *lexer)
 {
 	size_t	i;
 	char	*str;
@@ -39,10 +39,10 @@ int			istok_greater(t_lexer *lexer)
 	return (0);
 }
 
-int			createtok_greater(t_lexer *lexer)
+int				createtok_greater(t_lexer *lexer)
 {
 	t_token	tok;
-	int		len;
+	size_t	len;
 	char	*tmp;
 
 	len = is_valid_greater(lexer->line, lexer->i);
@@ -52,6 +52,5 @@ int			createtok_greater(t_lexer *lexer)
 	if (!(tok.str = ft_strndup(tmp, len)))
 		return (SH_ERR_MALLOC);
 	tok.len = len;
-	token_process(lexer, &tok);
-	return (SH_SUCCESS);
+	return (token_process(lexer, &tok));
 }

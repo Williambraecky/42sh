@@ -6,15 +6,15 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 16:25:49 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/22 15:14:36 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/25 15:25:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static int	is_valid_double_greater(char *str, int i)
+static size_t	is_valid_double_greater(char *str, size_t i)
 {
-	int		len;
+	size_t		len;
 
 	len = 0;
 	if (isdigit(str[i]))
@@ -25,7 +25,7 @@ static int	is_valid_double_greater(char *str, int i)
 	return (len);
 }
 
-int			istok_double_greater(t_lexer *lexer)
+int				istok_double_greater(t_lexer *lexer)
 {
 	size_t	i;
 	char	*str;
@@ -37,10 +37,10 @@ int			istok_double_greater(t_lexer *lexer)
 	return (0);
 }
 
-int			createtok_double_greater(t_lexer *lexer)
+int				createtok_double_greater(t_lexer *lexer)
 {
 	t_token	tok;
-	int		len;
+	size_t	len;
 	char	*tmp;
 
 	len = is_valid_double_greater(lexer->line, lexer->i);
@@ -50,6 +50,5 @@ int			createtok_double_greater(t_lexer *lexer)
 	if (!(tok.str = ft_strndup(tmp, len)))
 		return (SH_ERR_MALLOC);
 	tok.len = len;
-	token_process(lexer, &tok);
-	return (SH_SUCCESS);
+	return (token_process(lexer, &tok));
 }

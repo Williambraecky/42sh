@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/19 18:04:05 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/20 22:46:53 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/25 15:34:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,5 @@ int			createtok_newline(t_lexer *lexer)
 	if (!(tok.str = ft_strdup("\n")))
 		return (SH_ERR_MALLOC);
 	tok.len = 1;
-	token_process(lexer, &tok);
-	return (SH_SUCCESS);
+	return (token_process(lexer, &tok));
 }
