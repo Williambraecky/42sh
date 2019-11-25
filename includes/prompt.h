@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/13 16:15:28 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/25 18:38:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,16 @@
 # define RET_ERR (1 << 2)
 # define RET_PRINT (1 << 3)
 # define RET_REPRINT (1 << 4)
+# define PBUFF_DEF_SIZE 512
 
 /*
 ** Typedefs
 */
 
-typedef struct s_prompt	t_prompt;
-typedef struct s_pos	t_pos;
 typedef struct s_hquery	t_hquery;
+typedef struct s_pos	t_pos;
+typedef struct s_buff	t_buff;
+typedef struct s_prompt	t_prompt;
 
 /*
 ** Structures
@@ -54,15 +56,23 @@ struct			s_pos
 	int			y;
 };
 
+struct			s_buff
+{
+	char		*buffer;
+	size_t		max_size; //Does not include \0 termination
+	size_t		current_size;
+};
+
 /*
 ** buffer_index = index in buffer
 ** char_index = index in char (unicode char are multibytes)
+** TODO: store max prompt pos to avoid processing everything (write pos)
 */
 
 struct			s_prompt
 {
 	char		*prompt;
-	char		*buffer;
+	t_buff		buffer;
 	t_winsiz	winsize;
 	size_t		valid_size;
 	t_pos		cursor_pos;
@@ -99,5 +109,7 @@ int				handle_backspace(t_prompt *prompt, char *buffer);
 int				handle_tab(t_prompt *prompt, char *buffer);
 int				handle_escape(t_prompt *prompt, char *buffer);
 int				pos_equals(t_pos pos1, t_pos pos2);
+int				buff_insert(t_buff *buffer, char *insert, size_t pos);
+int				buff_remove(t_buff *buffer, size_t pos);
 
 #endif

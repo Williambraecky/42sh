@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/13 15:16:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/25 18:21:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ static void	recalc_cursor(t_prompt *prompt)
 	written = prompt->prompt_len;
 	prompt->prompt_pos = new_calc(prompt, written);
 	prompt->from_line = prompt->prompt_pos.y;
-	if (prompt->buffer)
+	if (prompt->buffer.buffer)
 		written += prompt->char_index;
 	prompt->cursor_pos = new_calc(prompt, written);
+	reprint_buffer(prompt);
 }
 
 static void	print_prompt(t_sh *shell, t_prompt *prompt)
@@ -61,18 +62,16 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 		if (j != -1)
 			j += read(0, (char *)(&buffer) + 1, wcharlen(buffer) - 1);
 		if (g_winchange)
-			recalc_cursor(prompt); //TODO: reprint everything
+			recalc_cursor(prompt);
 		if (j != -1)
 			ret = handle_new_char(prompt, (char*)&buffer);
-		if (ret & RET_PRINT)
-			print_from_cursor(prompt);
-		else if (ret & RET_REPRINT)
+		if (ret & RET_REPRINT)
 			reprint_buffer(prompt);
 		if (!(ret & RET_CONT))
 			break ;
 	}
 	move_goto(prompt, new_calc(prompt,
-		prompt->prompt_len + ft_wstrlen(prompt->buffer)));
+		prompt->prompt_len + ft_wstrlen(prompt->buffer.buffer)));
 	return (0);
 }
 
@@ -100,7 +99,7 @@ int			handle_prompt(t_sh *shell, char **result)
 	else
 		err_code = basic_prompt(shell, &prompt);
 	if (!err_code)
-		*result = prompt.buffer;
+		*result = prompt.buffer.buffer;
 	free_prompt(&prompt);
 	return (err_code);
 }

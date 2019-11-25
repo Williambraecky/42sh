@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:31:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/07 15:12:26 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/25 16:50:23 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,17 @@ t_pos			new_calc_write(t_prompt *prompt, size_t written)
 		written = 0;
 	i = 0;
 	p_index = 0;
-	while (i < written && i <= ft_wstrlen(prompt->buffer))
+	while (i < written && i <= ft_wstrlen(prompt->buffer.buffer))
 	{
-		if (prompt->buffer[p_index] != '\n')
+		if (prompt->buffer.buffer[p_index] != '\n')
 			pos.x++;
 		if (pos.x == prompt->winsize.ws_col + 1
-			|| prompt->buffer[p_index] == '\n')
+			|| prompt->buffer.buffer[p_index] == '\n')
 		{
-			pos.x = prompt->buffer[p_index] == '\n' ? 0 : 1;
+			pos.x = prompt->buffer.buffer[p_index] == '\n' ? 0 : 1;
 			pos.y++;
 		}
-		p_index += wcharlen(prompt->buffer[p_index]);
+		p_index += wcharlen(prompt->buffer.buffer[p_index]);
 		i++;
 	}
 	return (pos);
@@ -113,16 +113,16 @@ t_pos			new_calc(t_prompt *prompt, size_t written)
 		written = 0;
 	i = 0;
 	p_index = 0;
-	while (i < written && i <= ft_wstrlen(prompt->buffer))
+	while (i < written && i <= ft_wstrlen(prompt->buffer.buffer))
 	{
-		if (prompt->buffer[p_index] != '\n')
+		if (prompt->buffer.buffer[p_index] != '\n')
 			pos.x++;
-		if (pos.x == prompt->winsize.ws_col || prompt->buffer[p_index] == '\n')
+		if (pos.x == prompt->winsize.ws_col || prompt->buffer.buffer[p_index] == '\n')
 		{
 			pos.x = 0;
 			pos.y++;
 		}
-		p_index += wcharlen(prompt->buffer[p_index]);
+		p_index += wcharlen(prompt->buffer.buffer[p_index]);
 		i++;
 	}
 	return (pos);
@@ -175,10 +175,10 @@ t_pos			calc_cursor_pos(t_prompt *prompt, size_t written)
 
 	pos = prompt->prompt_pos;
 	i = 0;
-	while (written-- && prompt->buffer[i])
+	while (written-- && prompt->buffer.buffer[i])
 	{
-		transform_pos(prompt, &pos, prompt->buffer[i]);
-		i += wcharlen(prompt->buffer[i]);
+		transform_pos(prompt, &pos, prompt->buffer.buffer[i]);
+		i += wcharlen(prompt->buffer.buffer[i]);
 	}
 	return (pos);
 }

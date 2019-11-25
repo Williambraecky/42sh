@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/23 17:52:06 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/25 16:43:22 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int		handle_arrows(t_prompt *prompt, char *buffer)
 	}
 	else if (buffer[2] == 'F')
 	{
-		prompt->char_index = ft_wstrlen(prompt->buffer);
-		prompt->buffer_index = ft_wstrindex(prompt->buffer, prompt->char_index)
-									- prompt->buffer;
+		prompt->char_index = ft_wstrlen(prompt->buffer.buffer);
+		prompt->buffer_index = ft_wstrindex(prompt->buffer.buffer,
+			prompt->char_index) - prompt->buffer.buffer;
 		move_goto(prompt, new_calc(prompt,
 			prompt->prompt_len + prompt->char_index)); //TODO: end
 	}

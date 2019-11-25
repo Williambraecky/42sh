@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:48:40 by ntom              #+#    #+#             */
-/*   Updated: 2019/10/23 16:50:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/25 16:41:24 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int			search_path_complete
 	j = 0;
 	while (bins[i])
 	{
-		if (ft_strstartswith(bins[i], prompt->buffer) == 1)
+		if (ft_strstartswith(bins[i], prompt->buffer.buffer) == 1)
 			*bins_complete[j++] = bins[i];
 		i++;
 	}
