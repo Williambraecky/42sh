@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/22 15:19:04 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/25 16:24:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ struct		s_word
 
 struct		s_lexer
 {
-	t_vec	tokens;
+	t_vec	tokens; //NOTE: Do we really need this?
 	char	*line;
 	size_t	i;
 	t_vec	stack;
