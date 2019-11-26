@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/22 15:18:38 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/26 13:55:43 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ t_tdef		g_def_table[] =
 	{T_SEMICOLON, istok_semicolon, createtok_semicolon},
 	{T_DOUBLE_GREATER, istok_double_greater, createtok_double_greater},
 	{T_DOUBLE_LESSER, istok_double_lesser, createtok_double_lesser},
+	{T_WSPACE, istok_whitespace, createtok_whitespace},
+	{T_WORD, istok_word, createtok_word}
 };
-
-// word , double greater , double lesser
 
 size_t		g_size = sizeof(g_def_table) / sizeof(*g_def_table);
 

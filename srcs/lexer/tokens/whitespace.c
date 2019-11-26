@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 15:13:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/25 15:19:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/26 13:10:00 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,10 @@
 
 static int	is_wspace(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\t' ||
-			c == '\f' || c == '\r' || c == '\v');
+	return (c == ' ' || c == '\t' || c == '\f' || c == '\r' || c == '\v');
 }
 
-int			istok_whitesapce(t_lexer *lexer)
+int			istok_whitespace(t_lexer *lexer)
 {
 	return (is_wspace(lexer->line[lexer->i]));
 }

@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/25 16:24:32 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/11/26 13:56:02 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,9 @@ int			istok_double_greater(t_lexer *lexer);
 int			createtok_double_greater(t_lexer *lexer);
 int			istok_double_lesser(t_lexer *lexer);
 int			createtok_double_lesser(t_lexer *lexer);
+int			istok_whitespace(t_lexer *lexer);
+int			createtok_whitespace(t_lexer *lexer);
+int			istok_word(t_lexer *lexer);
+int			createtok_word(t_lexer *lexer);
 
 #endif
