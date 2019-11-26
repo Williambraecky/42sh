@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 12:15:50 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/26 16:15:30 by ntom             ###   ########.fr       */
+/*   Updated: 2019/11/26 16:16:27 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static int	is_word_charset(char c)
 
 int			istok_word(t_lexer *lexer)
 {
-	if (lexer)
-		;
+	(void)lexer;
 	return (1);
 }
 
