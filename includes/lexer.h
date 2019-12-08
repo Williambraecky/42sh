@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/26 13:56:02 by ntom             ###   ########.fr       */
+/*   Updated: 2019/12/08 16:41:42 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,30 @@ enum		e_type
 	T_AMPERSAND,
 	T_PIPE,
 	T_WSPACE,
-	T_WORD
+	T_WORD,
+	T_NULL
+};
+
+enum		e_tmask
+{
+	M_NEWLINE = 1 << T_NEWLINE,
+	M_GREATER_AND = 1 << T_GREATER_AND,
+	M_LESSER_AND = 1 << T_LESSER_AND,
+	M_DOUBLE_PIPE = 1 << T_DOUBLE_PIPE,
+	M_DOUBLE_AMPERSAND = 1 << T_DOUBLE_AMPERSAND,
+	M_QUOTE = 1 << T_QUOTE,
+	M_DOUBLE_QUOTE = 1 << T_DOUBLE_QUOTE,
+	M_DOUBLE_LESSER = 1 << T_DOUBLE_LESSER,
+	M_LESSER = 1 << T_LESSER,
+	M_DOUBLE_GREATER = 1 << T_DOUBLE_GREATER,
+	M_GREATER = 1 << T_GREATER,
+	M_SEMICOLON = 1 << T_SEMICOLON,
+	M_AMPERSAND = 1 << T_AMPERSAND,
+	M_PIPE = 1 << T_PIPE,
+	M_WSPACE = 1 << T_WSPACE,
+	M_WORD = 1 << T_WORD,
+	M_NULL = 1 << T_NULL,
+	M_ANY = ~0
 };
 
 /*
@@ -56,6 +79,7 @@ typedef struct s_word	t_word;
 typedef struct s_lexer	t_lexer;
 typedef struct s_tdef	t_tdef;
 typedef enum e_type		t_type;
+typedef enum e_tmask	t_tmask;
 
 /*
 ** Structures
@@ -138,5 +162,7 @@ int			istok_whitespace(t_lexer *lexer);
 int			createtok_whitespace(t_lexer *lexer);
 int			istok_word(t_lexer *lexer);
 int			createtok_word(t_lexer *lexer);
+int			istok_null(t_lexer *lexer);
+int			createtok_null(t_lexer *lexer);
 
 #endif
