@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/25 16:43:22 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/08 17:05:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ int		handle_arrows(t_prompt *prompt, char *buffer)
 	else if (buffer[2] == 'B')
 		; //TODO: Move down
 	else if (buffer[2] == 'C')
-		move_right(prompt, 1); //TODO: Move left
+		move_right(prompt, 1);
 	else if (buffer[2] == 'D')
-		move_left(prompt, 1); //TODO: Move right
+		move_left(prompt, 1);
 	else if (buffer[2] == 'H' && prompt->char_index != 0)
 	{
 		prompt->buffer_index = 0;

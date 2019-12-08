@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/25 18:38:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/08 17:21:08 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ struct			s_prompt
 	size_t		valid_size;
 	t_pos		cursor_pos;
 	t_pos		prompt_pos;
+	t_pos		max_pos;
 	size_t		prompt_len;
 	size_t		buffer_index;
 	size_t		char_index;
@@ -101,7 +102,7 @@ void			move_left(t_prompt *prompt, size_t amnt);
 void			move_right(t_prompt *prompt, size_t amnt);
 char			*wstr_remove_char(char *str, size_t index);
 void			reprint_buffer(t_prompt *prompt);
-void			print_from_cursor(t_prompt *prompt);
+void			print_from_cursor(t_prompt *prompt, t_pos *next_pos);
 int				default_char_handler(t_prompt *prompt, char *buffer);
 int				handle_arrows(t_prompt *prompt, char *buffer);
 int				handle_newline(t_prompt *prompt, char *buffer);
