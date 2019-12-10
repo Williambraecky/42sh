@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:53 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/10 15:42:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/10 15:49:46 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@
 # include "sys/types.h"
 # include "sys/stat.h"
 # include "unistd.h"
+# include "sh.h"
 
 #endif

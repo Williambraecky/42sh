@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 19:24:03 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/10 15:48:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/10 15:50:06 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,11 +180,12 @@ int				test_op(char op, char **av, int ac, int not_op)
 	return (ret);
 }
 
-int				test_main(int ac, char **av)
+int				test_main(int ac, char **av, t_sh *shell)
 {
 	int not_op;
 	int ret;
 
+	(void)shell;
 	if (ac == 1)
 		return (1);
 	not_op = ft_strequ(av[1], "!") ? 1 : 0;
