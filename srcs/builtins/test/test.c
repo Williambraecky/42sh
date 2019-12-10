@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_built_in.c                                    :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 19:24:03 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/11/29 17:36:33 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2019/12/10 15:48:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "test_built_in.h"
+#include "builtin.h"
 
 static int		is_cmp_op(char *str)
 {
-	if (ft_strequ("=",str) || ft_strequ("!=", str) || ft_strequ("-eq", str)
-	|| ft_strequ("-ne", str) || ft_strequ("-gt", str) || ft_strequ("-ge", str)
-	|| ft_strequ("-lt", str) || ft_strequ("-le", str))
+	if (ft_strequ("=", str) || ft_strequ("!=", str) || ft_strequ("-eq", str) ||
+	ft_strequ("-ne", str) || ft_strequ("-gt", str) || ft_strequ("-ge", str) ||
+	ft_strequ("-lt", str) || ft_strequ("-le", str))
 		return (1);
 	return (0);
-};
+}
 
 static int		is_test_op(char *str)
 {
@@ -75,13 +75,13 @@ int				resolve_test_op(char op, char *operand)
 	if (op == 'x' && access(operand, X_OK) == -1)
 		return (1);
 	if (lstat(operand, &buf) == -1)
-		return (1/*ou renvoyer -1 peut etre*/);
+		return (1);
 	return (test_op_type(op, buf));
 }
 
 int				not_op_reverse(int ret, int not_op)
 {
-	if (not_op /*&& ret != -1*/)
+	if (not_op)
 	{
 		if (ret)
 			ret = 0;
@@ -180,7 +180,7 @@ int				test_op(char op, char **av, int ac, int not_op)
 	return (ret);
 }
 
-int				main(int ac, char **av)
+int				test_main(int ac, char **av)
 {
 	int not_op;
 	int ret;
@@ -199,6 +199,7 @@ int				main(int ac, char **av)
 		ft_putstr("test: too many arguments\n");
 		return (2);
 	}
+	ret = 0;
 	if ((not_op && !av[2]) || (!not_op && !av[1]))
 		ret = 1;
 	return (not_op_reverse(ret, not_op));

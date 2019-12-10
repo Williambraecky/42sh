@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_built_in.h                                    :+:      :+:    :+:   */
+/*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:53 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/11/28 16:10:27 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2019/12/10 15:42:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TEST_BUILT_IN_H
-# define TEST_BUILT_IN_H
-# include "libft/libft.h"
+#ifndef BUILTIN_H
+# define BUILTIN_H
+
+# include "libft.h"
 # include "sys/types.h"
 # include "sys/stat.h"
 # include "unistd.h"
