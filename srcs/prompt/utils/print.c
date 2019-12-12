@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 00:51:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/08 17:26:38 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/12 17:21:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,21 @@
 ** NOTE: reprints whole buffer
 */
 
-void	reprint_buffer(t_prompt *prompt)
+void			reprint_buffer(t_prompt *prompt)
 {
-	t_pos	new;
+	t_pos	back;
+	size_t	buffer_index_back;
+	size_t	char_index_back;
 
+	back = prompt->cursor_pos;
+	buffer_index_back = prompt->buffer_index;
+	char_index_back = prompt->char_index;
+	prompt->buffer_index = 0;
+	prompt->char_index = 0;
 	move_goto(prompt, prompt->prompt_pos);
-	ft_putstr_fd(tgetstr("cd", NULL), 0);
-	ft_putstr_fd(prompt->buffer.buffer, 0);
-	new = new_calc_write(prompt,
-		prompt->prompt_len + ft_wstrlen(prompt->buffer.buffer));
-	prompt->cursor_pos = new_calc(prompt,
-		prompt->prompt_len + prompt->char_index);
-	new.x = prompt->cursor_pos.x - new.x;
-	new.y = prompt->cursor_pos.y - new.y;
-	move_cursor(new);
+	print_from_cursor(prompt, &back);
+	prompt->buffer_index = buffer_index_back;
+	prompt->char_index = char_index_back;
 }
 
 static void		transform_pos(t_prompt *prompt, t_pos *pos, char c)

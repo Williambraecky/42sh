@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 17:42:12 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/25 17:04:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/12 16:44:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		move_cursor(t_pos rel_pos)
 ** TODO: when on x == 0 go back to x = winsize.win_col and y - 1
 */
 
-void		move_left(t_prompt *prompt, size_t amnt)
+void		move_left(t_prompt *prompt)
 {
 	t_pos	pos;
 	t_pos	back;
@@ -53,8 +53,8 @@ void		move_left(t_prompt *prompt, size_t amnt)
 	if (prompt->char_index == 0)
 		return ;
 	pos = new_calc(prompt,
-		prompt->prompt_len + prompt->char_index - amnt);
-	prompt->char_index -= amnt;
+		prompt->prompt_len + prompt->char_index - 1);
+	prompt->char_index -= 1;
 	prompt->buffer_index =
 		ft_wstrindex(prompt->buffer.buffer, prompt->char_index)
 		- prompt->buffer.buffer;
@@ -65,27 +65,35 @@ void		move_left(t_prompt *prompt, size_t amnt)
 	move_cursor(pos);
 }
 
+static void	transform_pos(t_prompt *prompt, t_pos *pos, char c)
+{
+	if (c == '\n')
+		pos->x = prompt->winsize.ws_col;
+	else if (c == '\t')
+		pos->x += 8 - pos->x % 8;
+	else
+		pos->x++;
+	if (pos->x == prompt->winsize.ws_col)
+	{
+		pos->x = 0;
+		pos->y++;
+	}
+}
+
 /*
 ** TODO: when on x == winsize.win_col go back to x = 0 and y + 1
 */
 
-void		move_right(t_prompt *prompt, size_t amnt)
+void		move_right(t_prompt *prompt)
 {
-	t_pos	pos;
-	t_pos	back;
+	t_pos new;
 
-	if (prompt->char_index == ft_wstrlen(prompt->buffer.buffer))
+	if (!prompt->buffer.buffer[prompt->buffer_index])
 		return ;
-	pos = new_calc(prompt,
-		prompt->prompt_len + prompt->char_index + amnt);
-	prompt->char_index += amnt;
-	prompt->buffer_index =
-		ft_wstrindex(prompt->buffer.buffer, prompt->char_index)
-		- prompt->buffer.buffer;
-	back = pos;
-	pos.y -= prompt->cursor_pos.y;
-	if (pos.y == 0)
-		pos.x -= prompt->cursor_pos.x;
-	prompt->cursor_pos = back;
-	move_cursor(pos);
+	new = prompt->cursor_pos;
+	transform_pos(prompt, &new, prompt->buffer.buffer[prompt->buffer_index]);
+	prompt->buffer_index +=
+		wcharlen(prompt->buffer.buffer[prompt->buffer_index]);
+	prompt->char_index++;
+	move_goto(prompt, new);
 }

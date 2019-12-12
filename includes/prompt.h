@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/08 17:21:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/12 17:22:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ typedef struct s_prompt	t_prompt;
 
 struct			s_hquery
 {
-	char		*query; //buffer from 0 to buffer_index
-	char		*orig; //prompt->buffer
-	size_t		curr_index; //index in history vec, starts at history->size
+	char		*query;
+	char		*orig;
+	size_t		curr_index;
 };
 
 struct			s_pos
@@ -59,7 +59,7 @@ struct			s_pos
 struct			s_buff
 {
 	char		*buffer;
-	size_t		max_size; //Does not include \0 termination
+	size_t		max_size;
 	size_t		current_size;
 };
 
@@ -98,8 +98,8 @@ t_pos			new_calc_write(t_prompt *prompt, size_t written);
 int				handle_new_char(t_prompt *prompt, char *buffer);
 void			move_goto(t_prompt *prompt, t_pos pos);
 void			move_cursor(t_pos rel_pos);
-void			move_left(t_prompt *prompt, size_t amnt);
-void			move_right(t_prompt *prompt, size_t amnt);
+void			move_left(t_prompt *prompt);
+void			move_right(t_prompt *prompt);
 char			*wstr_remove_char(char *str, size_t index);
 void			reprint_buffer(t_prompt *prompt);
 void			print_from_cursor(t_prompt *prompt, t_pos *next_pos);

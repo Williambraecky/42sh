@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:54:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/08 17:18:02 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/12 16:05:27 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	handle_backspace(t_prompt *prompt, char *buffer)
 		return (RET_CONT);
 	buff_remove(&prompt->buffer, ft_wstrindex(prompt->buffer.buffer,
 		prompt->char_index - 1) - prompt->buffer.buffer);
-	move_left(prompt, 1);
+	move_left(prompt);
 	print_from_cursor(prompt, NULL);
 	return (RET_CONT);
 }
