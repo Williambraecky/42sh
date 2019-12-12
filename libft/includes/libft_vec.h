@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 14:36:03 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/20 15:56:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/12 15:56:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ size_t		ft_vecsize(t_vec *vec);
 size_t		ft_vecmaxsize(t_vec *vec);
 int			ft_vecresize(t_vec *vec, size_t new_size);
 void		*ft_vecget(t_vec *vec, size_t pos);
+void		*ft_vecgettop(t_vec *vec);
 int			ft_vecpush(t_vec *vec, void *ptr);
 int			ft_vecdel(t_vec *vec, size_t pos);
 int			ft_vecnpush(t_vec *vec, size_t n, ...);
