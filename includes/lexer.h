@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/08 16:41:42 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/12 11:28:54 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,22 @@
 ** Defines
 */
 
-/*
-** Re order e_type and g_def_table depending on priority
-*/
-
 enum		e_type
 {
 	T_NEWLINE,
-	T_GREATER_AND,
-	T_LESSER_AND,
-	T_DOUBLE_PIPE,
 	T_DOUBLE_AMPERSAND,
+	T_DOUBLE_PIPE,
+	T_DOUBLE_LESSER,
+	T_DOUBLE_GREATER,
+	T_LESSER_AND,
+	T_GREATER_AND,
+	T_LESSER,
+	T_GREATER,
+	T_PIPE,
 	T_QUOTE,
 	T_DOUBLE_QUOTE,
-	T_DOUBLE_LESSER,
-	T_LESSER,
-	T_DOUBLE_GREATER,
-	T_GREATER,
 	T_SEMICOLON,
 	T_AMPERSAND,
-	T_PIPE,
 	T_WSPACE,
 	T_WORD,
 	T_NULL
@@ -51,19 +47,19 @@ enum		e_type
 enum		e_tmask
 {
 	M_NEWLINE = 1 << T_NEWLINE,
-	M_GREATER_AND = 1 << T_GREATER_AND,
-	M_LESSER_AND = 1 << T_LESSER_AND,
-	M_DOUBLE_PIPE = 1 << T_DOUBLE_PIPE,
 	M_DOUBLE_AMPERSAND = 1 << T_DOUBLE_AMPERSAND,
+	M_DOUBLE_PIPE = 1 << T_DOUBLE_PIPE,
+	M_DOUBLE_LESSER = 1 << T_DOUBLE_LESSER,
+	M_DOUBLE_GREATER = 1 << T_DOUBLE_GREATER,
+	M_LESSER_AND = 1 << T_LESSER_AND,
+	M_GREATER_AND = 1 << T_GREATER_AND,
+	M_LESSER = 1 << T_LESSER,
+	M_GREATER = 1 << T_GREATER,
+	M_PIPE = 1 << T_PIPE,
 	M_QUOTE = 1 << T_QUOTE,
 	M_DOUBLE_QUOTE = 1 << T_DOUBLE_QUOTE,
-	M_DOUBLE_LESSER = 1 << T_DOUBLE_LESSER,
-	M_LESSER = 1 << T_LESSER,
-	M_DOUBLE_GREATER = 1 << T_DOUBLE_GREATER,
-	M_GREATER = 1 << T_GREATER,
 	M_SEMICOLON = 1 << T_SEMICOLON,
 	M_AMPERSAND = 1 << T_AMPERSAND,
-	M_PIPE = 1 << T_PIPE,
 	M_WSPACE = 1 << T_WSPACE,
 	M_WORD = 1 << T_WORD,
 	M_NULL = 1 << T_NULL,
@@ -125,6 +121,12 @@ struct		s_tdef
 int			tokenization(t_lexer *lexer);
 void		token_free(t_token *token);
 int			token_process(t_lexer *lexer, t_token *token);
+
+/*
+** Stack
+*/
+
+int			stack(t_type type, t_vec *stack);
 
 /*
 ** Tokens

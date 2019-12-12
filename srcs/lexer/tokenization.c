@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/08 16:35:29 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/12 11:22:07 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,19 @@
 t_tdef		g_def_table[] =
 {
 	{T_NEWLINE, istok_newline, createtok_newline},
-	{T_AMPERSAND, istok_ampersand, createtok_ampersand},
 	{T_DOUBLE_AMPERSAND, istok_double_ampersand, createtok_double_ampersand},
 	{T_DOUBLE_PIPE, istok_double_pipe, createtok_double_pipe},
-	{T_DOUBLE_QUOTE, istok_double_quote, createtok_double_quote},
-	{T_GREATER, istok_greater, createtok_greater},
+	{T_DOUBLE_LESSER, istok_double_lesser, createtok_double_lesser},
+	{T_DOUBLE_GREATER, istok_double_greater, createtok_double_greater},
+	{T_LESSER_AND, istok_lesserand, createtok_lesserand},
 	{T_GREATER_AND, istok_greaterand, createtok_greaterand},
 	{T_LESSER, istok_lesser, createtok_lesser},
-	{T_LESSER_AND, istok_lesserand, createtok_lesserand},
+	{T_GREATER, istok_greater, createtok_greater},
 	{T_PIPE, istok_pipe, createtok_pipe},
 	{T_QUOTE, istok_quote, createtok_quote},
+	{T_DOUBLE_QUOTE, istok_double_quote, createtok_double_quote},
 	{T_SEMICOLON, istok_semicolon, createtok_semicolon},
-	{T_DOUBLE_GREATER, istok_double_greater, createtok_double_greater},
-	{T_DOUBLE_LESSER, istok_double_lesser, createtok_double_lesser},
+	{T_AMPERSAND, istok_ampersand, createtok_ampersand},
 	{T_WSPACE, istok_whitespace, createtok_whitespace},
 	{T_WORD, istok_word, createtok_word},
 	{T_NULL, istok_null, createtok_null}
@@ -57,7 +57,7 @@ int			tokenization(t_lexer *lexer)
 	{
 		if (!(new_tok_def = get_next_def(lexer)))
 			return (SH_ERR);
-		
+		stack((((t_token*)(lexer->tokens.vec))->type), &lexer->stack);
 	}
 	//TODO: is stack is not empty get rest of line
 	return (SH_SUCCESS);
