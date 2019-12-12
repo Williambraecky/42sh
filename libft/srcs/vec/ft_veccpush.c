@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 19:04:24 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/06/17 19:05:26 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/12 16:18:40 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		ft_veccpush(t_vec *vec, void *ptr, size_t size_ptr)
 
 	if (!(dup = ft_memdup(ptr, size_ptr)))
 		return (1);
-	if (ft_vecpush(vec, ptr))
+	if (ft_vecpush(vec, dup))
 	{
 		free(dup);
 		return (1);
