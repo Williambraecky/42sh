@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 12:28:46 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/16 16:15:08 by ntom             ###   ########.fr       */
+/*   Updated: 2019/12/16 16:18:26 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,22 +63,13 @@ char		*last_stack_type(t_vec *stack)
 int			stack(t_type type, t_vec *stack)
 {
 	if (stack->size == 0 && g_stackable[type])
-	{
-		ft_veccpush(stack, &type, sizeof(type));
-		ft_printf("last stack type %s\n", last_stack_type(stack));
-		return (0);
-	}
+		return (ft_veccpush(stack, &type, sizeof(type)));
 	if ((type == T_QUOTE || type == T_DOUBLE_QUOTE)
 		&& type == *((t_type*)ft_vecgettop(stack)))
 		free(ft_vecpop(stack));
 	else if (g_compat[type] & (1 << type))
 		free(ft_vecpop(stack));
 	if (g_stackable[type] && (g_compat[type] & (1 << type)))
-	{
-		ft_veccpush(stack, &type, sizeof(type));
-		ft_printf("last stack type %s\n", last_stack_type(stack));
-		return (0);
-	}
-	ft_printf("last stack type %s\n", last_stack_type(stack));
+		return (ft_veccpush(stack, &type, sizeof(type)));
 	return (0);
 }
