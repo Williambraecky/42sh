@@ -6,11 +6,15 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 17:14:38 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:18:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/16 15:54:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
+
+/*
+** NOTE: get_env but clones the result to *result
+*/
 
 int		get_env_clone(t_sh *shell, char *key, char **result)
 {

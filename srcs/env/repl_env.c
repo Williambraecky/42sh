@@ -6,20 +6,34 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 17:21:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:29:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/16 16:34:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
+/*
+** NOTE: replace or add to env
+*/
+
 int		repl_env(t_sh *shell, char *key, char *value)
 {
+	t_s64	hash;
+	t_node	*node;
+
 	if (!shell->env)
 		return (SH_ERR_NOEXIST);
 	if (!(key = ft_strdup(key))
 		|| !(value = ft_strdup(value)))
 		return (SH_ERR_MALLOC);
-	ft_mapremove(shell->env, key);
+	if (ft_mapcontains(shell->env, key))
+	{
+		hash = ft_maphash(shell->env, key);
+		node = &shell->env->nodes[hash];
+		ft_strdel(&node->key);
+		ft_strdel((char**)&node->value);
+		node->is_used = 0;
+	}
 	if (ft_mapputnoclone(shell->env, key, value, ft_strlen(value)) != MAP_OK)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
