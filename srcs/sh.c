@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/23 18:18:28 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/16 18:04:39 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,18 @@
 #include "prompt.h"
 
 /*
-** TODO: Make sure variables such as HOME PWD are not validated using env vars
+** TODO: Variables such as HOME avec PWD should not be gotten from env vars
+**   since they can be changed by the user
 */
 
 static int	init_shell(t_sh *shell, const char **env)
 {
 	ft_memset(shell, 0, sizeof(shell));
+	if (!(shell->internals = ft_mapnew(100)))
+		return (1);
 	if (!(shell->env = ft_mapnew(100)))
+		return (1);
+	if (!(shell->aliases = ft_mapnew(10)))
 		return (1);
 	copy_env(shell, env);
 	if ((shell->prompt_mode = isatty(SH_IN)))

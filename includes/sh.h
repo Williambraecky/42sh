@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/20 16:25:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/16 18:13:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,27 +51,90 @@
 # endif
 
 /*
-** Global variables
-*/
-
-char	*g_aliases;
-
-/*
 ** Typedefs
 */
 
+typedef enum e_intern	t_intyp;
+typedef enum e_extype	t_extype;
+typedef union u_intval	t_intvl;
+typedef struct s_alias	t_alias;
+typedef struct s_bltin	t_bltin;
 typedef struct s_sh	t_sh;
 typedef struct stat	t_stat;
 typedef struct termios	t_termi;
 typedef struct winsize	t_winsiz;
 
 /*
+** Enums
+*/
+
+enum	e_intern
+{
+	UNDEFINED,
+	STRING,
+	FLOAT,
+	DOUBLE,
+	INTEGER,
+	LONG
+};
+
+enum	e_extype
+{
+	BUILTIN,
+	EXECUTABLE
+};
+
+/*
 ** Structures
+*/
+
+/*
+** TODO: maybe use them? unsure if we actually need such thing
+*/
+
+union		u_intval
+{
+	char	*str_;
+	float	flt_;
+	double	dbl_;
+	int		int_;
+	long	lng_;
+};
+
+struct		s_intern
+{
+	t_intyp	type;
+	t_intvl	val;
+};
+
+struct		s_alias
+{
+	char	*str;
+	t_vec	*tokens;
+};
+
+struct		s_bltin
+{
+	char	*name;
+	int		(*fnc_ptr)(int, char**, t_sh*);
+};
+
+/*
+** NOTE:
+**  - internals => map<string->string>
+**  - env => map<string->string>
+**  - aliases -> map<string->t_alias>
+**	- builtins -> map<stirng->t_bltin>
+**  - history -> vec<string>
+**  - prompt_mode -> either INTERACTIVE or NON_INTERACTIVE
 */
 
 struct		s_sh
 {
+	t_map	*internals;
 	t_map	*env;
+	t_map	*aliases;
+	t_map	*builtins;
 	t_vec	history;
 	int		prompt_mode;
 	t_termi	old_termios;
@@ -82,6 +145,16 @@ struct		s_sh
 /*
 ** Prototypes
 */
+
+/*
+** Alias
+*/
+
+int			add_alias(t_sh *shell, char *alias, t_vec *tokens);
+int			has_alias(t_sh *shell, char *alias);
+int			remove_alias(t_sh *shell, char *alias);
+int			resolve_alias(t_sh *shell, char *alias, t_vec **tokens);
+t_alias		*get_alias(t_sh *shell, char *alias);
 
 /*
 **  Env
