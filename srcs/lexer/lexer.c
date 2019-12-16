@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 18:06:59 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/20 16:06:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/16 17:42:06 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,25 @@ int			init_lexer(t_lexer *lexer, char *line)
 	return (SH_SUCCESS);
 }
 
-int			lexer(char *line)
+/*
+** NOTE: complete prompt should be used to know if we have to restart a prompt
+**  in the case of unfinished quotes/dquotes for example;
+**  should be 0 when parsing aliases etc
+*/
+
+int			lexer(char *line, t_lexer *lex, int complete_prompt)
 {
 	t_lexer		lexer;
 	int			res;
 
+	(void)complete_prompt;
 	if ((res = init_lexer(&lexer, line)) != SH_SUCCESS)
 		return (res);
-	tokenization(&lexer);
+	if ((res = tokenization(&lexer)) != SH_SUCCESS)
+	{
+		lexer_free(&lexer);
+		return (res);
+	}
+	*lex = lexer;
 	return (SH_SUCCESS);
 }
