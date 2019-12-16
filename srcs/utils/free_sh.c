@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 18:07:25 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/16 22:13:36 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void		free_sh(t_sh *shell)
 	ft_mapdel(shell->env);
 	ft_mapfilter(shell->aliases, map_alias_filter);
 	ft_mapdel(shell->aliases);
+	ft_mapdel(shell->builtins);
 	if (shell->prompt_mode)
 	{
 		tcsetattr(SH_IN, TCSADRAIN, &shell->old_termios);

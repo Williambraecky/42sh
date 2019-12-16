@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:13:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 22:05:18 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/16 22:15:20 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 /*
 ** NOTE: Main builtin initializing method
 ** TODO: add more builtins
-** "test",
 */
 
 t_bltin		g_builtin_table[] =
@@ -42,10 +41,6 @@ t_bltin		g_builtin_table[] =
 
 size_t		g_table_size = sizeof(g_builtin_table) / sizeof(g_builtin_table[0]);
 
-/*
-** NOTE: incomplete
-*/
-
 int			builtin_init(t_sh *shell)
 {
 	size_t	i;
@@ -54,6 +49,9 @@ int			builtin_init(t_sh *shell)
 	i = 0;
 	while (i < g_table_size)
 	{
+		if (ft_mapput(shell->builtins, g_builtin_table[i].name,
+			&g_builtin_table[i], sizeof(*g_builtin_table)) != MAP_OK)
+			return (SH_ERR_MALLOC);
 		i++;
 	}
 	return (SH_SUCCESS);
