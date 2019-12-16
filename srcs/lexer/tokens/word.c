@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 12:15:50 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/28 20:35:20 by ntom             ###   ########.fr       */
+/*   Updated: 2019/12/12 14:58:02 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,9 @@ int			createtok_word(t_lexer *lexer)
 	tok.token.size = sizeof(t_word);
 	tok.token.type = T_WORD;
 	// TODO : add check stack
-	while (!(is_word_charset((lexer->line + lexer->i)[len]))
-		|| is_char_escaped(lexer->line, lexer->i + len))
+	while ((lexer->line + lexer->i)[len]
+		&& (!(is_word_charset((lexer->line + lexer->i)[len]))
+		|| is_char_escaped(lexer->line, lexer->i + len)))
 		len++;
 	if (!(tok.token.str = ft_strndup(lexer->line + lexer->i, len)))
 		return (SH_ERR_MALLOC);
