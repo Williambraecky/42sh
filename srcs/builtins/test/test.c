@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 19:24:03 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/10 16:06:35 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2019/12/16 22:04:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int				not_op_reverse(int ret, int not_op)
 	return (ret);
 }
 
-int				test_main(int ac, char **av, t_sh *shell)
+int				test_builtin(int ac, char **av, t_sh *shell)
 {
 	int not_op;
 	int ret;

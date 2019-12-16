@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:13:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 18:31:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/16 22:05:18 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ t_bltin		g_builtin_table[] =
 	{"true", true_builtin},
 	{"false", false_builtin},
 	{"history", history_builtin},
+	{"test", test_builtin},
 	{"", NULL}
 };
 
