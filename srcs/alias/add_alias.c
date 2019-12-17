@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   add_alias.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 13:59:10 by ntom             ###   ########.fr       */
+/*   Created: 2019/12/16 14:25:04 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/12/16 17:34:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
 /*
-** TODO: dispatch token to correct function to build commands
+** HOME: Should alias tokenize or do we do it here?
 */
 
-int		token_process(t_lexer *lexer, t_token *token)
+int		add_alias(t_sh *shell, char *alias, t_vec *tokens)
 {
-	lexer->i += token->len;
-	if (ft_veccpush(&lexer->tokens, token, token->size))
+	char	*key_dup;
+	char	*alias_dup;
+	t_alias	alias_t;
+
+	if (!(key_dup = ft_strdup(alias))
+	|| !(alias_dup = ft_strdup(alias)))
 		return (SH_ERR_MALLOC);
-	stack(token->type, &lexer->stack);
+	alias_t.str = alias_dup;
+	alias_t.tokens = tokens;
+	if (ft_mapput(shell->aliases, key_dup, &alias_t, sizeof(alias_t)) != MAP_OK)
+		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }

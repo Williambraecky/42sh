@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/12 11:28:54 by ntom             ###   ########.fr       */
+/*   Updated: 2019/12/16 17:41:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ struct		s_tdef
 ** Tokenization
 */
 
+int			lexer(char *line, t_lexer *lex, int complete_prompt);
 int			tokenization(t_lexer *lexer);
 void		token_free(t_token *token);
 int			token_process(t_lexer *lexer, t_token *token);
@@ -127,6 +128,12 @@ int			token_process(t_lexer *lexer, t_token *token);
 */
 
 int			stack(t_type type, t_vec *stack);
+
+/*
+** Utils
+*/
+
+void		lexer_free(t_lexer *lexer);
 
 /*
 ** Tokens

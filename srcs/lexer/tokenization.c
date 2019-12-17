@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/12 11:22:07 by ntom             ###   ########.fr       */
+/*   Updated: 2019/12/16 16:13:51 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,18 @@ t_tdef		g_def_table[] =
 	{T_NULL, istok_null, createtok_null}
 };
 
+extern char		*g_tab_types[];
+
+/*
+** static char *last_token_type(t_lexer *lexer)
+** {
+** 	t_token *token;
+**
+** 	token = ft_vecgettop(&lexer->tokens);
+** 	return (g_tab_types[token->type]);
+** }
+*/
+
 size_t		g_size = sizeof(g_def_table) / sizeof(*g_def_table);
 
 t_tdef		*get_next_def(t_lexer *lexer)
@@ -55,9 +67,9 @@ int			tokenization(t_lexer *lexer)
 
 	while (lexer->line[lexer->i])
 	{
-		if (!(new_tok_def = get_next_def(lexer)))
+		if (!(new_tok_def = get_next_def(lexer))
+			|| new_tok_def->create_tok(lexer))
 			return (SH_ERR);
-		stack((((t_token*)(lexer->tokens.vec))->type), &lexer->stack);
 	}
 	//TODO: is stack is not empty get rest of line
 	return (SH_SUCCESS);

@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   get_alias.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 13:59:10 by ntom             ###   ########.fr       */
+/*   Created: 2019/12/16 17:23:06 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/12/16 17:24:05 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "sh.h"
 
 /*
-** TODO: dispatch token to correct function to build commands
+** Basic alias -> t_vec *token conversion
 */
 
-int		token_process(t_lexer *lexer, t_token *token)
+t_alias	*get_alias(t_sh *shell, char *alias)
 {
-	lexer->i += token->len;
-	if (ft_veccpush(&lexer->tokens, token, token->size))
-		return (SH_ERR_MALLOC);
-	stack(token->type, &lexer->stack);
-	return (SH_SUCCESS);
+	return ((t_alias*)ft_mapget(shell->aliases, alias));
 }

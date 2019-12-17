@@ -6,11 +6,15 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:42:38 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:25:17 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/16 15:54:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
+
+/*
+** NOTE: Main procedure for copying given env to shell
+*/
 
 int		copy_env(t_sh *shell, const char **env)
 {

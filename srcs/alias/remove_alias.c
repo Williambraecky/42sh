@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   remove_alias.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 13:59:10 by ntom             ###   ########.fr       */
+/*   Created: 2019/12/16 14:28:47 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/12/16 15:09:16 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "sh.h"
 #include "lexer.h"
 
 /*
-** TODO: dispatch token to correct function to build commands
+** NOTE: assumes aliases are vectors
 */
 
-int		token_process(t_lexer *lexer, t_token *token)
+int		remove_alias(t_sh *shell, char *alias)
 {
-	lexer->i += token->len;
-	if (ft_veccpush(&lexer->tokens, token, token->size))
-		return (SH_ERR_MALLOC);
-	stack(token->type, &lexer->stack);
+	t_alias	*alias_t;
+
+	if (!has_alias(shell, alias))
+		return (SH_SUCCESS);
+	if (!(alias_t = ft_mapget(shell->aliases, alias)))
+		return (SH_ERR_NOEXIST);
+	ft_strdel(&alias_t->str);
+	ft_vecdestroy(alias_t->tokens, token_free);
+	ft_mapremove(shell->aliases, alias);
 	return (SH_SUCCESS);
 }

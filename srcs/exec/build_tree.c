@@ -1,26 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process.c                                          :+:      :+:    :+:   */
+/*   build_tree.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 13:59:10 by ntom             ###   ########.fr       */
+/*   Created: 2019/12/16 14:42:39 by wbraeckm          #+#    #+#             */
+/*   Updated: 2019/12/16 15:00:02 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "exec.h"
 
 /*
-** TODO: dispatch token to correct function to build commands
+** TODO: everything; this should build the current working tree
 */
 
-int		token_process(t_lexer *lexer, t_token *token)
+/*
+** NOTE: return error code ?
+*/
+
+t_cmd	*build_tree(t_sh *shell, t_lexer *lexer)
 {
-	lexer->i += token->len;
-	if (ft_veccpush(&lexer->tokens, token, token->size))
-		return (SH_ERR_MALLOC);
-	stack(token->type, &lexer->stack);
-	return (SH_SUCCESS);
+	t_build	build;
+
+	ft_memset(&build, 0, sizeof(build));
+	(void)shell;
+	(void)lexer;
+	return (NULL);
 }

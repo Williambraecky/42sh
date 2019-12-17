@@ -6,11 +6,15 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 17:17:23 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:25:32 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/16 16:26:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
+
+/*
+** NOTE: clones the key and the value
+*/
 
 int		add_env(t_sh *shell, char *key, char *value)
 {
