@@ -54,6 +54,20 @@ int			main(int argc, const char **argv, const char **env)
 	(void)argv;
 	handle_prompt(&shell, &line);
 	ft_printf("\nLine: ");
+
+
+
+/*	char **table =*/ autocomplete_command(line, &shell);
+//	if (table == NULL)
+//	{
+//		free_sh(&shell);
+//		exit(1);
+//	}
+//	for (int i= 0; table[i]; i++)
+//		ft_printf("tab[%d] = %s\n", i, table[i]);
+
+
+
 	ft_putnonprint(line);
 	ft_putchar('\n');
 	free(line);

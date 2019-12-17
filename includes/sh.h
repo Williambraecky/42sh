@@ -192,4 +192,9 @@ int			get_paths(t_sh *shell, char ***paths);
 int			get_binaries(t_sh *shell, char **paths, char ***binaries);
 void		*ring_bell(void);
 
+
+
+//temporaire autocomplete
+char **autocomplete_command(char *line, t_sh *shell);
+
 #endif

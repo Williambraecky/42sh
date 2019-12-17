@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/12 17:22:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/17 18:36:16 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,13 @@ int				handle_escape(t_prompt *prompt, char *buffer);
 int				pos_equals(t_pos pos1, t_pos pos2);
 int				buff_insert(t_buff *buffer, char *insert, size_t pos);
 int				buff_remove(t_buff *buffer, size_t pos);
+int				count_words(char *line);
+char			*get_last_word(char *line, int *space);
+int				is_reset_token(char *last_word);
+int				is_redirection(char *last_word);
+int				get_path_last_word(char **last_word, char **path);
+int				match_bin_built(t_sh *shell, char **built, char *s, t_vec *p);
+int				autocomplete_poss(char *path, char *start, t_vec *poss);
+int				autocomplete_command(char *line, t_sh *shell, t_vec *poss);
 
 #endif
