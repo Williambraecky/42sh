@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 18:13:07 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/17 20:38:29 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,10 +191,5 @@ void		window_change_signal(int signo);
 int			get_paths(t_sh *shell, char ***paths);
 int			get_binaries(t_sh *shell, char **paths, char ***binaries);
 void		*ring_bell(void);
-
-
-
-//temporaire autocomplete
-char **autocomplete_command(char *line, t_sh *shell);
 
 #endif
