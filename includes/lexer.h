@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/16 17:41:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/17 15:40:10 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ enum		e_type
 	T_DOUBLE_GREATER,
 	T_LESSER_AND,
 	T_GREATER_AND,
+	T_IO_NUMBER,
 	T_LESSER,
 	T_GREATER,
 	T_PIPE,
@@ -53,6 +54,7 @@ enum		e_tmask
 	M_DOUBLE_GREATER = 1 << T_DOUBLE_GREATER,
 	M_LESSER_AND = 1 << T_LESSER_AND,
 	M_GREATER_AND = 1 << T_GREATER_AND,
+	M_IO_NUMBER = 1 << T_IO_NUMBER,
 	M_LESSER = 1 << T_LESSER,
 	M_GREATER = 1 << T_GREATER,
 	M_PIPE = 1 << T_PIPE,
@@ -72,6 +74,7 @@ enum		e_tmask
 
 typedef struct s_token	t_token;
 typedef struct s_word	t_word;
+typedef struct s_io_nb	t_io_nb;
 typedef struct s_lexer	t_lexer;
 typedef struct s_tdef	t_tdef;
 typedef enum e_type		t_type;
@@ -97,6 +100,12 @@ struct		s_word
 {
 	t_token	token;
 	char	*transformed;
+};
+
+struct		s_io_nb
+{
+	t_token	token;
+	int		io_nb;
 };
 
 struct		s_lexer
@@ -151,6 +160,8 @@ int			istok_greater(t_lexer *lexer);
 int			createtok_greater(t_lexer *lexer);
 int			istok_greaterand(t_lexer *lexer);
 int			createtok_greaterand(t_lexer *lexer);
+int			istok_io_number(t_lexer *lexer);
+int			createtok_io_number(t_lexer *lexer);
 int			istok_lesser(t_lexer *lexer);
 int			createtok_lesser(t_lexer *lexer);
 int			istok_lesserand(t_lexer *lexer);
