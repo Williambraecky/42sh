@@ -18,6 +18,7 @@
 # include "sys/stat.h"
 # include "unistd.h"
 # include "sh.h"
+# define STDOUT 1
 
 /*
 ** Prototypes

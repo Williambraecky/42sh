@@ -16,11 +16,12 @@
 ** NOTE: should only handle -n as option
 */
 
-int		echo_builtin(int argc, char **argv, t_sh *shell)
+int		echo_builtin(int ac, char **av, t_sh *shell)
 {
 	int		i;
 	int		no_nl;
 
+	(void)shell;
 	if (ac <= 1)
 		ft_putchar_fd('\n', STDOUT);
 	else
@@ -35,7 +36,7 @@ int		echo_builtin(int argc, char **argv, t_sh *shell)
 			i = 1;
 		while (i < ac)
 		{
-			ft_putstr_fd(s, STDOUT);
+			ft_putstr_fd(av[i], STDOUT);
 			if (i < ac - 1)
 				ft_putchar_fd(' ', STDOUT);
 			++i;
