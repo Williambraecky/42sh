@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/18 17:54:20 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 18:02:17 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,14 @@ static int			get_builtin(t_sh *shell, char *start, t_vec *poss)
 int					match_bin_built(t_sh *shell, char *start, t_vec *poss)
 {
 	char	**path_dir;
+	char	*path;
 	size_t	i;
 	int		ret;
 
-	if (!(path_dir = ft_strsplit(ft_mapget(shell->env, "PATH"), ':')))
-		return (SH_ERR_MALLOC);//peut segfault si unsetenv PATH (use getenv)
+	if (get_env(shell, "PATH", &path) != SH_SUCCESS)
+		return (SH_ERR_NOEXIST);
+	if (!(path_dir = ft_strsplit(path, ':')))
+		return (SH_ERR_MALLOC);
 	i = 0;
 	while (path_dir[i])
 	{

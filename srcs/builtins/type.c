@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 17:44:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 17:55:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 18:00:57 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,14 @@ static int	check_inside_path_dir(DIR *dir, char *name, char *path)
 static int	check_is_exec(char *name, t_sh *shell)
 {
 	char	**path_dir;
+	char	*path;
 	size_t	i;
 	int		ret;
 	DIR		*dir;
 
-	if (!(path_dir = ft_strsplit(ft_mapget(shell->env, "PATH"), ':')))
-		return (SH_ERR_MALLOC);//peut segfault si unsetenv PATH (use getenv)
+	if (get_env(shell, "PATH", &path) != SH_SUCCESS
+		|| !(path_dir = ft_strsplit(path, ':')))
+		return (has_env(shell, "PATH") ? SH_ERR_NOEXIST : SH_ERR_MALLOC);
 	i = 0;
 	while (path_dir[i])
 	{
