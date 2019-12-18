@@ -6,12 +6,21 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:21:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 17:31:28 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 14:49:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 #include "lexer.h"
+
+/*
+** TODO: make sure it passes through the delimiter
+*/
+
+static char	*delim_proxy(char *str)
+{
+	return (str);
+}
 
 /*
 ** NOTE: Should aliases be store as token list or as string?
@@ -42,25 +51,36 @@ static void	set_used(char **used, char *str)
 
 /*
 ** NOTE: Untested af really not sure about the logic
+** NOTE: delimited string does not process parameter expansion etc
 */
 
-int			resolve_alias(t_sh *shell, char *alias, t_vec **tokens)
+static int	resolve_recurs(t_sh *shell, char **used,
+	char *alias, char **return_val)
+{
+	char	*delimited;
+	int		ret;
+
+	if (used_contains(used, alias))
+		return (SH_SUCCESS);
+	*return_val = get_alias(shell, alias);
+	if (!(delimited = delim_proxy(*return_val)))
+		return (SH_ERR_MALLOC);
+	set_used(used, alias);
+	ret = SH_SUCCESS;
+	if (has_alias(shell, delimited))
+		ret = resolve_recurs(shell, used, delimited, return_val);
+	free(delimited);
+	return (ret);
+}
+
+int			resolve_alias(t_sh *shell, char *alias, char **return_val)
 {
 	char	**used;
-	t_alias	*alias_t;
+	int		ret;
 
 	if (!(used = ft_memalloc(sizeof(*used) * ft_mapsize(shell->aliases))))
 		return (SH_ERR_MALLOC);
-	alias_t = get_alias(shell, alias);
-	while (has_alias(shell, ((t_token*)alias_t->tokens->vec[0])->str)
-		&& !used_contains(used, alias_t->str))
-	{
-		set_used(used, alias_t->str);
-		alias_t = get_alias(shell, ((t_token*)alias_t->tokens->vec[0])->str);
-	}
+	ret = resolve_recurs(shell, used, alias, return_val);
 	free(used);
-	if (!alias_t)
-		return (SH_ERR_NOEXIST);
-	*tokens = alias_t->tokens;
-	return (SH_SUCCESS);
+	return (ret);
 }

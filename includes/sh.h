@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/17 20:38:29 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 14:31:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@
 typedef enum e_intern	t_intyp;
 typedef enum e_extype	t_extype;
 typedef union u_intval	t_intvl;
-typedef struct s_alias	t_alias;
 typedef struct s_bltin	t_bltin;
 typedef struct s_sh	t_sh;
 typedef struct stat	t_stat;
@@ -107,12 +106,6 @@ struct		s_intern
 	t_intvl	val;
 };
 
-struct		s_alias
-{
-	char	*str;
-	t_vec	*tokens;
-};
-
 struct		s_bltin
 {
 	char	*name;
@@ -123,7 +116,7 @@ struct		s_bltin
 ** NOTE:
 **  - internals => map<string->string>
 **  - env => map<string->string>
-**  - aliases -> map<string->t_alias>
+**  - aliases -> map<string->string>
 **	- builtins -> map<stirng->t_bltin>
 **  - history -> vec<string>
 **  - prompt_mode -> either INTERACTIVE or NON_INTERACTIVE
@@ -150,11 +143,11 @@ struct		s_sh
 ** Alias
 */
 
-int			add_alias(t_sh *shell, char *alias, t_vec *tokens);
+int			add_alias(t_sh *shell, char *alias, char *aliased);
 int			has_alias(t_sh *shell, char *alias);
 int			remove_alias(t_sh *shell, char *alias);
-int			resolve_alias(t_sh *shell, char *alias, t_vec **tokens);
-t_alias		*get_alias(t_sh *shell, char *alias);
+int			resolve_alias(t_sh *shell, char *alias, char **tokens);
+char		*get_alias(t_sh *shell, char *alias);
 
 /*
 **  Env

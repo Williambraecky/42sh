@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:28:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 15:09:16 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 14:19:03 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,19 @@
 
 int		remove_alias(t_sh *shell, char *alias)
 {
-	t_alias	*alias_t;
+	t_s64	hash;
 
 	if (!has_alias(shell, alias))
 		return (SH_SUCCESS);
-	if (!(alias_t = ft_mapget(shell->aliases, alias)))
-		return (SH_ERR_NOEXIST);
-	ft_strdel(&alias_t->str);
-	ft_vecdestroy(alias_t->tokens, token_free);
-	ft_mapremove(shell->aliases, alias);
+	if ((hash = ft_maphash(shell->aliases, alias)) != MAP_FULL)
+	{
+		if (shell->aliases->nodes[hash].is_used)
+		{
+			shell->aliases->nodes[hash].is_used = 0;
+			ft_memdel(&shell->aliases->nodes[hash].value);
+			ft_strdel(&shell->aliases->nodes[hash].key);
+			shell->aliases->size--;
+		}
+	}
 	return (SH_SUCCESS);
 }
