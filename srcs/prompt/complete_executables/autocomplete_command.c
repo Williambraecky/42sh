@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/18 16:19:12 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2019/12/18 17:34:20 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int			autocomplete_poss(char *path, char *start, t_vec *poss)
 				return (SH_ERR_NOEXIST);
 		}
 	}
+	closedir(dir);
 	return (SH_SUCCESS);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   match_bin_built.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/18 16:27:13 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2019/12/18 17:22:41 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int			get_aliases(t_sh *shell, char *start, t_vec *poss)
 }
 
 /*
-** TODO: used shell->builtins for builtin list 
+** TODO: used shell->builtins for builtin list
 **		DONE but check if it works
 */
 
@@ -65,7 +65,7 @@ int					match_bin_built(t_sh *shell, char *start, t_vec *poss)
 	int		ret;
 
 	if (!(path_dir = ft_strsplit(ft_mapget(shell->env, "PATH"), ':')))
-		return (SH_ERR_MALLOC);
+		return (SH_ERR_MALLOC);//peut segfault si unsetenv PATH (use getenv)
 	i = 0;
 	while (path_dir[i])
 	{
