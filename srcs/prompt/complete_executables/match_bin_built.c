@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   match_bin_built.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/18 17:22:41 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2019/12/18 17:54:20 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,11 @@ static int			get_builtin(t_sh *shell, char *start, t_vec *poss)
 	char	*built_str;
 
 	i = 0;
-	built_str = shell->builtins->nodes[i].value;
 	while (shell->builtins->max_size)
 	{
 		if (shell->builtins->nodes[i].is_used)
 		{
-			built_str = (char*)shell->builtins->nodes[i].value;
+			built_str = (char*)shell->builtins->nodes[i].key;
 			if (ft_strstartswith(built_str, start))
 				if (ft_veccpush(poss, built_str, ft_strlen(built_str)))
 					return (SH_ERR_NOEXIST);
