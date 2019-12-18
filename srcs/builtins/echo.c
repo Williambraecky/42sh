@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:19:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 18:33:06 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 16:13:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,21 @@
 ** NOTE: should only handle -n as option
 */
 
-int		echo_builtin(int ac, char **av, t_sh *shell)
+int		echo_builtin(int argc, char **argv, t_sh *shell)
 {
-	int		i;
-	int		no_nl;
+	size_t	i;
 
 	(void)shell;
-	if (ac <= 1)
-		ft_putchar_fd('\n', STDOUT);
-	else
+	i = 1;
+	if (argc >= 2 && ft_strequ(argv[1], "-n"))
+		i = 2;
+	while (i < (size_t)argc)
 	{
-		no_nl = 0;
-		if (av[1] && ft_strlen(av[1]) <= 2 && av[1][0] == '-' && av[1][1] == 'n')
-		{
-			no_nl = 1;
-			i = 2;
-		}
-		else
-			i = 1;
-		while (i < ac)
-		{
-			ft_putstr_fd(av[i], STDOUT);
-			if (i < ac - 1)
-				ft_putchar_fd(' ', STDOUT);
-			++i;
-		}
-		if (!no_nl)
-			ft_putchar_fd('\n', STDOUT);
+		write(1, argv[i], ft_strlen(argv[i]));
+		i++;
+		if (i != (size_t)argc)
+			write(1, " ", 1);
 	}
+	write(1, "\n", 1);
 	return (0);
 }
