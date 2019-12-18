@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 22:13:36 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 16:12:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,6 @@
 /*
 ** NOTE: Main shell free procedure add fields to be freed here
 */
-
-static int	map_alias_filter(t_node *node)
-{
-	t_alias	*alias;
-
-	free(node->key);
-	alias = node->value;
-	ft_strdel(&alias->str);
-	ft_vecdestroy(alias->tokens, token_free);
-	return (0);
-}
 
 static int	map_del_filter(t_node *node)
 {
@@ -48,7 +37,7 @@ void		free_sh(t_sh *shell)
 	ft_mapdel(shell->internals);
 	ft_mapfilter(shell->env, map_del_filter);
 	ft_mapdel(shell->env);
-	ft_mapfilter(shell->aliases, map_alias_filter);
+	ft_mapfilter(shell->aliases, map_del_filter);
 	ft_mapdel(shell->aliases);
 	ft_mapdel(shell->builtins);
 	if (shell->prompt_mode)
