@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   type.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbraeckm <wbraeckm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 17:44:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 17:44:22 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2019/12/18 17:55:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ static int	check_inside_path_dir(DIR *dir, char *name, char *path)
 
 static int	check_is_exec(char *name, t_sh *shell)
 {
-	char 	**path_dir;
-	size_t 	i;
+	char	**path_dir;
+	size_t	i;
 	int		ret;
 	DIR		*dir;
 
@@ -105,7 +105,7 @@ static int	check_is_exec(char *name, t_sh *shell)
 
 int			type_builtin(int ac, char **av, t_sh *shell)
 {
-	size_t 	i;
+	size_t	i;
 	int		ret;
 
 	i = 1;
