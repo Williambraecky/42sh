@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/18 14:53:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 16:27:13 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,32 @@ static int			get_aliases(t_sh *shell, char *start, t_vec *poss)
 }
 
 /*
-** TODO: used shell->builtins for builtin list
+** TODO: used shell->builtins for builtin list 
+**		DONE but check if it works
 */
 
-static int			get_builtin(char **builtin_list, char *start, t_vec *poss)
+static int			get_builtin(t_sh *shell, char *start, t_vec *poss)
 {
-	size_t i;
+	size_t	i;
+	char	*built_str;
 
 	i = 0;
-	while (builtin_list[i])
+	built_str = shell->builtins->nodes[i].value;
+	while (shell->builtins->max_size)
 	{
-		if (ft_strstartswith(builtin_list[i], start))
-			if (ft_veccpush(poss, builtin_list[i], ft_strlen(builtin_list[i])))
-				return (SH_ERR_NOEXIST);
+		if (shell->builtins->nodes[i].is_used)
+		{
+			built_str = (char*)shell->builtins->nodes[i].value;
+			if (ft_strstartswith(built_str, start))
+				if (ft_veccpush(poss, built_str, ft_strlen(built_str)))
+					return (SH_ERR_NOEXIST);
+		}
 		i++;
 	}
 	return (SH_SUCCESS);
 }
 
-int					match_bin_built(t_sh *shell, char **builtin_list,
-	char *start, t_vec *poss)
+int					match_bin_built(t_sh *shell, char *start, t_vec *poss)
 {
 	char	**path_dir;
 	size_t	i;
@@ -70,7 +76,7 @@ int					match_bin_built(t_sh *shell, char **builtin_list,
 	ft_freesplit(path_dir);
 	if ((ret = autocomplete_poss(".", start, poss)) != 0)
 		return (ret);
-	if ((ret = get_builtin(builtin_list, start, poss)) != SH_SUCCESS)
+	if ((ret = get_builtin(shell, start, poss)) != SH_SUCCESS)
 		return (ret);
 	return (get_aliases(shell, start, poss));
 }

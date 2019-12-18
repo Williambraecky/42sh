@@ -6,17 +6,11 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/18 14:54:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 16:19:12 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
-
-char		*g_builtin_list[] =
-{
-	"echo", "cd", "test", "bg", "alias", "false", "history", "rehash", "true"
-	"fg", "jobs", "set", "type", "export", "hash", "pwd", "unset", NULL
-};
 
 int			autocomplete_poss(char *path, char *start, t_vec *poss)
 {
@@ -70,7 +64,7 @@ int			autocomplete_command(char *line, t_sh *shell, t_vec *poss)
 	int		ret;
 
 	if (count_words(line) == 0)
-		return (match_bin_built(shell, g_builtin_list, "", poss));
+		return (match_bin_built(shell, "", poss));
 	last_word = get_last_word(line, &space);
 	if ((space && !is_reset_token(last_word)) || is_redirection(last_word))
 		return (autocomplete_poss(".", "", poss));
@@ -86,6 +80,6 @@ int			autocomplete_command(char *line, t_sh *shell, t_vec *poss)
 		return (ret);
 	}
 	else if (is_reset_token(last_word))
-		return (match_bin_built(shell, g_builtin_list, last_word, poss));
+		return (match_bin_built(shell, last_word, poss));
 	return (SH_SUCCESS);
 }
