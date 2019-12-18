@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   autocomplete_command.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/17 18:39:57 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2019/12/18 14:54:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int			autocomplete_poss(char *path, char *start, t_vec *poss)
 			if ((ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, ".."))
 			&& ft_strequ("", start))
 				continue;
-			if (ft_vecpush(poss, sd->d_name))
+			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name)))
 				return (SH_ERR_NOEXIST);
 		}
 	}
@@ -54,7 +54,7 @@ int			get_matching_env(t_map *env, char *last_word, t_vec *poss)
 		{
 			key = env->nodes[i].key;
 			if (ft_strstartswith(key, start))
-				if (ft_vecpush(poss, key))
+				if (ft_veccpush(poss, key, ft_strlen(key)))
 					return (SH_ERR_NOEXIST);
 		}
 		i++;
