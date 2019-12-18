@@ -16,6 +16,21 @@
 ** NOTE: prints current history in '  %n   %s\n' format
 */
 
+static void print_history(t_sh *shell)
+{
+	int		i;
+
+	if (!shell || !shell->history || !shell->history.vec)
+		return (1);
+	i = 0
+	while (shell->history.vec && shell->history.vec[i])
+	{
+		ft_printf("%n  %s\n", i, (char *)shell->history.vec[i]);
+		++i;
+	}
+	return (0);
+}
+
 int		history_builtin(int argc, char **argv, t_sh *shell)
 {
 	(void)argc;
