@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 22:07:28 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 14:54:39 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,6 @@ int			main(int argc, const char **argv, const char **env)
 	(void)argv;
 	handle_prompt(&shell, &line);
 	ft_printf("\nLine: ");
-
-
-
-/*	char **table =*/ autocomplete_command(line, &shell);
-//	if (table == NULL)
-//	{
-//		free_sh(&shell);
-//		exit(1);
-//	}
-//	for (int i= 0; table[i]; i++)
-//		ft_printf("tab[%d] = %s\n", i, table[i]);
-
-
-
 	ft_putnonprint(line);
 	ft_putchar('\n');
 	free(line);
