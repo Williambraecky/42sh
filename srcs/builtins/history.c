@@ -16,27 +16,27 @@
 ** NOTE: prints current history in '  %n   %s\n' format
 */
 
-static int print_history(t_sh *shell, int startfrom)
+int	print_history(t_sh *shell, int offset)
 {
 	int		i;
 
 	if (shell == NULL || !shell->history.vec)
 		return (1);
-	i = startfrom;
+	i = 0;
 	while (shell->history.vec[i])
 	{
-		ft_printf("%n  %s\n", i, shell->history.vec[i]);
+		if (i >= offset)
+			ft_printf("%n  %s\n", i, shell->history.vec[i]);
 		++i;
 	}
 	return (0);
 }
 
-int		history_builtin(int argc, char **argv, t_sh *shell)
+int	history_builtin(int argc, char **argv, t_sh *shell)
 {
-	(void)argc;
-	(void)argv;
-	(void)shell;
-	if (argc <= 2 && ft_strcmp(argv[1], "-n") != 0)
+	if (argc <= 1)
 		print_history(shell, 0);
+	else if (argc == 2 && ft_strisnumber(argv[1]))
+		print_history(shell, ft_atoi(argv[1]));
 	return (0);
 }
