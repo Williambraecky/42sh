@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/17 15:40:10 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 18:55:03 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 enum		e_type
 {
 	T_NEWLINE,
+	T_BRACEPARAM,
 	T_DOUBLE_AMPERSAND,
 	T_DOUBLE_PIPE,
 	T_DOUBLE_LESSER,
@@ -48,6 +49,7 @@ enum		e_type
 enum		e_tmask
 {
 	M_NEWLINE = 1 << T_NEWLINE,
+	M_BRACEPARAM = 1 << T_BRACEPARAM,
 	M_DOUBLE_AMPERSAND = 1 << T_DOUBLE_AMPERSAND,
 	M_DOUBLE_PIPE = 1 << T_DOUBLE_PIPE,
 	M_DOUBLE_LESSER = 1 << T_DOUBLE_LESSER,
@@ -114,6 +116,7 @@ struct		s_lexer
 	char	*line;
 	size_t	i;
 	t_vec	stack;
+	int		finished;
 };
 
 struct		s_tdef
@@ -143,6 +146,11 @@ int			stack(t_type type, t_vec *stack);
 */
 
 void		lexer_free(t_lexer *lexer);
+int			stack_push(t_lexer *lex, t_type type);
+t_type		stack_pop(t_lexer *lex);
+t_type		stack_top(t_lexer *lex);
+int			is_escaped(t_lexer *lex, size_t len);
+int			handle_specials(t_lexer *lex, size_t len);
 
 /*
 ** Tokens
