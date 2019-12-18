@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:20:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 18:04:44 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/18 19:03:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,8 @@ int			delimit_token(t_lexer *lex, char **result)
 		if (should_delimit(lex, len, operator, curr_operator))
 			break ;
 		if (!is_escaped(lex, len) && match_special_character(lex->line + len))
-			handle_specials(lex, len);
+			if (handle_specials(lex, len) != SH_SUCCESS)
+				return (SH_ERR_MALLOC);
 		len++;
 	}
 	if (!(*result = ft_strndup(lex->line + lex->i, len - lex->i)))
