@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 15:26:45 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 15:34:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,14 @@ int			get_internal_clone(t_sh *shell, char *key, char **result);
 int			get_internal(t_sh *shell, char *key, char **result);
 int			has_internal(t_sh *shell, char *key);
 int			repl_internal(t_sh *shell, char *key, char *value);
+
+/*
+** Hash
+*/
+
+int			get_hash(t_sh *shell, char *bin, t_hashed **hash);
+int			has_hash(t_sh *shell, char *bin);
+void		remove_hash(t_sh *shell, char *bin);
 
 /*
 ** History
