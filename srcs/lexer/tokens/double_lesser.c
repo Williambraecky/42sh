@@ -6,25 +6,21 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 15:15:45 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/17 15:54:26 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 17:54:28 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int				istok_double_lesser(t_lexer *lexer)
+int				istok_double_lesser(t_lexer *lexer, t_token *token)
 {
-	return (lexer->line[lexer->i] == '<' && lexer->line[lexer->i + 1] == ',');
+	(void)lexer;
+	return (token->str[0] == '<' && token->str[1] == '<');
 }
 
-int				createtok_double_lesser(t_lexer *lexer)
+int				transform_double_lesser(t_lexer *lexer, t_token *token)
 {
-	t_token	tok;
-
-	tok.size = sizeof(t_token);
-	tok.type = T_DOUBLE_LESSER;
-	if (!(tok.str = ft_strdup("<<")))
-		return (SH_ERR_MALLOC);
-	tok.len = 2;
-	return (token_process(lexer, &tok));
+	token->size = sizeof(t_token);
+	token->type = T_DOUBLE_LESSER;
+	return (token_process(lexer, token));
 }

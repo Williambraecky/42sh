@@ -6,25 +6,21 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/08 16:32:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/08 16:34:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 17:54:53 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int		istok_null(t_lexer *lexer)
+int		istok_null(t_lexer *lexer, t_token *token)
 {
-	return (lexer->line[lexer->i] == '\0');
+	(void)lexer;
+	return (token->str[0] == '\0');
 }
 
-int		createtok_null(t_lexer *lexer)
+int		transform_null(t_lexer *lexer, t_token *token)
 {
-	t_token	tok;
-
-	tok.size = sizeof(t_token);
-	tok.type = T_NULL;
-	if (!(tok.str = ft_strdup("")))
-		return (SH_ERR_MALLOC);
-	tok.len = 0;
-	return (token_process(lexer, &tok));
+	token->size = sizeof(t_token);
+	token->type = T_NULL;
+	return (token_process(lexer, token));
 }

@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/19 15:52:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 17:55:46 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ struct		s_lexer
 {
 	t_vec	tokens; //NOTE: Do we really need this?
 	char	*line;
+	size_t	line_size;
 	size_t	i;
 	t_vec	stack;
 	int		finished;
@@ -122,9 +123,11 @@ struct		s_lexer
 struct		s_tdef
 {
 	t_type	type;
-	int		(*is_tok)(t_lexer *);
-	int		(*create_tok)(t_lexer *);
+	int		(*is_tok)(t_lexer *, t_token *);
+	int		(*transform)(t_lexer *, t_token *);
 };
+
+int			lexer(char *line, t_lexer *lex, int complete_prompt); //to remove
 
 /*
 ** Tokenization
@@ -142,6 +145,12 @@ int			token_process(t_lexer *lexer, t_token *token);
 int			stack(t_type type, t_vec *stack);
 
 /*
+** Delimit
+*/
+
+int			delimit_token(t_lexer *lex, char **result);
+
+/*
 ** Utils
 */
 
@@ -157,41 +166,35 @@ int			new_line_check(t_lexer *lex, size_t len);
 ** Tokens
 */
 
-int			istok_ampersand(t_lexer *lexer);
-int			createtok_ampersand(t_lexer *lexer);
-int			istok_double_ampersand(t_lexer *lexer);
-int			createtok_double_ampersand(t_lexer *lexer);
-int			istok_double_pipe(t_lexer *lexer);
-int			createtok_double_pipe(t_lexer *lexer);
-int			istok_double_quote(t_lexer *lexer);
-int			createtok_double_quote(t_lexer *lexer);
-int			istok_greater(t_lexer *lexer);
-int			createtok_greater(t_lexer *lexer);
-int			istok_greaterand(t_lexer *lexer);
-int			createtok_greaterand(t_lexer *lexer);
-int			istok_io_number(t_lexer *lexer);
-int			createtok_io_number(t_lexer *lexer);
-int			istok_lesser(t_lexer *lexer);
-int			createtok_lesser(t_lexer *lexer);
-int			istok_lesserand(t_lexer *lexer);
-int			istok_pipe(t_lexer *lexer);
-int			createtok_pipe(t_lexer *lexer);
-int			createtok_lesserand(t_lexer *lexer);
-int			istok_quote(t_lexer *lexer);
-int			createtok_quote(t_lexer *lexer);
-int			istok_semicolon(t_lexer *lexer);
-int			createtok_semicolon(t_lexer *lexer);
-int			istok_newline(t_lexer *lexer);
-int			createtok_newline(t_lexer *lexer);
-int			istok_double_greater(t_lexer *lexer);
-int			createtok_double_greater(t_lexer *lexer);
-int			istok_double_lesser(t_lexer *lexer);
-int			createtok_double_lesser(t_lexer *lexer);
-int			istok_whitespace(t_lexer *lexer);
-int			createtok_whitespace(t_lexer *lexer);
-int			istok_word(t_lexer *lexer);
-int			createtok_word(t_lexer *lexer);
-int			istok_null(t_lexer *lexer);
-int			createtok_null(t_lexer *lexer);
+int			istok_ampersand(t_lexer *lexer, t_token *token);
+int			transform_ampersand(t_lexer *lexer, t_token *token);
+int			istok_double_ampersand(t_lexer *lexer, t_token *token);
+int			transform_double_ampersand(t_lexer *lexer, t_token *token);
+int			istok_double_pipe(t_lexer *lexer, t_token *token);
+int			transform_double_pipe(t_lexer *lexer, t_token *token);
+int			istok_greater(t_lexer *lexer, t_token *token);
+int			transform_greater(t_lexer *lexer, t_token *token);
+int			istok_greaterand(t_lexer *lexer, t_token *token);
+int			transform_greaterand(t_lexer *lexer, t_token *token);
+int			istok_io_number(t_lexer *lexer, t_token *token);
+int			transform_io_number(t_lexer *lexer, t_token *token);
+int			istok_lesser(t_lexer *lexer, t_token *token);
+int			transform_lesser(t_lexer *lexer, t_token *token);
+int			istok_lesserand(t_lexer *lexer, t_token *token);
+int			istok_pipe(t_lexer *lexer, t_token *token);
+int			transform_pipe(t_lexer *lexer, t_token *token);
+int			transform_lesserand(t_lexer *lexer, t_token *token);
+int			istok_semicolon(t_lexer *lexer, t_token *token);
+int			transform_semicolon(t_lexer *lexer, t_token *token);
+int			istok_newline(t_lexer *lexer, t_token *token);
+int			transform_newline(t_lexer *lexer, t_token *token);
+int			istok_double_greater(t_lexer *lexer, t_token *token);
+int			transform_double_greater(t_lexer *lexer, t_token *token);
+int			istok_double_lesser(t_lexer *lexer, t_token *token);
+int			transform_double_lesser(t_lexer *lexer, t_token *token);
+int			istok_word(t_lexer *lexer, t_token *token);
+int			transform_word(t_lexer *lexer, t_token *token);
+int			istok_null(t_lexer *lexer, t_token *token);
+int			transform_null(t_lexer *lexer, t_token *token);
 
 #endif
