@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:20:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 14:51:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 15:53:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ static int	should_delimit(t_lexer *lex, size_t len,
 	else if (curr_operator && lex->i + operator != len)
 		return (1);
 	else if ((lex->line[len] == ' ' ||
-		lex->line[len] == '\t' ||
-		lex->line[len] == '\n') && !escaped)
+		lex->line[len] == '\t') && !escaped)
 		return (1);
 	return (0);
 }
@@ -100,6 +99,7 @@ int			delimit_wspace(t_lexer *lex, char **result)
 
 /*
 ** NOTE: operator is a boolean defining if we found an operator or not
+** TODO: \\n has a special behaviour
 */
 
 int			delimit_token(t_lexer *lex, char **result)
@@ -112,7 +112,7 @@ int			delimit_token(t_lexer *lex, char **result)
 	if (lex->line[len] && ft_strchr(" \t\n", lex->line[len]))
 		return (delimit_wspace(lex, result));
 	operator = 0;
-	while (lex->line[len])
+	while (lex->line[len] && new_line_check(lex, len))
 	{
 		if (!is_escaped(lex, len) &&
 			(curr_operator = match_operator(lex->line + len)))

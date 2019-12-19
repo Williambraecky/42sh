@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/18 18:55:03 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 15:52:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,7 @@ t_type		stack_pop(t_lexer *lex);
 t_type		stack_top(t_lexer *lex);
 int			is_escaped(t_lexer *lex, size_t len);
 int			handle_specials(t_lexer *lex, size_t len);
+int			new_line_check(t_lexer *lex, size_t len);
 
 /*
 ** Tokens
