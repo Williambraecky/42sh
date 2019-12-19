@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 14:36:20 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 15:26:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,16 @@ int			get_env_clone(t_sh *shell, char *key, char **result);
 int			get_env(t_sh *shell, char *key, char **result);
 int			has_env(t_sh *shell, char *key);
 int			repl_env(t_sh *shell, char *key, char *value);
+
+/*
+** Internals
+*/
+
+int			add_internal(t_sh *shell, char *key, char *value);
+int			get_internal_clone(t_sh *shell, char *key, char **result);
+int			get_internal(t_sh *shell, char *key, char **result);
+int			has_internal(t_sh *shell, char *key);
+int			repl_internal(t_sh *shell, char *key, char *value);
 
 /*
 ** History
