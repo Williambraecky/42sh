@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 14:31:43 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 14:36:16 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,17 @@
 /*
 ** NOTE: Main shell free procedure add fields to be freed here
 */
+
+static int	map_hash_filter(t_node *node)
+{
+	t_hashed	*hashed;
+
+	hashed = node->value;
+	free(hashed->path);
+	free(node->value);
+	free(node->key);
+	return (0);
+}
 
 static int	map_del_filter(t_node *node)
 {
@@ -39,7 +50,7 @@ void		free_sh(t_sh *shell)
 	ft_mapdel(shell->env);
 	ft_mapfilter(shell->aliases, map_del_filter);
 	ft_mapdel(shell->aliases);
-	ft_mapfilter(shell->use_hash, map_del_filter);
+	ft_mapfilter(shell->use_hash, map_hash_filter);
 	ft_mapdel(shell->use_hash);
 	ft_mapdel(shell->builtins);
 	if (shell->prompt_mode)

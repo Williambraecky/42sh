@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 14:30:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 14:36:20 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef enum e_intern	t_intyp;
 typedef enum e_extype	t_extype;
 typedef union u_intval	t_intvl;
 typedef struct s_bltin	t_bltin;
+typedef struct s_hashed	t_hashed;
 typedef struct s_sh	t_sh;
 typedef struct stat	t_stat;
 typedef struct termios	t_termi;
@@ -112,13 +113,19 @@ struct		s_bltin
 	int		(*fnc_ptr)(int, char**, t_sh*);
 };
 
+struct		s_hashed
+{
+	int		uses;
+	char	*path;
+};
+
 /*
 ** NOTE:
 **  - internals => map<string->string>
 **  - env => map<string->string>
 **  - aliases -> map<string->string>
 **  - builtins -> map<string->t_bltin>
-**  - use_hash -> map<string->string>
+**  - use_hash -> map<string->t_hashed>
 **  - history -> vec<string>
 **  - prompt_mode -> either INTERACTIVE or NON_INTERACTIVE
 */
