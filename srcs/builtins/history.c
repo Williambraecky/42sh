@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:30:04 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 18:35:38 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 14:30:08 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 ** NOTE: prints current history in '  %n   %s\n' format
 */
 
-int	print_history(t_sh *shell, int offset)
+static int	print_history(t_sh *shell, int offset)
 {
 	int		i;
 
@@ -32,7 +32,7 @@ int	print_history(t_sh *shell, int offset)
 	return (0);
 }
 
-int	history_builtin(int argc, char **argv, t_sh *shell)
+int			history_builtin(int argc, char **argv, t_sh *shell)
 {
 	if (argc <= 1)
 		print_history(shell, 0);
