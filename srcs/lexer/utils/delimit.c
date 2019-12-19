@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:20:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 15:53:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 16:26:38 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	should_delimit(t_lexer *lex, size_t len,
 	escaped = is_escaped(lex, len);
 	if (operator && !curr_operator)
 		return (1);
-	else if (curr_operator && lex->i + operator != len)
+	else if (curr_operator && lex->i + operator != len + 1)
 		return (1);
 	else if ((lex->line[len] == ' ' ||
 		lex->line[len] == '\t') && !escaped)
