@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 14:31:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 14:30:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,8 @@ struct		s_bltin
 **  - internals => map<string->string>
 **  - env => map<string->string>
 **  - aliases -> map<string->string>
-**	- builtins -> map<stirng->t_bltin>
+**  - builtins -> map<string->t_bltin>
+**  - use_hash -> map<string->string>
 **  - history -> vec<string>
 **  - prompt_mode -> either INTERACTIVE or NON_INTERACTIVE
 */
@@ -128,6 +129,7 @@ struct		s_sh
 	t_map	*env;
 	t_map	*aliases;
 	t_map	*builtins;
+	t_map	*use_hash;
 	t_vec	history;
 	int		prompt_mode;
 	t_termi	old_termios;

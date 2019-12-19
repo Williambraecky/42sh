@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 14:54:39 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 14:31:18 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	init_shell(t_sh *shell, const char **env)
 	if (!(shell->aliases = ft_mapnew(10)))
 		return (1);
 	if (!(shell->builtins = ft_mapnew(30)))
+		return (1);
+	if (!(shell->use_hash = ft_mapnew(30)))
 		return (1);
 	copy_env(shell, env);
 	if ((shell->prompt_mode = isatty(SH_IN)))

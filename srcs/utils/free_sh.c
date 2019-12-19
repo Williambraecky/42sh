@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 16:12:45 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/19 14:31:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void		free_sh(t_sh *shell)
 	ft_mapdel(shell->env);
 	ft_mapfilter(shell->aliases, map_del_filter);
 	ft_mapdel(shell->aliases);
+	ft_mapfilter(shell->use_hash, map_del_filter);
+	ft_mapdel(shell->use_hash);
 	ft_mapdel(shell->builtins);
 	if (shell->prompt_mode)
 	{
