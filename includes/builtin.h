@@ -18,7 +18,6 @@
 # include "sys/stat.h"
 # include "unistd.h"
 # include "sh.h"
-# define STDOUT 1
 
 /*
 ** Prototypes
@@ -69,5 +68,11 @@ int			int_cmp(char *s1, char *s2, char *cmp_op);
 int			not_op_reverse(int ret, int not_op);
 int			cmp_op(char **av, int ac, int not_op);
 int			test_op(char op, char **av, int ac, int not_op);
+
+/*
+**   CD Utils
+*/
+
+int     print_history(t_sh *shell, int offset);
 
 #endif
