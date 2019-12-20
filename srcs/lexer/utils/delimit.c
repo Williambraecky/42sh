@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:20:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 16:26:38 by ntom             ###   ########.fr       */
+/*   Updated: 2019/12/20 16:33:18 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,16 @@ char	*g_specials[] =
 	NULL
 };
 
-static int	match_operator(char *str)
+static int	match_operator(t_lexer *lex, size_t len)
 {
 	size_t	i;
 
 	i = 0;
 	while (g_operators[i])
 	{
-		if (ft_strstartswith(g_operators[i], str))
+		if ((g_operators[i][0] == lex->line[len]) ^
+			(ft_strncmp(g_operators[i],
+				lex->line + lex->i, len - lex->i + 1) == 0))
 			return (1);
 		i++;
 	}
@@ -75,7 +77,7 @@ static int	match_special_character(char *str)
 }
 
 static int	should_delimit(t_lexer *lex, size_t len,
-	int operator, int curr_operator)
+	size_t operator, int curr_operator)
 {
 	int		escaped;
 
@@ -85,7 +87,8 @@ static int	should_delimit(t_lexer *lex, size_t len,
 	else if (curr_operator && lex->i + operator != len + 1)
 		return (1);
 	else if ((lex->line[len] == ' ' ||
-		lex->line[len] == '\t') && !escaped)
+		lex->line[len] == '\t' ||
+		lex->line[len] == '\n') && !escaped)
 		return (1);
 	return (0);
 }
@@ -105,7 +108,7 @@ int			delimit_wspace(t_lexer *lex, char **result)
 int			delimit_token(t_lexer *lex, char **result)
 {
 	size_t	len;
-	int		operator;
+	size_t		operator;
 	int		curr_operator;
 
 	len = lex->i;
@@ -115,7 +118,7 @@ int			delimit_token(t_lexer *lex, char **result)
 	while (lex->line[len] && new_line_check(lex, len))
 	{
 		if (!is_escaped(lex, len) &&
-			(curr_operator = match_operator(lex->line + len)))
+			(curr_operator = match_operator(lex, len)))
 			operator += 1;
 		else
 			curr_operator = 0;
