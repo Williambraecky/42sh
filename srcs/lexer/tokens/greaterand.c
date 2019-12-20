@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/12 16:46:46 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/19 17:54:33 by ntom             ###   ########.fr       */
+/*   Updated: 2019/12/20 16:50:21 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 int			istok_greaterand(t_lexer *lexer, t_token *token)
 {
 	(void)lexer;
-	if ((token->str[0] == '&' && token->str[1] == '>')
-		|| (token->str[0] == '>' && token->str[1] == '&'))
+	if (token->str[0] == '>' && token->str[1] == '&')
 		return (1);
 	return (0);
 }
