@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:18:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 18:39:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/22 16:05:40 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@
 
 int		unset_builtin(int argc, char **argv, t_sh *shell)
 {
-	(void)argc;
-	(void)argv;
-	(void)shell;
+	int 	i;
+
+	i = 1;
+	while (argc > i)
+	{
+		remove_internal(shell, argv[i]);
+		i++;
+	}
 	return (0);
 }
