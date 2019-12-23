@@ -21,15 +21,15 @@ int	handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 	if(ft_vecinit(&poss))
 		return (SH_ERR_MALLOC);
 	autocomplete_command(line, shell, &poss);
-	for (size_t i = 0; i < poss.size; i++)
-		ft_printf("vec[%d] = %s\n", i, ft_vecget(&poss, i));
+//	for (size_t i = 0; i < poss.size; i++)
+//		ft_printf("vec[%d] = %s\n", i, ft_vecget(&poss, i));
 //	order_vector(&poss);
 	(void)buffer;
-//	if (poss.size == 0)
+//	if (poss.size == 1)
 //	{
 //		*buffer = ' ';									/*
-//		handle_new_char(prompt, buffer, shell);			** valid poss();
-//		return (RET_CONT);								*/ dans le cas ou
+//		handle_new_char(prompt, buffer, shell);			** one_poss_only();
+//		return (RET_CONT);								*/ dans le cas ou 1 seul poss
 //	}
 	//free_vec();
 	return (RET_CONT);
