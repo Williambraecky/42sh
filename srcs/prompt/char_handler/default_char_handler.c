@@ -27,10 +27,11 @@ static void	transform_pos(t_prompt *prompt, t_pos *pos, char c)
 	}
 }
 
-int			default_char_handler(t_prompt *prompt, char *buffer)
+int			default_char_handler(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	t_pos	new;
 
+	(void)shell;
 	if (buff_insert(&prompt->buffer, buffer, prompt->buffer_index)
 			!= SH_SUCCESS)
 		return (SH_ERR_MALLOC);

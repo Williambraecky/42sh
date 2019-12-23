@@ -12,9 +12,10 @@
 
 #include "prompt.h"
 
-int	handle_backspace(t_prompt *prompt, char *buffer)
+int	handle_backspace(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	(void)buffer;
+	(void)shell;
 	if (prompt->char_index == 0)
 		return (RET_CONT);
 	buff_remove(&prompt->buffer, ft_wstrindex(prompt->buffer.buffer,

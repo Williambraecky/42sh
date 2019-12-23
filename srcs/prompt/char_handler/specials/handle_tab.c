@@ -12,9 +12,12 @@
 
 #include "prompt.h"
 
-int	handle_tab(t_prompt *prompt, char *buffer)
+int	handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 {
-	(void)prompt;
+	char *line;
 	(void)buffer;
+
+	line = prompt->buffer.buffer;
+	(void)shell;
 	return (RET_CONT);
 }

@@ -12,11 +12,11 @@
 
 #include "prompt.h"
 
-int	handle_escape(t_prompt *prompt, char *buffer)
+int	handle_escape(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	if (buffer[1] == '[')
 		return (handle_arrows(prompt, buffer));
 	else if (ft_isprint(*(buffer + 1)) || *(buffer + 1) == '\n')
-		return (default_char_handler(prompt, buffer + 1));
+		return (default_char_handler(prompt, buffer + 1, shell));
 	return (RET_CONT);
 }

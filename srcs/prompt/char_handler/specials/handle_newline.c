@@ -16,9 +16,10 @@
 ** TODO: Append newline to buffer and move prompt to max position + 1y
 */
 
-int	handle_newline(t_prompt *prompt, char *buffer)
+int	handle_newline(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	(void)buffer;
+	(void)shell;
 	if (buff_insert(&prompt->buffer, "\n", ft_strlen(prompt->buffer.buffer))
 			!= SH_SUCCESS)
 		return (SH_ERR_MALLOC);

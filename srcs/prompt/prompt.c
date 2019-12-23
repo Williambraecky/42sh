@@ -70,7 +70,7 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 		if (g_winchange)
 			recalc_cursor(prompt);
 		if (j != -1)
-			ret = handle_new_char(prompt, (char*)&buffer);
+			ret = handle_new_char(prompt, (char*)&buffer, shell);
 		if (ret & RET_REPRINT)
 			reprint_buffer(prompt);
 		if (!(ret & RET_CONT))
