@@ -43,7 +43,7 @@ static int			get_builtin(t_sh *shell, char *start, t_vec *poss)
 	char	*built_str;
 
 	i = 0;
-	while (shell->builtins->max_size)
+	while (i < shell->builtins->max_size)
 	{
 		if (shell->builtins->nodes[i].is_used)
 		{

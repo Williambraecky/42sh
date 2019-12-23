@@ -80,7 +80,7 @@ int			autocomplete_command(char *line, t_sh *shell, t_vec *poss)
 		free(path);
 		return (ret);
 	}
-	else if (is_reset_token(last_word))
+	else
 		return (match_bin_built(shell, last_word, poss));
 	return (SH_SUCCESS);
 }
