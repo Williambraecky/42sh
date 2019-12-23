@@ -12,25 +12,47 @@
 
 #include "prompt.h"
 
-int	handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
+static int	one_poss_only(char *line, t_vec *poss, t_sh *shell, t_prompt *prompt)
+{
+	char	*complete_command;
+	size_t	i;
+//	long	buf;
+
+	i = 0;
+	complete_command = (char *)ft_vecget(poss, 0);
+	while (complete_command[i] == line[i])
+		i++;
+	complete_command += i;
+	default_char_handler(prompt, complete_command, shell);
+	//adjust cursor and add a space
+	return (RET_CONT);
+}
+
+int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	char	*line;
 	t_vec	poss;
+	(void)buffer;
 
 	line = prompt->buffer.buffer;
 	if(ft_vecinit(&poss))
 		return (SH_ERR_MALLOC);
 	autocomplete_command(line, shell, &poss);
-//	for (size_t i = 0; i < poss.size; i++)
+
+//	for (size_t i = 0; i < poss.size; i++) //FOR TESTING autocomplete_command
 //		ft_printf("vec[%d] = %s\n", i, ft_vecget(&poss, i));
+
+
 //	order_vector(&poss);
-	(void)buffer;
+
+	if (poss.size == 1)
+		return (one_poss_only(line, &poss, shell, prompt));
 //	if (poss.size == 1)
 //	{
-//		*buffer = ' ';									/*
-//		handle_new_char(prompt, buffer, shell);			** one_poss_only();
-//		return (RET_CONT);								*/ dans le cas ou 1 seul poss
+////		return (RET_CONT);
 //	}
+
+
 	//free_vec();
 	return (RET_CONT);
 }
