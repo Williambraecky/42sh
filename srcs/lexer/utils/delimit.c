@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:20:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/20 16:46:44 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/26 21:48:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,9 @@ char	*g_operators[] =
 	"<<",
 	">>",
 	"<&",
+	"&<",
 	">&",
+	"&>",
 	";",
 	NULL
 };
@@ -44,16 +46,15 @@ char	*g_specials[] =
 	NULL
 };
 
-static int	match_operator(t_lexer *lex, size_t len)
+static int	match_operator(t_lexer *lex, size_t len, size_t operator)
 {
 	size_t	i;
 
 	i = 0;
 	while (g_operators[i])
 	{
-		if ((g_operators[i][0] == lex->line[len]) ^
-			(ft_strncmp(g_operators[i],
-				lex->line + lex->i, len - lex->i + 1) == 0))
+		if (ft_strncmp(g_operators[i],
+				lex->line + len - operator, operator + 1) == 0)
 			return (1);
 		i++;
 	}
@@ -106,7 +107,7 @@ int			delimit_wspace(t_lexer *lex, char **result)
 int			delimit_token(t_lexer *lex, char **result)
 {
 	size_t	len;
-	size_t		operator;
+	size_t	operator;
 	int		curr_operator;
 
 	len = lex->i;
@@ -116,7 +117,7 @@ int			delimit_token(t_lexer *lex, char **result)
 	while (lex->line[len] && new_line_check(lex, len))
 	{
 		if (!is_escaped(lex, len) &&
-			(curr_operator = match_operator(lex, len)))
+			(curr_operator = match_operator(lex, len, operator)))
 			operator += 1;
 		else
 			curr_operator = 0;
