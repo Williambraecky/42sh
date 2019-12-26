@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:21:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 14:49:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/26 21:28:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,18 @@
 
 static char	*delim_proxy(char *str)
 {
-	return (str);
+	t_lexer	lexer;
+	char	*delim;
+
+	if (init_lexer(&lexer, str) != SH_SUCCESS)
+		return (NULL);
+	if (delimit_token(&lexer, &delim) != SH_SUCCESS)
+	{
+		lexer_free(&lexer);
+		return (NULL);
+	}
+	lexer_free(&lexer);
+	return (delim);
 }
 
 /*
@@ -34,7 +45,7 @@ static int	used_contains(char **used, char *str)
 
 	i = 0;
 	while (used[i])
-		if (used[i++] == str)
+		if (ft_strequ(used[i++], str))
 			return (1);
 	return (0);
 }
@@ -78,7 +89,7 @@ int			resolve_alias(t_sh *shell, char *alias, char **return_val)
 	char	**used;
 	int		ret;
 
-	if (!(used = ft_memalloc(sizeof(*used) * ft_mapsize(shell->aliases))))
+	if (!(used = ft_memalloc(sizeof(*used) * (ft_mapsize(shell->aliases) + 1))))
 		return (SH_ERR_MALLOC);
 	ret = resolve_recurs(shell, used, alias, return_val);
 	free(used);
