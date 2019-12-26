@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 17:17:23 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 15:24:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2019/12/26 21:53:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		add_internal(t_sh *shell, char *key, char *value)
 		|| !(value = ft_strdup(value)))
 		return (SH_ERR_MALLOC);
 	if (ft_mapputnoclone(shell->internals,
-		key, value, ft_strlen(value)) != MAP_OK)
+		key, value, ft_strlen(value) + 1) != MAP_OK)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
