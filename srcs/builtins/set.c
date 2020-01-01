@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:15:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/22 16:57:11 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2019/12/24 13:29:49 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,35 @@
 ** NOTE: defines internal variable + other
 */
 
-/*
-** static int	is_word_charset(char c)
-** {
-** 	const char	*charset = " \t\f\r&><|\"\n';";
-** 	int			i;
-**
-** 	i = 0;
-** 	while (charset[i])
-** 	{
-** 		if (charset[i] == c)
-** 			return (1);
-** 		i++;
-** 	}
-** 	return (0);
-** }
-*/
+static int	is_word_charset(char c)
+{
+	const char	*charset = " \t\f\r&><|\"\n';";
+	int			i;
+
+	i = 0;
+	while (charset[i])
+	{
+		if (charset[i] == c)
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 static int valid_arg(char *string)
 {
-		return (ft_strchr(string, '=') != NULL);
+	size_t	i;
+
+	if (!string)
+		return (0);
+	i = 0;
+	while (string[i])
+	{
+		if (is_word_charset(string[i]))
+			return (0);
+		++i;
+	}
+	return (ft_strchr(string, '=') != NULL);
 }
 
 static void	print_internals(t_map *map)
