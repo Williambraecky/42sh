@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_tree.c                                        :+:      :+:    :+:   */
+/*   cmd_new.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/16 14:44:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 17:22:05 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/02 17:37:30 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/02 17:40:20 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-/*
-** NOTE: procedure to execute tree; apply logic etc.
-** NOTE: ASSIGNMENTS without command is equal to set builtin
-** NOTE: ASSIGNMENTS with command is equal to export only for that command (t_proc)
-*/
-
-int		exec_tree(t_sh *shell, t_cmd *tree)
+int		cmd_new(t_cmd **cmd)
 {
-	(void)shell;
-	(void)tree;
+	if (!(*cmd = ft_memalloc(sizeof(**cmd))))
+		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }

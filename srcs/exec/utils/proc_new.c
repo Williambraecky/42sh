@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_tree.c                                        :+:      :+:    :+:   */
+/*   proc_new.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/16 14:44:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 17:22:05 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/02 17:39:13 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/02 18:21:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-/*
-** NOTE: procedure to execute tree; apply logic etc.
-** NOTE: ASSIGNMENTS without command is equal to set builtin
-** NOTE: ASSIGNMENTS with command is equal to export only for that command (t_proc)
-*/
-
-int		exec_tree(t_sh *shell, t_cmd *tree)
+int		proc_new(t_proc **proc)
 {
-	(void)shell;
-	(void)tree;
+	if (!(*proc = ft_memalloc(sizeof(**proc))))
+		return (SH_ERR_MALLOC);
+	if (ft_vecinit(&((*proc)->unprocessed_argv))
+		|| ft_vecinit(&((*proc)->redirections))
+		|| ft_vecinit(&((*proc)->assignments)))
+	{
+		free(*proc);
+		ft_vecfree(&((*proc)->unprocessed_argv));
+		ft_vecfree(&((*proc)->redirections));
+		ft_vecfree(&((*proc)->assignments));
+		return (SH_ERR_MALLOC);
+	}
 	return (SH_SUCCESS);
 }

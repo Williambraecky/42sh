@@ -1,26 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_tree.c                                        :+:      :+:    :+:   */
+/*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/16 14:44:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 17:22:05 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/02 18:37:27 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/02 18:39:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-/*
-** NOTE: procedure to execute tree; apply logic etc.
-** NOTE: ASSIGNMENTS without command is equal to set builtin
-** NOTE: ASSIGNMENTS with command is equal to export only for that command (t_proc)
-*/
-
-int		exec_tree(t_sh *shell, t_cmd *tree)
+void	syntax_error(t_token *token)
 {
-	(void)shell;
-	(void)tree;
-	return (SH_SUCCESS);
+	ft_putstr_fd("42sh: parse error near `", 2);
+	ft_putstr_fd(token->str, 2);
+	ft_putstr_fd("'\n", 2);
 }

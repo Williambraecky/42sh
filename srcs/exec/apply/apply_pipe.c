@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_tree.c                                        :+:      :+:    :+:   */
+/*   apply_pipe.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/16 14:44:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 17:22:05 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/02 18:56:55 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/02 18:58:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
 
-/*
-** NOTE: procedure to execute tree; apply logic etc.
-** NOTE: ASSIGNMENTS without command is equal to set builtin
-** NOTE: ASSIGNMENTS with command is equal to export only for that command (t_proc)
-*/
-
-int		exec_tree(t_sh *shell, t_cmd *tree)
+int		apply_pipe(t_token *token, t_build *build)
 {
-	(void)shell;
-	(void)tree;
+	(void)token;
+	if (build->expected_type && !(build->expected_type & (1 << token->type)))
+		return (SH_ERR_SYNTAX);
+	if (proc_new(&build->work_proc->next))
+		return (SH_ERR_MALLOC);
+	build->work_proc = build->work_proc->next;
 	return (SH_SUCCESS);
 }
