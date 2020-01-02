@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 16:32:06 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/02 19:10:02 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,5 +216,6 @@ int			get_binaries(t_sh *shell, char **paths, char ***binaries);
 void		*ring_bell(void);
 int			resolve_path(t_sh *shell, char *name, char **result);
 int			resolve_path_env(char *paths, char *name, char **result);
+int			str_is_name(char *str);
 
 #endif
