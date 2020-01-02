@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 18:06:59 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/19 14:41:36 by ntom             ###   ########.fr       */
+/*   Updated: 2019/12/20 15:08:49 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,15 @@ int			init_lexer(t_lexer *lexer, char *line)
 **  should be 0 when parsing aliases etc
 */
 
-int			lexer(char *line, t_lexer *lex, int complete_prompt)
+int			lexer(char *line, t_lexer *lex)
 {
 	t_lexer		lexer;
 	int			res;
 	char		*groups;
 
 	groups = NULL;
-	(void)complete_prompt;
 	if ((res = init_lexer(&lexer, line)) != SH_SUCCESS)
 		return (res);
-	while (1) // to remove
-	{
-		if ((res = delimit_token(&lexer, &groups))!= SH_SUCCESS)
-			return (res);
-		lexer.i += ft_strlen(groups);
-		ft_printf("group %s size %d size max %d\n", groups, lexer.i, lexer.line_size);
-		if (ft_strlen(groups) == 0)
-			exit (0);
-	}
 	if ((res = tokenization(&lexer)) != SH_SUCCESS)
 	{
 		lexer_free(&lexer);

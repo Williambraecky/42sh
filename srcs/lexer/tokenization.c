@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/19 17:56:03 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/02 18:31:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ t_tdef		g_def_table[] =
 	{T_NULL, istok_null, transform_null}
 };
 
-extern char		*g_tab_types[];
-
 /*
+** extern char		*g_tab_types[];
+**
 ** static char *last_token_type(t_lexer *lexer)
 ** {
 ** 	t_token *token;
@@ -58,6 +58,8 @@ t_tdef		*determine_type(t_lexer *lexer, t_token *token)
 	return (NULL);
 }
 
+extern char		*g_tab_types[]; //to remove
+
 int			tokenization(t_lexer *lexer)
 {
 	t_tdef	*new_tok_def;
@@ -68,6 +70,7 @@ int			tokenization(t_lexer *lexer)
 	{
 		if ((res = delimit_token(lexer, &tok.str)) != SH_SUCCESS)
 			return (res);
+		//TODO: check stack if we need to complete input or not (through quotes and dquotes)
 		if ((tok.len = ft_strlen(tok.str)) == 0)
 		{
 			free(tok.str);
@@ -78,6 +81,6 @@ int			tokenization(t_lexer *lexer)
 			return (SH_ERR);
 		lexer->i += tok.len;
 	}
-	//TODO: is stack is not empty get rest of line
+	//TODO: input is not finished if it doesn't end with a \n
 	return (SH_SUCCESS);
 }
