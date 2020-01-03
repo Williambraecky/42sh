@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/10 12:28:46 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/16 16:18:26 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/03 02:43:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char		*g_tab_types[] =
 	[T_SEMICOLON] = "SEMICOLON",
 	[T_AMPERSAND] = "AMPERSAND",
 	[T_WSPACE] = "WSPACE",
+	[T_IO_NUMBER] = "IO_NUMBER",
 	[T_WORD] = "WORD",
 	[T_NULL] = "NULL"
 };
