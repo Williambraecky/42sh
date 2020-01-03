@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_free.c                                       :+:      :+:    :+:   */
+/*   cmd_new.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/20 15:59:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 19:12:16 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/02 17:37:30 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/02 17:40:20 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "exec.h"
 
-static void	default_free(t_token *token)
+int		cmd_new(t_cmd **cmd)
 {
-	ft_strdel(&token->str);
-}
-
-void		(*g_dispatch_free[])() =
-{
-};
-
-void		token_free(t_token *token)
-{
-	if ((t_u64)token->type <
-		(sizeof(g_dispatch_free) / sizeof(*g_dispatch_free))
-		&& g_dispatch_free[token->type])
-		g_dispatch_free[token->type](token);
-	else
-		default_free(token);
+	if (!(*cmd = ft_memalloc(sizeof(**cmd))))
+		return (SH_ERR_MALLOC);
+	return (SH_SUCCESS);
 }

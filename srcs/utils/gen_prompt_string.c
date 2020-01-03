@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_free.c                                       :+:      :+:    :+:   */
+/*   gen_prompt_string.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/20 15:59:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 19:12:16 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/02 16:41:05 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/02 17:02:39 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "sh.h"
 
-static void	default_free(t_token *token)
-{
-	ft_strdel(&token->str);
-}
+/*
+** TODO: should we implement something like this or hardcode the prompt?
+** NOTE: main procedure for substituting PS1 and PS2
+** NOTE: not as fancy as bash's; handles \h \H \u \w \W
+** NOTE: color is always PROMPT_COLOR
+*/
 
-void		(*g_dispatch_free[])() =
+int		gen_prompt_string(t_sh *shell, char *format)
 {
-};
-
-void		token_free(t_token *token)
-{
-	if ((t_u64)token->type <
-		(sizeof(g_dispatch_free) / sizeof(*g_dispatch_free))
-		&& g_dispatch_free[token->type])
-		g_dispatch_free[token->type](token);
-	else
-		default_free(token);
+	(void)shell;(void)format;
+	return (SH_ERR_MALLOC);
 }

@@ -1,32 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_free.c                                       :+:      :+:    :+:   */
+/*   apply_newline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/20 15:59:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 19:12:16 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/02 18:32:25 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/02 18:48:10 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "exec.h"
 
-static void	default_free(t_token *token)
+int		apply_newline(t_token *token, t_build *build)
 {
-	ft_strdel(&token->str);
-}
-
-void		(*g_dispatch_free[])() =
-{
-};
-
-void		token_free(t_token *token)
-{
-	if ((t_u64)token->type <
-		(sizeof(g_dispatch_free) / sizeof(*g_dispatch_free))
-		&& g_dispatch_free[token->type])
-		g_dispatch_free[token->type](token);
-	else
-		default_free(token);
+	(void)token;
+	if (build->expected_type && !(build->expected_type & (1 << token->type)))
+		return (SH_ERR_SYNTAX);
+	if (cmd_new(&build->work->next))
+		return (SH_ERR_MALLOC);
+	build->work = build->work->next;
+	if (proc_new(&build->work->pipeline))
+		return (SH_ERR_MALLOC);
+	build->work_proc = build->work->pipeline;
+	return (SH_SUCCESS);
 }

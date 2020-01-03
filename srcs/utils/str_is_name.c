@@ -1,32 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token_free.c                                       :+:      :+:    :+:   */
+/*   str_is_name.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/20 15:59:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 19:12:16 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/02 19:05:32 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/02 19:09:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "sh.h"
 
-static void	default_free(t_token *token)
-{
-	ft_strdel(&token->str);
-}
+/*
+** NOTE: this functions defines if a string meets the requirements to be a NAME
+*/
 
-void		(*g_dispatch_free[])() =
+int		str_is_name(char *str)
 {
-};
-
-void		token_free(t_token *token)
-{
-	if ((t_u64)token->type <
-		(sizeof(g_dispatch_free) / sizeof(*g_dispatch_free))
-		&& g_dispatch_free[token->type])
-		g_dispatch_free[token->type](token);
-	else
-		default_free(token);
+	if (*str || ft_isdigit(*str))
+		return (0);
+	while (*str)
+	{
+		if (!(ft_isalnum(*str) || *str == '_'))
+			return (0);
+		str++;
+	}
+	return (1);
 }

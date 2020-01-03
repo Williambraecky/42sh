@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/19 17:55:46 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/02 19:22:17 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@
 
 /*
 ** Defines
+*/
+
+/*
+** Enums
 */
 
 enum		e_type
@@ -70,12 +74,14 @@ enum		e_tmask
 	M_ANY = ~0
 };
 
+# define M_ANY_REDIR M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND | \
+	M_GREATER_AND | M_GREATER | M_LESSER
+
 /*
 ** Typedefs
 */
 
 typedef struct s_token	t_token;
-typedef struct s_word	t_word;
 typedef struct s_io_nb	t_io_nb;
 typedef struct s_lexer	t_lexer;
 typedef struct s_tdef	t_tdef;
@@ -96,12 +102,6 @@ struct		s_token
 	t_type	type;
 	char	*str;
 	size_t	len;
-};
-
-struct		s_word
-{
-	t_token	token;
-	char	*transformed;
 };
 
 struct		s_io_nb
@@ -127,13 +127,12 @@ struct		s_tdef
 	int		(*transform)(t_lexer *, t_token *);
 };
 
-int			lexer(char *line, t_lexer *lex, int complete_prompt); //to remove
-
 /*
 ** Tokenization
 */
 
-int			lexer(char *line, t_lexer *lex, int complete_prompt);
+int			lexer(char *line, t_lexer *lex);
+int			init_lexer(t_lexer *lexer, char *line);
 int			tokenization(t_lexer *lexer);
 void		token_free(t_token *token);
 int			token_process(t_lexer *lexer, t_token *token);
