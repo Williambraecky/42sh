@@ -19,7 +19,7 @@ static size_t	skip_color_code(char *str, size_t pos)
 	len = pos + 1;
 	if (str[len++] != '[')
 		return (1);
-	while (isdigit(str[len]))
+	while (ft_isdigit(str[len]))
 		len++;
 	if (str[len++] != 'm')
 		return (1);

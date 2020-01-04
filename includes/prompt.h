@@ -29,6 +29,12 @@
 # define RET_PRINT (1 << 3)
 # define RET_REPRINT (1 << 4)
 # define PBUFF_DEF_SIZE 512
+# define K_UP 4283163
+# define K_DOWN 4348699
+# define K_LEFT 4479771
+# define K_RIGHT 4414235
+# define BUFFER *(unsigned int *)buffer
+
 
 /*
 ** Typedefs
@@ -38,6 +44,9 @@ typedef struct s_hquery	t_hquery;
 typedef struct s_pos	t_pos;
 typedef struct s_buff	t_buff;
 typedef struct s_prompt	t_prompt;
+typedef struct s_select	t_select;
+typedef struct termios	t_termi;
+typedef struct winsize	t_win;
 
 /*
 ** Structures
@@ -85,6 +94,20 @@ struct			s_prompt
 	int			valid_pos;
 };
 
+struct			s_select
+{
+	t_termi old_termios;
+	t_termi current_termios;
+	int		nb_elem;
+	int		max_len;
+	int		nb_col;
+	int		nb_row;
+	int		selected;
+	int		row_total;
+	int		elem_per_row;
+	int		pos_col;
+};
+
 /*
 ** Prototypes
 */
@@ -120,5 +143,14 @@ int				get_path_last_word(char **last_word, char **path);
 int				match_bin_built(t_sh *shell, char *s, t_vec *p);
 int				autocomplete_poss(char *path, char *start, t_vec *poss);
 int				autocomplete_command(char *line, t_sh *shell, t_vec *poss);
+int				ft_select(t_sh *shell, t_vec *poss);
+int				init_signal(void);
+int				init_term(t_sh *shell, t_select *select);
+int				get_display_info(t_select *select, t_vec *poss);
+int				exit_erase(t_sh *shell, t_select *select);
+int				display_poss(t_select *select, t_vec *poss, int selected);
+int				get_column_info(t_select *select);
+int				select_handle_arrows(t_select *select, char *buffer);
+int				select_handle_tab(t_select *select);
 
 #endif
