@@ -33,6 +33,8 @@
 # define K_DOWN 4348699
 # define K_LEFT 4479771
 # define K_RIGHT 4414235
+# define K_ESC 27
+# define K_BSP 127
 # define BUFFER *(unsigned int *)buffer
 
 
@@ -143,7 +145,7 @@ int				get_path_last_word(char **last_word, char **path);
 int				match_bin_built(t_sh *shell, char *s, t_vec *p);
 int				autocomplete_poss(char *path, char *start, t_vec *poss);
 int				autocomplete_command(char *line, t_sh *shell, t_vec *poss);
-int				ft_select(t_sh *shell, t_vec *poss);
+int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt);
 int				init_signal(void);
 int				init_term(t_sh *shell, t_select *select);
 int				get_display_info(t_select *select, t_vec *poss);

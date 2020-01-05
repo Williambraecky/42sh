@@ -5,7 +5,7 @@ static void	replace_cursor(t_select *select)
 	size_t i;
 
 	i = 0;
-	while (i <= (size_t)select->row_total - 1)
+	while (i <= (size_t)select->row_total - 2)
 	{
 		tputs(tgetstr("up", NULL), 1, ft_putchar);
 		i++;
@@ -18,6 +18,20 @@ static void	replace_cursor(t_select *select)
 		tputs(tgetstr("nd", NULL), 1, ft_putchar);
 		i++;
 	}
+}
+
+static int	is_last_of_row(int i, t_select *select)
+{
+	int j;
+
+	j = 1;
+	while (j < select->elem_per_row)
+	{
+		if (i == (j * select->row_total) - 1)
+			return (1);
+		j++;
+	}
+	return (0);
 }
 
 static int	print_poss(t_select *select, t_vec *poss, int selected, int i)
@@ -33,7 +47,8 @@ static int	print_poss(t_select *select, t_vec *poss, int selected, int i)
 	else
 		ft_printf("%s", ft_vecget(poss, i));
 	j = 0;
-	tputs(tgetstr("do", NULL), 1, ft_putchar);
+	if (!is_last_of_row(i, select))
+		tputs(tgetstr("do", NULL), 1, ft_putchar);
 	tputs(tgetstr("cr", NULL), 1, ft_putchar);
 	while (j < (size_t)select->pos_col)
 	{

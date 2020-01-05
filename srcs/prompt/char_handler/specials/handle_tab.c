@@ -51,7 +51,7 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 //	ft_strsort((char **)&poss, poss.size, ft_strcmp);
 
 
-	ft_select(shell, &poss);
+	ft_select(shell, &poss, prompt);
 
 //	free_vec();
 	return (RET_CONT);
