@@ -1,6 +1,6 @@
 #include "prompt.h"
 
-int		select_handle_arrows(t_select *select, char *buffer)
+/*int		select_handle_arrows(t_select *select, char *buffer)
 {
 	if (select->selected == -1)
 		return (SH_SUCCESS);
@@ -40,9 +40,14 @@ int		select_handle_arrows(t_select *select, char *buffer)
 	return (SH_SUCCESS);
 }
 
-int		select_handle_tab(t_select *select)
+int		select_handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 {
+	(void)shell;
+	(void)buffer;
+	t_select select;
+
+	select = prompt->select;
 	select->selected = select->selected == select->nb_elem - 1 ? 0
 	: select->selected + 1;
 	return (SH_SUCCESS);
-}
+}*/

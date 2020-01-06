@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 16:24:44 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/06 18:56:24 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,6 @@
 # define RET_PRINT (1 << 3)
 # define RET_REPRINT (1 << 4)
 # define PBUFF_DEF_SIZE 512
-# define K_UP 4283163
-# define K_DOWN 4348699
-# define K_LEFT 4479771
-# define K_RIGHT 4414235
-# define K_ESC 27
-# define K_BSP 127
-# define BUFFER *(unsigned int *)buffer
-
 
 /*
 ** Typedefs
@@ -54,6 +46,8 @@ typedef struct winsize	t_win;
 ** Structures
 */
 
+
+
 struct			s_hquery
 {
 	char		*query;
@@ -65,6 +59,20 @@ struct			s_pos
 {
 	int			x;
 	int			y;
+};
+
+struct			s_select
+{
+	int		nb_elem;
+	int		max_len;
+	int		nb_col;
+	int		nb_row;
+	int		selected;
+	int		row_total;
+	int		elem_per_row;
+	int		pos_col;
+	t_pos	original_pos;
+	t_vec	*poss;
 };
 
 struct			s_buff
@@ -94,21 +102,10 @@ struct			s_prompt
 	size_t		char_index;
 	size_t		from_line;
 	int			valid_pos;
+	t_select	select;
 };
 
-struct			s_select
-{
-	t_termi old_termios;
-	t_termi current_termios;
-	int		nb_elem;
-	int		max_len;
-	int		nb_col;
-	int		nb_row;
-	int		selected;
-	int		row_total;
-	int		elem_per_row;
-	int		pos_col;
-};
+
 
 /*
 ** Prototypes
@@ -146,13 +143,11 @@ int				match_bin_built(t_sh *shell, char *s, t_vec *p);
 int				autocomplete_poss(char *path, char *start, t_vec *poss);
 int				autocomplete_command(char *line, t_sh *shell, t_vec *poss);
 int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt);
-int				init_signal(void);
-int				init_term(t_sh *shell, t_select *select);
 int				get_display_info(t_select *select, t_vec *poss);
-int				exit_erase(t_sh *shell, t_select *select);
-int				display_poss(t_select *select, t_vec *poss, int selected);
 int				get_column_info(t_select *select);
-int				select_handle_arrows(t_select *select, char *buffer);
-int				select_handle_tab(t_select *select);
+int				display_poss(t_select *sel, t_vec *poss, int selected,
+				t_prompt *prompt);
+int				handle_select_escape(t_prompt *prompt, char *buufer, t_sh *sh);
+int				handle_select_arrows(t_prompt *prompt, char *buffer);
 
 #endif

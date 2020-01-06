@@ -27,7 +27,7 @@
 	sleep(3);
 	return (0);
 }*/
-
+/*
 int				erase_poss(t_select *select)
 {
 	size_t i;
@@ -42,7 +42,7 @@ int				erase_poss(t_select *select)
 	tputs(tgetstr("do", NULL), 1, ft_putchar);
 //	sleep(1);
 
-/*	if (!is_cursor_position_last_row(select)) // quand rc ne fonctionne pas
+	if (!is_cursor_position_last_row(select)) // quand rc ne fonctionne pas
 	while (i < (size_t)select->row_total)
 	{
 		tputs(tgetstr("up", NULL), 1, ft_putchar);
@@ -50,12 +50,12 @@ int				erase_poss(t_select *select)
 	}
 	sleep(1);
 	tputs(tgetstr("do", NULL), 1, ft_putchar);
-*/
+
 	tputs(tgetstr("cd", NULL), 1, ft_putchar);
 	return (SH_SUCCESS);
 }
-
-static	int	get_key(t_select *select)
+*/
+/*static	int	get_key(t_select *select)
 {
 	char buffer[5];
 
@@ -75,9 +75,9 @@ static	int	get_key(t_select *select)
 	}
 	return (SH_SUCCESS);
 
-}
+}*/
 
-int				change_line(t_select *select, t_vec *poss, t_sh *shell, t_prompt *prompt)
+/*int				change_line(t_select *select, t_vec *poss, t_sh *shell, t_prompt *prompt)
 {
 	(void)select;
 	(void)shell;
@@ -108,22 +108,27 @@ int				change_line(t_select *select, t_vec *poss, t_sh *shell, t_prompt *prompt)
 	}
 	default_char_handler(prompt, complete_command, shell);
 	return (SH_SUCCESS);
-}
+}*/
 
 int				choose_poss(t_select *select, t_vec *poss, t_sh *shell, t_prompt *prompt)
 {
+	(void)select;
+	(void)poss;
+	(void)shell;
+	(void)prompt;
+
 	get_display_info(select, poss);
 	select->pos_col = 0;
 	select->selected = -1;
-	display_poss(select, poss, -1);
-	while (19)
-	{
-		get_key(select);
-		change_line(select, poss, shell, prompt);
-		erase_poss(select);
-		select->pos_col = 0;
-		display_poss(select, poss, select->selected);
-	}
+	display_poss(select, poss, -1, prompt);
+//	while (19)
+//	{
+//		get_key(select);
+//		change_line(select, poss, shell, prompt);
+//		erase_poss(select);
+//		select->pos_col = 0;
+//		display_poss(select, poss, select->selected);
+//	}
 	return (SH_SUCCESS);
 }
 
@@ -131,8 +136,10 @@ int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt)
 {
 	t_select select;
 
-	init_signal();
-	init_term(shell, &select);
+	//pas de malloc de select ?
+//	init_signal();
+//	init_term(shell, &select);
+	select.original_pos = prompt->cursor_pos;
 	choose_poss(&select, poss, shell, prompt);
 //	reset_signal();
 //	return (exit_erase(shell, &select));
