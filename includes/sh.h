@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 11:51:06 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 14:46:34 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,5 +218,6 @@ void		*ring_bell(void);
 int			resolve_path(t_sh *shell, char *name, char **result);
 int			resolve_path_env(char *paths, char *name, char **result);
 int			str_is_name(char *str);
+int			remove_quotes(char *str, char **result);
 
 #endif
