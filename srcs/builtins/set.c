@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:15:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/24 13:29:49 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/06 15:31:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@
 ** NOTE: defines internal variable + other
 */
 
-static int		valid_arg(char *string)
+static int	valid_arg(char *string)
 {
 	if (!string || !str_is_name(string))
 		return (0);
-	else
-		return (ft_strchr(string, '=') != NULL);
+	return (ft_strchr(string, '=') != NULL);
 }
 
-static void		print_internals(t_map *map)
+static void	print_internals(t_map *map)
 {
 	size_t	i;
 
@@ -39,20 +38,18 @@ static void		print_internals(t_map *map)
 	}
 }
 
-int				set_builtin(int argc, char **argv, t_sh *shell)
+int			set_builtin(int argc, char **argv, t_sh *shell)
 {
-	char 		**av;
+	char	**av;
 	size_t	i;
-	int			ret;
+	int		ret;
 
 	if (argc == 1)
 		print_internals(shell->internals);
 	i = 1;
-	ret = 0;
-	while (argv[i] && i < argc)
+	ret = SH_SUCCESS;
+	while (i < (size_t)argc && ret == SH_SUCCESS)
 	{
-		if (ret > 0)
-			return (ret);
 		if (!valid_arg(argv[i]))
 			return (SH_ERR_SYNTAX);
 		av = ft_strsplit(argv[i], '=');
@@ -60,7 +57,5 @@ int				set_builtin(int argc, char **argv, t_sh *shell)
 		ft_freesplit(av);
 		++i;
 	}
-	if (av)
-		ft_freesplit(av);
-	return (0);
+	return (ret);
 }
