@@ -6,11 +6,21 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/13 16:43:52 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 12:06:42 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
+
+/*
+** NOTE: use the main read from prompt but dispatch correctly
+**    when in a tab complete
+*/
+
+int			(*g_tab_dispatch[])(t_prompt *, char *buffer, t_sh *shell) =
+{
+	[127] = NULL,
+};
 
 int			(*g_dispatch_char[])(t_prompt *, char *buffer, t_sh *shell) =
 {
