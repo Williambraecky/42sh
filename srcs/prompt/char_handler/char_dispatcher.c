@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 12:06:42 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 23:47:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@
 **    when in a tab complete
 */
 
-int			(*g_tab_dispatch[])(t_prompt *, char *buffer, t_sh *shell) =
+int			(*g_select_dispatch[])(t_prompt *, char *buffer, t_sh *shell) =
 {
+	['\n'] = select_handle_newline,
+	[0x1B] = select_handle_escape,
+	['\t'] = select_handle_tab,
 	[127] = NULL,
 };
 
@@ -30,11 +33,31 @@ int			(*g_dispatch_char[])(t_prompt *, char *buffer, t_sh *shell) =
 	[0x1B] = handle_escape
 };
 
-int			handle_new_char(t_prompt *prompt, char *buffer, t_sh *shell)
+static int	handle_select_char(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	int		(*dispatch_func)(t_prompt *, char *buffer, t_sh *shell);
 
 	dispatch_func = NULL;
+	if ((t_u64)buffer[0] <
+		(sizeof(g_select_dispatch) / sizeof(*g_select_dispatch)))
+		dispatch_func = g_select_dispatch[(int)*buffer];
+	if (dispatch_func)
+		dispatch_func(prompt, buffer, shell);
+	return (RET_EXIT_SELECT);
+}
+
+int			handle_new_char(t_prompt *prompt, char *buffer, t_sh *shell)
+{
+	int		(*dispatch_func)(t_prompt *, char *buffer, t_sh *shell);
+	int		ret;
+
+	dispatch_func = NULL;
+	if (prompt->select_mode == 2 &&
+		(ret = handle_select_char(prompt, buffer, shell)) != RET_EXIT_SELECT)
+		return (ret);
+	if (prompt->select_mode == 2 ||
+		(prompt->select_mode == 1 && *buffer != '\t'))
+		ft_vecfree(&prompt->select.poss);
 	if ((t_u64)buffer[0] < (sizeof(g_dispatch_char) / sizeof(*g_dispatch_char)))
 		dispatch_func = g_dispatch_char[(int)*buffer];
 	if (dispatch_func == NULL)

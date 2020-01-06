@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 18:56:24 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/07 00:03:44 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define RET_ERR (1 << 2)
 # define RET_PRINT (1 << 3)
 # define RET_REPRINT (1 << 4)
+# define RET_EXIT_SELECT (1 << 5)
 # define PBUFF_DEF_SIZE 512
 
 /*
@@ -63,16 +64,16 @@ struct			s_pos
 
 struct			s_select
 {
-	int		nb_elem;
-	int		max_len;
-	int		nb_col;
-	int		nb_row;
-	int		selected;
-	int		row_total;
-	int		elem_per_row;
-	int		pos_col;
-	t_pos	original_pos;
-	t_vec	*poss;
+	int			nb_elem;
+	int			max_len;
+	int			nb_col;
+	int			nb_row;
+	int			selected;
+	int			row_total;
+	int			elem_per_row;
+	int			pos_col;
+	t_pos		original_pos;
+	t_vec		poss;
 };
 
 struct			s_buff
@@ -103,6 +104,7 @@ struct			s_prompt
 	size_t		from_line;
 	int			valid_pos;
 	t_select	select;
+	int			select_mode; //NOTE: 0: nothing 1: processed 2: select mode
 };
 
 
@@ -143,11 +145,17 @@ int				match_bin_built(t_sh *shell, char *s, t_vec *p);
 int				autocomplete_poss(char *path, char *start, t_vec *poss);
 int				autocomplete_command(char *line, t_sh *shell, t_vec *poss);
 int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt);
-int				get_display_info(t_select *select, t_vec *poss);
-int				get_column_info(t_select *select);
+int				get_display_info(t_select *select, t_prompt *prompt);
 int				display_poss(t_select *sel, t_vec *poss, int selected,
 				t_prompt *prompt);
-int				handle_select_escape(t_prompt *prompt, char *buufer, t_sh *sh);
-int				handle_select_arrows(t_prompt *prompt, char *buffer);
+int				select_handle_escape(t_prompt *prompt,
+				char *buffer, t_sh *shell);
+int				select_handle_newline(t_prompt *prompt,
+				char *buffer, t_sh *shell);
+int				select_handle_tab(t_prompt *prompt,
+				char *buffer, t_sh *shell);
+int				select_handle_arrows(t_prompt *prompt, char *buffer);
+int				select_render(t_prompt *prompt, t_select *select);
+
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/18 17:34:20 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/06 23:14:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ int			autocomplete_poss(char *path, char *start, t_vec *poss)
 			if ((ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, ".."))
 			&& ft_strequ("", start))
 				continue;
-			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name)))
-				return (SH_ERR_NOEXIST);
+			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name) + 1))
+			{
+				closedir(dir);
+				return (SH_ERR_MALLOC);
+			}
 		}
 	}
 	closedir(dir);
@@ -49,7 +52,7 @@ int			get_matching_env(t_map *env, char *last_word, t_vec *poss)
 		{
 			key = env->nodes[i].key;
 			if (ft_strstartswith(key, start))
-				if (ft_veccpush(poss, key, ft_strlen(key)))
+				if (ft_veccpush(poss, key, ft_strlen(key) + 1))
 					return (SH_ERR_NOEXIST);
 		}
 		i++;

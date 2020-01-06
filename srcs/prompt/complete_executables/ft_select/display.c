@@ -103,6 +103,10 @@ static int			print_selected(t_select *select, t_vec *poss, size_t i)
 	return (SH_SUCCESS);
 }
 
+/*
+** TODO: move to render
+*/
+
 int					display_poss(t_select *select, t_vec *poss, int selected,
 	t_prompt *prompt)
 {
@@ -110,6 +114,7 @@ int					display_poss(t_select *select, t_vec *poss, int selected,
 	size_t j;
 	size_t f;
 
+	get_display_info(select, prompt);
 	i = 0;
 	f = 0;
 	ft_dprintf(0, "\n");
@@ -120,7 +125,7 @@ int					display_poss(t_select *select, t_vec *poss, int selected,
 		{
 			if (i <= (size_t)select->nb_elem && ft_vecget(poss, i) != NULL)
 			{
-				if (i == (size_t)selected)
+				if (selected != -1 && i == (size_t)selected)
 					print_selected(select, poss, i);
 				else
 					ft_dprintf(0, "%-*s",select->max_len + 2 ,(char *)ft_vecget(poss, i));

@@ -6,11 +6,19 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:59:07 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/12 16:44:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 23:45:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
+
+int	select_handle_escape(t_prompt *prompt, char *buffer, t_sh *shell)
+{
+	(void)shell;
+	if (buffer[1] == '[')
+		return (select_handle_arrows(prompt, buffer));
+	return (RET_EXIT_SELECT);
+}
 
 int	handle_escape(t_prompt *prompt, char *buffer, t_sh *shell)
 {

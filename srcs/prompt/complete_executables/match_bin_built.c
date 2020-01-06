@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/18 18:02:17 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 23:28:18 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int			get_aliases(t_sh *shell, char *start, t_vec *poss)
 		{
 			alias_str = (char*)shell->aliases->nodes[i].value;
 			if (ft_strstartswith(alias_str, start))
-				if (ft_veccpush(poss, alias_str, ft_strlen(alias_str)))
+				if (ft_veccpush(poss, alias_str, ft_strlen(alias_str) + 1))
 					return (SH_ERR_NOEXIST);
 		}
 		i++;
@@ -49,7 +49,7 @@ static int			get_builtin(t_sh *shell, char *start, t_vec *poss)
 		{
 			built_str = (char*)shell->builtins->nodes[i].key;
 			if (ft_strstartswith(built_str, start))
-				if (ft_veccpush(poss, built_str, ft_strlen(built_str)))
+				if (ft_veccpush(poss, built_str, ft_strlen(built_str) + 1))
 					return (SH_ERR_NOEXIST);
 		}
 		i++;

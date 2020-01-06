@@ -6,11 +6,56 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/12 15:58:57 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/07 00:22:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
+
+/*
+** TODO: maybe rethink some of these
+*/
+
+int	select_handle_arrows(t_prompt *prompt, char *buffer)
+{
+	t_select *select;
+
+	select = &prompt->select;
+	if (buffer[2] == 'A') //up
+		if (select->selected % select->row_total == 0 || select->selected == 0)
+			select->selected += select->row_total - 1;
+		else
+			select->selected -= 1;
+	else if (buffer[2] == 'B') //down
+		select->selected = (select->selected + 1) % select->nb_elem;
+	else if (buffer[2] == 'C') //right
+		if (select->selected > ((select->row_total * select->elem_per_row) - select->row_total - 1))
+			select->selected %= select->row_total;
+		else
+		{
+			select->selected += select->row_total;
+			if (select->selected > select->nb_elem - 1)
+				select->selected = select->nb_elem -1;
+		}
+	else if (buffer[2] == 'D') //left
+		if (select->selected < select->row_total)
+		{
+			select->selected = (select->row_total * (select->elem_per_row - 1))
+				+ (select->selected % select->row_total);
+			if (select->selected > select->nb_elem - 1)
+				select->selected = select->nb_elem - 1;
+		}
+		else
+			select->selected -= select->row_total;
+	else if (buffer[2] == 'H') //should we implement those?
+		;
+	else if (buffer[2] == 'F') //^
+		;
+	else
+		return (RET_EXIT_SELECT);
+	select_render(prompt, select);
+	return (RET_CONT);
+}
 
 /*
 ** TODO: don't calc prompt pos every single time

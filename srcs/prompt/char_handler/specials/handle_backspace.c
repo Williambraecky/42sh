@@ -6,11 +6,15 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:54:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/12 16:05:27 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/07 00:27:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
+
+/*
+** TODO: define procedure for removing multiple characters at a time (for select)
+*/
 
 int	handle_backspace(t_prompt *prompt, char *buffer, t_sh *shell)
 {

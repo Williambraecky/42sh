@@ -110,17 +110,14 @@ int				erase_poss(t_select *select)
 	return (SH_SUCCESS);
 }*/
 
-int				choose_poss(t_select *select, t_vec *poss, t_sh *shell, t_prompt *prompt)
+int				choose_poss(t_select *select, t_sh *shell, t_prompt *prompt)
 {
-	(void)select;
-	(void)poss;
 	(void)shell;
-	(void)prompt;
 
-	get_display_info(select, poss);
 	select->pos_col = 0;
 	select->selected = -1;
-	display_poss(select, poss, -1, prompt);
+//	display_poss(select, poss, -1, prompt);
+	select_render(prompt, select);
 //	while (19)
 //	{
 //		get_key(select);
@@ -134,13 +131,13 @@ int				choose_poss(t_select *select, t_vec *poss, t_sh *shell, t_prompt *prompt)
 
 int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt)
 {
-	t_select select;
-
-	//pas de malloc de select ?
 //	init_signal();
 //	init_term(shell, &select);
-	select.original_pos = prompt->cursor_pos;
-	choose_poss(&select, poss, shell, prompt);
+	ft_memset(&prompt->select, 0, sizeof(prompt->select));
+	prompt->select_mode = 1;
+	prompt->select.poss = *poss;
+	prompt->select.original_pos = prompt->cursor_pos;
+	choose_poss(&prompt->select, shell, prompt);
 //	reset_signal();
 //	return (exit_erase(shell, &select));
 	return (SH_SUCCESS);
