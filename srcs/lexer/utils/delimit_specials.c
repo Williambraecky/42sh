@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:41:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 18:55:33 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 10:38:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static size_t	match_special_character(char *str)
 	i = 0;
 	while (g_specials[i])
 	{
-		if (ft_strstartswith(g_specials[i], str))
+		if (ft_strstartswith(str, g_specials[i]))
 			return (i);
 		i++;
 	}

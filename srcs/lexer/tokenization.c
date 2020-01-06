@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/02 18:31:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/03 02:42:27 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_tdef		g_def_table[] =
 	{T_PIPE, istok_pipe, transform_pipe},
 	{T_SEMICOLON, istok_semicolon, transform_semicolon},
 	{T_AMPERSAND, istok_ampersand, transform_ampersand},
+	{T_IO_NUMBER, istok_io_number, transform_io_number},
 	{T_WORD, istok_word, transform_word},
 	{T_NULL, istok_null, transform_null}
 };
