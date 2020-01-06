@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 15:51:35 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 11:52:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 14:30:13 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ int			resolve_path(t_sh *shell, char *name, char **result)
 	int		ret;
 
 	if (get_hash_ignorecase(shell, name, result) == SH_SUCCESS)
+	{
+		if (!(*result = ft_strdup(*result)))
+			return (SH_ERR_MALLOC);
 		return (SH_SUCCESS);
+	}
 	if ((ret = get_env(shell, "PATH", &paths)) != SH_SUCCESS)
 		return (ret);
 	return (resolve_path_env(paths, name, result));
