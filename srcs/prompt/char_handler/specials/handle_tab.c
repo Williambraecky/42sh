@@ -42,17 +42,17 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 //	for (size_t i = 0; i < poss.size; i++) //FOR TESTING autocomplete_command
 //		ft_printf("vec[%d] = %s\n", i, ft_vecget(&poss, i));
 
-
-//	order_vector(&poss);
-
+	if (poss.size == 0)
+		return (RET_CONT);
 	if (poss.size == 1)
 		return (one_poss_only(line, &poss, shell, prompt));
-//	if (poss.size == 1)
-//	{
-////		return (RET_CONT);
-//	}
+
+//	order_vector(&poss);
+//	ft_strsort((char **)&poss, poss.size, ft_strcmp);
 
 
-	//free_vec();
+	ft_select(shell, &poss, prompt);
+
+//	free_vec();
 	return (RET_CONT);
 }
