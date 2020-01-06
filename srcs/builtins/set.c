@@ -16,35 +16,12 @@
 ** NOTE: defines internal variable + other
 */
 
-static int		is_word_charset(char c)
-{
-	const char	*charset = " \t\f\r&><|\"\n';";
-	int			i;
-
-	i = 0;
-	while (charset[i])
-	{
-		if (charset[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 static int		valid_arg(char *string)
 {
-	size_t	i;
-
-	if (!string)
+	if (!string || !str_is_name(string))
 		return (0);
-	i = 0;
-	while (string[i])
-	{
-		if (is_word_charset(string[i]))
-			return (0);
-		++i;
-	}
-	return (ft_strchr(string, '=') != NULL);
+	else
+		return (ft_strchr(string, '=') != NULL);
 }
 
 static void		print_internals(t_map *map)
