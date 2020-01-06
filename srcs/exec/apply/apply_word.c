@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 19:03:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 19:23:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 14:13:05 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,9 @@ static int	can_be_assign(t_token *token, t_build *build)
 
 static int	apply_assignment(t_token *token, t_build *build)
 {
-	(void)token;
-	(void)build;
+	if (ft_veccpush(&build->work_proc->assignments,
+		token->str, ft_strlen(token->str) + 1))
+		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
 
@@ -43,12 +44,16 @@ static int	check_redir_filename(t_token *token, t_build *build)
 	if (!redir || redir->filename)
 		return (0);
 	redir->filename = token->str;
-	return (SH_SUCCESS);
+	return (1);
 }
+
+/*
+** TODO: define if we are in a heredoc redirection and if so write to it
+*/
 
 int			apply_word(t_token *token, t_build *build)
 {
-	if (check_redir_filename(token, build) == SH_SUCCESS)
+	if (check_redir_filename(token, build) == 1)
 		return (SH_SUCCESS);
 	if (can_be_assign(token, build))
 		return (apply_assignment(token, build));

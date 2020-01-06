@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:45:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 19:24:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 15:38:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_build	t_build;
 struct		s_redir
 {
 	t_io_nb	*io_nb;
-	t_type	type;
+	t_token	*token;
 	char	*filename;
 };
 
@@ -57,7 +57,8 @@ struct		s_proc
 };
 
 /*
-** NOTE: pipeline represented by [] t_proc represented by () t_lexer represented by {}
+** NOTE: pipeline represented by [] t_proc represented by ()
+**    t_lexer represented by {}
 ** {[(foo bar) | (baz)]; [(far bor)] && [(boz)]}
 */
 
@@ -92,6 +93,8 @@ int			apply_dampersand(t_token *token, t_build *build);
 int			apply_dpipe(t_token *token, t_build *build);
 int			apply_pipe(t_token *token, t_build *build);
 int			apply_word(t_token *token, t_build *build);
+int			apply_io_nb(t_token *token, t_build *build);
+int			apply_redir(t_token *token, t_build *build);
 
 /*
 ** Utils

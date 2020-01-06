@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/22 15:15:45 by ntom              #+#    #+#             */
-/*   Updated: 2019/12/19 17:54:28 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/06 18:39:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,11 @@ int				istok_double_lesser(t_lexer *lexer, t_token *token)
 
 int				transform_double_lesser(t_lexer *lexer, t_token *token)
 {
-	token->size = sizeof(t_token);
+	t_hdoc	doc;
+
+	ft_memset(&doc, 0, sizeof(doc));
+	token->size = sizeof(doc);
 	token->type = T_DOUBLE_LESSER;
-	return (token_process(lexer, token));
+	doc.token = *token;
+	return (token_process(lexer, (t_token*)&doc));
 }
