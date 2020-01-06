@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 15:59:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 19:12:16 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 11:35:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	default_free(t_token *token)
 
 void		(*g_dispatch_free[])() =
 {
+	[T_NULL] = default_free
 };
 
 void		token_free(t_token *token)
