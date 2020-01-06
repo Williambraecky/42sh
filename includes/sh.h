@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 14:46:34 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 19:24:53 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ int			get_hash_ignorecase(t_sh *shell, char *str, char **result);
 
 int			init_history(t_sh *shell);
 int			get_history(t_sh *shell, size_t index, char **histo);
+int			remove_history(t_sh *shell, size_t index);
 
 /*
 **  Utils
