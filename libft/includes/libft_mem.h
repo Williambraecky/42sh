@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 11:02:14 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/03/13 14:22:38 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 17:37:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void	ft_memswap(void *a, void *b, size_t len);
 void	*ft_realloc(void *old, size_t old_size, size_t new_size);
 void	*ft_memdup(void *ptr, size_t size);
 void	*ft_calloc(size_t count, size_t size);
+void	ft_ptrsort(void **tab, size_t len, int (*cmp)());
 
 #endif

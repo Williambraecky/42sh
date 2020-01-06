@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 11:51:06 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 19:24:53 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,7 @@ int			get_hash_ignorecase(t_sh *shell, char *str, char **result);
 
 int			init_history(t_sh *shell);
 int			get_history(t_sh *shell, size_t index, char **histo);
+int			remove_history(t_sh *shell, size_t index);
 
 /*
 **  Utils
@@ -218,5 +219,6 @@ void		*ring_bell(void);
 int			resolve_path(t_sh *shell, char *name, char **result);
 int			resolve_path_env(char *paths, char *name, char **result);
 int			str_is_name(char *str);
+int			remove_quotes(char *str, char **result);
 
 #endif

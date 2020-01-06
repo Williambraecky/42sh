@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/02 19:22:17 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 19:24:34 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,12 @@ enum		e_tmask
 	M_ANY = ~0
 };
 
-# define M_ANY_REDIR M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND | \
-	M_GREATER_AND | M_GREATER | M_LESSER
-
 /*
 ** Typedefs
 */
 
 typedef struct s_token	t_token;
+typedef struct s_hdoc	t_hdoc;
 typedef struct s_io_nb	t_io_nb;
 typedef struct s_lexer	t_lexer;
 typedef struct s_tdef	t_tdef;
@@ -102,6 +100,13 @@ struct		s_token
 	t_type	type;
 	char	*str;
 	size_t	len;
+};
+
+struct		s_hdoc
+{
+	t_token	token;
+	int		pipe[2];
+	int		completed;
 };
 
 struct		s_io_nb
@@ -141,7 +146,7 @@ int			token_process(t_lexer *lexer, t_token *token);
 ** Stack
 */
 
-int			stack(t_type type, t_vec *stack);
+int			stack(t_type type, t_lexer *lex);
 
 /*
 ** Delimit

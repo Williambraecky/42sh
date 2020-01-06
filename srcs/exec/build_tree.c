@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:42:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 19:25:23 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 17:13:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 
 /*
 ** NOTE: head is the starting command so result should always be head at the end
-** TODO: define what to do when there are multiple
-**    commands available in the lexer eg separated by ; or &
-** TODO: define if cases exist where this is not the case
 ** NOTE: this will check for syntax errors eg incomplete redirections etc
 **    and print the error if found
 ** NOTE: nothing in t_build should be freed
@@ -29,9 +26,10 @@
 
 /*
 ** TODO: for all these functions define a expected_type for the next one
+** TODO: move expected type from
 */
 
-int		(*g_dispatch_tokens[])(t_token*, t_build*) =
+int			(*g_dispatch_tokens[])(t_token*, t_build*) =
 {
 	[T_NEWLINE] = apply_newline,
 	[T_SEMICOLON] = apply_newline,
@@ -40,27 +38,96 @@ int		(*g_dispatch_tokens[])(t_token*, t_build*) =
 	[T_DOUBLE_PIPE] = apply_dpipe,
 	[T_PIPE] = apply_pipe,
 	[T_WORD] = apply_word,
+	[T_IO_NUMBER] = apply_io_nb,
+	[T_DOUBLE_LESSER] = apply_redir,
+	[T_DOUBLE_GREATER] = apply_redir,
+	[T_LESSER_AND] = apply_redir,
+	[T_GREATER_AND] = apply_redir,
+	[T_LESSER] = apply_redir,
+	[T_GREATER] = apply_redir,
 	[T_NULL] = NULL
 };
 
-int		build_tree(t_sh *shell, t_lexer *lexer, t_cmd **result)
+int			g_expected[] =
 {
-	t_build	build;
+	[T_NEWLINE] = M_WORD | M_SEMICOLON | M_NEWLINE
+	| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
+	| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER,
 
-	ft_memset(&build, 0, sizeof(build));
-	if (cmd_new(&build.head))
+	[T_SEMICOLON] = M_WORD | M_SEMICOLON | M_NEWLINE
+	| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
+	| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER,
+
+	[T_AMPERSAND] = M_WORD | M_SEMICOLON | M_NEWLINE
+	| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
+	| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER,
+
+	[T_DOUBLE_AMPERSAND] = M_WORD | M_SEMICOLON | M_NEWLINE
+	| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
+	| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER,
+
+	[T_DOUBLE_PIPE] = M_WORD | M_SEMICOLON | M_NEWLINE
+	| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
+	| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER,
+
+	[T_PIPE] = M_WORD | M_SEMICOLON | M_NEWLINE
+	| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
+	| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER,
+
+	[T_IO_NUMBER] = M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
+	| M_GREATER_AND | M_GREATER | M_LESSER,
+
+	[T_DOUBLE_LESSER] = T_WORD,
+	[T_DOUBLE_GREATER] = T_WORD,
+	[T_LESSER] = T_WORD,
+	[T_GREATER] = T_WORD,
+	[T_LESSER_AND] = T_WORD,
+	[T_GREATER_AND] = T_WORD,
+
+	[T_WORD] = M_ANY,
+	[T_NULL] = 0
+};
+
+static int	init_build_tree(t_build *build)
+{
+	ft_memset(build, 0, sizeof(*build));
+	if (cmd_new(&build->head))
 		return (SH_ERR_MALLOC);
-	build.work = build.head;
-	if (proc_new(&build.work_proc))
+	build->work = build->head;
+	if (proc_new(&build->work_proc))
 	{
-		free_tree(build.head);
+		free_tree(build->head);
 		return (SH_ERR_MALLOC);
 	}
-	build.head->pipeline = build.work_proc;
-	build.expected_type = M_WORD | M_SEMICOLON | M_NEWLINE
-		| M_IO_NUMBER | M_ANY_REDIR;
+	build->head->pipeline = build->work_proc;
+	build->expected_type = M_WORD | M_SEMICOLON | M_NEWLINE
+		| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
+		| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER;
+	return (SH_SUCCESS);
+}
+
+int			build_tree(t_sh *shell, t_lexer *lexer, t_cmd **result)
+{
+	t_build	build;
+	t_token	*curr;
+	size_t	i;
+	int		ret;
+
 	(void)shell;
-	(void)lexer;
+	if (init_build_tree(&build) != SH_SUCCESS)
+		return (SH_ERR_MALLOC);
+	i = 0;
+	while (i < lexer->tokens.size)
+	{
+		curr = (t_token*)lexer->tokens.vec[i];
+		if (g_dispatch_tokens[curr->type])
+			ret = g_dispatch_tokens[curr->type](curr, &build);
+		else
+			ret = SH_ERR_NOEXIST;
+		if (ret != SH_SUCCESS)
+			return (ret);
+		build.expected_type = g_expected[curr->type];
+	}
 	*result = build.head;
 	return (SH_SUCCESS);
 }

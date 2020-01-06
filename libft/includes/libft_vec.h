@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/17 14:36:03 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 16:33:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 17:37:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void		ft_veciter(t_vec *vec, void (*func_ptr)());
 void		ft_veciteri(t_vec *vec, void (*func_ptr)(void *, size_t));
 int			ft_vecput(t_vec *vec, void *ptr, size_t pos);
 void		ft_vecdestroy(t_vec *vec, void (*func_ptr)());
+void		ft_vecsort(t_vec *vec, int (*cmp)());
 
 void		default_vec_destroy_function(void *ptr);
 

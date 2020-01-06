@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:15:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/24 13:29:49 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/06 15:31:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,14 @@
 ** NOTE: defines internal variable + other
 */
 
-static int		valid_arg(char *string)
+static int	valid_arg(char *string)
 {
 	if (!string || !str_is_name(string))
 		return (0);
-	else
-		return (ft_strchr(string, '=') != NULL);
+	return (SH_SUCCESS);
 }
 
-static void		print_internals(t_map *map)
+static void	print_internals(t_map *map)
 {
 	size_t	i;
 
@@ -39,20 +38,27 @@ static void		print_internals(t_map *map)
 	}
 }
 
-int				set_builtin(int argc, char **argv, t_sh *shell)
+int			set_builtin(int argc, char **argv, t_sh *shell)
 {
-	char **av;
+	char	**av;
+	size_t	i;
+	int		ret;
 
 	if (argc == 1)
 		print_internals(shell->internals);
-	if (argc == 2 && valid_arg(argv[1]))
+	i = 1;
+	ret = SH_SUCCESS;
+	while (i < (size_t)argc && ret == SH_SUCCESS)
 	{
-		av = ft_strsplit(argv[1], '=');
-		if (argc == 2 && has_internal(shell, av[0]))
-			return (repl_internal(shell, av[0], av[1]));
-		else if (argc == 2 && !has_internal(shell, av[0]))
-			return (add_internal(shell, av[0], av[1]));
-		ft_freesplit(av);
+		if (ft_strchr(argv[i], '=') != NULL)
+		{
+			av = ft_strsplit(argv[i], '=');
+			if (!valid_arg(av[0]))
+				return (SH_ERR_SYNTAX);
+			ret = repl_internal(shell, av[0], av[1]);
+			ft_freesplit(av);
+		}
+		++i;
 	}
-	return (0);
+	return (ret);
 }
