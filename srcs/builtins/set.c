@@ -50,9 +50,9 @@ int			set_builtin(int argc, char **argv, t_sh *shell)
 	ret = SH_SUCCESS;
 	while (i < (size_t)argc && ret == SH_SUCCESS)
 	{
-		if (!valid_arg(argv[i]))
-			return (SH_ERR_SYNTAX);
 		av = ft_strsplit(argv[i], '=');
+		if (!valid_arg(av[0]))
+			return (SH_ERR_SYNTAX);
 		ret = repl_internal(shell, av[0], av[1]);
 		ft_freesplit(av);
 		++i;
