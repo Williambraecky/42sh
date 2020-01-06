@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/02 19:22:17 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 17:51:57 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int			token_process(t_lexer *lexer, t_token *token);
 ** Stack
 */
 
-int			stack(t_type type, t_vec *stack);
+int			stack(t_type type, t_lexer *lex);
 
 /*
 ** Delimit
