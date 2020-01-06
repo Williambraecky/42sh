@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:55:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/23 15:56:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 19:37:52 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,12 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 	if(ft_vecinit(&poss))
 		return (SH_ERR_MALLOC);
 	autocomplete_command(line, shell, &poss);
-
-//	for (size_t i = 0; i < poss.size; i++) //FOR TESTING autocomplete_command
-//		ft_printf("vec[%d] = %s\n", i, ft_vecget(&poss, i));
-
 	if (poss.size == 0)
 		return (RET_CONT);
 	if (poss.size == 1)
 		return (one_poss_only(line, &poss, shell, prompt));
-
-//	order_vector(&poss);
-//	ft_strsort((char **)&poss, poss.size, ft_strcmp);
-
-
+	ft_vecsort(&poss, ft_strcmp);
 	ft_select(shell, &poss, prompt);
-
 //	free_vec();
 	return (RET_CONT);
 }
