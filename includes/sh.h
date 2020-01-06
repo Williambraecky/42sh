@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 19:10:02 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 11:51:06 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,7 @@ int			repl_internal(t_sh *shell, char *key, char *value);
 int			get_hash(t_sh *shell, char *bin, t_hashed **hash);
 int			has_hash(t_sh *shell, char *bin);
 void		remove_hash(t_sh *shell, char *bin);
+int			get_hash_ignorecase(t_sh *shell, char *str, char **result);
 
 /*
 ** History
