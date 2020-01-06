@@ -20,7 +20,7 @@ static int	valid_arg(char *string)
 {
 	if (!string || !str_is_name(string))
 		return (0);
-	return (ft_strchr(string, '=') != NULL);
+	return (SH_SUCCESS);
 }
 
 static void	print_internals(t_map *map)
@@ -50,11 +50,14 @@ int			set_builtin(int argc, char **argv, t_sh *shell)
 	ret = SH_SUCCESS;
 	while (i < (size_t)argc && ret == SH_SUCCESS)
 	{
-		av = ft_strsplit(argv[i], '=');
-		if (!valid_arg(av[0]))
-			return (SH_ERR_SYNTAX);
-		ret = repl_internal(shell, av[0], av[1]);
-		ft_freesplit(av);
+		if (ft_strchr(argv[i], '=') != NULL)
+		{
+			av = ft_strsplit(argv[i], '=');
+			if (!valid_arg(av[0]))
+				return (SH_ERR_SYNTAX);
+			ret = repl_internal(shell, av[0], av[1]);
+			ft_freesplit(av);
+		}
 		++i;
 	}
 	return (ret);

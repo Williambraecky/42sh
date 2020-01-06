@@ -6,7 +6,7 @@
 /*   By: wdaher-a <wdaher-a@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 17:11:46 by wdaher-a          #+#    #+#             */
-/*   Updated: 2020/01/01 18:53:37 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/06 18:34:03 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,14 @@ static int	list_commands(t_sh *shell, int start, int rev, int nonumber)
 
 static int	get_last_command(t_sh *shell, int rev, char **command)
 {
+	int	ret;
+	size_t	pos;
+
 	if (!shell)
 		return (SH_ERR_NOEXIST);
-	if (!rev)
-		return (get_history(shell, shell->history.size - 1, command));
-	else
-		return (get_history(shell, 0, command));
+	pos = (rev) ? 0 : shell->history.size - 1;
+	ret = get_history(shell, pos, command);
+	return (ret && remove_history(shell, pos));
 }
 
 static int	fc_parser(int argc, char **argv, char *activ_opt)
