@@ -41,18 +41,26 @@ static void		print_internals(t_map *map)
 
 int				set_builtin(int argc, char **argv, t_sh *shell)
 {
-	char **av;
+	char 		**av;
+	size_t	i;
+	int			ret;
 
 	if (argc == 1)
 		print_internals(shell->internals);
-	if (argc == 2 && valid_arg(argv[1]))
+	i = 1;
+	ret = 0;
+	while (argv[i] && i < argc)
 	{
-		av = ft_strsplit(argv[1], '=');
-		if (argc == 2 && has_internal(shell, av[0]))
-			return (repl_internal(shell, av[0], av[1]));
-		else if (argc == 2 && !has_internal(shell, av[0]))
-			return (add_internal(shell, av[0], av[1]));
+		if (ret > 0)
+			return (ret);
+		if (!valid_arg(argv[i]))
+			return (SH_ERR_SYNTAX);
+		av = ft_strsplit(argv[i], '=');
+		ret = repl_internal(shell, av[0], av[1]);
 		ft_freesplit(av);
+		++i;
 	}
+	if (av)
+		ft_freesplit(av);
 	return (0);
 }
