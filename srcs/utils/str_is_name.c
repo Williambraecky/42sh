@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 19:05:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 19:09:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/06 13:55:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 
 int		str_is_name(char *str)
 {
-	if (*str || ft_isdigit(*str))
+	if (!*str || ft_isdigit(*str))
 		return (0);
 	while (*str)
 	{
