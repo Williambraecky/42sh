@@ -16,7 +16,7 @@
 ** NOTE: defines internal variable + other
 */
 
-static int	is_word_charset(char c)
+static int		is_word_charset(char c)
 {
 	const char	*charset = " \t\f\r&><|\"\n';";
 	int			i;
@@ -31,7 +31,7 @@ static int	is_word_charset(char c)
 	return (0);
 }
 
-static int valid_arg(char *string)
+static int		valid_arg(char *string)
 {
 	size_t	i;
 
@@ -47,7 +47,7 @@ static int valid_arg(char *string)
 	return (ft_strchr(string, '=') != NULL);
 }
 
-static void	print_internals(t_map *map)
+static void		print_internals(t_map *map)
 {
 	size_t	i;
 
@@ -62,7 +62,7 @@ static void	print_internals(t_map *map)
 	}
 }
 
-int			set_builtin(int argc, char **argv, t_sh *shell)
+int				set_builtin(int argc, char **argv, t_sh *shell)
 {
 	char **av;
 

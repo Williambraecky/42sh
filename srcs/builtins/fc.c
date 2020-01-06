@@ -34,28 +34,28 @@ static int	list_commands(t_sh *shell, int start, int rev, int nonumber)
 			ft_printf("s\n", shell->history.vec[i]);
 		else
 			ft_printf("%n  %s\n", i, shell->history.vec[i]);
-		i = (rev && i > start) ? i - 1 : i + 1 ;
+		i = (rev && i > start) ? i - 1 : i + 1;
 		++count;
 	}
 	return (0);
 }
 
-static int     get_last_command(t_sh *shell, int rev, char **command)
+static int	get_last_command(t_sh *shell, int rev, char **command)
 {
-    if (!shell)
-        return (SH_ERR_NOEXIST);
+	if (!shell)
+		return (SH_ERR_NOEXIST);
 	if (!rev)
-    	return (get_history(shell, shell->history.size - 1, command));
+		return (get_history(shell, shell->history.size - 1, command));
 	else
 		return (get_history(shell, 0, command));
 }
 
-int		fc_parser(int argc, char **argv, char *activ_opt)
+static int	fc_parser(int argc, char **argv, char *activ_opt)
 {
 	char	c;
 
 	ft_bzero(activ_opt, 5);
-	while ((c = ft_getopt (argc, argv, "elnrs")) != -1)
+	while ((c = ft_getopt(argc, argv, "elnrs")) != -1)
 	{
 		if (c == 'e')
 			ft_strcat(activ_opt, "e");
@@ -69,14 +69,12 @@ int		fc_parser(int argc, char **argv, char *activ_opt)
 			ft_strcat(activ_opt, "s");
 		else
 			return (NO_ARG);
-			/*
-			** 	still need "not valid arg to handle"
-			*/
+			// still need "not valid arg to handle"
 	}
 	return (0);
 }
 
-int     fc_builtin(int argc, char **argv, t_sh *shell)
+int			fc_builtin(int argc, char **argv, t_sh *shell)
 {
 	char	opt[5];
 	char	*command;
@@ -86,24 +84,18 @@ int     fc_builtin(int argc, char **argv, t_sh *shell)
 	if (ft_strlen(opt) == 0 || ft_strchr(opt, 'e'))
 	{
 		get_last_command(shell, (ft_strchr(opt, 'r')) ? 1 : 0, &command);
-		/*
-		** 	edit and run last command;
-		*/
 		return (0);
 	}
 	else if (ft_strchr(opt, 'l'))
 	{
 		if (ft_strchr(opt, 'r'))
-			list_commands(shell, 0, 1, (ft_strchr(opt,'n')) ? 1 : 0);
+			list_commands(shell, 0, 1, (ft_strchr(opt, 'n')) ? 1 : 0);
 		else
-			list_commands(shell, 0, 0, (ft_strchr(opt,'n')) ? 1 : 0);
+			list_commands(shell, 0, 0, (ft_strchr(opt, 'n')) ? 1 : 0);
 	}
 	else if (ft_strchr(opt, 's'))
 	{
 		get_last_command(shell, (ft_strchr(opt, 'r')) ? 1 : 0, &command);
-		/*
-		** 	run last command;
-		*/
 		return (0);
 	}
 	return (0);

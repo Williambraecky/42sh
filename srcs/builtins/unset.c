@@ -18,13 +18,13 @@
 
 int		unset_builtin(int argc, char **argv, t_sh *shell)
 {
-	int 	i;
+	int		i;
 
 	i = 1;
 	while (argc > i)
 	{
 		remove_internal(shell, argv[i]);
-		i++;
+		++i;
 	}
 	return (0);
 }
