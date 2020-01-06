@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/14 11:04:28 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/29 17:00:10 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/06 11:49:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ void	ft_strndel(size_t n, ...);
 char	*ft_tabjoin(char **tab, char *joiner);
 char	*ft_strinsert(char *base, char *insert, size_t pos);
 int		ft_strstartswith_ncs(const char *str, const char *find);
+int		ft_strequignorecase(char *s1, char *s2);
 
 #endif
