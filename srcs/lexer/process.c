@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 19:17:40 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/07 14:32:29 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ int			g_stackable[] =
 // 	return (g_tab_types[token->type]);
 // }
 
-char		*last_stack_type(t_vec *stack)
-{
-	if (stack->size == 0)
-		return ("NULL");
-	return (g_tab_types[(*(t_type*)(ft_vecgettop(stack)))]);
-}
+// char		*last_stack_type(t_vec *stack)
+// {
+// 	if (stack->size == 0)
+// 		return ("NULL");
+// 	return (g_tab_types[(*(t_type*)(ft_vecgettop(stack)))]);
+// }
 
 static int	check_t_word_exist(t_lexer *lex)
 {
@@ -71,17 +71,18 @@ static int	check_t_word_exist(t_lexer *lex)
 	return (0);
 }
 
-int			stack(t_type type, t_lexer *lex)
+static int	stack(t_type type, t_lexer *lex)
 {
 	if (!(check_t_word_exist(lex)) &&
 		(type == T_PIPE || type == T_DOUBLE_PIPE || type == T_DOUBLE_AMPERSAND))
 		return (SH_ERR_SYNTAX);
 	if (lex->stack.size != 0 &&
-		(type == T_SEMICOLON || type == T_NEWLINE || type == T_AMPERSAND))
+		(type != T_SEMICOLON && type != T_AMPERSAND
+		&& type != T_NEWLINE && type != T_WSPACE))
 		stack_pop(lex);
 	else if (g_stackable[type])
 		ft_veccpush(&lex->stack, &type, sizeof(type));
-	ft_printf("---> type in stack %s\n", last_stack_type(&lex->stack));
+	//ft_printf("---> type in stack %s\n", last_stack_type(&lex->stack));
 	return (0);
 }
 
