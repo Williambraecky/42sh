@@ -134,8 +134,9 @@ int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt)
 //	init_signal();
 //	init_term(shell, &select);
 	ft_memset(&prompt->select, 0, sizeof(prompt->select));
-	prompt->select_mode = 1;
 	prompt->select.poss = *poss;
+	get_display_info(&prompt->select, prompt);
+	prompt->select_mode = 1;
 	prompt->select.original_pos = prompt->cursor_pos;
 	choose_poss(&prompt->select, shell, prompt);
 //	reset_signal();
