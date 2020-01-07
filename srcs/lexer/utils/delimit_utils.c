@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:42:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 14:19:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:13:27 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	is_dquote_escaped(t_lexer *lex, size_t len)
 	return (1);
 }
 
-static int	g_sig_type = M_QUOTE | M_DOUBLE_QUOTE | M_DOUBLE_LESSER;
+static int	g_sig_type = M_QUOTE | M_DOUBLE_QUOTE |
+M_DOUBLE_LESSER | M_BRACEPARAM;
 
 static int	stack_sig_top(t_lexer *lex)
 {
@@ -43,7 +44,7 @@ int			is_escaped(t_lexer *lex, size_t len)
 	type = stack_sig_top(lex);
 	if (type == T_QUOTE)
 		return (lex->line[len] != '\'');
-	else if (type == T_DOUBLE_QUOTE)
+	else if (type == T_DOUBLE_QUOTE || type == T_BRACEPARAM)
 		return (is_dquote_escaped(lex, len));
 	else if (type == T_DOUBLE_LESSER)
 		return (lex->line[len] != '\n');
