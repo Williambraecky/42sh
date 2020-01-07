@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 15:59:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 11:35:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:07:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,15 @@ static void	default_free(t_token *token)
 	ft_strdel(&token->str);
 }
 
+static void	hdoc_free(t_hdoc *doc)
+{
+	ft_strdel(&doc->name);
+	default_free((t_token*)doc);
+}
+
 void		(*g_dispatch_free[])() =
 {
+	[T_DOUBLE_LESSER] = hdoc_free,
 	[T_NULL] = default_free
 };
 
