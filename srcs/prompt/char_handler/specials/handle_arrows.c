@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/07 00:22:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/07 17:50:02 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,25 @@
 ** TODO: maybe rethink some of these
 */
 
+//(i % n + n) % n;
+
 int	select_handle_arrows(t_prompt *prompt, char *buffer)
 {
 	t_select *select;
 
 	select = &prompt->select;
 	if (buffer[2] == 'A') //up
-		if (select->selected % select->row_total == 0 || select->selected == 0)
+	{
+		/*if (select->selected % select->row_total == 0)
 			select->selected += select->row_total - 1;
 		else
 			select->selected -= 1;
+		if (select->selected > select->nb_elem - 1)
+			select->selected = select->nb_elem - 1;\*/
+		select->selected =
+			((select->selected - 1) % select->nb_elem + select->nb_elem) %
+			select->nb_elem;
+	}
 	else if (buffer[2] == 'B') //down
 		select->selected = (select->selected + 1) % select->nb_elem;
 	else if (buffer[2] == 'C') //right
@@ -48,9 +57,14 @@ int	select_handle_arrows(t_prompt *prompt, char *buffer)
 		else
 			select->selected -= select->row_total;
 	else if (buffer[2] == 'H') //should we implement those?
-		;
+		while (select->selected > select->row_total - 1)
+			select->selected -= select->row_total;
 	else if (buffer[2] == 'F') //^
-		;
+	{
+		while (select->selected < select->nb_elem)
+			select->selected += select->row_total;
+		select->selected -= select->row_total;
+	}
 	else
 		return (RET_EXIT_SELECT);
 	select_render(prompt, select);

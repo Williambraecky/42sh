@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/07 00:03:44 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/07 18:08:10 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ struct			s_select
 	int			row_total;
 	int			elem_per_row;
 	int			pos_col;
+	int			written;
 	t_pos		original_pos;
 	t_vec		poss;
 };
@@ -148,6 +149,8 @@ int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt);
 int				get_display_info(t_select *select, t_prompt *prompt);
 int				display_poss(t_select *sel, t_vec *poss, int selected,
 				t_prompt *prompt);
+int				print_selected(t_select *sel, t_vec *poss, size_t i);
+int				replace_cursor(t_select *sel, t_prompt *prompt);
 int				select_handle_escape(t_prompt *prompt,
 				char *buffer, t_sh *shell);
 int				select_handle_newline(t_prompt *prompt,

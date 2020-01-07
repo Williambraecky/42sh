@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/07 14:54:51 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/07 16:44:34 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static int	handle_select_char(t_prompt *prompt, char *buffer, t_sh *shell)
 		(sizeof(g_select_dispatch) / sizeof(*g_select_dispatch)))
 		dispatch_func = g_select_dispatch[(int)*buffer];
 	if (dispatch_func)
-		dispatch_func(prompt, buffer, shell);
+		return (dispatch_func(prompt, buffer, shell));
 	return (RET_EXIT_SELECT);
 }
 

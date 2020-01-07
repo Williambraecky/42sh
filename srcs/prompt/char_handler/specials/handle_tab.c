@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:55:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/07 00:22:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/07 19:04:28 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	one_poss_only(char *line, t_vec *poss, t_sh *shell, t_prompt *prompt)
 
 	i = 0;
 	complete_command = (char *)ft_vecget(poss, 0);
-	while (complete_command[i] == line[i]) //TODO: Invalid when not completing beginning of input
+	while (complete_command[i] && complete_command[i] == line[i]) //TODO: Invalid when not completing beginning of input
 		i++;
 	ft_vecfree(poss);
 	default_char_handler(prompt, complete_command + i, shell);
@@ -49,6 +49,7 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	char	*line;
 	t_vec	poss;
+//	size_t	i;
 	(void)buffer;
 
 	line = prompt->buffer.buffer;
@@ -56,6 +57,7 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 	{
 		prompt->select.selected = 0;
 		prompt->select_mode = 2;
+		select_render(prompt, &prompt->select);
 		//TODO: render again
 		//NOTE: we already processed the completion just need to enter select mode
 		//NOTE: this also implies that we free poss correctly all the time
@@ -71,6 +73,12 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 	}
 	if (poss.size == 1)
 		return (one_poss_only(line, &poss, shell, prompt));
+//	i = 0;
+//	while (i < poss.size)
+//	{
+//		ft_strsreplall((char *)ft_vecget(&poss, i), " ", "\\ ");
+//		i++;
+//	}
 	ft_vecsort(&poss, ft_strcmp);
 	ft_select(shell, &poss, prompt);
 	return (RET_CONT);
