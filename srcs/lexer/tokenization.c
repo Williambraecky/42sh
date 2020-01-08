@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/03 02:42:27 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/08 16:10:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,19 @@ t_tdef		*determine_type(t_lexer *lexer, t_token *token)
 	return (NULL);
 }
 
-extern char		*g_tab_types[]; //to remove
+extern char	*g_tab_types[]; //to remove
+
+/*
+** TODO: start new prompt with make_stack_prompt as string
+**    and join it to existing line
+** NOTE: don't forget prompt can return ctrl + c
+*/
+
+static int	get_next_part(t_lexer *lexer)
+{
+	(void)lexer;
+	return (SH_SUCCESS);
+}
 
 int			tokenization(t_lexer *lexer)
 {
@@ -67,21 +79,27 @@ int			tokenization(t_lexer *lexer)
 	t_token	tok;
 	int		res;
 
-	while (lexer->line[lexer->i])
+	while (19)
 	{
-		if ((res = delimit_token(lexer, &tok.str)) != SH_SUCCESS)
-			return (res);
-		//TODO: check stack if we need to complete input or not (through quotes and dquotes)
-		if ((tok.len = ft_strlen(tok.str)) == 0)
+		while (lexer->line[lexer->i])
 		{
-			free(tok.str);
-			break ;
+			if ((res = delimit_token(lexer, &tok.str)) != SH_SUCCESS)
+				return (res);
+			if (lexer->stack.size > 0)
+				break ;
+			if ((tok.len = ft_strlen(tok.str)) == 0)
+			{
+				free(tok.str);
+				break ;
+			}
+			if (!(new_tok_def = determine_type(lexer, &tok))
+				|| new_tok_def->transform(lexer, &tok))
+				return (SH_ERR);
+			lexer->i += tok.len;
 		}
-		if (!(new_tok_def = determine_type(lexer, &tok))
-			|| new_tok_def->transform(lexer, &tok))
-			return (SH_ERR);
-		lexer->i += tok.len;
+		if (lexer->stack.size > 0 ||
+			((t_token*)ft_vecgettop(&lexer->tokens))->type != T_NEWLINE)
+			get_next_part(lexer);
 	}
-	//TODO: input is not finished if it doesn't end with a \n
 	return (SH_SUCCESS);
 }
