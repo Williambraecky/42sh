@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 17:52:39 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/08 17:56:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,11 @@ struct		s_hashed
 **  - prompt_mode -> either INTERACTIVE or NON_INTERACTIVE
 */
 
+/*
+** NOTE: for fd_backups should we not allow to close them or
+**    create another backup before
+*/
+
 struct		s_sh
 {
 	t_map	*internals;
@@ -224,5 +229,6 @@ int			resolve_path_env(char *paths, char *name, char **result);
 int			str_is_name(char *str);
 int			remove_quotes(char *str, char **result);
 int			backup_fds(t_sh *shell);
+int			backup_fd(t_sh *shell, int fd);
 
 #endif
