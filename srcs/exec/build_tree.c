@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:42:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 17:13:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/08 16:02:21 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,14 +106,22 @@ static int	init_build_tree(t_build *build)
 	return (SH_SUCCESS);
 }
 
-int			build_tree(t_sh *shell, t_lexer *lexer, t_cmd **result)
+static void	print_syntax_error(t_token *token, int ret)
+{
+	if (ret != SH_ERR_SYNTAX)
+		return ;
+	ft_dprintf(2, "42sh: syntax error near unexpected `");
+	ft_putnonprint_fd(token->str, 2);
+	ft_putstr_fd("'\n", 2);
+}
+
+int			build_tree(t_lexer *lexer, t_cmd **result)
 {
 	t_build	build;
 	t_token	*curr;
 	size_t	i;
 	int		ret;
 
-	(void)shell;
 	if (init_build_tree(&build) != SH_SUCCESS)
 		return (SH_ERR_MALLOC);
 	i = 0;
@@ -125,7 +133,10 @@ int			build_tree(t_sh *shell, t_lexer *lexer, t_cmd **result)
 		else
 			ret = SH_ERR_NOEXIST;
 		if (ret != SH_SUCCESS)
+		{
+			print_syntax_error(curr, ret);
 			return (ret);
+		}
 		build.expected_type = g_expected[curr->type];
 	}
 	*result = build.head;
