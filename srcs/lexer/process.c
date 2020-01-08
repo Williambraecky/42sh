@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 14:26:42 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/08 17:40:37 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,15 @@ int			g_stackable[] =
 // 	return (g_tab_types[(*(t_type*)(ft_vecgettop(stack)))]);
 // }
 
-// clean that if
+static int	find_parse_error(t_type type, t_lexer *lex)
+{
+	if ((lex->tokens.size == 1 && g_stackable[type])
+		|| (g_stackable[type] &&
+			((t_token*)ft_vecget(&lex->tokens, lex->tokens.size - 2))->type
+			!= T_WORD))
+		return (SH_ERR_SYNTAX);
+	return (SH_SUCCESS);
+}
 
 static int	check_dless_exist(t_lexer *lex, t_type type)
 {
@@ -66,44 +74,43 @@ static int	check_dless_exist(t_lexer *lex, t_type type)
 
 	i = 0;
 	if (type != T_NEWLINE)
-		return (-1);
+		return (SH_SUCCESS);
 	while (i < lex->tokens.size)
 	{
 		tok = (t_token*)ft_vecget(&lex->tokens, i);
-		if (!(tok->type == T_DOUBLE_LESSER) || ((t_hdoc*)tok)->completed == 1)
-			;
-		else if ((i + 1) <= lex->tokens.size
-			&& ((t_token*)ft_vecget(&lex->tokens, i + 1))->type == T_WORD)
+		if ((tok->type == T_DOUBLE_LESSER) && ((t_hdoc*)tok)->completed == 0)
 		{
+			if ((i + 1) <= lex->tokens.size
+				&& ((t_token*)ft_vecget(&lex->tokens, i + 1))->type != T_WORD
+				&& (lex->stack_completed = 1) == 1)
+				return (SH_ERR_SYNTAX);
 			if (pipe(((t_hdoc*)tok)->pipe) != 0)
 				return (SH_ERR_PIPE);
 			if (!(((t_hdoc*)tok)->name =
 			ft_strdup(((t_token*)ft_vecget(&lex->tokens, i + 1))->str)))
 				return (SH_ERR_MALLOC);
-			return (SH_SUCCESS);
+			return (stack_push(lex, T_DOUBLE_LESSER));
 		}
 		i++;
 	}
-	return (-1);
+	return (SH_SUCCESS);
 }
-
-// pipe(hdoc->pipe)
 
 static int	stack(t_type type, t_lexer *lex)
 {
 	int		ret;
 
 	ret = SH_SUCCESS;
-	if (lex->tokens.size == 1 && g_stackable[type])
-		return (ret);
-	if (lex->stack.size != 0 &&
+	if ((ret = find_parse_error(type, lex)) != SH_SUCCESS)
+		lex->stack_completed = 1;
+	else if (lex->stack.size != 0 &&
 		(type != T_SEMICOLON && type != T_AMPERSAND && type != T_NEWLINE))
 		stack_pop(lex);
 	else if (g_stackable[type])
 		ret = stack_push(lex, type);
-	else if ((ret = check_dless_exist(lex, type)) == SH_SUCCESS)
-		ret = stack_push(lex, T_DOUBLE_LESSER);
-	//ft_printf("---> type in stack %s\n", last_stack_type(&lex->stack));
+	else
+		ret = check_dless_exist(lex, type);
+	//ft_printf("---> type in stack %s int %d\n", last_stack_type(&lex->stack), lex->stack_completed);
 	return (ret);
 }
 

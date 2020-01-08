@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/07 17:28:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/08 16:27:45 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ struct		s_lexer
 	size_t	line_size;
 	size_t	i;
 	t_vec	stack;
-	int		finished;
+	int		stack_completed;
 };
 
 struct		s_tdef
