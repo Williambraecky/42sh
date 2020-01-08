@@ -6,7 +6,7 @@
 /*   By: wdaher-a <wdaher-a@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 17:11:46 by wdaher-a          #+#    #+#             */
-/*   Updated: 2020/01/06 18:34:03 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/08 14:12:31 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int			fc_builtin(int argc, char **argv, t_sh *shell)
 	char	opt[5];
 	char	*command;
 
-	if (fc_parser(argc, argv, opt) == 1)
+	if (fc_parser(argc, argv, opt) > 0)
 		return (shell || SH_ERR_NOEXIST);
 	if (ft_strlen(opt) == 0 || ft_strchr(opt, 'e'))
 	{
