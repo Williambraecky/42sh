@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 11:33:54 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/08 17:52:39 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@
 # define SH_ERR_OPEN_HIST 5
 # define SH_ERR_OPEN_DIR 6
 # define SH_ERR_PIPE 7
+# define SH_ERR_DUP 8
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -144,6 +145,7 @@ struct		s_sh
 	t_termi	old_termios;
 	t_termi	current_termios;
 	pid_t	pid;
+	int		fd_backups[3];
 };
 
 /*
@@ -221,5 +223,6 @@ int			resolve_path(t_sh *shell, char *name, char **result);
 int			resolve_path_env(char *paths, char *name, char **result);
 int			str_is_name(char *str);
 int			remove_quotes(char *str, char **result);
+int			backup_fds(t_sh *shell);
 
 #endif
