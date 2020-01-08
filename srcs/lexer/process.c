@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 17:40:37 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/08 18:52:00 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,15 @@ static int	check_dless_exist(t_lexer *lex, t_type type)
 		tok = (t_token*)ft_vecget(&lex->tokens, i);
 		if ((tok->type == T_DOUBLE_LESSER) && ((t_hdoc*)tok)->completed == 0)
 		{
-			if ((i + 1) <= lex->tokens.size
+			if ((i + 1) < lex->tokens.size
 				&& ((t_token*)ft_vecget(&lex->tokens, i + 1))->type != T_WORD
 				&& (lex->stack_completed = 1) == 1)
 				return (SH_ERR_SYNTAX);
+			if (!(remove_quotes(((t_token*)ft_vecget(&lex->tokens, i + 1))->str,
+				&((t_hdoc*)tok)->name)))
+				return (SH_ERR_MALLOC);
 			if (pipe(((t_hdoc*)tok)->pipe) != 0)
 				return (SH_ERR_PIPE);
-			if (!(((t_hdoc*)tok)->name =
-			ft_strdup(((t_token*)ft_vecget(&lex->tokens, i + 1))->str)))
-				return (SH_ERR_MALLOC);
 			return (stack_push(lex, T_DOUBLE_LESSER));
 		}
 		i++;
@@ -113,6 +113,8 @@ static int	stack(t_type type, t_lexer *lex)
 	//ft_printf("---> type in stack %s int %d\n", last_stack_type(&lex->stack), lex->stack_completed);
 	return (ret);
 }
+
+// if heredoc active in stack do a while read not = the name
 
 int			token_process(t_lexer *lexer, t_token *token)
 {

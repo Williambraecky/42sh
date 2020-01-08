@@ -6,11 +6,12 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/08 16:10:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/08 18:50:54 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "prompt.h"
 
 t_tdef		g_def_table[] =
 {
@@ -67,13 +68,27 @@ extern char	*g_tab_types[]; //to remove
 ** NOTE: don't forget prompt can return ctrl + c
 */
 
-static int	get_next_part(t_lexer *lexer)
+static int	get_next_part(t_lexer *lexer, t_sh *shell)
 {
+	char	*line;
+	char	*tmp;
+	int		ret;
+
 	(void)lexer;
-	return (SH_SUCCESS);
+	tmp = lexer->line;
+	ret = SH_SUCCESS;
+	handle_prompt(shell, &line);
+	if (!(lexer->line = ft_strjoin(lexer->line, line)))
+		ret = SH_ERR_MALLOC;
+	lexer->line_size += ft_strlen(line);
+	ft_strdel(&tmp);
+	ft_strdel(&line);
+	lexer->stack_completed = 0;
+	stack_pop(lexer);
+	return (ret);
 }
 
-int			tokenization(t_lexer *lexer)
+int			tokenization(t_lexer *lexer, t_sh *shell)
 {
 	t_tdef	*new_tok_def;
 	t_token	tok;
@@ -99,7 +114,9 @@ int			tokenization(t_lexer *lexer)
 		}
 		if (lexer->stack.size > 0 ||
 			((t_token*)ft_vecgettop(&lexer->tokens))->type != T_NEWLINE)
-			get_next_part(lexer);
+			get_next_part(lexer, shell);
+		else
+		 	break ;
 	}
 	return (SH_SUCCESS);
 }

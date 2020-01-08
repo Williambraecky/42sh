@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 18:06:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/08 16:28:54 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/08 18:31:04 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			init_lexer(t_lexer *lexer, char *line)
 	return (SH_SUCCESS);
 }
 
-int			lexer(char *line, t_lexer *lex)
+int			lexer(char *line, t_lexer *lex,t_sh *shell)
 {
 	t_lexer		lexer;
 	int			res;
@@ -36,7 +36,7 @@ int			lexer(char *line, t_lexer *lex)
 	groups = NULL;
 	if ((res = init_lexer(&lexer, line)) != SH_SUCCESS)
 		return (res);
-	if ((res = tokenization(&lexer)) != SH_SUCCESS)
+	if ((res = tokenization(&lexer, shell)) != SH_SUCCESS)
 	{
 		lexer_free(&lexer);
 		return (res);
