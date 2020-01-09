@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 17:22:22 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/09 18:03:10 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,12 @@ static int	init_shell(t_sh *shell, const char **env)
 ** TODO: print errors
 */
 
-static void	 print_errors(int ret)
-{
-	dprintf(2, "42sh: %s\n", g_error_str[ret]);
-}
+/*
+** static void	 print_errors(int ret)
+** {
+** 	dprintf(2, "42sh: %s\n", g_error_str[ret]);
+** }
+*/
 
 int			main(int argc, const char **argv, const char **env)
 {
