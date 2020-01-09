@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 16:31:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/08 17:47:10 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,7 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 		if (!(ret & RET_CONT))
 			break ;
 	}
-	move_goto(prompt, new_calc(prompt,
-		prompt->prompt_len + ft_wstrlen(prompt->buffer.buffer)));
+	move_goto(prompt, prompt->max_pos);
 	return (0);
 }
 
