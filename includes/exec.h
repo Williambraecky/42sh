@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:45:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 15:38:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/08 16:02:29 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ struct		s_build
 ** Prototypes
 */
 
-int			build_tree(t_sh *shell, t_lexer *lexer, t_cmd **result);
+int			build_tree(t_lexer *lexer, t_cmd **result);
 int			exec_tree(t_sh *shell, t_cmd *tree);
 
 int			apply_newline(t_token *token, t_build *build);

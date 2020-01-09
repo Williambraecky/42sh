@@ -6,7 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/01/09 16:41:32 by mpizzaga         ###   ########.fr       */
+=======
+/*   Updated: 2020/01/09 14:21:57 by wbraeckm         ###   ########.fr       */
+>>>>>>> dc1af636684db50ee7b26c13ef177270159c4d61
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +50,6 @@ typedef struct winsize	t_win;
 /*
 ** Structures
 */
-
-
 
 struct			s_hquery
 {
@@ -108,14 +110,12 @@ struct			s_prompt
 	int			select_mode; //NOTE: 0: nothing 1: processed 2: select mode
 };
 
-
-
 /*
 ** Prototypes
 */
 
-int				handle_prompt(t_sh *shell, char **result);
-int				gen_prompt(t_sh *shell, t_prompt *prompt);
+int				handle_prompt(t_sh *shell, char *prompt_str, char **result);
+int				gen_prompt(t_sh *shell, char *prompt_str, t_prompt *prompt);
 void			free_prompt(t_prompt *prompt);
 size_t			wcharlen(char c);
 t_pos			new_calc(t_prompt *prompt, size_t written);
@@ -128,7 +128,8 @@ void			move_right(t_prompt *prompt);
 char			*wstr_remove_char(char *str, size_t index);
 void			reprint_buffer(t_prompt *prompt);
 void			print_from_cursor(t_prompt *prompt, t_pos *next_pos);
-int				default_char_handler(t_prompt *prompt, char *buffer, t_sh *shell);
+int				default_char_handler(t_prompt *prompt,
+	char *buffer, t_sh *shell);
 int				handle_arrows(t_prompt *prompt, char *buffer);
 int				handle_newline(t_prompt *prompt, char *buffer, t_sh *shell);
 int				handle_backspace(t_prompt *prompt, char *buffer, t_sh *shell);
@@ -157,6 +158,5 @@ int				select_handle_tab(t_prompt *prompt,
 				char *buffer, t_sh *shell);
 int				select_handle_arrows(t_prompt *prompt, char *buffer);
 int				select_render(t_prompt *prompt, t_select *select);
-
 
 #endif

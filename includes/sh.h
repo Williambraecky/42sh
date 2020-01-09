@@ -6,7 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/01/09 16:18:04 by mpizzaga         ###   ########.fr       */
+=======
+/*   Updated: 2020/01/09 15:54:26 by wbraeckm         ###   ########.fr       */
+>>>>>>> dc1af636684db50ee7b26c13ef177270159c4d61
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +48,8 @@
 # define SH_ERR_SYNTAX 4
 # define SH_ERR_OPEN_HIST 5
 # define SH_ERR_OPEN_DIR 6
+# define SH_ERR_PIPE 7
+# define SH_ERR_DUP 8
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -131,6 +137,11 @@ struct		s_hashed
 **  - prompt_mode -> either INTERACTIVE or NON_INTERACTIVE
 */
 
+/*
+** NOTE: for fd_backups should we not allow to close them or
+**    create another backup before
+*/
+
 struct		s_sh
 {
 	t_map	*internals;
@@ -143,6 +154,7 @@ struct		s_sh
 	t_termi	old_termios;
 	t_termi	current_termios;
 	pid_t	pid;
+	int		fd_backups[3];
 };
 
 /*
@@ -181,6 +193,8 @@ int			get_internal(t_sh *shell, char *key, char **result);
 int			has_internal(t_sh *shell, char *key);
 void		remove_internal(t_sh *shell, char *key);
 int			repl_internal(t_sh *shell, char *key, char *value);
+int			get_last_return_code(t_sh *shell);
+int			set_last_return_code(t_sh *shell, int ret);
 
 /*
 ** Hash
@@ -220,5 +234,7 @@ int			resolve_path(t_sh *shell, char *name, char **result);
 int			resolve_path_env(char *paths, char *name, char **result);
 int			str_is_name(char *str);
 int			remove_quotes(char *str, char **result);
+int			backup_fds(t_sh *shell);
+int			backup_fd(t_sh *shell, int fd);
 
 #endif

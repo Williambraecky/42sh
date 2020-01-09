@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gen_prompt_string.c                                :+:      :+:    :+:   */
+/*   get_last_return_code.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/02 16:41:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 14:28:31 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/09 15:45:58 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/09 15:46:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
 /*
-** TODO: should we implement something like this or hardcode the prompt?
-** NOTE: main procedure for substituting PS1
-** NOTE: not as fancy as bash's; handles \h \H \u \w \W
+** NOTE: since ? is a read only value for users it should always be present
 */
 
-int		gen_prompt_string(t_sh *shell, char *ps1, char **result)
+int		get_last_return_code(t_sh *shell)
 {
-	(void)shell;
-	(void)ps1;
-	(void)result;
-	return (SH_ERR_MALLOC);
+	char	*var;
+
+	get_internal(shell, "?", &var);
+	return (ft_atoi(var));
 }

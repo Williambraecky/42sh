@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 14:31:18 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 14:23:57 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int	init_shell(t_sh *shell, const char **env)
 	if ((shell->prompt_mode = isatty(SH_IN)))
 		if (init_interactive_mode(shell))
 			return (1);
+	if (backup_fds(shell) != SH_SUCCESS)
+		return (SH_ERR_DUP);
 	return (0);
 }
 
@@ -45,6 +47,7 @@ static int	init_shell(t_sh *shell, const char **env)
 int			main(int argc, const char **argv, const char **env)
 {
 	t_sh	shell;
+	char	*prompt;
 	char	*line;
 
 	if (init_shell(&shell, env))
@@ -54,7 +57,8 @@ int			main(int argc, const char **argv, const char **env)
 	}
 	(void)argc;
 	(void)argv;
-	handle_prompt(&shell, &line);
+	prompt = "$> ";
+	handle_prompt(&shell, prompt, &line);
 	ft_printf("\nLine: ");
 	ft_putnonprint(line);
 	ft_putchar('\n');

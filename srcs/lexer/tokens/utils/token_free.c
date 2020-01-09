@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 15:59:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/07 17:07:51 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 14:26:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,14 @@ static void	default_free(t_token *token)
 	ft_strdel(&token->str);
 }
 
+/*
+** TODO: Should we close pipe here?
+*/
+
 static void	hdoc_free(t_hdoc *doc)
 {
+	close(doc->pipe[0]);
+	close(doc->pipe[1]);
 	ft_strdel(&doc->name);
 	default_free((t_token*)doc);
 }

@@ -6,11 +6,12 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/03 02:42:27 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 16:06:44 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "prompt.h"
 
 t_tdef		g_def_table[] =
 {
@@ -31,18 +32,6 @@ t_tdef		g_def_table[] =
 	{T_NULL, istok_null, transform_null}
 };
 
-/*
-** extern char		*g_tab_types[];
-**
-** static char *last_token_type(t_lexer *lexer)
-** {
-** 	t_token *token;
-**
-** 	token = ft_vecgettop(&lexer->tokens);
-** 	return (g_tab_types[token->type]);
-** }
-*/
-
 size_t		g_size = sizeof(g_def_table) / sizeof(*g_def_table);
 
 t_tdef		*determine_type(t_lexer *lexer, t_token *token)
@@ -59,9 +48,46 @@ t_tdef		*determine_type(t_lexer *lexer, t_token *token)
 	return (NULL);
 }
 
-extern char		*g_tab_types[]; //to remove
+static int	g_top_mask = M_QUOTE | M_DOUBLE_QUOTE | M_BRACEPARAM;
 
-int			tokenization(t_lexer *lexer)
+/*
+** NOTE: returns whether a stack object from delimiter
+**    is at the top of the stack
+*/
+
+static int	check_stack_top(t_lexer *lexer)
+{
+	if ((1 << stack_top(lexer)) & g_top_mask)
+		return (1);
+	return (0);
+}
+
+/*
+** NOTE: don't forget prompt can return ctrl + c
+*/
+
+static int	get_next_part(t_lexer *lexer, t_sh *shell)
+{
+	char	*line;
+	char	*tmp;
+	int		ret;
+
+	(void)lexer;
+	tmp = lexer->line;
+	ret = SH_SUCCESS;
+	if ((ret = handle_prompt(shell, "$> ", &line)) != SH_SUCCESS)
+		return (ret);
+	if (!(lexer->line = ft_strjoin(lexer->line, line)))
+		ret = SH_ERR_MALLOC;
+	lexer->line_size += ft_strlen(line);
+	ft_strdel(&tmp);
+	ft_strdel(&line);
+	while (check_stack_top(lexer))
+		stack_pop(lexer);
+	return (ret);
+}
+
+static int	tokenize_current(t_lexer *lexer)
 {
 	t_tdef	*new_tok_def;
 	t_token	tok;
@@ -71,7 +97,8 @@ int			tokenization(t_lexer *lexer)
 	{
 		if ((res = delimit_token(lexer, &tok.str)) != SH_SUCCESS)
 			return (res);
-		//TODO: check stack if we need to complete input or not (through quotes and dquotes)
+		if (check_stack_top(lexer))
+			break ;
 		if ((tok.len = ft_strlen(tok.str)) == 0)
 		{
 			free(tok.str);
@@ -82,6 +109,22 @@ int			tokenization(t_lexer *lexer)
 			return (SH_ERR);
 		lexer->i += tok.len;
 	}
-	//TODO: input is not finished if it doesn't end with a \n
 	return (SH_SUCCESS);
+}
+
+int			tokenization(t_lexer *lexer, t_sh *shell)
+{
+	int		res;
+
+	res = SH_SUCCESS;
+	while (res == SH_SUCCESS)
+	{
+		res = tokenize_current(lexer);
+		if (res == SH_SUCCESS && (lexer->stack.size > 0 ||
+			((t_token*)ft_vecgettop(&lexer->tokens))->type != T_NEWLINE))
+			res = get_next_part(lexer, shell);
+		else
+			break ;
+	}
+	return (res);
 }
