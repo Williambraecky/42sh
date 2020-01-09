@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 17:56:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 15:54:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,8 @@ int			get_internal(t_sh *shell, char *key, char **result);
 int			has_internal(t_sh *shell, char *key);
 void		remove_internal(t_sh *shell, char *key);
 int			repl_internal(t_sh *shell, char *key, char *value);
+int			get_last_return_code(t_sh *shell);
+int			set_last_return_code(t_sh *shell, int ret);
 
 /*
 ** Hash
