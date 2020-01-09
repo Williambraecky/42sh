@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 12:06:18 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/09 15:45:51 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,25 +43,22 @@ int			g_stackable[] =
 };
 
 /*
-** static char *last_token_type(t_lexer *lexer)
-** {
-** 	t_token *token;
-**
-** 	token = ft_vecgettop(&lexer->tokens);
-** 	return (g_tab_types[token->type]);
-** }
-*/
-
-/*
-** char		*last_stack_type(t_vec *stack)
+** char			*last_stack_type(t_vec *stack)
 ** {
 ** 	if (stack->size == 0)
 ** 		return ("NULL");
 ** 	return (g_tab_types[(*(t_type*)(ft_vecgettop(stack)))]);
 ** }
+**
+** char			*last_token_type(t_vec *tok)
+** {
+** 	if (tok->size == 0)
+** 		return ("NULL");
+** 	return (g_tab_types[((t_token*)(ft_vecgettop(tok)))->type]);
+** }
 */
 
-static int	find_parse_error(t_type type, t_lexer *lex)
+static int		find_parse_error(t_type type, t_lexer *lex)
 {
 	if ((lex->tokens.size == 1 && g_stackable[type])
 		|| (g_stackable[type] &&
@@ -71,7 +68,7 @@ static int	find_parse_error(t_type type, t_lexer *lex)
 	return (SH_SUCCESS);
 }
 
-static int	check_dless_exist(t_lexer *lex, t_type type)
+static int		check_dless_exist(t_lexer *lex, t_type type)
 {
 	size_t	i;
 	t_token	*tok;
@@ -86,7 +83,7 @@ static int	check_dless_exist(t_lexer *lex, t_type type)
 		{
 			if ((i + 1) < lex->tokens.size
 				&& ((t_token*)ft_vecget(&lex->tokens, i + 1))->type != T_WORD
-				&& (lex->stack_completed = 1) == 1)
+				&& (lex->parse_error = 1) == 1)
 				return (SH_ERR_SYNTAX);
 			if (remove_quotes(((t_token*)ft_vecget(&lex->tokens, i + 1))->str,
 				&((t_hdoc*)tok)->name) != SH_SUCCESS)
@@ -100,13 +97,13 @@ static int	check_dless_exist(t_lexer *lex, t_type type)
 	return (SH_SUCCESS);
 }
 
-static int	stack(t_type type, t_lexer *lex)
+static int		stack(t_type type, t_lexer *lex)
 {
 	int		ret;
 
 	ret = SH_SUCCESS;
 	if ((ret = find_parse_error(type, lex)) != SH_SUCCESS)
-		lex->stack_completed = 1;
+		lex->parse_error = 1;
 	else if (lex->stack.size != 0 &&
 		(type != T_SEMICOLON && type != T_AMPERSAND && type != T_NEWLINE))
 		stack_pop(lex);
@@ -114,23 +111,61 @@ static int	stack(t_type type, t_lexer *lex)
 		ret = stack_push(lex, type);
 	else
 		ret = check_dless_exist(lex, type);
-	//ft_printf("---> type in stack %s int %d\n", last_stack_type(&lex->stack), lex->stack_completed);
+	//ft_printf("---> type in stack %s parse error %d\n", last_stack_type(&lex->stack), lex->parse_error);
 	return (ret);
 }
 
 // TO DO
 // if heredoc active in stack do a while read not = the name
 // write dans pipe[1]
-// handle stack not empty in new handle prompt
 
-int			token_process(t_lexer *lexer, t_token *token)
+static t_hdoc	*find_heredoc(t_lexer *lex)
+{
+	size_t	i;
+	t_token	*tok;
+
+	i = 0;
+	while (i < lex->tokens.size)
+	{
+		tok = (t_token*)ft_vecget(&lex->tokens, i);
+		if ((tok->type == T_DOUBLE_LESSER) && ((t_hdoc*)tok)->completed == 0)
+		{
+			return ((t_hdoc*)tok);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
+static int		do_heredoc(t_lexer *lex, t_token *tok)
+{
+	int		ret;
+	t_hdoc	*hdoc;
+
+	ret = SH_SUCCESS;
+	hdoc = find_heredoc(lex);
+	if (ft_strcmp(tok->str, hdoc->name) == 0)
+	{
+		hdoc->completed = 1;
+		stack_pop(lex);
+	}
+	else
+		ft_putstr_fd(tok->str, hdoc->pipe[1]);
+	return (ret);
+}
+
+int				token_process(t_lexer *lexer, t_token *token)
 {
 	int		ret;
 
 	ret = SH_SUCCESS;
-	if (ft_veccpush(&lexer->tokens, token, token->size))
-		return (SH_ERR_MALLOC);
-	//ft_printf("Last token type %s, str %s\n", last_token_type(lexer), token->str); // to remove
+	if (stack_top(lexer) != T_DOUBLE_LESSER)
+		if (ft_veccpush(&lexer->tokens, token, token->size))
+			return (SH_ERR_MALLOC);
+	if (stack_top(lexer) == T_DOUBLE_LESSER)
+		if ((ret = do_heredoc(lexer, token)) != SH_SUCCESS)
+			return (ret);
+	//ft_printf("\nLast token type %s, str %s\n", last_token_type(&lexer->tokens), token->str);
 	ret = stack(token->type, lexer);
 	return (ret);
 }

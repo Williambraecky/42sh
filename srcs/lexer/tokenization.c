@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/09 16:03:52 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 16:06:44 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ static int	check_stack_top(t_lexer *lexer)
 }
 
 /*
-** TODO:
 ** NOTE: don't forget prompt can return ctrl + c
 */
 
