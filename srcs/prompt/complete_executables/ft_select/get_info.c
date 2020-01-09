@@ -1,6 +1,16 @@
-#include "prompt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_info.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/09 16:43:30 by mpizzaga          #+#    #+#             */
+/*   Updated: 2020/01/09 16:43:59 by mpizzaga         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-//prendre un 3eme param pour les cas ou l'appel ioctl est redondant
+#include "prompt.h"
 
 static int	get_column_info(t_select *select)
 {
@@ -20,7 +30,6 @@ int			get_display_info(t_select *select, t_prompt *prompt)
 
 	select->nb_col = prompt->winsize.ws_col;
 	select->nb_row = prompt->winsize.ws_row;
-
 	i = 0;
 	select->max_len = 0;
 	select->nb_elem = select->poss.size;

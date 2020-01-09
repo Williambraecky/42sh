@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/07 18:08:10 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/09 16:41:32 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ struct			s_select
 	int			selected;
 	int			row_total;
 	int			elem_per_row;
-	int			pos_col;
-	int			written;
+	int			cursor_left_len;
+	int			cursor_right_len;
 	t_pos		original_pos;
 	t_vec		poss;
 };
@@ -137,19 +137,17 @@ int				handle_escape(t_prompt *prompt, char *buffer, t_sh *shell);
 int				pos_equals(t_pos pos1, t_pos pos2);
 int				buff_insert(t_buff *buffer, char *insert, size_t pos);
 int				buff_remove(t_buff *buffer, size_t pos);
-int				count_words(char *line);
-char			*get_last_word(char *line, int *space);
-int				is_reset_token(char *last_word);
-int				is_redirection(char *last_word);
-int				get_path_last_word(char **last_word, char **path);
-int				match_bin_built(t_sh *shell, char *s, t_vec *p);
+char			*get_cursor_word(char *line, t_prompt *prompt);
+int				get_path(char **last_word, char **path);
+int				complete_command(t_sh *shell, char *s, t_vec *p);
 int				autocomplete_poss(char *path, char *start, t_vec *poss);
-int				autocomplete_command(char *line, t_sh *shell, t_vec *poss);
+int				autocomplete_command(char *line, t_sh *shell, t_vec *poss,
+				t_prompt *prompt);
 int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt);
 int				get_display_info(t_select *select, t_prompt *prompt);
 int				display_poss(t_select *sel, t_vec *poss, int selected,
 				t_prompt *prompt);
-int				print_selected(t_select *sel, t_vec *poss, size_t i);
+int				print_selected(t_select *sel, t_vec *poss, int i);
 int				replace_cursor(t_select *sel, t_prompt *prompt);
 int				select_handle_escape(t_prompt *prompt,
 				char *buffer, t_sh *shell);

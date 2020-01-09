@@ -6,7 +6,7 @@
 /*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:19:09 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/07 17:20:27 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/09 16:20:46 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int					replace_cursor(t_select *select, t_prompt *prompt)
 	return (SH_SUCCESS);
 }
 
- int			print_selected(t_select *select, t_vec *poss, size_t i)
+ int			print_selected(t_select *select, t_vec *poss, int i)
 {
-	if ((size_t)select->selected == i)
+	if (select->selected == i)
 	{
 		ft_putstr_fd(tgetstr("so", NULL), 0);
 		ft_dprintf(0, "%-*s",select->max_len + 2, (char *)ft_vecget(poss, i));
@@ -43,9 +43,9 @@ int					replace_cursor(t_select *select, t_prompt *prompt)
 int					display_poss(t_select *select, t_vec *poss, int selected,
 	t_prompt *prompt)
 {
-	size_t i;
-	size_t j;
-	size_t r;
+	int		i;
+	size_t	j;
+	size_t	r;
 
 	i = 0;
 	r = 0;
@@ -55,18 +55,18 @@ int					display_poss(t_select *select, t_vec *poss, int selected,
 		j = 0;
 		while (j < (size_t)select->elem_per_row)
 		{
-			if (i <= (size_t)select->nb_elem && ft_vecget(poss, i) != NULL)
+			if (i <= select->nb_elem && ft_vecget(poss, i) != NULL)
 			{
-				if (selected != -1 && i == (size_t)selected)
+				if (selected != -1 && i == selected)
 					print_selected(select, poss, i);
 				else
 					ft_dprintf(0, "%-*s",select->max_len + 2 ,(char *)ft_vecget(poss, i));
 			}
-			else
-			{
-				i += select->row_total;
-				break;
-			}
+//			else
+//			{
+//				i += select->row_total;
+//				break;
+//			}
 			j++;
 			i += select->row_total;
 		}
@@ -75,8 +75,8 @@ int					display_poss(t_select *select, t_vec *poss, int selected,
 			break;
 		ft_dprintf(0, "\n");
 		i -= (select->elem_per_row * select->row_total) - 1;
+		i = i < 0 ? i + select->row_total : i;
 	}
-
 	replace_cursor(select, prompt);
 	return (SH_SUCCESS);
 }

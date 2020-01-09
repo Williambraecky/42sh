@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 00:01:57 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/07 18:12:19 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/08 17:43:03 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 ** NOTE: this function should not disrupt the current cursor position
 */
 
-int		change_line(t_select *select, t_prompt *prompt)
+/*int		change_line(t_select *select, t_prompt *prompt)
 {
 	while (select->written)
 	{
@@ -30,7 +30,7 @@ int		change_line(t_select *select, t_prompt *prompt)
 		select->selected));
 	ft_dprintf(0, "%s", (char *)ft_vecget(&select->poss, select->selected));
 	return (0);
-}
+}*/
 
 int		select_render(t_prompt *prompt, t_select *select)
 {
@@ -39,8 +39,8 @@ int		select_render(t_prompt *prompt, t_select *select)
 	(void)prompt;
 	poss = &select->poss;
 	get_display_info(select, prompt);
-	if (prompt->select_mode == 2)
-		change_line(select, prompt);
+//	if (prompt->select_mode == 2)
+//		change_line(select, prompt);
 	display_poss(&prompt->select, poss, prompt->select.selected, prompt);
 	return (SH_SUCCESS);
 }

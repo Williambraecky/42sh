@@ -6,72 +6,77 @@
 /*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:00:39 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/17 18:39:36 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/09 16:44:33 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-int			count_words(char *line)
+int		get_path(char **line, char **path)
 {
-	int words;
-	int i;
+	int		i;
 
-	words = 0;
-	i = 0;
-	while (line[i])
-	{
-		if (line[i] != ' ' && line[i])
-			words++;
-		while (line[i] != ' ' && line[i])
-			i++;
-		i++;
-	}
-	return (words);
+	i = ft_strlen(*line) - 1;
+	while (i > 0 && line[0][i] != '/')
+		i--;
+	if (!(*path = ft_strsub(*line, 0, i + 1)))
+		return (SH_ERR_MALLOC);
+	if (!(*line = ft_strdup(*line + i + 1)))
+		return (SH_ERR_MALLOC);
+	return (SH_SUCCESS);
 }
 
-char		*get_last_word(char *line, int *space)
+char	*get_cursor_word(char *line, t_prompt *prompt)
 {
 	int		i;
 	int		j;
-	char	*last_word;
+	char	*word;
+	char	*tmp;
 
-	i = ft_strlen(line) - 1;
-	*space = line[i] == ' ' ? 1 : 0;
-	while (line[i] == ' ')
-		i--;
+	i = (int)prompt->buffer_index - 1;
 	j = i;
-	while (j >= 0 && line[j] != ' ')
-		j--;
-	last_word = line + j + 1;
-	return (last_word);
-}
-
-int			is_reset_token(char *last_word)
-{
-	if (ft_strequ(last_word, "|") || ft_strequ(last_word, ";") ||
-		ft_strequ(last_word, "&&") || ft_strequ(last_word, "||") ||
-		ft_strequ(last_word, "&"))
-		return (1);
-	return (0);
-}
-
-int			is_redirection(char *last_word)
-{
-	if (ft_strequ(last_word, ">") || ft_strequ(last_word, "<"))
-		return (1);
-	return (0);
-}
-
-int			get_path_last_word(char **last_word, char **path)
-{
-	int		i;
-
-	i = ft_strlen(*last_word) - 1;
-	while (last_word[0][i] != '/')
+	if (i == -1)
+	{
+		if (!(word = ft_strdup("")))
+			return (NULL);
+		return (word);
+	}
+	while (i > 0 && line[i] != ' ')
 		i--;
-	if (!(*path = ft_strsub(*last_word, 0, i + 1)))
-		return (SH_ERR_MALLOC);
-	*last_word = *last_word + i + 1;
+	tmp = ft_strsub(line, i, (j - i) + 1);
+	if (!tmp || !(word = ft_strtrim(tmp)))
+		return (NULL);
+	free(tmp);
+	prompt->select.cursor_left_len = j - i;
+	i = j;
+	while (line[j] && line[j] != ' ')
+		j++;
+	prompt->select.cursor_right_len = j - i - 1;
+	return (word);
+}
+
+int		autocomplete_poss(char *path, char *start, t_vec *poss)
+{
+	DIR				*dir;
+	struct dirent	*sd;
+
+	dir = opendir(path);
+	if (dir == NULL)
+		return (SH_ERR_OPEN_DIR);
+	while ((sd = readdir(dir)) != NULL)
+	{
+		if (start && ft_strstartswith(sd->d_name, start))
+		{
+			if ((ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, ".."))
+			&& ft_strequ("", start))
+				continue;
+			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name) + 1))
+			{
+				closedir(dir);
+				return (SH_ERR_MALLOC);
+			}
+		}
+	}
+	closedir(dir);
 	return (SH_SUCCESS);
 }
