@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/09 14:24:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 15:41:46 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,7 @@ t_tdef		*determine_type(t_lexer *lexer, t_token *token)
 	return (NULL);
 }
 
-extern char	*g_tab_types[]; //to remove
-
 /*
-** TODO:
 ** NOTE: don't forget prompt can return ctrl + c
 */
 
@@ -83,8 +80,7 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 	lexer->line_size += ft_strlen(line);
 	ft_strdel(&tmp);
 	ft_strdel(&line);
-	lexer->stack_completed = 0;
-	stack_pop(lexer);
+	stack_pop(lexer); //to remove
 	return (ret);
 }
 
@@ -116,7 +112,7 @@ int			tokenization(t_lexer *lexer, t_sh *shell)
 			((t_token*)ft_vecgettop(&lexer->tokens))->type != T_NEWLINE)
 			get_next_part(lexer, shell);
 		else
-		 	break ;
+			break ;
 	}
 	return (SH_SUCCESS);
 }
