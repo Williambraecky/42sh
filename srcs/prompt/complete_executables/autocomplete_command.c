@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/09 16:59:06 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/09 20:05:42 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ t_prompt *prompt)
 		complete_command(shell, to_complete, poss);
 		if (poss->size != 0)
 		{
+			prompt->select.file_complete = 1;
 			free(to_complete);
 			return (SH_SUCCESS);
 		}

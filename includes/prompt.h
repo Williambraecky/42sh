@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 17:18:22 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/09 19:58:09 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ struct			s_select
 	int			elem_per_row;
 	int			cursor_left_len;
 	int			cursor_right_len;
+	int			written;
+	int			file_complete;
 	t_pos		original_pos;
 	t_vec		poss;
 };
