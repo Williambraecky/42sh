@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:42:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 16:02:21 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 15:42:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ static int	init_build_tree(t_build *build)
 		free_tree(build->head);
 		return (SH_ERR_MALLOC);
 	}
+	build->work_proc->parent = build->work;
 	build->head->pipeline = build->work_proc;
 	build->expected_type = M_WORD | M_SEMICOLON | M_NEWLINE
 		| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND

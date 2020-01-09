@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 18:49:13 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 18:49:42 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 15:43:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int		apply_dpipe(t_token *token, t_build *build)
 	if (proc_new(&build->work->pipeline))
 		return (SH_ERR_MALLOC);
 	build->work_proc = build->work->pipeline;
+	build->work_proc->parent = build->work;
 	return (SH_SUCCESS);
 }
