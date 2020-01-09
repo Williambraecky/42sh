@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 18:52:00 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/09 12:06:18 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,24 @@ int			g_stackable[] =
 	[T_NULL] = 0
 };
 
-// static char *last_token_type(t_lexer *lexer)
-// {
-// 	t_token *token;
-//
-// 	token = ft_vecgettop(&lexer->tokens);
-// 	return (g_tab_types[token->type]);
-// }
+/*
+** static char *last_token_type(t_lexer *lexer)
+** {
+** 	t_token *token;
+**
+** 	token = ft_vecgettop(&lexer->tokens);
+** 	return (g_tab_types[token->type]);
+** }
+*/
 
-// char		*last_stack_type(t_vec *stack)
-// {
-// 	if (stack->size == 0)
-// 		return ("NULL");
-// 	return (g_tab_types[(*(t_type*)(ft_vecgettop(stack)))]);
-// }
+/*
+** char		*last_stack_type(t_vec *stack)
+** {
+** 	if (stack->size == 0)
+** 		return ("NULL");
+** 	return (g_tab_types[(*(t_type*)(ft_vecgettop(stack)))]);
+** }
+*/
 
 static int	find_parse_error(t_type type, t_lexer *lex)
 {
@@ -84,8 +88,8 @@ static int	check_dless_exist(t_lexer *lex, t_type type)
 				&& ((t_token*)ft_vecget(&lex->tokens, i + 1))->type != T_WORD
 				&& (lex->stack_completed = 1) == 1)
 				return (SH_ERR_SYNTAX);
-			if (!(remove_quotes(((t_token*)ft_vecget(&lex->tokens, i + 1))->str,
-				&((t_hdoc*)tok)->name)))
+			if (remove_quotes(((t_token*)ft_vecget(&lex->tokens, i + 1))->str,
+				&((t_hdoc*)tok)->name) != SH_SUCCESS)
 				return (SH_ERR_MALLOC);
 			if (pipe(((t_hdoc*)tok)->pipe) != 0)
 				return (SH_ERR_PIPE);
@@ -114,7 +118,10 @@ static int	stack(t_type type, t_lexer *lex)
 	return (ret);
 }
 
+// TO DO
 // if heredoc active in stack do a while read not = the name
+// write dans pipe[1]
+// handle stack not empty in new handle prompt
 
 int			token_process(t_lexer *lexer, t_token *token)
 {

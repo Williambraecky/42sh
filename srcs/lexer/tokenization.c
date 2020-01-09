@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/08 18:50:54 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/09 11:53:34 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,7 @@ t_tdef		*determine_type(t_lexer *lexer, t_token *token)
 extern char	*g_tab_types[]; //to remove
 
 /*
-** TODO: start new prompt with make_stack_prompt as string
-**    and join it to existing line
+** TODO:
 ** NOTE: don't forget prompt can return ctrl + c
 */
 
@@ -77,7 +76,8 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 	(void)lexer;
 	tmp = lexer->line;
 	ret = SH_SUCCESS;
-	handle_prompt(shell, &line);
+	if ((ret = handle_prompt(shell, &line)) != SH_SUCCESS)
+		return (ret);
 	if (!(lexer->line = ft_strjoin(lexer->line, line)))
 		ret = SH_ERR_MALLOC;
 	lexer->line_size += ft_strlen(line);
