@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 14:23:57 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 17:22:22 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,16 @@
 ** TODO: Variables such as HOME avec PWD should not be gotten from env vars
 **   since they can be changed by the user
 */
+char		*g_error_str[] =
+{
+	[SH_ERR_NOEXIST] = "no exist error",
+	[SH_ERR_MALLOC] = "malloc error",
+	[SH_ERR_ENV_NOEXIST] = "env does not exist",
+	[SH_ERR_OPEN_HIST] = "open history fail",
+	[SH_ERR_OPEN_DIR] = "open dir fail",
+	[SH_ERR_PIPE] = "pipe failed",
+	[SH_ERR_DUP] = "dup error"
+};
 
 static int	init_shell(t_sh *shell, const char **env)
 {
@@ -43,6 +53,11 @@ static int	init_shell(t_sh *shell, const char **env)
 /*
 ** TODO: print errors
 */
+
+static void	 print_errors(int ret)
+{
+	dprintf(2, "42sh: %s\n", g_error_str[ret]);
+}
 
 int			main(int argc, const char **argv, const char **env)
 {
