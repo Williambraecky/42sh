@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 18:06:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/09 14:47:15 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/09 16:12:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int			init_lexer(t_lexer *lexer, char *line)
 	return (SH_SUCCESS);
 }
 
-int			lexer(char *line, t_lexer *lex,t_sh *shell)
+int			lexer(char *line, t_lexer *lex, t_sh *shell)
 {
 	t_lexer		lexer;
 	int			res;
