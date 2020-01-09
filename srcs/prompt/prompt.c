@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 17:47:10 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 14:22:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ static int	basic_prompt(t_sh *shell, t_prompt *prompt)
 	return (0);
 }
 
-int			handle_prompt(t_sh *shell, char **result)
+int			handle_prompt(t_sh *shell, char *prompt_str, char **result)
 {
 	t_prompt	prompt;
 	int			err_code;
 
 	ft_memset(&prompt, 0, sizeof(prompt));
-	if ((err_code = gen_prompt(shell, &prompt)))
+	if ((err_code = gen_prompt(shell, prompt_str, &prompt)) != SH_SUCCESS)
 		return (err_code);
 	if (shell->prompt_mode)
 		err_code = interactive_prompt(shell, &prompt);
