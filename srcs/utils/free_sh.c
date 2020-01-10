@@ -6,12 +6,13 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 14:36:16 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/10 19:07:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 #include "lexer.h"
+#include "exec.h"
 
 /*
 ** NOTE: Main shell free procedure add fields to be freed here
@@ -28,7 +29,7 @@ static int	map_hash_filter(t_node *node)
 	return (0);
 }
 
-static int	map_del_filter(t_node *node)
+int			map_del_filter(t_node *node)
 {
 	free(node->key);
 	free(node->value);
@@ -36,8 +37,18 @@ static int	map_del_filter(t_node *node)
 }
 
 /*
+** TODO: actually do it lol
+*/
+
+static void	jobs_destroy(t_cmd **cmd)
+{
+	(void)cmd;
+}
+
+/*
 ** NOTE: we might need to move the signal stuff right after stopping the prompt
 **  as we do need to reset it anywayy before executing anything
+** TODO: this should be done in the prompt code
 */
 
 void		free_sh(t_sh *shell)
@@ -53,6 +64,7 @@ void		free_sh(t_sh *shell)
 	ft_mapfilter(shell->use_hash, map_hash_filter);
 	ft_mapdel(shell->use_hash);
 	ft_mapdel(shell->builtins);
+	ft_vecdestroy(&shell->jobs, jobs_destroy);
 	if (shell->prompt_mode)
 	{
 		tcsetattr(SH_IN, TCSADRAIN, &shell->old_termios);

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 16:48:32 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/10 19:07:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define SH_ERR_PIPE 7
 # define SH_ERR_DUP 8
 # define SH_ERR_SIGINT 9
+# define SH_ERR_FORK 10
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -147,6 +148,7 @@ struct		s_sh
 	t_map	*builtins;
 	t_map	*use_hash;
 	t_vec	history;
+	t_vec	jobs;
 	int		prompt_mode;
 	t_termi	old_termios;
 	t_termi	current_termios;

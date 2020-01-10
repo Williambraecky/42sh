@@ -97,6 +97,12 @@ int			apply_io_nb(t_token *token, t_build *build);
 int			apply_redir(t_token *token, t_build *build);
 
 /*
+** Jobs
+*/
+
+int			jobs_add(t_sh *shell, t_cmd *cmd);
+
+/*
 ** Utils
 */
 
