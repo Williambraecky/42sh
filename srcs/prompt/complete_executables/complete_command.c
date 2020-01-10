@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/06 23:28:18 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/08 19:44:30 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int			get_builtin(t_sh *shell, char *start, t_vec *poss)
 	return (SH_SUCCESS);
 }
 
-int					match_bin_built(t_sh *shell, char *start, t_vec *poss)
+int					complete_command(t_sh *shell, char *start, t_vec *poss)
 {
 	char	**path_dir;
 	char	*path;
@@ -76,8 +76,6 @@ int					match_bin_built(t_sh *shell, char *start, t_vec *poss)
 		i++;
 	}
 	ft_freesplit(path_dir);
-	if ((ret = autocomplete_poss(".", start, poss)) != 0)
-		return (ret);
 	if ((ret = get_builtin(shell, start, poss)) != SH_SUCCESS)
 		return (ret);
 	return (get_aliases(shell, start, poss));

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:55:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/07 19:04:28 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/08 17:41:42 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 	}
 	if(ft_vecinit(&poss))
 		return (SH_ERR_MALLOC);
-	autocomplete_command(line, shell, &poss);
+	autocomplete_command(line, shell, &poss, prompt);
 	if (poss.size == 0)
 	{
 		ft_vecfree(&poss);

@@ -6,52 +6,24 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/06 23:14:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/09 20:05:42 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-int			autocomplete_poss(char *path, char *start, t_vec *poss)
+int		get_internals(char *line, t_vec *poss, t_map *internals)
 {
-	DIR				*dir;
-	struct dirent	*sd;
-
-	dir = opendir(path);
-	if (dir == NULL)
-		return (SH_ERR_OPEN_DIR);
-	while ((sd = readdir(dir)) != NULL)
-	{
-		if (start && ft_strstartswith(sd->d_name, start))
-		{
-			if ((ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, ".."))
-			&& ft_strequ("", start))
-				continue;
-			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name) + 1))
-			{
-				closedir(dir);
-				return (SH_ERR_MALLOC);
-			}
-		}
-	}
-	closedir(dir);
-	return (SH_SUCCESS);
-}
-
-int			get_matching_env(t_map *env, char *last_word, t_vec *poss)
-{
-	char	*start;
-	size_t	i;
 	char	*key;
+	size_t	i;
 
-	start = last_word + 1;
 	i = 0;
-	while (i < env->max_size)
+	while (i < internals->max_size)
 	{
-		if (env->nodes[i].is_used)
+		if (internals->nodes[i].is_used)
 		{
-			key = env->nodes[i].key;
-			if (ft_strstartswith(key, start))
+			key = internals->nodes[i].key;
+			if (ft_strstartswith(key, line + 1))
 				if (ft_veccpush(poss, key, ft_strlen(key) + 1))
 					return (SH_ERR_NOEXIST);
 		}
@@ -60,30 +32,97 @@ int			get_matching_env(t_map *env, char *last_word, t_vec *poss)
 	return (SH_SUCCESS);
 }
 
-int			autocomplete_command(char *line, t_sh *shell, t_vec *poss)
+int		complete_shell_var(char *line, t_vec *poss, t_sh *shell)
 {
-	char	*last_word;
-	int		space;
-	char	*path;
-	int		ret;
+	t_map	*env;
+	t_map	*internals;
+	char	*key;
+	size_t	i;
 
-	if (count_words(line) == 0)
-		return (match_bin_built(shell, "", poss));
-	last_word = get_last_word(line, &space);
-	if ((space && !is_reset_token(last_word)) || is_redirection(last_word))
-		return (autocomplete_poss(".", "", poss));
-	if (ft_strstartswith(last_word, "$"))
-		return (get_matching_env(shell->env, last_word, poss));
-	if (ft_strstartswith(last_word, "/") || ft_strstartswith(last_word, "../")
-	|| ft_strstartswith(last_word, "./"))
+	env = shell->env;
+	internals = shell->internals;
+	i = 0;
+	while (i < env->max_size)
 	{
-		if ((ret = get_path_last_word(&last_word, &path)) != SH_SUCCESS)
-			return (ret);
-		ret = autocomplete_poss(path, last_word, poss);
-		free(path);
-		return (ret);
+		if (env->nodes[i].is_used)
+		{
+			key = env->nodes[i].key;
+			if (ft_strstartswith(key, line + 1))
+				if (ft_veccpush(poss, key, ft_strlen(key) + 1))
+					return (SH_ERR_NOEXIST);
+		}
+		i++;
 	}
-	else
-		return (match_bin_built(shell, last_word, poss));
+	return (get_internals(line, poss, internals));
+}
+
+int		get_files(char *line, char *path, t_vec *poss)
+{
+	DIR				*dir;
+	struct dirent	*sd;
+
+	if (!(dir = opendir(path)))
+		return (SH_ERR_OPEN_DIR);
+	while ((sd = readdir(dir)) != NULL)
+	{
+		if (ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, ".."))
+			continue;
+		if (ft_strstartswith(sd->d_name, line))
+			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name) + 1))
+				return (SH_ERR_NOEXIST);
+	}
+	return (SH_SUCCESS);
+}
+
+int		complete_files(char *line, t_vec *poss)
+{
+	int		ret;
+	char	*path;
+	char	*tmp;
+
+	tmp = line;
+	if (get_path(&line, &path) == SH_ERR_MALLOC)
+		return (SH_ERR_MALLOC);
+	free(tmp);
+	if (ft_strequ(path, ""))
+	{
+		tmp = path;
+		if (!(path = ft_strdup(".")))
+			return (SH_SUCCESS);
+		free(tmp);
+	}
+	if ((ret = get_files(line, path, poss)) > 0)
+		return (ret);
+	free(path);
+	free(line);
+	return (SH_SUCCESS);
+}
+
+int		autocomplete_command(char *line, t_sh *shell, t_vec *poss,
+t_prompt *prompt)
+{
+	char	*to_complete;
+
+	if (!(to_complete = get_cursor_word(line, prompt)))
+		return (SH_ERR_MALLOC);
+	if (to_complete[0] == '$')
+	{
+		if (complete_shell_var(to_complete, poss, shell))
+			return (SH_ERR_MALLOC);
+		free(to_complete);
+		return (SH_SUCCESS);
+	}
+	if (!ft_strequ(to_complete, ""))
+	{
+		complete_command(shell, to_complete, poss);
+		if (poss->size != 0)
+		{
+			prompt->select.file_complete = 1;
+			free(to_complete);
+			return (SH_SUCCESS);
+		}
+	}
+	if (poss->size == 0)
+		complete_files(to_complete, poss);
 	return (SH_SUCCESS);
 }
