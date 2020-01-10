@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 00:01:57 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 21:01:43 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:59:47 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		change_line(t_select *select, t_prompt *prompt)
 		handle_backspace(prompt, NULL, NULL);
 		select->written--;
 	}
-	select->written = ft_strlen(str);
+	select->written = ft_wstrlen(str);
 	default_char_handler(prompt, str, NULL);
 	return (0);
 }

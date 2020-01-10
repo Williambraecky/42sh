@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/09 20:05:42 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 17:53:46 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,17 @@ int		get_files(char *line, char *path, t_vec *poss)
 		return (SH_ERR_OPEN_DIR);
 	while ((sd = readdir(dir)) != NULL)
 	{
-		if (ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, ".."))
+		if ((ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, "..")) &&
+			(!ft_strequ(line , ".") && !ft_strequ(line, "..")))
 			continue;
 		if (ft_strstartswith(sd->d_name, line))
 			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name) + 1))
+			{
+				closedir(dir);
 				return (SH_ERR_NOEXIST);
+			}
 	}
+	closedir(dir);
 	return (SH_SUCCESS);
 }
 
@@ -84,13 +89,6 @@ int		complete_files(char *line, t_vec *poss)
 	if (get_path(&line, &path) == SH_ERR_MALLOC)
 		return (SH_ERR_MALLOC);
 	free(tmp);
-	if (ft_strequ(path, ""))
-	{
-		tmp = path;
-		if (!(path = ft_strdup(".")))
-			return (SH_SUCCESS);
-		free(tmp);
-	}
 	if ((ret = get_files(line, path, poss)) > 0)
 		return (ret);
 	free(path);
@@ -112,7 +110,8 @@ t_prompt *prompt)
 		free(to_complete);
 		return (SH_SUCCESS);
 	}
-	if (!ft_strequ(to_complete, ""))
+	if (!ft_strequ(to_complete, "") && !ft_strequ(to_complete, ".")
+			&& !ft_strequ(to_complete, ".."))
 	{
 		complete_command(shell, to_complete, poss);
 		if (poss->size != 0)

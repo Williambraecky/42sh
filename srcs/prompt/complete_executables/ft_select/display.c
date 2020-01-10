@@ -6,7 +6,7 @@
 /*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:19:09 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/09 18:57:34 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 16:01:14 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int					replace_cursor(t_select *select, t_prompt *prompt)
 	t_pos	pos;
 
 	ft_putstr_fd(tgetstr("cr", NULL), 0);
-	pos.x = prompt->select_mode == 2 ? prompt->max_pos.x : select->original_pos.x;
+	pos.x = /*prompt->select_mode == 2 ?*/ prompt->cursor_pos.x /*: select->original_pos.x*/;
 	pos.y = -select->row_total;
 	move_cursor(pos);
 	return (SH_SUCCESS);

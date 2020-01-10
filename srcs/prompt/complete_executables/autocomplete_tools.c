@@ -6,7 +6,7 @@
 /*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:00:39 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/09 17:52:21 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 17:51:44 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,22 @@ int		get_path(char **line, char **path)
 	int		i;
 
 	i = ft_strlen(*line) - 1;
-	while (i > 0 && line[0][i] != '/')
-		i--;
-	if (!(*path = ft_strsub(*line, 0, i + 1)))
-		return (SH_ERR_MALLOC);
-	if (!(*line = ft_strdup(*line + i + 1)))
-		return (SH_ERR_MALLOC);
+	if (strchr(*line, '/'))
+	{
+		while (i > 0 && line[0][i] != '/')
+			i--;
+		*path = ft_strsub(*line, 0, i + 1);
+		*line = ft_strdup(*line + i + 1);
+		if (!*path || !*line)
+			return (SH_ERR_MALLOC);
+	}
+	else
+	{
+		*path = ft_strdup(".");
+		*line = ft_strdup(*line);
+		if (!*path || !*line)
+			return (SH_ERR_MALLOC);
+	}
 	return (SH_SUCCESS);
 }
 
