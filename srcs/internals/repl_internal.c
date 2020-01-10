@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 17:21:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 15:25:29 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/10 18:55:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ int		repl_internal(t_sh *shell, char *key, char *value)
 		return (SH_ERR_NOEXIST);
 	if (!(key = ft_strdup(key))
 		|| !(value = ft_strdup(value)))
+	{
+		free(key);
+		free(value);
 		return (SH_ERR_MALLOC);
+	}
 	if (ft_mapcontains(shell->internals, key))
 	{
 		hash = ft_maphash(shell->internals, key);
