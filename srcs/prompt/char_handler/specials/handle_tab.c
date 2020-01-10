@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:55:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 15:48:26 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 17:01:00 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,6 @@ static int	one_poss_only(char *line, t_vec *poss, t_sh *shell, t_prompt *prompt)
 
 	str = (char *)ft_vecget(poss, 0);
 	i = (int)prompt->buffer_index - 1;
-/*	prompt->select.poss = *poss;
-	prompt->select.written = 0;
-	prompt->select.selected = 0;
-	prompt->select.file_complete = 1;
-	change_line(&prompt->select, prompt);
-	prompt->select_mode = 0;
-	default_char_handler(prompt, " ", NULL);*/
 	while (prompt->select.cursor_right_len > 0)
 	{
 		move_right(prompt);
@@ -55,7 +48,7 @@ static int	one_poss_only(char *line, t_vec *poss, t_sh *shell, t_prompt *prompt)
 		i--;
 	}
 	default_char_handler(prompt, str, NULL);
-//	default_char_handler(prompt, " ", NULL);
+//	default_char_handler(prompt, " ", NULL); //espace ou / si file_complete et que dossier
 	return (RET_CONT);
 }
 
@@ -63,11 +56,33 @@ static int	one_poss_only(char *line, t_vec *poss, t_sh *shell, t_prompt *prompt)
 ** NOTE: first tab creates poss vector; second tab goes into select mode
 */
 
+static int		replace_space_poss(t_vec *poss)
+{
+	void	*tmp;
+	size_t	i;
+	char	*space_free_str;
+
+	i = 0;
+	while (i < poss->size)
+	{
+		tmp = ft_vecget(poss, i);
+		if (ft_strchr((char*)tmp, ' '))
+		{
+			if (!(space_free_str = ft_strsreplall((char*)tmp, " ", "\\ ")))
+				return (SH_ERR_MALLOC);
+			if (ft_vecset(poss, (char *)space_free_str, i))
+				return (SH_ERR_MALLOC);
+			free(tmp);
+		}
+		i++;
+	}
+	return (SH_SUCCESS);
+}
+
 int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	char	*line;
 	t_vec	poss;
-//	size_t	i;
 	(void)buffer;
 
 	line = prompt->buffer.buffer;
@@ -84,6 +99,8 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 	if(ft_vecinit(&poss))
 		return (SH_ERR_MALLOC);
 	autocomplete_command(line, shell, &poss, prompt);
+	if (replace_space_poss(&poss) == SH_ERR_MALLOC)
+		return (SH_ERR_MALLOC);
 	if (poss.size == 0)
 	{
 		ft_vecfree(&poss);
@@ -91,12 +108,6 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 	}
 	if (poss.size == 1)
 		return (one_poss_only(line, &poss, shell, prompt));
-//	i = 0;
-//	while (i < poss.size)
-//	{
-//		ft_strsreplall((char *)ft_vecget(&poss, i), " ", "\\ ");
-//		i++;
-//	}
 	ft_vecsort(&poss, ft_strcmp);
 	ft_select(shell, &poss, prompt);
 	return (RET_CONT);
