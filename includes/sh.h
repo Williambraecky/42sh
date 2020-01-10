@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 17:17:49 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:14:39 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define SH_ERR_OPEN_DIR 6
 # define SH_ERR_PIPE 7
 # define SH_ERR_DUP 8
+# define SH_ERR_SIGINT 9
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif

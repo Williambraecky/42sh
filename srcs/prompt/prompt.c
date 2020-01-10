@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 15:12:47 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:15:29 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 		g_sigint = 0;
 		j = read(0, &buffer, 1);
 		if (j != -1)
-			j += read(0, (char *)(&buffer) + 1, wcharlen(buffer) - 1);
+			return (SH_ERR_SIGINT);
+		j += read(0, (char *)(&buffer) + 1, wcharlen(buffer) - 1);
 		if (g_winchange)
 			recalc_cursor(prompt);
 		if (j != -1)
