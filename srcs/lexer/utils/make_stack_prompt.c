@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 17:19:33 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/07 17:32:20 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:14:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		make_stack_prompt(t_vec *stack, char **result)
 	}
 	if (!(*result = ft_tabjoin(list, " ")))
 		return (SH_ERR_MALLOC);
-	if (!(tmp = ft_strjoin(*result, ">")))
+	if (!(tmp = ft_strjoin(*result, "> ")))
 	{
 		free(*result);
 		return (SH_ERR_MALLOC);
