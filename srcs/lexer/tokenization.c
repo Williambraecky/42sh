@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/09 16:06:44 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:06:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,13 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 	char	*tmp;
 	int		ret;
 
-	(void)lexer;
-	tmp = lexer->line;
 	ret = SH_SUCCESS;
-	if ((ret = handle_prompt(shell, "$> ", &line)) != SH_SUCCESS)
+	if ((ret = make_stack_prompt(&lexer->stack, &tmp)) != SH_SUCCESS)
 		return (ret);
+	if ((ret = handle_prompt(shell, tmp, &line)) != SH_SUCCESS)
+		return (ret);
+	free(tmp);
+	tmp = lexer->line;
 	if (!(lexer->line = ft_strjoin(lexer->line, line)))
 		ret = SH_ERR_MALLOC;
 	lexer->line_size += ft_strlen(line);
