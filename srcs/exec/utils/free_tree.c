@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 18:11:59 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 18:27:02 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:57:13 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ static void	free_pipeline(t_proc *pipeline)
 	}
 }
 
+/*
+** NOTE: backgrounded cmds are freed by the job control
+*/
+
 void		free_tree(t_cmd *cmd)
 {
 	t_cmd	*curr;
@@ -44,9 +48,14 @@ void		free_tree(t_cmd *cmd)
 	curr = cmd;
 	while (curr)
 	{
-		free_pipeline(curr->pipeline);
-		cmd = curr;
-		curr = curr->next;
-		free(cmd);
+		if (curr->background == 0)
+		{
+			free_pipeline(curr->pipeline);
+			cmd = curr;
+			curr = curr->next;
+			free(cmd);
+		}
+		else
+			curr = curr->next;
 	}
 }
