@@ -6,14 +6,20 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 10:42:42 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/10 17:39:03 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/10 19:18:45 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 #include "sh.h"
 
-static int	replace_logname(t_sh *shell, char **str)
+int		is_directory(const char *path)
+{
+	struct stat	path_stat;
+	return ((stat(path, &path_stat) == 0 && S_ISDIR(path_stat.st_mode)));
+}
+
+int	replace_logname(t_sh *shell, char **str)
 {
 	char	*tmp;
   char  *tofree;
@@ -34,6 +40,12 @@ static int	replace_logname(t_sh *shell, char **str)
         return (SH_ERR_MALLOC);
       free(tmp);
       free(tofree);
+      (*str)[ft_strlen(*str) - 1] = '\0';
+      if (!is_directory(*str))
+      {
+        dprintf(2, "sh: no such user or named directory: %s\n", *str);
+        return (SH_ERR_NOEXIST);
+      }
 			return (SH_SUCCESS);
 		}
 		--i;
@@ -41,7 +53,7 @@ static int	replace_logname(t_sh *shell, char **str)
 	return (SH_ERR_ENV_NOEXIST);
 }
 
-static int	replace_home(t_sh *shell, char **str)
+int	replace_home(t_sh *shell, char **str)
 {
 	char	*tmp;
   char  *tofree;
@@ -56,11 +68,11 @@ static int	replace_home(t_sh *shell, char **str)
 	return (SH_SUCCESS);
 }
 
-int			replace_tilde(t_sh *shell, char **str)
+int			replace_tilde(t_sh *shell, char **str, char **result)
 {
-	if (*str[0] != '~')
+	if ((*str)[0] != '~')
 		return (SH_SUCCESS);
-	else if (*str[1] == '\0' || *str[1] == '/')
+	else if ((*str)[1] == '\n' || (*str)[1] == '\0' || (*str)[1] == '/')
 		return (replace_home(shell, str));
 	else
 		return (replace_logname(shell, str));
