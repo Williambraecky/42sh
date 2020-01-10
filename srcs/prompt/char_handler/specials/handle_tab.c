@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:55:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 17:41:42 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:48:26 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,35 @@ int			select_handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 
 static int	one_poss_only(char *line, t_vec *poss, t_sh *shell, t_prompt *prompt)
 {
-	char	*complete_command;
+	(void)shell;
+	(void)line;
+	char	*str;
 	size_t	i;
 
-	i = 0;
-	complete_command = (char *)ft_vecget(poss, 0);
-	while (complete_command[i] && complete_command[i] == line[i]) //TODO: Invalid when not completing beginning of input
-		i++;
-	ft_vecfree(poss);
-	default_char_handler(prompt, complete_command + i, shell);
-	free(complete_command);
-	default_char_handler(prompt, " ", shell);
+	str = (char *)ft_vecget(poss, 0);
+	i = (int)prompt->buffer_index - 1;
+/*	prompt->select.poss = *poss;
+	prompt->select.written = 0;
+	prompt->select.selected = 0;
+	prompt->select.file_complete = 1;
+	change_line(&prompt->select, prompt);
+	prompt->select_mode = 0;
+	default_char_handler(prompt, " ", NULL);*/
+	while (prompt->select.cursor_right_len > 0)
+	{
+		move_right(prompt);
+		handle_backspace(prompt, NULL, NULL);
+		prompt->select.cursor_right_len--;
+	}
+	while (/*prompt->select.file_complete && */prompt->select.cursor_left_len + 1
+			&& prompt->buffer.buffer[i] != '/')
+	{
+		handle_backspace(prompt, NULL, NULL);
+		prompt->select.cursor_left_len--;
+		i--;
+	}
+	default_char_handler(prompt, str, NULL);
+//	default_char_handler(prompt, " ", NULL);
 	return (RET_CONT);
 }
 
