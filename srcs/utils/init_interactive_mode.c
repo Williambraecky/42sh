@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:24:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/16 16:36:01 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:41:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ static int	init_signals(t_sh *shell)
 	signal(SIGCHLD, SIG_IGN);
 	return (0);
 }
+
+/*
+** TODO: most of this should be done in the prompt code
+*/
 
 int			init_interactive_mode(t_sh *shell)
 {
