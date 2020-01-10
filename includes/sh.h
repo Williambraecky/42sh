@@ -235,5 +235,6 @@ int			str_is_name(char *str);
 int			remove_quotes(char *str, char **result);
 int			backup_fds(t_sh *shell);
 int			backup_fd(t_sh *shell, int fd);
+int			map_del_filter(t_node *node);
 
 #endif
