@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 18:03:10 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/10 15:21:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int			main(int argc, const char **argv, const char **env)
 	(void)argv;
 	prompt = "$> ";
 	handle_prompt(&shell, prompt, &line);
-	ft_printf("\nLine: ");
+	ft_printf("Line: ");
 	ft_putnonprint(line);
 	ft_putchar('\n');
 	free(line);
