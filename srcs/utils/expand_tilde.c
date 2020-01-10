@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 10:42:42 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/10 16:42:36 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/10 16:49:00 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	replace_logname(t_sh *shell, char **str)
   ft_bzero(tmp, PATH_MAX);
 	if ((ret = get_env(shell, "HOME", &tmp) > 0))
     return (ret);
-  tmp1 = get_last_occur(tmp, '/');
+  tmp1 = ft_strrchr(tmp, '/');
   if (tmp1)
     ft_strcpy(tmp1, (*str + 1));
   return (SH_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 15:55:03 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/10 16:48:32 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define SH_ERR_OPEN_DIR 6
 # define SH_ERR_PIPE 7
 # define SH_ERR_DUP 8
+# define SH_ERR_SIGINT 9
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -232,5 +233,5 @@ int			str_is_name(char *str);
 int			remove_quotes(char *str, char **result);
 int			backup_fds(t_sh *shell);
 int			backup_fd(t_sh *shell, int fd);
-char 		*get_last_occur(char *str, char c);
+
 #endif

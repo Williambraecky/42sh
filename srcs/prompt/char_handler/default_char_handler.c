@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:54:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 23:12:10 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/10 16:03:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int			default_char_handler(t_prompt *prompt, char *buffer, t_sh *shell)
 		i += wcharlen(buffer[i]);
 	}
 	print_from_cursor(prompt, &new);
-	prompt->buffer_index += wcharlen(*buffer);
-	prompt->char_index++;
+	prompt->buffer_index += ft_strlen(buffer);
+	prompt->char_index += ft_wstrlen(buffer);
 	return (RET_CONT);
 }
