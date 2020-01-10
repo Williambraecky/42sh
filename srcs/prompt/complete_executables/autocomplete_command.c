@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/10 17:53:46 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 19:08:01 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int		get_files(char *line, char *path, t_vec *poss)
 	return (SH_SUCCESS);
 }
 
-int		complete_files(char *line, t_vec *poss)
+int		complete_files(t_prompt * prompt, char *line, t_vec *poss)
 {
 	int		ret;
 	char	*path;
@@ -89,6 +89,7 @@ int		complete_files(char *line, t_vec *poss)
 	if (get_path(&line, &path) == SH_ERR_MALLOC)
 		return (SH_ERR_MALLOC);
 	free(tmp);
+	prompt->select.cursor_left_len = ft_strlen(line) - 1;
 	if ((ret = get_files(line, path, poss)) > 0)
 		return (ret);
 	free(path);
@@ -103,6 +104,11 @@ t_prompt *prompt)
 
 	if (!(to_complete = get_cursor_word(line, prompt)))
 		return (SH_ERR_MALLOC);
+	if (!first_word(line, 0, 1))
+	{
+		complete_files(prompt, to_complete, poss);
+		return (SH_SUCCESS);
+	}
 	if (to_complete[0] == '$')
 	{
 		if (complete_shell_var(to_complete, poss, shell))
@@ -122,6 +128,6 @@ t_prompt *prompt)
 		}
 	}
 	if (poss->size == 0)
-		complete_files(to_complete, poss);
+		complete_files(prompt, to_complete, poss);
 	return (SH_SUCCESS);
 }

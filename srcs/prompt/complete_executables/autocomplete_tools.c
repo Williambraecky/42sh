@@ -6,11 +6,31 @@
 /*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:00:39 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/10 17:51:44 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 19:15:22 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
+
+int		first_word(char *line, size_t i, int first)
+{
+	while (line[i] && line[i] == ' ')
+		i++;
+	while (line[i] && line[i] != ' ') // pas sur du != ' '
+		i++;
+	if (line[i])
+		first = 0;
+	while (line[i])
+	{
+		if (line[i] == '|' || line[i] == '&' || line[i] == ';')
+		{
+			i++;
+			return (first_word(line, i, 1));
+		}
+		i++;
+	}
+	return (first);
+}
 
 int		get_path(char **line, char **path)
 {
