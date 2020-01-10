@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 10:42:42 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/10 16:59:32 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/10 17:30:06 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,30 +15,37 @@
 
 static int	replace_logname(t_sh *shell, char **str)
 {
-	char	*tmp;
+	char	**tmp;
 	int		ret;
-	char	*tmp1;
+	int		i;
 
-	if ((ret = get_env(shell, "HOME", &tmp) > 0))
+	tmp = NULL;
+	if ((ret = get_env(shell, "HOME", tmp) > 0))
 		return (ret);
-	tmp = ft_strdup(tmp);
-	tmp1 = ft_strrchr(tmp, '/');
-	if (tmp1)
-		ft_strcpy(tmp1, (*str + 1));
-	free(tmp);
-	return (SH_SUCCESS);
+	i = ft_strlen(*tmp) - 1;
+	while (tmp && *tmp[i])
+	{
+		if (*tmp[i] == '/')
+		{
+			while (*tmp[++i])
+				*tmp[i] = '\0';
+			*str = ft_strjoin(*tmp, (*str + 1));
+			return (SH_SUCCESS);
+		}
+		--i;
+	}
+	return (SH_ERR_ENV_NOEXIST);
 }
 
 static int	replace_home(t_sh *shell, char **str)
 {
-	char	*tmp;
+	char	**tmp;
 	int		ret;
 
-	if ((ret = get_env(shell, "HOME", &tmp) > 0))
+	tmp = NULL;
+	if ((ret = get_env(shell, "HOME", tmp) > 0))
 		return (ret);
-	tmp = ft_strdup(tmp);
-	ft_strcpy(tmp, (*str + 1));
-	free(tmp);
+	*str = ft_strjoin(*tmp, (*str + 1));
 	return (SH_SUCCESS);
 }
 
