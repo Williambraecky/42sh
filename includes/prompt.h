@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 19:09:36 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 19:32:17 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,6 @@ int				select_handle_arrows(t_prompt *prompt, char *buffer);
 int				select_render(t_prompt *prompt, t_select *select);
 int				change_line(t_select *select, t_prompt *prompt);
 int				first_word(char *line, size_t i, int first_word);
+int				select_handle_arrows(t_prompt *prompt, char *buffer);
 
 #endif
