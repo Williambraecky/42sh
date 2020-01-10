@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 10:42:42 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/10 17:30:06 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/10 17:39:03 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,25 @@
 
 static int	replace_logname(t_sh *shell, char **str)
 {
-	char	**tmp;
+	char	*tmp;
+  char  *tofree;
 	int		ret;
 	int		i;
 
-	tmp = NULL;
-	if ((ret = get_env(shell, "HOME", tmp) > 0))
+	if ((ret = get_env_clone(shell, "HOME", &tmp) > 0))
 		return (ret);
-	i = ft_strlen(*tmp) - 1;
-	while (tmp && *tmp[i])
+	i = ft_strlen(tmp) - 1;
+  tofree = *str;
+	while (tmp && tmp[i])
 	{
-		if (*tmp[i] == '/')
+		if (tmp[i] == '/')
 		{
-			while (*tmp[++i])
-				*tmp[i] = '\0';
-			*str = ft_strjoin(*tmp, (*str + 1));
+			while (tmp[++i])
+				tmp[i] = '\0';
+			if (!(*str = ft_strjoin(tmp, (*str + 1))))
+        return (SH_ERR_MALLOC);
+      free(tmp);
+      free(tofree);
 			return (SH_SUCCESS);
 		}
 		--i;
@@ -39,13 +43,16 @@ static int	replace_logname(t_sh *shell, char **str)
 
 static int	replace_home(t_sh *shell, char **str)
 {
-	char	**tmp;
+	char	*tmp;
+  char  *tofree;
 	int		ret;
 
-	tmp = NULL;
-	if ((ret = get_env(shell, "HOME", tmp) > 0))
+  tofree = *str;
+	if ((ret = get_env(shell, "HOME", &tmp) > 0))
 		return (ret);
-	*str = ft_strjoin(*tmp, (*str + 1));
+	if (!(*str = ft_strjoin(tmp, (*str + 1))))
+    return (SH_ERR_MALLOC);
+  free(tofree);
 	return (SH_SUCCESS);
 }
 

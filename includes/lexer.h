@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/09 14:46:25 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/10 17:42:01 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,5 +198,6 @@ int			istok_null(t_lexer *lexer, t_token *token);
 int			transform_null(t_lexer *lexer, t_token *token);
 int			resolve_alias(t_sh *shell, char *alias, char **return_val);
 int			init_lexer(t_lexer *lexer, char *line);
+int			replace_tilde(t_sh *shell, char **str);
 
 #endif
