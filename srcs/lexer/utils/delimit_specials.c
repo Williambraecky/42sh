@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:41:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 10:38:43 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/10 15:50:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int				handle_specials(t_lexer *lex, size_t len)
 
 	i = match_special_character(lex->line + len);
 	if (ft_strequ(g_specials[i], "\""))
-		push_or_pop(lex, T_DOUBLE_QUOTE);
+		return (push_or_pop(lex, T_DOUBLE_QUOTE));
 	else if (ft_strequ(g_specials[i], "'"))
-		push_or_pop(lex, T_QUOTE);
+		return (push_or_pop(lex, T_QUOTE));
 	else if (ft_strequ(g_specials[i], "${"))
-		stack_push(lex, T_BRACEPARAM);
+		return (stack_push(lex, T_BRACEPARAM));
 	else if (ft_strequ(g_specials[i], "}") && stack_top(lex) == T_BRACEPARAM)
 		stack_pop(lex);
 	return (SH_SUCCESS);
