@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/09 14:46:25 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/10 15:34:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int			is_escaped(t_lexer *lex, size_t len);
 int			handle_specials(t_lexer *lex, size_t len);
 int			new_line_check(t_lexer *lex, size_t len);
 int			make_stack_prompt(t_vec *stack, char **result);
-
+int			init_lexer(t_lexer *lexer, char *line);
 /*
 ** Tokens
 */
@@ -196,7 +196,5 @@ int			istok_word(t_lexer *lexer, t_token *token);
 int			transform_word(t_lexer *lexer, t_token *token);
 int			istok_null(t_lexer *lexer, t_token *token);
 int			transform_null(t_lexer *lexer, t_token *token);
-int			resolve_alias(t_sh *shell, char *alias, char **return_val);
-int			init_lexer(t_lexer *lexer, char *line);
 
 #endif
