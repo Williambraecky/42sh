@@ -6,31 +6,33 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:23:53 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/11 17:19:38 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/11 17:49:46 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-//	TO DO :
-//	[a-zA-Z_][a-zA-Z0-9_]* charset for parameter
-//	brackets not single quoted and not escaped
-//	replace value even if non existent (empty str)
-//	braceparam inside braceparam : do stack treatment, recursively
-//	$expression
-//	order of information:
-//			parameter set and not null,
-//			parameter set but null,
-//			parameter unset
-//	${parameter:-word}:	substitute parameter/ substitute word/ substitute word
-//	${parameter:=word}:	substitute parameter/ assign word/ assign word
-//	${parameter:?word}:	substitute parameter/ error, exit/ error, exit
-//	${parameter:+word}:	substitute word/ substitute null/ substitute null
-//	${#parameter}	strlen of parameter
-//	${parameter%}	replace smallest suffix
-//	${parameter%%}	replace largest suffix
-//	${parameter#}	replace smallest prefix
-//	${parameter##}	replace largest prefix
+/*
+** 	TO DO :
+** 	[a-zA-Z_][a-zA-Z0-9_]* charset for parameter
+** 	brackets not single quoted and not escaped
+** 	replace value even if non existent (empty str)
+** 	braceparam inside braceparam : do stack treatment, recursively
+** 	$expression
+** 	order of information:
+** 			parameter set and not null,
+** 			parameter set but null,
+** 			parameter unset
+** 	${parameter:-word}:	substitute parameter/ substitute word/ substitute word
+** 	${parameter:=word}:	substitute parameter/ assign word/ assign word
+** 	${parameter:?word}:	substitute parameter/ error, exit/ error, exit
+** 	${parameter:+word}:	substitute word/ substitute null/ substitute null
+** 	${#parameter}	strlen of parameter
+** 	${parameter%}	replace smallest suffix
+** 	${parameter%%}	replace largest suffix
+** 	${parameter#}	replace smallest prefix
+** 	${parameter##}	replace largest prefix
+*/
 
 #define FIRST_CHAR 1
 #define NOT_FIRST_CHAR 0
@@ -59,7 +61,8 @@ int		get_valid_parameter(t_sh *shell, char *str, size_t *len, char **result)
 	tmp = str[i];
 	str[i] = '\0';
 	*len = ft_strlen(str) + 1;
-	ret = get_env(shell, str, result);
+	if ((ret = get_env(shell, str, result)) != SH_SUCCESS)
+		ret = get_internal(shell, str, result);
 	str[i] = tmp;
 	return (ret);
 }
@@ -102,16 +105,20 @@ int		expand_param(t_sh *shell, char *str, char **result)
 	if (str[i] != '$')
 		return (SH_SUCCESS);
 	if ((str + i)[1] == '{')
-	{
-		if ((ret = expand_brace_param(shell, str + i, result)) != SH_SUCCESS)
-			return (ret);
-	}
+		ret = expand_brace_param(shell, str + i, result);
 	else
-		if ((ret = expand_no_brace(shell, str + i, result)) != SH_SUCCESS)
-			return (ret);
+		ret = expand_no_brace(shell, str + i, result);
 	tmp = *result;
 	str[i] = '\0';
-	if (!(*result = ft_strjoin(str, *result)))
+	if (ret != SH_SUCCESS)
+	{
+		if (!(*result = ft_strdup(str)))
+		{
+			ft_strdel(&tmp);
+			return (SH_ERR_MALLOC);
+		}
+	}
+	else if (!(*result = ft_strjoin(str, *result)))
 	{
 		ft_strdel(&tmp);
 		return (SH_ERR_MALLOC);
