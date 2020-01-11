@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 10:42:42 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/11 14:29:28 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/11 22:52:09 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int		replace_logname(t_sh *shell, char **str)
 				return (SH_ERR_MALLOC);
 			free(tmp);
 			free(tofree);
-			(*str)[ft_strlen(*str) - 1] = '\0';
+			(*str)[ft_strlen(*str) - 1] = '\0';//remove newline
 			if (!is_directory(*str))
 			{
 				dprintf(2, "sh: no such user or named directory: %s\n", *str);
@@ -57,26 +57,26 @@ int		replace_logname(t_sh *shell, char **str)
 int		replace_home(t_sh *shell, char **str)
 {
 	char		*tmp;
-	char		*tofree;
+	char		**tofree;
 	int			ret;
 
-	tofree = *str;
+	tofree = str;
 	if ((ret = get_env(shell, "HOME", &tmp) > 0))
 		return (ret);
 	if (!(*str = ft_strjoin(tmp, (*str + 1))))
 		return (SH_ERR_MALLOC);
-	free(tofree);
+	free(*tofree);
 	return (SH_SUCCESS);
 }
 
 int		replace_tilde(t_sh *shell, char *str, char **result)
 {
-	(void)result;
-	if (str[0] != '~')
+	*result = ft_strdup(str);
+	if (str[0] != '~' || ft_strchr(str, '\\') || ft_strchr(str, '\"'))
 		return (SH_SUCCESS);
 	else if (str[1] == '\n' || str[1] == '\0' || str[1] == '/')
-		return (replace_home(shell, &str));
+		return (replace_home(shell, result));
 	else
-		return (replace_logname(shell, &str));
+		return (replace_logname(shell, result));
 	return (SH_SUCCESS);
 }
