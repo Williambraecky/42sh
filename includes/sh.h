@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 19:07:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/11 14:27:09 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,5 +236,7 @@ int			remove_quotes(char *str, char **result);
 int			backup_fds(t_sh *shell);
 int			backup_fd(t_sh *shell, int fd);
 int			map_del_filter(t_node *node);
+int			expand_param(t_sh *shell, char *str, char **result);
+int			replace_tilde(t_sh *shell, char *str, char **result);
 
 #endif

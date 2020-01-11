@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/10 19:20:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/11 14:26:43 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int			is_escaped(t_lexer *lex, size_t len);
 int			handle_specials(t_lexer *lex, size_t len);
 int			new_line_check(t_lexer *lex, size_t len);
 int			make_stack_prompt(t_vec *stack, char **result);
-int			replace_tilde(t_sh *shell, char **str);
+
 /*
 ** Tokens
 */
