@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:45:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 19:11:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/11 17:21:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 /*
 ** Defines
 */
+
+# define PROC_FD_BACKUP_SIZE 10
 
 /*
 ** Typedefs
@@ -38,18 +40,20 @@ struct		s_io
 {
 	int		in;
 	int		out;
-	int		err;
 };
 
 struct		s_redir
 {
-	t_io_nb	*io_nb;
+	t_io_nb	*io_nb; //redirector
 	t_token	*token;
 	char	*filename;
 };
 
 /*
 ** NOTE: this should store related redirections etc
+** NOTE: io used for pipes
+** NOTE: fd_backups is for restoring fds after redirection
+** NOTE: implementation only asks to handle 0 to 9 inclusive
 */
 
 struct		s_proc
@@ -63,6 +67,7 @@ struct		s_proc
 	t_vec	redirections;
 	t_vec	assignments;
 	t_io	io;
+	int		fd_backups[PROC_FD_BACKUP_SIZE];
 	t_map	*env_backup;
 };
 
@@ -127,5 +132,11 @@ void		free_tree(t_cmd *cmd);
 int			proc_is_empty(t_proc *proc);
 int			cmd_is_empty(t_cmd *cmd);
 int			proc_apply_redir(t_sh *shell, t_proc *proc);
+int			redir_open_file(char *name, t_type type);
+int			redir_get_fd(t_redir *redir);
+int			redir_add_undo(t_proc *proc, int fd);
+int			apply_base_redir(t_proc *proc, t_redir *redir);
+int			apply_and_redir(t_proc *proc, t_redir *redir);
+int			apply_dlesser_redir(t_proc *proc, t_redir *redir);
 
 #endif

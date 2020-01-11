@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 17:39:13 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/02 18:21:45 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/11 16:07:57 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int		proc_new(t_proc **proc)
 {
+	size_t	i;
+
 	if (!(*proc = ft_memalloc(sizeof(**proc))))
 		return (SH_ERR_MALLOC);
 	if (ft_vecinit(&((*proc)->unprocessed_argv))
@@ -26,5 +28,8 @@ int		proc_new(t_proc **proc)
 		ft_vecfree(&((*proc)->assignments));
 		return (SH_ERR_MALLOC);
 	}
+	i = PROC_FD_BACKUP_SIZE;
+	while (i--)
+		(*proc)->fd_backups[i] = -1;
 	return (SH_SUCCESS);
 }

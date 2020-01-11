@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 19:10:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 19:19:13 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/11 17:26:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,36 +24,57 @@ static int	proxy_substitute(t_sh *shell, char *str, char **result)
 	return (SH_SUCCESS);
 }
 
-/*
-** TODO: open files for redirections and add the
-**    fd to the good io number in proc->io
-*/
-
-static int	actual_redir(t_sh *shell, t_proc *proc,
-	t_redir *redir, char *real_filename)
+static int	actual_redir(t_proc *proc, t_redir *redir)
 {
-	(void)shell;
-	(void)proc;
-	(void)redir;
-	(void)real_filename;
+	if (redir->token->type == T_GREATER ||
+		redir->token->type == T_DOUBLE_GREATER ||
+		redir->token->type == T_LESSER)
+		return (apply_base_redir(proc, redir));
+	else if (redir->token->type == T_LESSER_AND ||
+		redir->token->type == T_GREATER_AND)
+		return (apply_and_redir(proc, redir));
+	else if (redir->token->type == T_DOUBLE_LESSER)
+		return (apply_dlesser_redir(proc, redir));
+	return (SH_SUCCESS);
+}
+
+static int	redir_apply_pipe(t_proc *proc, int io, int to)
+{
+	int	ret;
+
+	if (io)
+	{
+		io = proc->io.out;
+		if ((ret = redir_add_undo(proc, to)) != SH_SUCCESS)
+			return (ret);
+		close(to);
+		if (dup2(io, to) == -1)
+		{
+			close(io);
+			return (SH_ERR_DUP);
+		}
+		close(io);
+	}
 	return (SH_SUCCESS);
 }
 
 int			proc_apply_redir(t_sh *shell, t_proc *proc)
 {
 	t_redir	*redir;
-	char	*sub_filename;
 	size_t	i;
 	int		ret;
 
 	i = 0;
+	if ((ret = redir_apply_pipe(proc, proc->io.out, 1)) != SH_SUCCESS)
+		return (ret);
+	if ((ret = redir_apply_pipe(proc, proc->io.in, 0)) != SH_SUCCESS)
+		return (ret);
 	while (i < proc->redirections.size)
 	{
 		redir = (t_redir*)ft_vecget(&proc->redirections, i++);
-		if (proxy_substitute(shell, redir->filename, &sub_filename))
+		if (proxy_substitute(shell, redir->filename, &redir->filename))
 			return (SH_ERR_MALLOC);
-		if ((ret = actual_redir(shell, proc,
-			redir, sub_filename)) != SH_SUCCESS)
+		if ((ret = actual_redir(proc, redir)) != SH_SUCCESS)
 			return (ret);
 	}
 	return (SH_SUCCESS);
