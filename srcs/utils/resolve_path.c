@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 15:51:35 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 14:30:13 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/11 14:41:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,10 @@
 static int	check_dir(char *tok, char *name, char **result)
 {
 	char	*filepath;
-	t_stat	stat_t;
 
 	if (!(filepath = ft_strtrijoin(tok, "/", name)))
 		return (SH_ERR_MALLOC);
-	if (stat(filepath, &stat_t) == 0)
+	if (access(filepath, X_OK) == 0)
 	{
 		*result = filepath;
 		return (SH_SUCCESS);
