@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 15:45:51 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/11 17:22:44 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ static int		do_heredoc(t_lexer *lex, t_token *tok)
 	hdoc = find_heredoc(lex);
 	if (ft_strcmp(tok->str, hdoc->name) == 0)
 	{
+		close(hdoc->pipe[1]);
 		hdoc->completed = 1;
 		stack_pop(lex);
 	}
