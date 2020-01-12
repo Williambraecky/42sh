@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 10:42:42 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/11 22:52:09 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/12 15:45:31 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,33 +20,24 @@ int		is_directory(const char *path)
 	return ((stat(path, &path_stat) == 0 && S_ISDIR(path_stat.st_mode)));
 }
 
-int		replace_logname(t_sh *shell, char **str)
+int		expand_logname(t_sh *shell, char *str, char **result)
 {
 	char		*tmp;
-	char		*tofree;
 	int			ret;
 	int			i;
 
 	if ((ret = get_env_clone(shell, "HOME", &tmp) > 0))
 		return (ret);
 	i = ft_strlen(tmp) - 1;
-	tofree = *str;
-	while (tmp && tmp[i])
+	while (i >= 0 && tmp)
 	{
 		if (tmp[i] == '/')
 		{
 			while (tmp[++i])
 				tmp[i] = '\0';
-			if (!(*str = ft_strjoin(tmp, (*str + 1))))
+			if (!(*result = ft_strjoin(tmp, (str + 1))))
 				return (SH_ERR_MALLOC);
-			free(tmp);
-			free(tofree);
-			(*str)[ft_strlen(*str) - 1] = '\0';//remove newline
-			if (!is_directory(*str))
-			{
-				dprintf(2, "sh: no such user or named directory: %s\n", *str);
-				return (SH_ERR_NOEXIST);
-			}
+			//(*result)[ft_strlen(*result) - 1] = '\0';//remove newline
 			return (SH_SUCCESS);
 		}
 		--i;
@@ -54,29 +45,26 @@ int		replace_logname(t_sh *shell, char **str)
 	return (SH_ERR_ENV_NOEXIST);
 }
 
-int		replace_home(t_sh *shell, char **str)
+int		expand_home(t_sh *shell, char *str, char **result)
 {
 	char		*tmp;
-	char		**tofree;
 	int			ret;
 
-	tofree = str;
 	if ((ret = get_env(shell, "HOME", &tmp) > 0))
 		return (ret);
-	if (!(*str = ft_strjoin(tmp, (*str + 1))))
+	if (!(*result = ft_strjoin(tmp, (str + 1))))
 		return (SH_ERR_MALLOC);
-	free(*tofree);
 	return (SH_SUCCESS);
 }
 
-int		replace_tilde(t_sh *shell, char *str, char **result)
+int		expand_tilde(t_sh *shell, char *str, char **result)
 {
 	*result = ft_strdup(str);
-	if (str[0] != '~' || ft_strchr(str, '\\') || ft_strchr(str, '\"'))
+	if (!str || str[0] != '~' || ft_strchr(str, '\\') || ft_strchr(str, '\"'))
 		return (SH_SUCCESS);
-	else if (str[1] == '\n' || str[1] == '\0' || str[1] == '/')
-		return (replace_home(shell, result));
+	if (str[1] == '\n' || str[1] == '\0' || str[1] == '/')
+		return (expand_home(shell, str, result));
 	else
-		return (replace_logname(shell, result));
+		return (expand_logname(shell, str, result));
 	return (SH_SUCCESS);
 }
