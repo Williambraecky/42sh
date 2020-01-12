@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/12 15:22:51 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/12 18:26:35 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,5 +239,6 @@ int			backup_fd(t_sh *shell, int fd);
 int			map_del_filter(t_node *node);
 int			expand_param(t_sh *shell, char *str, char **result);
 int			expand_tilde(t_sh *shell, char *str, char **result);
+int			expand_exclamation(t_sh *shell, char *str, char **result);
 
 #endif

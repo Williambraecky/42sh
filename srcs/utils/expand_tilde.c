@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 10:42:42 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/12 15:45:31 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/12 18:09:41 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int		expand_tilde(t_sh *shell, char *str, char **result)
 	*result = ft_strdup(str);
 	if (!str || str[0] != '~' || ft_strchr(str, '\\') || ft_strchr(str, '\"'))
 		return (SH_SUCCESS);
-	if (str[1] == '\n' || str[1] == '\0' || str[1] == '/')
+	else if (str[1] == '\n' || str[1] == '\0' || str[1] == '/')
 		return (expand_home(shell, str, result));
 	else
 		return (expand_logname(shell, str, result));
