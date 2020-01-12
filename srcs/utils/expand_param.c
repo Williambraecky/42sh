@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:23:53 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/11 17:49:46 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/12 15:58:07 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 /*
 ** 	TO DO :
-** 	[a-zA-Z_][a-zA-Z0-9_]* charset for parameter
 ** 	brackets not single quoted and not escaped
 ** 	replace value even if non existent (empty str)
 ** 	braceparam inside braceparam : do stack treatment, recursively
@@ -39,9 +38,9 @@
 
 int		is_charset(char c, int first_char)
 {
-	return ((c > 'a' && c < 'z')
-			|| (c > 'A' && c < 'Z')
-			|| (c > '0' && c < '9' && first_char == NOT_FIRST_CHAR)
+	return ((c >= 'a' && c <= 'z')
+			|| (c >= 'A' && c <= 'Z')
+			|| (c >= '0' && c <= '9' && first_char == NOT_FIRST_CHAR)
 			|| c == '_');
 }
 
@@ -81,14 +80,12 @@ int		expand_no_brace(t_sh *shell, char *str, char **result)
 	size_t	key_len;
 	int		ret;
 
-	(void)result;
 	ret = SH_SUCCESS;
 	if ((ret = get_valid_parameter(shell, str + 1, &key_len, &expanded)
 		!= SH_SUCCESS))
 		return (ret);
 	if (!(*result = ft_strjoin(expanded, str + key_len)))
 		return (SH_ERR_MALLOC);
-	ft_printf("expanded %s, key %zu, result %s\n", expanded, key_len, *result);
 	return (SH_SUCCESS);
 }
 
@@ -125,6 +122,5 @@ int		expand_param(t_sh *shell, char *str, char **result)
 	}
 	str[i] = '$';
 	ft_strdel(&tmp);
-	ft_printf("find = %s\n", str + i);
 	return (SH_SUCCESS);
 }
