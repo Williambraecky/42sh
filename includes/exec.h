@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:45:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/11 17:21:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 01:08:57 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,15 @@ struct		s_proc
 	int		argc;
 	t_vec	unprocessed_argv; //NOTE: those are all T_WORD
 	char	**argv;
+	char	**env;
 	t_vec	redirections;
 	t_vec	assignments;
 	t_io	io;
 	int		fd_backups[PROC_FD_BACKUP_SIZE];
 	t_map	*env_backup;
+	int		status;
+	int		stopped;
+	int		completed;
 };
 
 /*
@@ -82,6 +86,7 @@ struct		s_cmd
 {
 	t_proc	*pipeline;
 	pid_t	pgid;
+	t_termi	termios;
 	int		(*condition)(int); //NOTE: OR AND etc
 	int		background;
 	t_cmd	*next;
@@ -103,6 +108,7 @@ int			build_tree(t_lexer *lexer, t_cmd **result);
 int			exec_tree(t_sh *shell, t_cmd *tree);
 int			exec_cmd(t_sh *shell, t_cmd *cmd);
 int			exec_proc(t_sh *shell, t_proc *proc);
+int			proc_exec_cmd(t_sh *shell, t_proc *proc);
 
 int			apply_newline(t_token *token, t_build *build);
 int			apply_ampersand(t_token *token, t_build *build);
@@ -119,6 +125,11 @@ int			apply_redir(t_token *token, t_build *build);
 */
 
 int			jobs_add(t_sh *shell, t_cmd *cmd);
+int			job_is_stopped(t_cmd *cmd);
+int			job_is_completed(t_cmd *cmd);
+void		job_wait(t_cmd *cmd);
+int			jobs_to_background(t_sh *shell, t_cmd *cmd, int wake);
+int			jobs_to_foreground(t_sh *shell, t_cmd *cmd, int wake);
 
 /*
 ** Utils
@@ -138,5 +149,6 @@ int			redir_add_undo(t_proc *proc, int fd);
 int			apply_base_redir(t_proc *proc, t_redir *redir);
 int			apply_and_redir(t_proc *proc, t_redir *redir);
 int			apply_dlesser_redir(t_proc *proc, t_redir *redir);
+int			proxy_substitute(t_sh *shell, char *str, char **result);
 
 #endif

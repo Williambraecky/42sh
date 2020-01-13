@@ -6,11 +6,15 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/11 15:22:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 00:33:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
+
+/*
+** TODO: those assigns need to be substituted aswell
+*/
 
 static int	make_new_env(t_sh *shell, t_proc *proc)
 {
@@ -63,8 +67,22 @@ static int	apply_assigns(t_sh *shell, t_proc *proc)
 	return (SH_SUCCESS);
 }
 
+static int	undo_redir(t_proc *proc, int ret)
+{
+	size_t	i;
+
+	i = PROC_FD_BACKUP_SIZE;
+	while (i--)
+	{
+		if (proc->fd_backups[i] != -1)
+			if (dup2(proc->fd_backups[i], i) == -1)
+				ret = SH_ERR_DUP;
+		close(proc->fd_backups[i]);
+	}
+	return (ret);
+}
+
 /*
-** NOTE: compute redirections
 ** NOTE: substitute all words related to arguments
 ** NOTE: exec command
 */
@@ -79,7 +97,8 @@ int			exec_proc(t_sh *shell, t_proc *proc)
 	if (ret == SH_SUCCESS)
 		ret = proc_apply_redir(shell, proc);
 	if (ret == SH_SUCCESS)
-		;//exec command
+		ret = proc_exec_cmd(shell, proc);//exec command
+	ret = undo_redir(proc, ret); // TODO: undo all redirections
 	if (proc->env_backup)
 	{
 		ft_memswap(&proc->env_backup, &shell->env, sizeof(t_map *));

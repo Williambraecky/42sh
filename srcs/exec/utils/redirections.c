@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:51:10 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/11 17:24:47 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/12 23:37:23 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,28 @@ static int	redirand_get_fd(t_redir *redir)
 	return (redir_open_file(redir->filename, redir->token->type));
 }
 
+static int	redirand_check_closed(t_proc *proc, int fd)
+{
+	size_t	i;
+	int		new;
+
+	i = PROC_FD_BACKUP_SIZE;
+	while (i--)
+	{
+		if (proc->fd_backups[i] == fd)
+		{
+			if ((new = dup(proc->fd_backups[i])) == -1)
+				return (SH_ERR_DUP);
+			proc->fd_backups[i] = new;
+			break ;
+		}
+	}
+	return (SH_SUCCESS);
+}
+
 /*
 ** NOTE: greater and lesser- and might be combinable in one function
+** TODO: if fd to be closed is one of the backup fds, create another backup
 */
 
 int			apply_and_redir(t_proc *proc, t_redir *redir)
@@ -57,13 +77,14 @@ int			apply_and_redir(t_proc *proc, t_redir *redir)
 	int	fd;
 	int	ret;
 
+	ret = SH_SUCCESS;
 	redirected = redir_get_fd(redir);
-	fd = redirand_get_fd(redir);
-	if (fd == -1)
+	if ((fd = redirand_get_fd(redir)) == -1)
 		return (SH_ERR_OPEN);
 	if ((ret = redir_add_undo(proc, redirected)) != SH_SUCCESS)
 		return (ret);
-	if (ft_strequ(redir->filename, "-"))
+	if (ft_strequ(redir->filename, "-") &&
+		(ret = redirand_check_closed(proc, redirected)) == SH_SUCCESS)
 		close(redirected);
 	else
 	{
@@ -75,7 +96,7 @@ int			apply_and_redir(t_proc *proc, t_redir *redir)
 		}
 		close(fd);
 	}
-	return (SH_SUCCESS);
+	return (ret);
 }
 
 /*

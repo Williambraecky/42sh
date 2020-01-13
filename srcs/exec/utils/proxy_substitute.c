@@ -1,26 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_last_return_code.c                             :+:      :+:    :+:   */
+/*   proxy_substitute.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 15:45:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 01:20:36 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/12 23:48:16 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/13 00:03:29 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#include "exec.h"
 
 /*
-** NOTE: since ? is a read only value for users it should always be present
+** TODO: use real substitute function
 */
 
-int		get_last_return_code(t_sh *shell)
+int	proxy_substitute(t_sh *shell, char *str, char **result)
 {
-	char	*var;
-
-	if (get_internal(shell, "?", &var) == SH_SUCCESS)
-		return (ft_atoi(var));
-	return (0);
+	(void)shell;
+	if (!(*result = ft_strdup(str)))
+		return (SH_ERR_MALLOC);
+	return (SH_SUCCESS);
 }

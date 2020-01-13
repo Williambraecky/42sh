@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_last_return_code.c                             :+:      :+:    :+:   */
+/*   job_is_stopped.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 15:45:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 01:20:36 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/13 00:53:36 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/13 01:14:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#include "exec.h"
 
-/*
-** NOTE: since ? is a read only value for users it should always be present
-*/
-
-int		get_last_return_code(t_sh *shell)
+int		job_is_stopped(t_cmd *cmd)
 {
-	char	*var;
+	t_proc *curr;
 
-	if (get_internal(shell, "?", &var) == SH_SUCCESS)
-		return (ft_atoi(var));
-	return (0);
+	curr = cmd->pipeline;
+	while (curr)
+	{
+		if (!curr->completed && !curr->stopped)
+			return (0);
+		curr = curr->next;
+	}
+	return (1);
 }

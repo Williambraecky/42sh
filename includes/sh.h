@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/12 18:26:35 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/13 00:45:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@
 # define SH_ERR_SIGINT 9
 # define SH_ERR_FORK 10
 # define SH_ERR_OPEN 11
+# define SH_ERR_KILL 12
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -241,5 +242,6 @@ int			map_del_filter(t_node *node);
 int			expand_param(t_sh *shell, char *str, char **result);
 int			expand_tilde(t_sh *shell, char *str, char **result);
 int			expand_exclamation(t_sh *shell, char *str, char **result);
+int			is_builtin(t_sh *shell, char *str);
 
 #endif

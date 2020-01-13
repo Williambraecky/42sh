@@ -6,23 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 19:10:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/11 17:26:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/12 23:49:02 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "exec.h"
-
-/*
-** TODO: use real substitute function
-*/
-
-static int	proxy_substitute(t_sh *shell, char *str, char **result)
-{
-	(void)shell;
-	if (!(*result = ft_strdup(str)))
-		return (SH_ERR_MALLOC);
-	return (SH_SUCCESS);
-}
 
 static int	actual_redir(t_proc *proc, t_redir *redir)
 {
