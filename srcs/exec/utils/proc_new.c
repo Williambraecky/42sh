@@ -6,11 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 17:39:13 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/11 16:07:57 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
 int		proc_new(t_proc **proc)
 {

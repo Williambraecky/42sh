@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 15:22:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 16:56:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int			handle_prompt(t_sh *shell, char *prompt_str, char **result)
 
 	ft_memset(&prompt, 0, sizeof(prompt));
 	g_sigint = 0;
+	tcsetattr(SH_IN, TCSADRAIN, &shell->current_termios);
 	if ((err_code = gen_prompt(shell, prompt_str, &prompt)) != SH_SUCCESS)
 		return (err_code);
 	if (shell->prompt_mode)
@@ -112,6 +113,7 @@ int			handle_prompt(t_sh *shell, char *prompt_str, char **result)
 		*result = NULL;
 		free(prompt.buffer.buffer);
 	}
+	tcsetattr(SH_IN, TCSADRAIN, &shell->old_termios);
 	free_prompt(&prompt);
 	return (err_code);
 }

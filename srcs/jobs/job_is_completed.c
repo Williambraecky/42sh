@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
 int		job_is_completed(t_cmd *cmd)
 {

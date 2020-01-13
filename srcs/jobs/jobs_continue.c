@@ -6,11 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 01:08:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 01:13:18 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
 static void	unflag_stopped(t_cmd *cmd)
 {
@@ -24,11 +24,11 @@ static void	unflag_stopped(t_cmd *cmd)
 	}
 }
 
-void	job_continue(t_sh *shell, t_cmd *cmd, int fg)
+void		job_continue(t_sh *shell, t_cmd *cmd, int fg)
 {
 	unflag_stopped(cmd);
 	if (fg)
 		jobs_to_foreground(shell, cmd, 1);
 	else
-	 	jobs_to_background(shell, cmd, 1);
+		jobs_to_background(shell, cmd, 1);
 }

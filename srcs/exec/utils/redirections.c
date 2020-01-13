@@ -6,11 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:51:10 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 11:55:46 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
 int			apply_dlesser_redir(t_proc *proc, t_redir *redir)
 {

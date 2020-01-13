@@ -6,7 +6,7 @@
 /*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:19:09 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/10 19:48:42 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/10 19:59:56 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int					replace_cursor(t_select *select, t_prompt *prompt)
 	return (SH_SUCCESS);
 }
 
- int			print_selected(t_select *select, t_vec *poss, int i)
+int			print_selected(t_select *select, t_vec *poss, int i)
 {
 	if (select->selected == i)
 	{

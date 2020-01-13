@@ -6,11 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 18:17:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 15:25:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
 int		cmd_is_empty(t_cmd *cmd)
 {

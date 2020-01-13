@@ -6,11 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:42:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 02:16:03 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:20:25 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
 /*
 ** TODO: everything; this should build the current working tree
@@ -77,18 +77,18 @@ int			g_expected[] =
 	[T_IO_NUMBER] = M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
 	| M_GREATER_AND | M_GREATER | M_LESSER,
 
-	[T_DOUBLE_LESSER] = T_WORD,
-	[T_DOUBLE_GREATER] = T_WORD,
-	[T_LESSER] = T_WORD,
-	[T_GREATER] = T_WORD,
-	[T_LESSER_AND] = T_WORD,
-	[T_GREATER_AND] = T_WORD,
+	[T_DOUBLE_LESSER] = M_WORD,
+	[T_DOUBLE_GREATER] = M_WORD,
+	[T_LESSER] = M_WORD,
+	[T_GREATER] = M_WORD,
+	[T_LESSER_AND] = M_WORD,
+	[T_GREATER_AND] = M_WORD,
 
 	[T_WORD] = M_ANY,
 	[T_NULL] = 0
 };
 
-static int	init_build_tree(t_build *build)
+int			init_build_tree(t_build *build)
 {
 	ft_memset(build, 0, sizeof(*build));
 	if (cmd_new(&build->head))
@@ -104,6 +104,7 @@ static int	init_build_tree(t_build *build)
 	build->expected_type = M_WORD | M_SEMICOLON | M_NEWLINE
 		| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
 		| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER;
+	build->prev_type = T_NULL;
 	return (SH_SUCCESS);
 }
 
@@ -116,8 +117,30 @@ static void	print_syntax_error(t_token *token, int ret)
 	ft_putstr_fd("'\n", 2);
 }
 
+int			build_tree_apply_token(t_lexer *lexer, t_token *token)
+{
+	int	ret;
+
+	if (!(lexer->build.expected_type & (1 << token->type)))
+		ret = SH_ERR_SYNTAX;
+	else if (g_dispatch_tokens[token->type])
+		ret = g_dispatch_tokens[token->type](token, &lexer->build);
+	else
+		ret = SH_ERR_NOEXIST;
+	if (ret != SH_SUCCESS)
+	{
+		print_syntax_error(token, ret);
+		return (ret);
+	}
+	lexer->build.expected_type = g_expected[token->type];
+	lexer->build.prev_type = token->type;
+	return (ret);
+}
+
 /*
 ** TODO: Newline doesn't always jump to the next command ex ls |\n cat -e
+** TODO: build tree as we lex the string
+** TODO: stop using this
 */
 
 int			build_tree(t_lexer *lexer, t_cmd **result)
@@ -132,7 +155,7 @@ int			build_tree(t_lexer *lexer, t_cmd **result)
 	i = 0;
 	while (i < lexer->tokens.size)
 	{
-		curr = (t_token*)lexer->tokens.vec[i];
+		curr = (t_token*)lexer->tokens.vec[i++];
 		if (g_dispatch_tokens[curr->type])
 			ret = g_dispatch_tokens[curr->type](curr, &build);
 		else
@@ -143,7 +166,7 @@ int			build_tree(t_lexer *lexer, t_cmd **result)
 			return (ret);
 		}
 		build.expected_type = g_expected[curr->type];
-		i++;
+		build.prev_type = curr->type;
 	}
 	*result = build.head;
 	return (SH_SUCCESS);

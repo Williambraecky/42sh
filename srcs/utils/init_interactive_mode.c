@@ -6,11 +6,15 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:24:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 15:41:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 17:02:18 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
+
+/*
+** TODO: most of this should be done in the prompt code
+*/
 
 static int	init_signals(t_sh *shell)
 {
@@ -25,7 +29,6 @@ static int	init_signals(t_sh *shell)
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGTTIN, SIG_IGN);
 	signal(SIGTTOU, SIG_IGN);
-	signal(SIGCHLD, SIG_IGN);
 	return (0);
 }
 
@@ -56,6 +59,5 @@ int			init_interactive_mode(t_sh *shell)
 	shell->current_termios.c_lflag &= ~(ICANON | ECHO);
 	shell->current_termios.c_cc[VMIN] = 1;
 	shell->current_termios.c_cc[VTIME] = 0;
-	tcsetattr(SH_IN, TCSADRAIN, &shell->current_termios);
 	return (0);
 }

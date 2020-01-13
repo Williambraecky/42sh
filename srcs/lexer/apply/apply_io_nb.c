@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   apply_dpipe.c                                      :+:      :+:    :+:   */
+/*   apply_io_nb.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/02 18:49:13 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 15:43:14 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/06 12:20:15 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/13 18:11:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
-int		apply_dpipe(t_token *token, t_build *build)
+int		apply_io_nb(t_token *token, t_build *build)
 {
-	(void)token;
-	if (build->expected_type && !(build->expected_type & (1 << token->type)))
-		return (SH_ERR_SYNTAX);
-	if (cmd_new(&build->work->next))
+	t_redir	redir;
+
+	redir.io_nb = (t_io_nb*)token;
+	redir.filename = NULL;
+	redir.token = NULL;
+	if (ft_veccpush(&build->work_proc->redirections, &redir, sizeof(redir)))
 		return (SH_ERR_MALLOC);
-	build->work = build->work->next;
-	build->work->condition = or_condition;
-	if (proc_new(&build->work->pipeline))
-		return (SH_ERR_MALLOC);
-	build->work_proc = build->work->pipeline;
-	build->work_proc->parent = build->work;
 	return (SH_SUCCESS);
 }

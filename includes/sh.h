@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:08:58 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:24:49 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ struct		s_sh
 	t_termi	old_termios;
 	t_termi	current_termios;
 	pid_t	pid;
+	int		running;
 };
 
 /*

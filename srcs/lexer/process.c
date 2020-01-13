@@ -6,13 +6,13 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 02:39:39 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:23:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-char		*g_tab_types[] =
+char			*g_tab_types[] =
 {
 	[T_NEWLINE] = "NEWLINE",
 	[T_DOUBLE_AMPERSAND] = "DOUBLE_AMPERSAND",
@@ -34,39 +34,13 @@ char		*g_tab_types[] =
 	[T_NULL] = "NULL"
 };
 
-int			g_stackable[] =
+int				g_stackable[] =
 {
 	[T_DOUBLE_PIPE] = 1,
 	[T_DOUBLE_AMPERSAND] = 1,
 	[T_PIPE] = 1,
 	[T_NULL] = 0
 };
-
-/*
-** char			*last_stack_type(t_vec *stack)
-** {
-** 	if (stack->size == 0)
-** 		return ("NULL");
-** 	return (g_tab_types[(*(t_type*)(ft_vecgettop(stack)))]);
-** }
-**
-** char			*last_token_type(t_vec *tok)
-** {
-** 	if (tok->size == 0)
-** 		return ("NULL");
-** 	return (g_tab_types[((t_token*)(ft_vecgettop(tok)))->type]);
-** }
-*/
-
-static int		find_parse_error(t_type type, t_lexer *lex)
-{
-	if ((lex->tokens.size == 1 && g_stackable[type])
-		|| (g_stackable[type] &&
-			((t_token*)ft_vecget(&lex->tokens, lex->tokens.size - 2))->type
-			!= T_WORD))
-		return (SH_ERR_SYNTAX);
-	return (SH_SUCCESS);
-}
 
 static int		check_dless_exist(t_lexer *lex, t_type type)
 {
@@ -82,8 +56,7 @@ static int		check_dless_exist(t_lexer *lex, t_type type)
 		if ((tok->type == T_DOUBLE_LESSER) && ((t_hdoc*)tok)->completed == 0)
 		{
 			if ((i + 1) < lex->tokens.size
-				&& ((t_token*)ft_vecget(&lex->tokens, i + 1))->type != T_WORD
-				&& (lex->parse_error = 1) == 1)
+				&& ((t_token*)ft_vecget(&lex->tokens, i + 1))->type != T_WORD)
 				return (SH_ERR_SYNTAX);
 			if (remove_quotes(((t_token*)ft_vecget(&lex->tokens, i + 1))->str,
 				&((t_hdoc*)tok)->name) != SH_SUCCESS)
@@ -102,16 +75,13 @@ static int		stack(t_type type, t_lexer *lex)
 	int		ret;
 
 	ret = SH_SUCCESS;
-	if ((ret = find_parse_error(type, lex)) != SH_SUCCESS)
-		lex->parse_error = 1;
-	else if (lex->stack.size != 0 &&
+	if (lex->stack.size != 0 &&
 		(type != T_SEMICOLON && type != T_AMPERSAND && type != T_NEWLINE))
 		stack_pop(lex);
 	else if (g_stackable[type])
 		ret = stack_push(lex, type);
 	else
 		ret = check_dless_exist(lex, type);
-	//ft_printf("---> type in stack %s parse error %d\n", last_stack_type(&lex->stack), lex->parse_error);
 	return (ret);
 }
 
@@ -139,10 +109,8 @@ static t_hdoc	*find_heredoc(t_lexer *lex)
 
 static int		do_heredoc(t_lexer *lex, t_token *tok)
 {
-	int		ret;
 	t_hdoc	*hdoc;
 
-	ret = SH_SUCCESS;
 	hdoc = find_heredoc(lex);
 	if (ft_strcmp(tok->str, hdoc->name) == 0)
 	{
@@ -152,23 +120,26 @@ static int		do_heredoc(t_lexer *lex, t_token *tok)
 	}
 	else
 		ft_putstr_fd(tok->str, hdoc->pipe[1]);
-	return (ret);
+	return (SH_SUCCESS);
 }
 
 int				token_process(t_lexer *lexer, t_token *token)
 {
+	t_token	*tok_dup;
 	int		ret;
 
 	ret = SH_SUCCESS;
-	if (stack_top(lexer) != T_DOUBLE_LESSER)
-		if (ft_veccpush(&lexer->tokens, token, token->size))
-			return (SH_ERR_MALLOC);
+	if (!(tok_dup = ft_memdup(token, token->size)))
+		return (SH_ERR_MALLOC);
 	if (stack_top(lexer) == T_DOUBLE_LESSER)
-	{
-		if ((ret = do_heredoc(lexer, token)) != SH_SUCCESS)
-			return (ret);
-	}
+		do_heredoc(lexer, tok_dup);
 	else
-		ret = stack(token->type, lexer);
+	{
+		if (ft_vecpush(&lexer->tokens, tok_dup))
+			return (SH_ERR_MALLOC);
+		ret = stack(tok_dup->type, lexer);
+		if (ret == SH_SUCCESS)
+			build_tree_apply_token(lexer, tok_dup);
+	}
 	return (ret);
 }
