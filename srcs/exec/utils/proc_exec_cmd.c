@@ -6,11 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 13:43:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
 static int	prepare_args(t_sh *shell, t_proc *proc)
 {
@@ -50,15 +50,18 @@ static void	close_backup_fds_fork(t_proc *proc)
 		close(proc->fd_backups[i]);
 }
 
-static int	exec_builtin(t_sh *shell, t_proc *proc)
+static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)
 {
 	t_bltin	*bltin;
 	int		ret;
 
 	bltin = ft_mapget(shell->builtins, proc->argv[0]);
 	ret = bltin->fnc_ptr((int)proc->unprocessed_argv.size, proc->argv, shell);
-	if (proc->pid)
+	if (bg)
 		exit(ret);
+	proc->status = ret;
+	proc->completed = 1;
+	proc->stopped = 1;
 	return (ret);
 }
 
@@ -99,14 +102,14 @@ int			proc_exec_cmd(t_sh *shell, t_proc *proc)
 		return (SH_SUCCESS);
 	ret = prepare_args(shell, proc);
 	builtin = is_builtin(shell, proc->argv[0]);
-	need_fork = !builtin || proc->next != NULL;
+	need_fork = !builtin || proc->next != NULL || proc->parent->background;
 	pid = 0;
 	if (!need_fork || (pid = fork()) == 0)
 	{
 		if (need_fork)
 			close_backup_fds_fork(proc);
 		if (builtin)
-			ret = exec_builtin(shell, proc);
+			ret = exec_builtin(shell, proc, need_fork);
 		else
 			exec_bin(shell, proc);
 	}

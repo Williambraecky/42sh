@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   apply_io_nb.c                                      :+:      :+:    :+:   */
+/*   apply_dampersand.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/06 12:20:15 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 15:39:11 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/02 18:45:26 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/13 18:11:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
-int		apply_io_nb(t_token *token, t_build *build)
+int		apply_dampersand(t_token *token, t_build *build)
 {
-	t_redir	redir;
-
-	if (build->expected_type && !(build->expected_type & (1 << token->type)))
-		return (SH_ERR_SYNTAX);
-	redir.io_nb = (t_io_nb*)token;
-	redir.filename = NULL;
-	redir.token = NULL;
-	if (ft_veccpush(&build->work_proc->redirections, &redir, sizeof(redir)))
+	(void)token;
+	if (cmd_new(&build->work->next))
 		return (SH_ERR_MALLOC);
+	build->work = build->work->next;
+	build->work->condition = and_condition;
+	if (proc_new(&build->work->pipeline))
+		return (SH_ERR_MALLOC);
+	build->work_proc = build->work->pipeline;
+	build->work_proc->parent = build->work;
 	return (SH_SUCCESS);
 }

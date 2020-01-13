@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
 /*
 ** NOTE: this is unnecessary for jobs that only contain a builtin

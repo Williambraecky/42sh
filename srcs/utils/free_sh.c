@@ -6,13 +6,12 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 19:07:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:25:57 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 #include "lexer.h"
-#include "exec.h"
 
 /*
 ** NOTE: Main shell free procedure add fields to be freed here

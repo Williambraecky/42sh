@@ -6,11 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:51:21 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 01:15:23 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "exec.h"
+#include "lexer.h"
 
 static int	mark_process_status(t_cmd *cmd, pid_t pid, int status)
 {
@@ -41,17 +41,17 @@ static int	mark_process_status(t_cmd *cmd, pid_t pid, int status)
 	return (-1); //no job found with pid
 }
 
-void	job_wait(t_cmd *cmd)
+void		job_wait(t_cmd *cmd)
 {
 	int		status;
 	pid_t	pid;
 
-	pid = waitpid(-cmd->pgid, &status, WUNTRACED);
+	pid = waitpid(WAIT_ANY, &status, WUNTRACED);
 	while (!mark_process_status(cmd, pid, status) &&
-		!job_is_stopped(cmd) &&
+		!job_is_completed(cmd) &&
 		!job_is_stopped(cmd))
 	{
-		pid = waitpid(-cmd->pgid, &status, WUNTRACED);
+		pid = waitpid(WAIT_ANY, &status, WUNTRACED);
 	}
 	//TODO: should we change the last return code here? using status
 }

@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/10 15:06:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:15:23 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,9 +106,10 @@ static int	tokenize_current(t_lexer *lexer)
 			free(tok.str);
 			break ;
 		}
-		if (!(new_tok_def = determine_type(lexer, &tok))
-			|| new_tok_def->transform(lexer, &tok))
-			return (SH_ERR);
+		if (!(new_tok_def = determine_type(lexer, &tok)))
+			return (SH_ERR_NOEXIST);
+		if ((res = new_tok_def->transform(lexer, &tok)) != SH_SUCCESS)
+			return (res);
 		lexer->i += tok.len;
 	}
 	return (SH_SUCCESS);
