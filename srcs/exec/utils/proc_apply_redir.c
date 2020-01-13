@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 19:10:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/12 23:49:02 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 01:42:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static int	redir_apply_pipe(t_proc *proc, int io, int to)
 
 	if (io)
 	{
-		io = proc->io.out;
 		if ((ret = redir_add_undo(proc, to)) != SH_SUCCESS)
 			return (ret);
 		close(to);
