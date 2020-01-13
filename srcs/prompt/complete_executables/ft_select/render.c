@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 00:01:57 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 18:16:27 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/13 17:06:44 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,23 @@ int		change_line(t_select *select, t_prompt *prompt)
 		handle_backspace(prompt, NULL, NULL);
 		select->cursor_right_len--;
 	}
-	while (/*select->file_complete && */select->cursor_left_len + 1)
+	while (select->cursor_left_len - select->shell_var_brace > 0)
 	{
 		handle_backspace(prompt, NULL, NULL);
 		select->cursor_left_len--;
 	}
 	while (select->written)
 	{
-		move_right(prompt);
 		handle_backspace(prompt, NULL, NULL);
 		select->written--;
 	}
 	select->written = ft_wstrlen(str);
 	default_char_handler(prompt, str, NULL);
+	if (select->shell_var_brace > 0)
+	{
+		default_char_handler(prompt, "}", NULL);
+		select->written += 1;
+	}
 	return (0);
 }
 

@@ -6,11 +6,29 @@
 /*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:00:39 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/10 19:15:22 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/13 17:02:20 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
+
+char	*get_brace_str(int shell_var_brace, char *line, t_prompt *prompt)
+{
+	char *tmp;
+	char *str;
+
+	if (shell_var_brace > 0)
+	{
+		if (!(tmp = ft_strsub(line, 2, ft_strlen(line))))
+			return (NULL);
+		str = ft_strjoin("$", tmp);
+		free(tmp);
+		prompt->select.cursor_left_len -= 2;
+		return (str);
+	}
+	prompt->select.cursor_left_len -= 1;
+	return (ft_strdup(line));
+}
 
 int		first_word(char *line, size_t i, int first)
 {
@@ -78,10 +96,13 @@ char	*get_cursor_word(char *line, t_prompt *prompt)
 		return (NULL);
 	free(tmp);
 	prompt->select.cursor_left_len = j - i;
+	prompt->select.cursor_left_len = i == 0 ? prompt->select.cursor_left_len + 1
+		: prompt->select.cursor_left_len;
 	i = j;
 	while (line[j] && line[j] != ' ')
 		j++;
 	prompt->select.cursor_right_len = j - i - 1;
+//	ft_printf("\nleft = %d -- right = %d\n", prompt->select.cursor_left_len, prompt->select.cursor_right_len);
 	return (word);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:06:10 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/09 20:03:21 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/13 15:44:31 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt)
 {
 	int right;
 	int left;
-	int file_complete;
+	int shell_var_brace;
 	(void)shell;
 
 	right = prompt->select.cursor_right_len;
 	left = prompt->select.cursor_left_len;
-	file_complete = prompt->select.file_complete;
+	shell_var_brace = prompt->select.shell_var_brace;
 	ft_memset(&prompt->select, 0, sizeof(prompt->select));
 	prompt->select.poss = *poss;
 	get_display_info(&prompt->select, prompt);
@@ -30,7 +30,7 @@ int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt)
 	prompt->select.original_pos = prompt->cursor_pos;
 	prompt->select.cursor_right_len = right;
 	prompt->select.cursor_left_len = left;
-	prompt->select.file_complete = file_complete;
+	prompt->select.shell_var_brace = shell_var_brace;
 	select_render(prompt, &prompt->select);
 	return (SH_SUCCESS);
 }

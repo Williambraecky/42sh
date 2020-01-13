@@ -6,13 +6,13 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/10 19:08:01 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/13 16:41:59 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-int		get_internals(char *line, t_vec *poss, t_map *internals)
+int		get_internals(char *str, t_vec *poss, t_map *internals)
 {
 	char	*key;
 	size_t	i;
@@ -23,22 +23,28 @@ int		get_internals(char *line, t_vec *poss, t_map *internals)
 		if (internals->nodes[i].is_used)
 		{
 			key = internals->nodes[i].key;
-			if (ft_strstartswith(key, line + 1))
+			if (ft_strstartswith(key, str + 1))
 				if (ft_veccpush(poss, key, ft_strlen(key) + 1))
 					return (SH_ERR_NOEXIST);
 		}
 		i++;
 	}
+	free(str);
 	return (SH_SUCCESS);
 }
 
-int		complete_shell_var(char *line, t_vec *poss, t_sh *shell)
+int		complete_shell_var(char *line, t_vec *poss, t_sh *shell,
+		t_prompt *prompt)
 {
 	t_map	*env;
 	t_map	*internals;
 	char	*key;
 	size_t	i;
+	char	*str;
 
+	prompt->select.shell_var_brace = line[1] == '{' ? 1 : 0;
+	if (!(str = get_brace_str(prompt->select.shell_var_brace, line, prompt)))
+		return (SH_ERR_MALLOC);
 	env = shell->env;
 	internals = shell->internals;
 	i = 0;
@@ -47,7 +53,7 @@ int		complete_shell_var(char *line, t_vec *poss, t_sh *shell)
 		if (env->nodes[i].is_used)
 		{
 			key = env->nodes[i].key;
-			if (ft_strstartswith(key, line + 1))
+			if (ft_strstartswith(key, str + 1))
 				if (ft_veccpush(poss, key, ft_strlen(key) + 1))
 					return (SH_ERR_NOEXIST);
 		}
@@ -79,7 +85,7 @@ int		get_files(char *line, char *path, t_vec *poss)
 	return (SH_SUCCESS);
 }
 
-int		complete_files(t_prompt * prompt, char *line, t_vec *poss)
+int		complete_files(t_prompt *prompt, char *line, t_vec *poss)
 {
 	int		ret;
 	char	*path;
@@ -104,16 +110,16 @@ t_prompt *prompt)
 
 	if (!(to_complete = get_cursor_word(line, prompt)))
 		return (SH_ERR_MALLOC);
+	if (to_complete[0] == '$')
+	{
+		if (complete_shell_var(to_complete, poss, shell, prompt))
+			return (SH_ERR_MALLOC);
+//		free(to_complete); //make double free but why ?
+		return (SH_SUCCESS);
+	}
 	if (!first_word(line, 0, 1))
 	{
 		complete_files(prompt, to_complete, poss);
-		return (SH_SUCCESS);
-	}
-	if (to_complete[0] == '$')
-	{
-		if (complete_shell_var(to_complete, poss, shell))
-			return (SH_ERR_MALLOC);
-		free(to_complete);
 		return (SH_SUCCESS);
 	}
 	if (!ft_strequ(to_complete, "") && !ft_strequ(to_complete, ".")
@@ -122,7 +128,6 @@ t_prompt *prompt)
 		complete_command(shell, to_complete, poss);
 		if (poss->size != 0)
 		{
-			prompt->select.file_complete = 1;
 			free(to_complete);
 			return (SH_SUCCESS);
 		}
