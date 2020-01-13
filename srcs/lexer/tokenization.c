@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/13 18:15:23 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 21:22:46 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_tdef		*determine_type(t_lexer *lexer, t_token *token)
 	return (NULL);
 }
 
-static int	g_top_mask = M_QUOTE | M_DOUBLE_QUOTE | M_BRACEPARAM;
+static int	g_top_mask = M_QUOTE | M_DOUBLE_QUOTE | M_BRACEPARAM | M_NEWLINE;
 
 /*
 ** NOTE: returns whether a stack object from delimiter
@@ -89,6 +89,10 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 	return (ret);
 }
 
+/*
+** TODO: handle aliases
+*/
+
 static int	tokenize_current(t_lexer *lexer)
 {
 	t_tdef	*new_tok_def;
@@ -100,7 +104,10 @@ static int	tokenize_current(t_lexer *lexer)
 		if ((res = delimit_token(lexer, &tok.str)) != SH_SUCCESS)
 			return (res);
 		if (check_stack_top(lexer))
+		{
+			free(tok.str);
 			break ;
+		}
 		if ((tok.len = ft_strlen(tok.str)) == 0)
 		{
 			free(tok.str);

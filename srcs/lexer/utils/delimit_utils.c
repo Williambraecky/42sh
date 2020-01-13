@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:42:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 15:49:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 21:24:03 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,12 @@ int			new_line_check(t_lexer *lex, size_t len)
 {
 	if (lex->line[len] != '\\' || lex->line[len + 1] != '\n')
 		return (1);
-	if (is_escaped(lex, len + 1))
+	if (is_escaped(lex, len + 1) || stack_top(lex) == T_DOUBLE_LESSER)
 	{
 		ft_memmove(lex->line + len, lex->line + len + 2,
 			ft_strlen(lex->line + len + 2) + 1);
 	}
+	if (!(lex->line[len]))
+		stack_push(lex, T_NEWLINE);
 	return (lex->line[len]);
 }

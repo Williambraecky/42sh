@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 17:19:33 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 15:14:01 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 21:13:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int		make_stack_prompt(t_vec *stack, char **result)
 	while (i < stack->size)
 	{
 		type = (t_type*)ft_vecget(stack, i);
-		if (g_short_names[*type])
+		if (*type != T_NULL && g_short_names[*type])
 			list[i] = g_short_names[*type];
 		i++;
 	}
