@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbraeckm <wbraeckm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 16:28:45 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 00:34:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ void			move_cursor(t_pos rel_pos);
 void			move_left(t_prompt *prompt);
 void			move_right(t_prompt *prompt);
 char			*wstr_remove_char(char *str, size_t index);
+void			reprint_everything(t_prompt *prompt);
 void			reprint_buffer(t_prompt *prompt);
 void			print_from_cursor(t_prompt *prompt, t_pos *next_pos);
 int				default_char_handler(t_prompt *prompt,

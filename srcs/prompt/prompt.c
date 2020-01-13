@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 16:56:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 00:35:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	recalc_cursor(t_prompt *prompt)
 	if (prompt->buffer.buffer)
 		written += prompt->char_index;
 	prompt->cursor_pos = new_calc(prompt, written);
-	reprint_buffer(prompt);
+	reprint_everything(prompt);
 }
 
 static void	print_prompt(t_sh *shell, t_prompt *prompt)
