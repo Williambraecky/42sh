@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 02:44:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:08:58 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ int			has_alias(t_sh *shell, char *alias);
 int			remove_alias(t_sh *shell, char *alias);
 int			resolve_alias(t_sh *shell, char *alias, char **tokens);
 char		*get_alias(t_sh *shell, char *alias);
+int			repl_alias(t_sh *shell, char *key, char *value);
 
 /*
 **  Env
