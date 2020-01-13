@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 19:23:19 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:45:46 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,6 @@ static int		stack(t_type type, t_lexer *lex)
 		ret = check_dless_exist(lex, type);
 	return (ret);
 }
-
-// TO DO
-// if heredoc active in stack do a while read not = the name
-// write dans pipe[1]
 
 static t_hdoc	*find_heredoc(t_lexer *lex)
 {

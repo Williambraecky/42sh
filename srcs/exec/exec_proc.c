@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:38:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,8 @@ int			exec_proc(t_sh *shell, t_proc *proc)
 	if (ret == SH_SUCCESS)
 		ret = proc_apply_redir(shell, proc);
 	if (ret == SH_SUCCESS)
-		ret = proc_exec_cmd(shell, proc);//exec command
-	ret = undo_redir(proc, ret); // TODO: undo all redirections
+		ret = proc_exec_cmd(shell, proc);
+	ret = undo_redir(proc, ret);
 	if (proc->env_backup && proc->env_backup->nodes)
 	{
 		ft_memswap(&proc->env_backup, &shell->env, sizeof(t_map *));
