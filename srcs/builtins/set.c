@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:15:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 15:31:51 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:26:29 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,16 @@
 
 static int	valid_arg(char *string)
 {
+	char	*tmp;
+	int		ret;
+
+	tmp = ft_strchr(string, '=');
+	*tmp = '\0';
+	ret = 1;
 	if (!string || !str_is_name(string))
-		return (0);
-	return (SH_SUCCESS);
+		ret = 0;
+	*tmp = '=';
+	return (ret);
 }
 
 static void	print_internals(t_map *map)
@@ -33,7 +40,7 @@ static void	print_internals(t_map *map)
 	while (i < map->max_size)
 	{
 		if (map->nodes[i].is_used)
-			ft_printf("%s\n", map->nodes[i].value);
+			ft_printf("%s=%s\n", map->nodes[i].key, map->nodes[i].value);
 		i++;
 	}
 }
@@ -50,14 +57,14 @@ int			set_builtin(int argc, char **argv, t_sh *shell)
 	ret = SH_SUCCESS;
 	while (i < (size_t)argc && ret == SH_SUCCESS)
 	{
-		if (ft_strchr(argv[i], '=') != NULL)
+		if (ft_strchr(argv[i], '=') != NULL && !valid_arg(argv[i]))
 		{
 			av = ft_strsplit(argv[i], '=');
-			if (!valid_arg(av[0]))
-				return (SH_ERR_SYNTAX);
 			ret = repl_internal(shell, av[0], av[1]);
 			ft_freesplit(av);
 		}
+		else
+			return (SH_ERR_SYNTAX);
 		++i;
 	}
 	return (ret);
