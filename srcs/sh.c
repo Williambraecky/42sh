@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:25:21 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 21:33:24 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static int	init_shell(t_sh *shell, const char **env)
 ** TODO: gen prompt (PS1)
 */
 
-int			main(int argc, const char **argv, const char **env)
+int			main(__attribute__((unused)) int argc,
+	__attribute__((unused)) const char **argv, const char **env)
 {
 	t_sh	shell;
 	char	*prompt;
@@ -75,15 +76,16 @@ int			main(int argc, const char **argv, const char **env)
 		free_sh(&shell);
 		return (1);
 	}
-	(void)argc;
-	(void)argv;
-	prompt = "$> ";
 	shell.running = 1;
 	while (shell.running)
 	{
+		prompt = getpwd_short(&shell);
+		line = prompt;
+		prompt = ft_strjoin(prompt, "> ");
+		free(line);
 		handle_prompt(&shell, prompt, &line);
+		free(prompt);
 		lexer(line, &lexer_, &shell);
-		// build_tree(&lexer_, &cmd);
 		exec_tree(&shell, lexer_.build.head);
 		free(line);
 	}
