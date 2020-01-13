@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:20:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 10:36:52 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:54:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int			delimit_wspace(t_lexer *lex, char **result)
 
 /*
 ** NOTE: operator is a boolean defining if we found an operator or not
-** TODO: \\n has a special behaviour
+** TODO: if it finishes by suppressing a \\n send a return value for it
 */
 
 int			delimit_token(t_lexer *lex, char **result)
