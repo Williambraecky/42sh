@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:23:29 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:23:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,14 +131,15 @@ int				token_process(t_lexer *lexer, t_token *token)
 	ret = SH_SUCCESS;
 	if (!(tok_dup = ft_memdup(token, token->size)))
 		return (SH_ERR_MALLOC);
-	if (stack_top(lexer) != T_DOUBLE_LESSER)
-		if (ft_vecpush(&lexer->tokens, tok_dup))
-			return (SH_ERR_MALLOC);
 	if (stack_top(lexer) == T_DOUBLE_LESSER)
 		do_heredoc(lexer, tok_dup);
 	else
+	{
+		if (ft_vecpush(&lexer->tokens, tok_dup))
+			return (SH_ERR_MALLOC);
 		ret = stack(tok_dup->type, lexer);
-	if (ret == SH_SUCCESS)
-		ret = build_tree_apply_token(lexer, tok_dup);
+		if (ret == SH_SUCCESS)
+			build_tree_apply_token(lexer, tok_dup);
+	}
 	return (ret);
 }
