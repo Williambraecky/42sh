@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:42:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 01:19:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 02:16:03 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,10 @@ static void	print_syntax_error(t_token *token, int ret)
 	ft_putnonprint_fd(token->str, 2);
 	ft_putstr_fd("'\n", 2);
 }
+
+/*
+** TODO: Newline doesn't always jump to the next command ex ls |\n cat -e
+*/
 
 int			build_tree(t_lexer *lexer, t_cmd **result)
 {
