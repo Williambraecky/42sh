@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 17:30:07 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/08 17:35:46 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 01:21:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int		make_env_array(t_sh *shell, char ***array)
 	{
 		if (env_map->nodes[i].is_used)
 		{
-			if (!(*array[j++] = ft_strformat("%s=%s", env_map->nodes[i].key,
+			if (!((*array)[j++] = ft_strformat("%s=%s", env_map->nodes[i].key,
 			(char*)env_map->nodes[i].value)))
 			{
 				ft_freesplit(*array);

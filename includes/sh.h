@@ -182,6 +182,7 @@ int			get_env(t_sh *shell, char *key, char **result);
 int			has_env(t_sh *shell, char *key);
 void		remove_env(t_sh *shell, char *key);
 int			repl_env(t_sh *shell, char *key, char *value);
+int			make_env_array(t_sh *shell, char ***array);
 
 /*
 ** Internals
