@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:51:10 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/12 23:37:23 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 11:55:46 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ int			apply_and_redir(t_proc *proc, t_redir *redir)
 			close(fd);
 			return (SH_ERR_DUP);
 		}
-		close(fd);
+		if (!(ft_strisnumber(redir->filename) && ft_atoi(redir->filename) >= 0))
+			close(fd);
 	}
 	return (ret);
 }
