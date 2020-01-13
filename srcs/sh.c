@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 02:44:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 13:49:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "prompt.h"
 #include "lexer.h"
 #include "exec.h"
+#include "builtin.h"
 
 /*
 ** TODO: Variables such as HOME avec PWD should not be gotten from env vars
@@ -44,6 +45,8 @@ static int	init_shell(t_sh *shell, const char **env)
 	if (!(shell->use_hash = ft_mapnew(30)))
 		return (1);
 	if (ft_vecinit(&shell->jobs))
+		return (1);
+	if (builtin_init(shell) != SH_SUCCESS)
 		return (1);
 	copy_env(shell, env);
 	if ((shell->prompt_mode = isatty(SH_IN)))

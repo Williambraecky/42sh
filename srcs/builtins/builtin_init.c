@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:13:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 22:15:20 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 13:45:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int			builtin_init(t_sh *shell)
 {
 	size_t	i;
 
-	(void)shell;
 	i = 0;
 	while (i < g_table_size)
 	{

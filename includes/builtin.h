@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:53 by mpizzaga          #+#    #+#             */
-/*   Updated: 2019/12/19 14:30:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 13:48:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 /*
 ** Prototypes
 */
+
+int			builtin_init(t_sh *shell);
 
 /*
 ** Builtins
