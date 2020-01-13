@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/11 17:22:44 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 02:39:39 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static int		check_dless_exist(t_lexer *lex, t_type type)
 			if (remove_quotes(((t_token*)ft_vecget(&lex->tokens, i + 1))->str,
 				&((t_hdoc*)tok)->name) != SH_SUCCESS)
 				return (SH_ERR_MALLOC);
-			if (pipe(((t_hdoc*)tok)->pipe) != 0)
+			if (pipe(((t_hdoc*)tok)->pipe) == -1)
 				return (SH_ERR_PIPE);
 			return (stack_push(lex, T_DOUBLE_LESSER));
 		}
@@ -164,9 +164,11 @@ int				token_process(t_lexer *lexer, t_token *token)
 		if (ft_veccpush(&lexer->tokens, token, token->size))
 			return (SH_ERR_MALLOC);
 	if (stack_top(lexer) == T_DOUBLE_LESSER)
+	{
 		if ((ret = do_heredoc(lexer, token)) != SH_SUCCESS)
 			return (ret);
-	//ft_printf("\nLast token type %s, str %s\n", last_token_type(&lexer->tokens), token->str);
-	ret = stack(token->type, lexer);
+	}
+	else
+		ret = stack(token->type, lexer);
 	return (ret);
 }

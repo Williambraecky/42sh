@@ -1,36 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   backup_fds.c                                       :+:      :+:    :+:   */
+/*   job_is_completed.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/08 17:51:08 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 17:56:35 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/13 00:58:08 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/13 00:58:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
+#include "exec.h"
 
-int		backup_fds(t_sh *shell)
+int		job_is_completed(t_cmd *cmd)
 {
-	size_t	i;
+	t_proc *curr;
 
-	i = 0;
-	while (i < 3)
+	curr = cmd->pipeline;
+	while (curr)
 	{
-		if ((shell->fd_backups[i] = dup(i)) == -1)
-			return (SH_ERR_DUP);
-		i++;
+		if (!curr->completed)
+			return (0);
+		curr = curr->next;
 	}
-	return (SH_SUCCESS);
-}
-
-int		backup_fd(t_sh *shell, int fd)
-{
-	if (fd >= 3)
-		return (SH_ERR_DUP);
-	if ((shell->fd_backups[fd] = dup(fd)) == -1)
-		return (SH_ERR_DUP);
-	return (SH_SUCCESS);
+	return (1);
 }

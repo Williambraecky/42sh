@@ -6,12 +6,14 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 15:21:31 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 02:44:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 #include "prompt.h"
+#include "lexer.h"
+#include "exec.h"
 
 /*
 ** TODO: Variables such as HOME avec PWD should not be gotten from env vars
@@ -41,12 +43,12 @@ static int	init_shell(t_sh *shell, const char **env)
 		return (1);
 	if (!(shell->use_hash = ft_mapnew(30)))
 		return (1);
+	if (ft_vecinit(&shell->jobs))
+		return (1);
 	copy_env(shell, env);
 	if ((shell->prompt_mode = isatty(SH_IN)))
 		if (init_interactive_mode(shell))
 			return (1);
-	if (backup_fds(shell) != SH_SUCCESS)
-		return (SH_ERR_DUP);
 	return (0);
 }
 
@@ -66,6 +68,8 @@ int			main(int argc, const char **argv, const char **env)
 	t_sh	shell;
 	char	*prompt;
 	char	*line;
+	t_lexer	lexer_;
+	t_cmd	*cmd;
 
 	if (init_shell(&shell, env))
 	{
@@ -76,6 +80,9 @@ int			main(int argc, const char **argv, const char **env)
 	(void)argv;
 	prompt = "$> ";
 	handle_prompt(&shell, prompt, &line);
+	lexer(line, &lexer_, &shell);
+	build_tree(&lexer_, &cmd);
+	exec_tree(&shell, cmd);
 	ft_printf("Line: ");
 	ft_putnonprint(line);
 	ft_putchar('\n');

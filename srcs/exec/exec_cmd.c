@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:43:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 16:53:33 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 01:28:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static int	exec_pipeline(t_sh *shell, t_proc *pipeline)
 {
 	int	pipe_[2];
-	int	old_in;
 	int	ret;
 
 	ret = SH_SUCCESS;
@@ -29,12 +28,6 @@ static int	exec_pipeline(t_sh *shell, t_proc *pipeline)
 		}
 		if ((ret = exec_proc(shell, pipeline)) != SH_SUCCESS)
 			break ;
-		if (pipeline->io.out == pipe_[1])
-			close(pipe_[1]);
-		if (pipeline->io.in == old_in)
-			close(old_in);
-		old_in = pipe_[0];
-		;//reset in out and err from sh->fd_backups
 		pipeline = pipeline->next;
 	}
 	return (ret);
@@ -59,8 +52,13 @@ static int	exec_cmd_bg(t_sh *shell, t_cmd *cmd)
 		return (SH_SUCCESS);
 	}
 	exec_pipeline(shell, cmd->pipeline);
+	//NOTE: commands in background set the last return code to 0
 	return (SH_SUCCESS);
 }
+
+/*
+** TODO: validate that cmd_is_empty is good
+*/
 
 int			exec_cmd(t_sh *shell, t_cmd *cmd)
 {
@@ -69,6 +67,6 @@ int			exec_cmd(t_sh *shell, t_cmd *cmd)
 	if (cmd->background)
 		return (exec_cmd_bg(shell, cmd));
 	exec_pipeline(shell, cmd->pipeline);
-	;//wait for pipeline
+	jobs_to_foreground(shell, cmd, 0);
 	return (SH_SUCCESS);
 }
