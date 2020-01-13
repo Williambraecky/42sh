@@ -6,7 +6,7 @@
 /*   By: wdaher-a <wdaher-a@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 16:11:26 by wdaher-a          #+#    #+#             */
-/*   Updated: 2020/01/12 22:54:32 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/12 23:32:56 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int		get_lasti(t_sh *shell, char *str, char **result, int rev)
 		++i;
 	index = index + i;
 	pos = (!rev) ? ft_atoi(index) : shell->history.size - ft_atoi(index);
-	ft_printf("pos = %d\n", pos);
 	if (pos < 0 || pos > (int)shell->history.size - 1)
 	{
 		ft_dprintf(2, "sh : no such event: %s\n", (str + 2));
