@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 01:24:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 13:43:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ static int	exec_builtin(t_sh *shell, t_proc *proc)
 	return (ret);
 }
 
+/*
+** TODO: free path
+*/
+
 static void	exec_bin(t_sh *shell, t_proc *proc)
 {
 	char	*path;
@@ -91,6 +95,8 @@ int			proc_exec_cmd(t_sh *shell, t_proc *proc)
 	int		need_fork;
 	pid_t	pid;
 
+	if (proc->unprocessed_argv.size == 0)
+		return (SH_SUCCESS);
 	ret = prepare_args(shell, proc);
 	builtin = is_builtin(shell, proc->argv[0]);
 	need_fork = !builtin || proc->next != NULL;

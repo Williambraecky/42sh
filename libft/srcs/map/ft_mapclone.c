@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/13 14:28:45 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/03/13 17:05:45 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 13:54:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,14 @@ static int	clone_content(t_map *new, t_map *map)
 		if (map->nodes[i].is_used)
 		{
 			if (!(new->nodes[i].value =
-				ft_memdup(map->nodes[i].value, map->nodes[i].size)))
+				ft_memdup(map->nodes[i].value, map->nodes[i].size)) ||
+				!(new->nodes[i].key = ft_strdup(map->nodes[i].key)))
 			{
 				while (i--)
+				{
 					ft_memdel(&new->nodes[i].value);
+					ft_strdel(&new->nodes[i].key);
+				}
 				return (0);
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 00:33:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 14:01:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	make_new_env(t_sh *shell, t_proc *proc)
 
 	if (proc->assignments.size == 0)
 		return (SH_SUCCESS);
-	if ((proc->env_backup = ft_mapclone(shell->env)))
+	if (!(proc->env_backup = ft_mapclone(shell->env)))
 		return (SH_ERR_MALLOC);
 	i = 0;
 	ft_memswap(&proc->env_backup, &shell->env, sizeof(t_map *));
@@ -75,8 +75,11 @@ static int	undo_redir(t_proc *proc, int ret)
 	while (i--)
 	{
 		if (proc->fd_backups[i] != -1)
+		{
+			close(i);
 			if (dup2(proc->fd_backups[i], i) == -1)
 				ret = SH_ERR_DUP;
+		}
 		close(proc->fd_backups[i]);
 	}
 	return (ret);
@@ -99,7 +102,7 @@ int			exec_proc(t_sh *shell, t_proc *proc)
 	if (ret == SH_SUCCESS)
 		ret = proc_exec_cmd(shell, proc);//exec command
 	ret = undo_redir(proc, ret); // TODO: undo all redirections
-	if (proc->env_backup)
+	if (proc->env_backup && proc->env_backup->nodes)
 	{
 		ft_memswap(&proc->env_backup, &shell->env, sizeof(t_map *));
 		ft_mapfilter(proc->env_backup, map_del_filter);
