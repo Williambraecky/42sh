@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:51:21 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 21:52:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	mark_process_status(t_cmd *cmd, pid_t pid, int status)
 	return (-1); //no job found with pid
 }
 
-void		job_wait(t_cmd *cmd)
+void		job_wait(t_sh *shell, t_cmd *cmd)
 {
 	int		status;
 	pid_t	pid;
@@ -53,5 +53,15 @@ void		job_wait(t_cmd *cmd)
 	{
 		pid = waitpid(WAIT_ANY, &status, WUNTRACED);
 	}
-	//TODO: should we change the last return code here? using status
+	if (WIFEXITED(status))
+		set_last_return_code(shell, WEXITSTATUS(status));
+	else if (WIFSTOPPED(status))
+	{
+		set_last_return_code(shell, WSTOPSIG(status) + 128);
+		cmd->background = 1; // TODO: add cmd to job control
+	}
+	else if (WIFSIGNALED(status))
+		set_last_return_code(shell, WTERMSIG(status) + 128);
+	else
+		set_last_return_code(shell, 1);
 }

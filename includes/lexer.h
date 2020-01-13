@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/13 18:23:56 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 21:49:27 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,7 @@ int			apply_redir(t_token *token, t_build *build);
 int			jobs_add(t_sh *shell, t_cmd *cmd);
 int			job_is_stopped(t_cmd *cmd);
 int			job_is_completed(t_cmd *cmd);
-void		job_wait(t_cmd *cmd);
+void		job_wait(t_sh *shell, t_cmd *cmd);
 int			jobs_to_background(t_sh *shell, t_cmd *cmd, int wake);
 int			jobs_to_foreground(t_sh *shell, t_cmd *cmd, int wake);
 

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:43:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 21:44:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,16 @@ static int	exec_pipeline(t_sh *shell, t_proc *pipeline)
 
 int			exec_cmd(t_sh *shell, t_cmd *cmd)
 {
+	int		ret;
+
 	if (cmd_is_empty(cmd))
 		return (SH_SUCCESS);
-	exec_pipeline(shell, cmd->pipeline);
+	ret = exec_pipeline(shell, cmd->pipeline);
 	if (cmd->background)
+	{
 		jobs_to_background(shell, cmd, 0);
+		set_last_return_code(shell, ret);
+	}
 	else
 		jobs_to_foreground(shell, cmd, 0);
 	return (SH_SUCCESS);

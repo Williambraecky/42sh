@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 19:45:46 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 21:28:42 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int				token_process(t_lexer *lexer, t_token *token)
 			return (SH_ERR_MALLOC);
 		ret = stack(tok_dup->type, lexer);
 		if (ret == SH_SUCCESS)
-			build_tree_apply_token(lexer, tok_dup);
+			ret = build_tree_apply_token(lexer, tok_dup);
 	}
 	return (ret);
 }

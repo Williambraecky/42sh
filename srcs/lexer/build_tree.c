@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:42:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:20:25 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 21:55:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,10 @@ static void	print_syntax_error(t_token *token, int ret)
 	ft_putstr_fd("'\n", 2);
 }
 
+/*
+** TODO: Newline doesn't always jump to the next command ex ls |\n cat -e
+*/
+
 int			build_tree_apply_token(t_lexer *lexer, t_token *token)
 {
 	int	ret;
@@ -135,39 +139,4 @@ int			build_tree_apply_token(t_lexer *lexer, t_token *token)
 	lexer->build.expected_type = g_expected[token->type];
 	lexer->build.prev_type = token->type;
 	return (ret);
-}
-
-/*
-** TODO: Newline doesn't always jump to the next command ex ls |\n cat -e
-** TODO: build tree as we lex the string
-** TODO: stop using this
-*/
-
-int			build_tree(t_lexer *lexer, t_cmd **result)
-{
-	t_build	build;
-	t_token	*curr;
-	size_t	i;
-	int		ret;
-
-	if (init_build_tree(&build) != SH_SUCCESS)
-		return (SH_ERR_MALLOC);
-	i = 0;
-	while (i < lexer->tokens.size)
-	{
-		curr = (t_token*)lexer->tokens.vec[i++];
-		if (g_dispatch_tokens[curr->type])
-			ret = g_dispatch_tokens[curr->type](curr, &build);
-		else
-			ret = SH_ERR_NOEXIST;
-		if (ret != SH_SUCCESS)
-		{
-			print_syntax_error(curr, ret);
-			return (ret);
-		}
-		build.expected_type = g_expected[curr->type];
-		build.prev_type = curr->type;
-	}
-	*result = build.head;
-	return (SH_SUCCESS);
 }
