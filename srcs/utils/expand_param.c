@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:23:53 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/13 22:05:01 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/13 22:10:25 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		expand_brace(t_sh *shell, char *str, char **result, size_t *i)
 	(void)shell;
 	(void)result;
 	(void)i;
-	return(SH_SUCCESS);
+	return (SH_SUCCESS);
 }
 
 int		expand_no_brace(t_sh *shell, char *str, char **result, size_t *len)
@@ -104,7 +104,7 @@ int		expand_no_brace(t_sh *shell, char *str, char **result, size_t *len)
 		expand = "";
 	if (!(*result = ft_strdup(expand)))
 		return (SH_ERR_MALLOC);
-	return(SH_SUCCESS);
+	return (SH_SUCCESS);
 }
 
 int		expand_param(t_sh *shell, char *str, char **result)
@@ -120,7 +120,7 @@ int		expand_param(t_sh *shell, char *str, char **result)
 	ret = SH_SUCCESS;
 	while (str[i])
 	{
-		str[i] == '\'' ? quoted = !(quoted) : 0 ;
+		str[i] == '\'' ? quoted = !(quoted) : 0;
 		if (str[i] == '$' && !(is_char_escaped(str, i)) && quoted == 0 && ++i)
 		{
 			ft_printf("ret = %d\n", is_charset(str[i], FIRST_CHAR));
