@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 00:45:19 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 02:44:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,6 @@ struct		s_sh
 	t_termi	old_termios;
 	t_termi	current_termios;
 	pid_t	pid;
-	int		fd_backups[3];
 };
 
 /*
