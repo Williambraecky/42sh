@@ -6,14 +6,13 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 13:49:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 18:25:21 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 #include "prompt.h"
 #include "lexer.h"
-#include "exec.h"
 #include "builtin.h"
 
 /*
@@ -60,10 +59,8 @@ static int	init_shell(t_sh *shell, const char **env)
 */
 
 /*
-** static void	 print_errors(int ret)
-** {
-** 	dprintf(2, "42sh: %s\n", g_error_str[ret]);
-** }
+** TODO: we need to make sure to retrieve status for jobs in background etc
+** TODO: gen prompt (PS1)
 */
 
 int			main(int argc, const char **argv, const char **env)
@@ -72,7 +69,6 @@ int			main(int argc, const char **argv, const char **env)
 	char	*prompt;
 	char	*line;
 	t_lexer	lexer_;
-	t_cmd	*cmd;
 
 	if (init_shell(&shell, env))
 	{
@@ -82,15 +78,15 @@ int			main(int argc, const char **argv, const char **env)
 	(void)argc;
 	(void)argv;
 	prompt = "$> ";
-	handle_prompt(&shell, prompt, &line);
-	lexer(line, &lexer_, &shell);
-	build_tree(&lexer_, &cmd);
-	exec_tree(&shell, cmd);
-	ft_printf("Line: ");
-	ft_putnonprint(line);
-	ft_putchar('\n');
-	free(line);
+	shell.running = 1;
+	while (shell.running)
+	{
+		handle_prompt(&shell, prompt, &line);
+		lexer(line, &lexer_, &shell);
+		// build_tree(&lexer_, &cmd);
+		exec_tree(&shell, lexer_.build.head);
+		free(line);
+	}
 	free_sh(&shell);
-	// ft_printf("executed %s\n", argv[0]);
 	return (0);
 }
