@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:15:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 19:26:29 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/13 19:53:55 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			set_builtin(int argc, char **argv, t_sh *shell)
 	ret = SH_SUCCESS;
 	while (i < (size_t)argc && ret == SH_SUCCESS)
 	{
-		if (ft_strchr(argv[i], '=') != NULL && !valid_arg(argv[i]))
+		if (ft_strchr(argv[i], '=') != NULL && valid_arg(argv[i]))
 		{
 			av = ft_strsplit(argv[i], '=');
 			ret = repl_internal(shell, av[0], av[1]);

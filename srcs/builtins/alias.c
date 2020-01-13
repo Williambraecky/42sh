@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 15:01:51 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 19:29:29 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/13 21:27:12 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 **   6: profit
 */
 
-static int	valid_arg(char *string)
+int	valid_arg(char *string)
 {
 	char	*tmp;
 	int		ret;
@@ -54,7 +54,7 @@ void	display(t_sh *shell, char **sorted_al)
 	while (sorted_al[i])
 	{
 		ft_printf("%s=%s\n", sorted_al[i], get_alias(shell, sorted_al[i]));
-		i++;
+		++i;
 	}
 }
 
@@ -63,45 +63,51 @@ int	print_aliases(t_sh *shell, t_map *al)
 	char		**al_tosort;
 	size_t	i;
 	size_t	j;
-	size_t	len;
+	int			len;
 
-	if (!(al_tosort=(char**)malloc(sizeof(char*)*al->size)))
+	len = shell->aliases->max_size;
+	if (!(al_tosort = (char **)malloc(sizeof(char *) * (len + 2))))
 		return (SH_ERR_MALLOC);
 	i = 0;
 	j = 0;
-	len = 0;
-	while (i < al->size)
+	while (al_tosort && i < al->max_size)
 	{
-		if (al->nodes[i].is_used)
+		if (al->nodes[i].is_used && j < (size_t)len)
 		{
 			if (!(al_tosort[j++] = ft_strdup(al->nodes[i].key)))
-				return (SH_ERR_DUP);
+				return (SH_ERR_MALLOC);
 		}
 		++i;
 	}
 	al_tosort[j] =  NULL;
-	ft_strsort(al_tosort, j, &ft_strcmp);
+	if (j > 1)
+		ft_strsort(al_tosort, j, &ft_strcmp);
 	display(shell, al_tosort);
+	ft_freesplit(al_tosort);
 	return (SH_SUCCESS);
 }
 
 int		alias_builtin(int argc, char **argv, t_sh *shell)
 {
-		char	*tmp;
+		char	**tmp;
 		size_t	i;
 		int		ret;
 
 		if (argc == 1)
-			print_aliases(shell, shell->aliases);
+			return (print_aliases(shell, shell->aliases));
 		i = 1;
 		ret = SH_SUCCESS;
 		while (i < (size_t)argc && ret == SH_SUCCESS)
 		{
-			if ((tmp=ft_strchr(argv[i], '=')) && !valid_arg(argv[i]))
+			if (ft_strchr(argv[i], '=') != NULL)// && valid_arg(argv[i]))
 			{
-				*tmp = '\0';
-				ret = repl_alias(shell, argv[i], (tmp + 1));
-				*tmp = '=';
+				if (!(tmp = ft_strsplit(argv[i], '=')))
+				{
+					ft_putendl("spliterror");
+					return (SH_ERR_MALLOC);
+				}
+				ret = repl_alias(shell, tmp[0], tmp[1]);
+				ft_freesplit(tmp);
 			}
 			else
 				return (SH_ERR_SYNTAX);
