@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 18:45:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 22:45:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 23:02:46 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ int		apply_dampersand(t_token *token, t_build *build, t_lexer *lexer)
 	empty_stack(lexer);
 	if (stack_push(lexer, token->type) != SH_SUCCESS)
 		return (SH_ERR_MALLOC);
+	lexer->can_be_alias = 1;
 	return (SH_SUCCESS);
 }

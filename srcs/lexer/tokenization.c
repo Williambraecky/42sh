@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/13 21:22:46 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 00:04:34 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,10 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 }
 
 /*
-** TODO: handle aliases
+** TODO: Handle aliases better: we should probably not modify line
 */
 
-static int	tokenize_current(t_lexer *lexer)
+static int	tokenize_current(t_lexer *lexer, t_sh *shell)
 {
 	t_tdef	*new_tok_def;
 	t_token	tok;
@@ -103,15 +103,15 @@ static int	tokenize_current(t_lexer *lexer)
 	{
 		if ((res = delimit_token(lexer, &tok.str)) != SH_SUCCESS)
 			return (res);
-		if (check_stack_top(lexer))
+		if (check_stack_top(lexer) || (tok.len = ft_strlen(tok.str)) == 0)
 		{
 			free(tok.str);
 			break ;
 		}
-		if ((tok.len = ft_strlen(tok.str)) == 0)
+		if (lexer->can_be_alias && has_alias(shell, tok.str) && !alias_stack_contains(lexer, tok.str))
 		{
-			free(tok.str);
-			break ;
+			res = lexer_handle_alias(shell, lexer, tok.str);
+			continue ;
 		}
 		if (!(new_tok_def = determine_type(lexer, &tok)))
 			return (SH_ERR_NOEXIST);
@@ -129,8 +129,8 @@ int			tokenization(t_lexer *lexer, t_sh *shell)
 	res = SH_SUCCESS;
 	while (res == SH_SUCCESS)
 	{
-		res = tokenize_current(lexer);
-		if (res == SH_SUCCESS && (lexer->stack.size > 0 ||
+		res = tokenize_current(lexer, shell);
+		if (!lexer->no_start && res == SH_SUCCESS && (lexer->stack.size > 0 ||
 			((t_token*)ft_vecgettop(&lexer->tokens))->type != T_NEWLINE))
 			res = get_next_part(lexer, shell);
 		else

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:42:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 22:43:56 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 23:00:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,15 @@ int			g_expected[] =
 	| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
 	| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER,
 
-	[T_DOUBLE_AMPERSAND] = M_WORD | M_SEMICOLON | M_NEWLINE
+	[T_DOUBLE_AMPERSAND] = M_WORD | M_NEWLINE
 	| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
 	| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER,
 
-	[T_DOUBLE_PIPE] = M_WORD | M_SEMICOLON | M_NEWLINE
+	[T_DOUBLE_PIPE] = M_WORD | M_NEWLINE
 	| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
 	| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER,
 
-	[T_PIPE] = M_WORD | M_SEMICOLON | M_NEWLINE
+	[T_PIPE] = M_WORD | M_NEWLINE
 	| M_DOUBLE_LESSER | M_DOUBLE_GREATER | M_LESSER_AND
 	| M_GREATER_AND | M_GREATER | M_LESSER | M_IO_NUMBER,
 

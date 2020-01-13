@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/13 22:35:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 00:04:22 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,9 @@ struct		s_io_nb
 struct		s_lexer
 {
 	t_vec	tokens; //NOTE: Do we really need this?
+	char	**alias_stack;
+	int		no_start;
+	int		can_be_alias;
 	char	*line;
 	size_t	line_size;
 	size_t	i;
@@ -210,7 +213,7 @@ struct		s_tdef
 */
 
 int			lexer(char *line, t_lexer *lex, t_sh *shell);
-int			init_lexer(t_lexer *lexer, char *line);
+int			init_lexer(t_sh *shell, t_lexer *lexer, char *line);
 int			tokenization(t_lexer *lexer, t_sh *shell);
 void		token_free(t_token *token);
 int			token_process(t_lexer *lexer, t_token *token);
@@ -233,6 +236,8 @@ int			is_escaped(t_lexer *lex, size_t len);
 int			handle_specials(t_lexer *lex, size_t len);
 int			new_line_check(t_lexer *lex, size_t len);
 int			make_stack_prompt(t_vec *stack, char **result);
+int			lexer_handle_alias(t_sh *shell, t_lexer *lexer, char *str);
+int			alias_stack_contains(t_lexer *lexer, char *str);
 
 /*
 ** Tokens
