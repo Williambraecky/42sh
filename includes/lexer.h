@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/13 21:49:27 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 22:35:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,15 +280,15 @@ int			exec_cmd(t_sh *shell, t_cmd *cmd);
 int			exec_proc(t_sh *shell, t_proc *proc);
 int			proc_exec_cmd(t_sh *shell, t_proc *proc);
 
-int			apply_newline(t_token *token, t_build *build);
-int			apply_ampersand(t_token *token, t_build *build);
-int			apply_dampersand(t_token *token, t_build *build);
-int			apply_dampersand(t_token *token, t_build *build);
-int			apply_dpipe(t_token *token, t_build *build);
-int			apply_pipe(t_token *token, t_build *build);
-int			apply_word(t_token *token, t_build *build);
-int			apply_io_nb(t_token *token, t_build *build);
-int			apply_redir(t_token *token, t_build *build);
+int			apply_newline(t_token *token, t_build *build, t_lexer *lex);
+int			apply_ampersand(t_token *token, t_build *build, t_lexer *lex);
+int			apply_dampersand(t_token *token, t_build *build, t_lexer *lex);
+int			apply_dampersand(t_token *token, t_build *build, t_lexer *lex);
+int			apply_dpipe(t_token *token, t_build *build, t_lexer *lex);
+int			apply_pipe(t_token *token, t_build *build, t_lexer *lex);
+int			apply_word(t_token *token, t_build *build, t_lexer *lex);
+int			apply_io_nb(t_token *token, t_build *build, t_lexer *lex);
+int			apply_redir(t_token *token, t_build *build, t_lexer *lex);
 
 /*
 ** Jobs

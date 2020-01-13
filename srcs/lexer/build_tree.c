@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:42:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 21:55:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 22:43:56 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 ** TODO: move expected type from
 */
 
-int			(*g_dispatch_tokens[])(t_token*, t_build*) =
+int			(*g_dispatch_tokens[])(t_token*, t_build*, t_lexer*) =
 {
 	[T_NEWLINE] = apply_newline,
 	[T_SEMICOLON] = apply_newline,
@@ -128,7 +128,7 @@ int			build_tree_apply_token(t_lexer *lexer, t_token *token)
 	if (!(lexer->build.expected_type & (1 << token->type)))
 		ret = SH_ERR_SYNTAX;
 	else if (g_dispatch_tokens[token->type])
-		ret = g_dispatch_tokens[token->type](token, &lexer->build);
+		ret = g_dispatch_tokens[token->type](token, &lexer->build, lexer);
 	else
 		ret = SH_ERR_NOEXIST;
 	if (ret != SH_SUCCESS)

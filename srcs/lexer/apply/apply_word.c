@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 19:03:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 14:13:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 22:43:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ static int	check_redir_filename(t_token *token, t_build *build)
 ** TODO: define if we are in a heredoc redirection and if so write to it
 */
 
-int			apply_word(t_token *token, t_build *build)
+int			apply_word(t_token *token, t_build *build, t_lexer *lexer)
 {
+	(void)lexer;
 	if (check_redir_filename(token, build) == 1)
 		return (SH_SUCCESS);
 	if (can_be_assign(token, build))
