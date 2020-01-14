@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 00:51:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 00:36:20 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 18:16:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void			reprint_everything(t_prompt *prompt)
 	t_pos	back;
 	size_t	buffer_index_back;
 	size_t	char_index_back;
+	size_t	nb_lines;
 
+	nb_lines = prompt->cursor_pos.y;
+	while (nb_lines--)
+		ft_putstr_fd(tgetstr("up", NULL), 0);
 	ft_putstr_fd(tgetstr("cr", NULL), 0);
 	ft_putstr_fd(prompt->prompt, 0);
 	back = prompt->cursor_pos;
