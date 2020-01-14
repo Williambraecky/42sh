@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 18:07:34 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 22:30:53 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,33 +97,33 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 ** TODO: Handle aliases better: we should probably not modify line
 */
 
-static int	tokenize_current(t_lexer *lexer, t_sh *shell)
+static void	tokenize_current(t_lexer *lexer, t_sh *shell, int *res)
 {
 	t_tdef	*new_tok_def;
 	t_token	tok;
-	int		res;
 
-	while (lexer->line[lexer->i])
+	while (lexer->line[lexer->i] && *res == SH_SUCCESS)
 	{
-		if ((res = delimit_token(lexer, &tok.str)) != SH_SUCCESS)
-			return (res);
+		if ((*res = delimit_token(lexer, &tok.str)) != SH_SUCCESS)
+			return ;
 		if (check_stack_top(lexer) || (tok.len = ft_strlen(tok.str)) == 0)
 		{
 			free(tok.str);
 			break ;
 		}
-		if (lexer->can_be_alias && has_alias(shell, tok.str) && !alias_stack_contains(lexer, tok.str))
+		if (lexer->can_be_alias && has_alias(shell, tok.str) &&
+			!alias_stack_contains(lexer, tok.str))
 		{
-			res = lexer_handle_alias(shell, lexer, tok.str);
+			*res = lexer_handle_alias(shell, lexer, tok.str);
 			continue ;
 		}
 		if (!(new_tok_def = determine_type(lexer, &tok)))
-			return (SH_ERR_NOEXIST);
-		if ((res = new_tok_def->transform(lexer, &tok)) != SH_SUCCESS)
-			return (res);
+			*res = SH_ERR_NOEXIST;
+		if (*res == SH_SUCCESS &&
+			(*res = new_tok_def->transform(lexer, &tok)) != SH_SUCCESS)
+			return ;
 		lexer->i += tok.len;
 	}
-	return (SH_SUCCESS);
 }
 
 int			tokenization(t_lexer *lexer, t_sh *shell)
@@ -133,7 +133,7 @@ int			tokenization(t_lexer *lexer, t_sh *shell)
 	res = SH_SUCCESS;
 	while (res == SH_SUCCESS)
 	{
-		res = tokenize_current(lexer, shell);
+		tokenize_current(lexer, shell, &res);
 		if (res == SH_SUCCESS && lexer->stack.size > 0)
 			res = get_next_part(lexer, shell);
 		else
