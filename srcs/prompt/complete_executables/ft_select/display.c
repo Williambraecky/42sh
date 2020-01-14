@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:19:09 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 22:34:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 22:47:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,22 @@ int					print_poss(t_vec *poss, t_select *select, int selected,
 int					get_scroll_limit(t_select *select, int selected,
 		t_prompt *prompt)
 {
-	size_t		current_row;
+	size_t	current_row;
+	int		diff;
 
+	(void)prompt;
 	current_row = selected == -1 ? 0 : selected % select->row_total;
-	if (current_row == 0 && select->scroll_bottom == (size_t)select->row_total)
+	if (current_row < select->scroll_top)
 	{
-		select->scroll_top = 0;
-		select->scroll_bottom = prompt->select.nb_row - prompt->max_pos.y - 1;
+		diff = select->scroll_top - current_row;
+		select->scroll_top -= diff;
+		select->scroll_bottom -= diff;
 	}
-	else if (current_row < select->scroll_top) //verif si scroll_top < 0 ?
+	else if (current_row >= select->scroll_bottom)
 	{
-		select->scroll_top--;
-		select->scroll_bottom--;
-	}
-	else if (current_row >= select->scroll_bottom
-/*			&& select->scroll_bottom < (size_t)select->row_total - 1*/)
-	{
-//		ft_dprintf(2, "on passe ici\n");
-		select->scroll_top++;
-		select->scroll_bottom++;
+		diff = current_row - select->scroll_bottom + 1;
+		select->scroll_top += diff;
+		select->scroll_bottom += diff;
 	}
 	return (SH_SUCCESS);
 }
