@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:23:53 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 14:35:53 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/14 14:44:00 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,5 +284,8 @@ int		expand_param(t_sh *shell, char *str, char **result)
 		}
 		i++;
 	}
+	if (*result == NULL)
+		if (!(*result = ft_strdup(str)))
+			return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
