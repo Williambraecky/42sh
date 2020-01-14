@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:38:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 21:49:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 01:23:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@
 int		jobs_to_foreground(t_sh *shell, t_cmd *cmd, int wake)
 {
 	if (cmd->pgid == 0)
+	{
+		if (cmd->pipeline)
+			set_last_return_code(shell, cmd->pipeline->status);
 		return (SH_SUCCESS);
+	}
 	tcsetpgrp(STDIN_FILENO, cmd->pgid);
 	if (wake)
 	{
