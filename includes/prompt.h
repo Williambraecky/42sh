@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 16:46:53 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 20:07:16 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ struct			s_select
 	int			written;
 	int			shell_var_brace;
 	int			file_complete;
+	size_t		scroll_top;
+	size_t		scroll_bottom;
 	t_pos		original_pos;
 	t_vec		poss;
 };
@@ -162,5 +164,6 @@ int				change_line(t_select *select, t_prompt *prompt);
 int				first_word(char *line, size_t i, int first_word);
 int				select_handle_arrows(t_prompt *prompt, char *buffer);
 char			*get_brace_str(int shell_var_brace, char *line, t_prompt *p);
+int				display_poss_scroll(t_select *se, t_vec *, int s, t_prompt *p);
 
 #endif
