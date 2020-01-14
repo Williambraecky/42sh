@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:13:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 13:35:44 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 21:05:30 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ t_bltin		g_builtin_table[] =
 	{"history", history_builtin},
 	{"test", test_builtin},
 	{"exit", exit_builtin},
-	{"unsetenv", unsetenv_builtin}
+	{"unsetenv", unsetenv_builtin},
+	{"fc", fc_builtin}
 };
 
 size_t		g_table_size = sizeof(g_builtin_table) / sizeof(g_builtin_table[0]);

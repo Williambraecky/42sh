@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 15:01:51 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 18:29:13 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/14 18:30:56 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int		alias_builtin(int argc, char **argv, t_sh *shell)
 	{
 		if (ft_strchr(argv[i], '=') != NULL)
 		{
-			if (!(tmp = ft_strsplit(argv[i], '=')))
+			if (!(tmp = ft_strsplit(argv[i], '=')) && valid_arg(argv[i]))
 			{
 				ft_putendl("spliterror");
 				return (SH_ERR_MALLOC);

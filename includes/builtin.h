@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:53 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 13:35:32 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 21:06:00 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int			test_builtin(int ac, char **av, t_sh *shell);
 int			type_builtin(int ac, char **av, t_sh *shell);
 int			exit_builtin(int argc, char **argv, t_sh *shell);
 int			unsetenv_builtin(int argc, char **argv, t_sh *shell);
+int			fc_builtin(int argc, char **argv, t_sh *shell);
 
 /*
 ** Utils
