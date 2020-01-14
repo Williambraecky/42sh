@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 19:24:49 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/14 14:27:27 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 # define SH_ERR_FORK 10
 # define SH_ERR_OPEN 11
 # define SH_ERR_KILL 12
+# define SH_ERR_BAD_SUBST 13
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -70,6 +71,7 @@ typedef struct s_sh	t_sh;
 typedef struct stat	t_stat;
 typedef struct termios	t_termi;
 typedef struct winsize	t_winsiz;
+typedef struct s_brace	t_brace;
 
 /*
 ** Enums
@@ -158,6 +160,23 @@ struct		s_sh
 	int		running;
 };
 
+struct		s_brace
+{
+	t_sh	*shell;
+	char	*str;
+	char	*param;
+	char	*param_expand;
+	int		param_status;
+	char	*word;
+	char	*word_expand;
+	char	op;
+	int		what_op;
+	int		hashtag;
+	size_t	*len;
+	size_t	i;
+	char	**result;
+};
+
 /*
 ** Prototypes
 */
@@ -169,7 +188,6 @@ struct		s_sh
 int			add_alias(t_sh *shell, char *alias, char *aliased);
 int			has_alias(t_sh *shell, char *alias);
 int			remove_alias(t_sh *shell, char *alias);
-int			resolve_alias(t_sh *shell, char *alias, char **tokens);
 char		*get_alias(t_sh *shell, char *alias);
 int			repl_alias(t_sh *shell, char *key, char *value);
 
@@ -244,5 +262,6 @@ int			expand_param(t_sh *shell, char *str, char **result);
 int			expand_tilde(t_sh *shell, char *str, char **result);
 int			expand_exclamation(t_sh *shell, char *str, char **result);
 int			is_builtin(t_sh *shell, char *str);
+int			gen_prompt_string(t_sh *shell, char *ps1, char **result);
 
 #endif

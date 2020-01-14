@@ -6,7 +6,7 @@
 /*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:19:09 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/10 19:59:56 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:01:06 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,36 @@ int					replace_cursor(t_select *select, t_prompt *prompt)
 	return (SH_SUCCESS);
 }
 
-int			print_selected(t_select *select, t_vec *poss, int i)
+int					print_selected(t_select *select, t_vec *poss, int i)
 {
 	if (select->selected == i)
 	{
 		ft_putstr_fd(tgetstr("so", NULL), 0);
-		ft_dprintf(0, "%-*s",select->max_len + 2, (char *)ft_vecget(poss, i));
+		ft_dprintf(0, "%-*s", select->max_len + 2, (char *)ft_vecget(poss, i));
 		ft_putstr_fd(tgetstr("se", NULL), 0);
 	}
 	else
-		ft_dprintf(0, "%-*s",select->max_len + 2 ,(char *)ft_vecget(poss, i));
+		ft_dprintf(0, "%-*s", select->max_len + 2, (char *)ft_vecget(poss, i));
 	return (SH_SUCCESS);
 }
 
 /*
 ** TODO: move to render
 */
+
+int					print_poss(t_vec *poss, t_select *select, int selected,
+		int i)
+{
+	if (i <= select->nb_elem && ft_vecget(poss, i) != NULL)
+	{
+		if (selected != -1 && i == selected)
+			print_selected(select, poss, i);
+		else
+			ft_dprintf(0, "%-*s", select->max_len + 2,
+				(char *)ft_vecget(poss, i));
+	}
+	return (SH_SUCCESS);
+}
 
 int					display_poss(t_select *select, t_vec *poss, int selected,
 	t_prompt *prompt)
@@ -55,19 +69,13 @@ int					display_poss(t_select *select, t_vec *poss, int selected,
 		j = 0;
 		while (j < (size_t)select->elem_per_row)
 		{
-			if (i <= select->nb_elem && ft_vecget(poss, i) != NULL)
-			{
-				if (selected != -1 && i == selected)
-					print_selected(select, poss, i);
-				else
-					ft_dprintf(0, "%-*s",select->max_len + 2 ,(char *)ft_vecget(poss, i));
-			}
+			print_poss(poss, select, selected, i);
 			j++;
 			i += select->row_total;
 		}
 		r++;
 		if (r == (size_t)select->row_total)
-			break;
+			break ;
 		ft_dprintf(0, "\n");
 		i -= (select->elem_per_row * select->row_total) - 1;
 		i = i < 0 ? i + select->row_total : i;

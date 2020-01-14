@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 19:03:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/06 14:13:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 01:17:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,19 @@ static int	check_redir_filename(t_token *token, t_build *build)
 ** TODO: define if we are in a heredoc redirection and if so write to it
 */
 
-int			apply_word(t_token *token, t_build *build)
+int			apply_word(t_token *token, t_build *build, t_lexer *lexer)
 {
+	(void)lexer;
 	if (check_redir_filename(token, build) == 1)
 		return (SH_SUCCESS);
 	if (can_be_assign(token, build))
 		return (apply_assignment(token, build));
 	if (ft_vecpush(&build->work_proc->unprocessed_argv, token))
 		return (SH_ERR_MALLOC);
+	if (lexer->can_be_alias == 1)
+		lexer->can_be_alias = 0;
+	else if (lexer->can_be_alias == 2)
+		lexer->can_be_alias = 1;
 	build->work_proc->argc++;
 	return (SH_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/13 16:41:59 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:47:31 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		complete_shell_var(char *line, t_vec *poss, t_sh *shell,
 		}
 		i++;
 	}
-	return (get_internals(line, poss, internals));
+	return (get_internals(str, poss, internals));
 }
 
 int		get_files(char *line, char *path, t_vec *poss)
@@ -72,7 +72,7 @@ int		get_files(char *line, char *path, t_vec *poss)
 	while ((sd = readdir(dir)) != NULL)
 	{
 		if ((ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, "..")) &&
-			(!ft_strequ(line , ".") && !ft_strequ(line, "..")))
+			(!ft_strequ(line, ".") && !ft_strequ(line, "..")))
 			continue;
 		if (ft_strstartswith(sd->d_name, line))
 			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name) + 1))
@@ -100,6 +100,7 @@ int		complete_files(t_prompt *prompt, char *line, t_vec *poss)
 		return (ret);
 	free(path);
 	free(line);
+	prompt->select.file_complete = 1;
 	return (SH_SUCCESS);
 }
 
@@ -114,16 +115,12 @@ t_prompt *prompt)
 	{
 		if (complete_shell_var(to_complete, poss, shell, prompt))
 			return (SH_ERR_MALLOC);
-//		free(to_complete); //make double free but why ?
+		free(to_complete);
 		return (SH_SUCCESS);
 	}
 	if (!first_word(line, 0, 1))
-	{
-		complete_files(prompt, to_complete, poss);
-		return (SH_SUCCESS);
-	}
-	if (!ft_strequ(to_complete, "") && !ft_strequ(to_complete, ".")
-			&& !ft_strequ(to_complete, ".."))
+		return (complete_files(prompt, to_complete, poss));
+	if (!ft_strequ(to_complete, ".") && !ft_strequ(to_complete, ".."))
 	{
 		complete_command(shell, to_complete, poss);
 		if (poss->size != 0)

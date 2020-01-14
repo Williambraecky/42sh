@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 19:21:43 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/10 19:38:14 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 15:29:18 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@ void	select_handle_up_arrow(t_select *select)
 
 void	select_handle_right_arrow(t_select *select)
 {
-	if (select->selected > ((select->row_total * select->elem_per_row) - select->row_total - 1))
+	if (select->selected > ((select->row_total * select->elem_per_row)
+			- select->row_total - 1))
 		select->selected %= select->row_total;
 	else
 	{
 		select->selected += select->row_total;
 		if (select->selected > select->nb_elem - 1)
-			select->selected = select->nb_elem -1;
+			select->selected = select->nb_elem - 1;
 	}
 }
 
@@ -54,18 +55,18 @@ int		select_handle_arrows(t_prompt *prompt, char *buffer)
 	t_select *select;
 
 	select = &prompt->select;
-	if (buffer[2] == 'A') //up
+	if (buffer[2] == 'A')
 		select_handle_up_arrow(select);
-	else if (buffer[2] == 'B') //down
+	else if (buffer[2] == 'B')
 		select->selected = (select->selected + 1) % select->nb_elem;
-	else if (buffer[2] == 'C') //right
+	else if (buffer[2] == 'C')
 		select_handle_right_arrow(select);
-	else if (buffer[2] == 'D') //left
+	else if (buffer[2] == 'D')
 		select_handle_left_arrow(select);
-	else if (buffer[2] == 'H') //should we implement those?
+	else if (buffer[2] == 'H')
 		while (select->selected > select->row_total - 1)
 			select->selected -= select->row_total;
-	else if (buffer[2] == 'F') //^
+	else if (buffer[2] == 'F')
 	{
 		while (select->selected < select->nb_elem)
 			select->selected += select->row_total;

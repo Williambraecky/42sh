@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 16:41:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 14:28:31 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 13:17:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,14 @@
 
 int		gen_prompt_string(t_sh *shell, char *ps1, char **result)
 {
-	(void)shell;
+	char	*prompt;
+	char	*tmp;
+
 	(void)ps1;
-	(void)result;
-	return (SH_ERR_MALLOC);
+	prompt = getpwd_short(shell);
+	tmp = prompt;
+	prompt = ft_strjoin(prompt, "> ");
+	free(tmp);
+	*result = prompt;
+	return (SH_SUCCESS);
 }

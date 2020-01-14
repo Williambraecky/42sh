@@ -6,18 +6,21 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 18:56:55 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:10:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 01:16:16 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-int		apply_pipe(t_token *token, t_build *build)
+int		apply_pipe(t_token *token, t_build *build, t_lexer *lexer)
 {
-	(void)token;
 	if (proc_new(&build->work_proc->next))
 		return (SH_ERR_MALLOC);
 	build->work_proc = build->work_proc->next;
 	build->work_proc->parent = build->work;
+	if (stack_push(lexer, token->type) != SH_SUCCESS)
+		return (SH_ERR_MALLOC);
+	lexer->can_be_alias = 1;
+	alias_stack_clear(lexer);
 	return (SH_SUCCESS);
 }

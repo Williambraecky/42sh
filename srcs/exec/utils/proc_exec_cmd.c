@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 14:33:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,21 @@ static int	prepare_args(t_sh *shell, t_proc *proc)
 	return (SH_SUCCESS);
 }
 
-static void	close_backup_fds_fork(t_proc *proc)
+static void	fork_reset_stuff(t_proc *proc)
 {
 	size_t	i;
 
 	i = PROC_FD_BACKUP_SIZE;
 	while (i--)
 		close(proc->fd_backups[i]);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGWINCH, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGTSTP, SIG_DFL);
+	signal(SIGTTIN, SIG_DFL);
+	signal(SIGTTOU, SIG_DFL);
+	if (proc->io.pipe_close)
+		close(proc->io.pipe_close);
 }
 
 static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)
@@ -107,7 +115,7 @@ int			proc_exec_cmd(t_sh *shell, t_proc *proc)
 	if (!need_fork || (pid = fork()) == 0)
 	{
 		if (need_fork)
-			close_backup_fds_fork(proc);
+			fork_reset_stuff(proc);
 		if (builtin)
 			ret = exec_builtin(shell, proc, need_fork);
 		else

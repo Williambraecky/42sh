@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 19:45:46 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/13 22:47:03 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@ int				g_stackable[] =
 	[T_NULL] = 0
 };
 
-static int		check_dless_exist(t_lexer *lex, t_type type)
+static int		check_dless_exist(t_lexer *lex)
 {
 	size_t	i;
 	t_token	*tok;
 
 	i = 0;
-	if (type != T_NEWLINE)
-		return (SH_SUCCESS);
 	while (i < lex->tokens.size)
 	{
 		tok = (t_token*)ft_vecget(&lex->tokens, i);
@@ -68,21 +66,6 @@ static int		check_dless_exist(t_lexer *lex, t_type type)
 		i++;
 	}
 	return (SH_SUCCESS);
-}
-
-static int		stack(t_type type, t_lexer *lex)
-{
-	int		ret;
-
-	ret = SH_SUCCESS;
-	if (lex->stack.size != 0 &&
-		(type != T_SEMICOLON && type != T_AMPERSAND && type != T_NEWLINE))
-		stack_pop(lex);
-	else if (g_stackable[type])
-		ret = stack_push(lex, type);
-	else
-		ret = check_dless_exist(lex, type);
-	return (ret);
 }
 
 static t_hdoc	*find_heredoc(t_lexer *lex)
@@ -133,9 +116,10 @@ int				token_process(t_lexer *lexer, t_token *token)
 	{
 		if (ft_vecpush(&lexer->tokens, tok_dup))
 			return (SH_ERR_MALLOC);
-		ret = stack(tok_dup->type, lexer);
+		if (tok_dup->type == T_NEWLINE)
+			ret = check_dless_exist(lexer);
 		if (ret == SH_SUCCESS)
-			build_tree_apply_token(lexer, tok_dup);
+			ret = build_tree_apply_token(lexer, tok_dup);
 	}
 	return (ret);
 }

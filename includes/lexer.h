@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/13 18:23:56 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 14:33:08 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ struct		s_io
 {
 	int		in;
 	int		out;
+	int		pipe_close;
 };
 
 struct		s_redir
@@ -188,9 +189,16 @@ struct		s_io_nb
 	int		io_nb;
 };
 
+/*
+** NOTE: clean_line is an unprocessed version of the line (used for history)
+*/
+
 struct		s_lexer
 {
-	t_vec	tokens; //NOTE: Do we really need this?
+	t_vec	tokens;
+	char	**alias_stack;
+	int		can_be_alias;
+	char	*clean_line;
 	char	*line;
 	size_t	line_size;
 	size_t	i;
@@ -210,7 +218,7 @@ struct		s_tdef
 */
 
 int			lexer(char *line, t_lexer *lex, t_sh *shell);
-int			init_lexer(t_lexer *lexer, char *line);
+int			init_lexer(t_sh *shell, t_lexer *lexer, char *line);
 int			tokenization(t_lexer *lexer, t_sh *shell);
 void		token_free(t_token *token);
 int			token_process(t_lexer *lexer, t_token *token);
@@ -233,6 +241,9 @@ int			is_escaped(t_lexer *lex, size_t len);
 int			handle_specials(t_lexer *lex, size_t len);
 int			new_line_check(t_lexer *lex, size_t len);
 int			make_stack_prompt(t_vec *stack, char **result);
+int			lexer_handle_alias(t_sh *shell, t_lexer *lexer, char *str);
+int			alias_stack_contains(t_lexer *lexer, char *str);
+void		alias_stack_clear(t_lexer *lexer);
 
 /*
 ** Tokens
@@ -280,15 +291,15 @@ int			exec_cmd(t_sh *shell, t_cmd *cmd);
 int			exec_proc(t_sh *shell, t_proc *proc);
 int			proc_exec_cmd(t_sh *shell, t_proc *proc);
 
-int			apply_newline(t_token *token, t_build *build);
-int			apply_ampersand(t_token *token, t_build *build);
-int			apply_dampersand(t_token *token, t_build *build);
-int			apply_dampersand(t_token *token, t_build *build);
-int			apply_dpipe(t_token *token, t_build *build);
-int			apply_pipe(t_token *token, t_build *build);
-int			apply_word(t_token *token, t_build *build);
-int			apply_io_nb(t_token *token, t_build *build);
-int			apply_redir(t_token *token, t_build *build);
+int			apply_newline(t_token *token, t_build *build, t_lexer *lex);
+int			apply_ampersand(t_token *token, t_build *build, t_lexer *lex);
+int			apply_dampersand(t_token *token, t_build *build, t_lexer *lex);
+int			apply_dampersand(t_token *token, t_build *build, t_lexer *lex);
+int			apply_dpipe(t_token *token, t_build *build, t_lexer *lex);
+int			apply_pipe(t_token *token, t_build *build, t_lexer *lex);
+int			apply_word(t_token *token, t_build *build, t_lexer *lex);
+int			apply_io_nb(t_token *token, t_build *build, t_lexer *lex);
+int			apply_redir(t_token *token, t_build *build, t_lexer *lex);
 
 /*
 ** Jobs
@@ -297,7 +308,7 @@ int			apply_redir(t_token *token, t_build *build);
 int			jobs_add(t_sh *shell, t_cmd *cmd);
 int			job_is_stopped(t_cmd *cmd);
 int			job_is_completed(t_cmd *cmd);
-void		job_wait(t_cmd *cmd);
+void		job_wait(t_sh *shell, t_cmd *cmd);
 int			jobs_to_background(t_sh *shell, t_cmd *cmd, int wake);
 int			jobs_to_foreground(t_sh *shell, t_cmd *cmd, int wake);
 

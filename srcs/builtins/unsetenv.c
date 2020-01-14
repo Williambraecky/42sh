@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tree_test.c                                        :+:      :+:    :+:   */
+/*   unsetenv.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/16 15:42:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/08/16 15:49:32 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/14 13:34:54 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/14 13:35:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "builtin.h"
 
-static void tree_iter(int *data)
+int		unsetenv_builtin(int argc, char **argv, t_sh *shell)
 {
-	ft_printf("Data : %d\n", *data);
-}
-
-int main(void)
-{
-	t_tree	*tree;
-	int		*data;
 	int		i;
 
-	tree = NULL;
-	i = 0;
-	while (i < 100)
+	i = 1;
+	while (argc > i)
 	{
-		data = malloc(sizeof(i));
-		*data = i++;
-		ft_treeinsert(&tree, data, ft_intcmp);
+		remove_env(shell, argv[i]);
+		++i;
 	}
-	ft_treeiter_infix(tree, tree_iter);
+	return (0);
 }

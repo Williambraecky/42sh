@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:25:21 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:47:05 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,10 @@ char		*g_error_str[] =
 	[SH_ERR_DUP] = "dup error"
 };
 
+/*
+** TODO: Initialize some variables like PS1 ? $ etc
+*/
+
 static int	init_shell(t_sh *shell, const char **env)
 {
 	ft_memset(shell, 0, sizeof(shell));
@@ -47,6 +51,7 @@ static int	init_shell(t_sh *shell, const char **env)
 		return (1);
 	if (builtin_init(shell) != SH_SUCCESS)
 		return (1);
+	add_alias(shell, "ls", "ls -G");
 	copy_env(shell, env);
 	if ((shell->prompt_mode = isatty(SH_IN)))
 		if (init_interactive_mode(shell))
@@ -70,20 +75,20 @@ int			main(int argc, const char **argv, const char **env)
 	char	*line;
 	t_lexer	lexer_;
 
+	(void)argc;
+	(void)argv;
 	if (init_shell(&shell, env))
 	{
 		free_sh(&shell);
 		return (1);
 	}
-	(void)argc;
-	(void)argv;
-	prompt = "$> ";
 	shell.running = 1;
 	while (shell.running)
 	{
+		gen_prompt_string(&shell, "", &prompt);
 		handle_prompt(&shell, prompt, &line);
+		free(prompt);
 		lexer(line, &lexer_, &shell);
-		// build_tree(&lexer_, &cmd);
 		exec_tree(&shell, lexer_.build.head);
 		free(line);
 	}
