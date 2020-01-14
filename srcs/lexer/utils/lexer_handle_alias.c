@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 23:04:45 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 01:17:52 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 13:12:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void		alias_stack_clear(t_lexer *lexer)
 
 	i = 0;
 	while (lexer->alias_stack[i])
-		lexer->alias_stack[i++] = NULL;
+		ft_strdel(&(lexer->alias_stack[i++]));
 }
 
 int			alias_stack_contains(t_lexer *lexer, char *str)
@@ -52,7 +52,7 @@ int			lexer_handle_alias(t_sh *shell, t_lexer *lexer, char *str)
 	char	*line;
 
 	aliased = get_alias(shell, str);
-	alias_stack_add(lexer, aliased);
+	alias_stack_add(lexer, str);
 	if (!(line = ft_strnew(ft_strlen(lexer->line) - ft_strlen(str) +
 		ft_strlen(aliased))))
 		return (SH_ERR_MALLOC);
@@ -64,6 +64,5 @@ int			lexer_handle_alias(t_sh *shell, t_lexer *lexer, char *str)
 		lexer->line + lexer->i + ft_strlen(str));
 	free(lexer->line);
 	lexer->line = line;
-	free(str);
 	return (SH_SUCCESS);
 }
