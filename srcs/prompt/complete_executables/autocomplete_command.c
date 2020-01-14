@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 16:27:09 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:47:31 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int		complete_files(t_prompt *prompt, char *line, t_vec *poss)
 		return (ret);
 	free(path);
 	free(line);
+	prompt->select.file_complete = 1;
 	return (SH_SUCCESS);
 }
 
@@ -121,7 +122,7 @@ t_prompt *prompt)
 		return (complete_files(prompt, to_complete, poss));
 	if (!ft_strequ(to_complete, ".") && !ft_strequ(to_complete, ".."))
 	{
-		complete_command(shell, to_complete, poss, prompt);
+		complete_command(shell, to_complete, poss);
 		if (poss->size != 0)
 		{
 			free(to_complete);

@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 16:33:50 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:46:38 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ int					autocomplete_poss(char *path, char *start, t_vec *poss)
 	return (SH_SUCCESS);
 }
 
-int					complete_command(t_sh *shell, char *start, t_vec *poss,
-		t_prompt *prompt)
+int					complete_command(t_sh *shell, char *start, t_vec *poss)
 {
 	char	**path_dir;
 	char	*path;
@@ -106,6 +105,6 @@ int					complete_command(t_sh *shell, char *start, t_vec *poss,
 	if ((ret = get_builtin(shell, start, poss)) != SH_SUCCESS)
 		return (ret);
 	get_aliases(shell, start, poss);
-	prompt->select.command_complete = poss->size != 0 ? 1 : 0;
+//	prompt->select.command_complete = poss->size != 0 ? 1 : 0;
 	return (SH_SUCCESS);
 }

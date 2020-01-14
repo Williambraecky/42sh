@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 16:26:22 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:46:53 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ struct			s_select
 	int			cursor_right_len;
 	int			written;
 	int			shell_var_brace;
-	int			command_complete;
+	int			file_complete;
 	t_pos		original_pos;
 	t_vec		poss;
 };
@@ -140,7 +140,7 @@ int				buff_insert(t_buff *buffer, char *insert, size_t pos);
 int				buff_remove(t_buff *buffer, size_t pos);
 char			*get_cursor_word(char *line, t_prompt *prompt);
 int				get_path(char **last_word, char **path);
-int				complete_command(t_sh *shell, char *s, t_vec *p, t_prompt *pr);
+int				complete_command(t_sh *shell, char *s, t_vec *p);
 int				autocomplete_poss(char *path, char *start, t_vec *poss);
 int				autocomplete_command(char *line, t_sh *shell, t_vec *poss,
 				t_prompt *prompt);

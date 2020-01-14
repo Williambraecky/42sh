@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:55:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 16:37:23 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:52:46 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,22 @@ int			select_handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 	return (RET_CONT);
 }
 
-static int	one_poss_only(char *line, t_vec *poss, t_sh *shell,
-		t_prompt *prompt)
+static int	one_poss_only(t_vec *poss, t_prompt *prompt)
 {
 	char	*str;
 	size_t	i;
-	int		command_complete;
+	int		file_complete;
 
-	(void)shell;
-	(void)line;
 	str = (char *)ft_vecget(poss, 0);
 	i = (int)prompt->buffer_index - 1;
-	command_complete = prompt->select.command_complete ? 0 : 1;
+	file_complete = prompt->select.file_complete ? 1 : 0;
 	while (prompt->select.cursor_right_len > 0)
 	{
 		move_right(prompt);
 		handle_backspace(prompt, NULL, NULL);
 		prompt->select.cursor_right_len--;
 	}
-	while (prompt->select.cursor_left_len + command_complete
+	while (prompt->select.cursor_left_len + file_complete
 			&& prompt->buffer.buffer[i] != '/')
 	{
 		handle_backspace(prompt, NULL, NULL);
@@ -51,6 +48,8 @@ static int	one_poss_only(char *line, t_vec *poss, t_sh *shell,
 		i--;
 	}
 	default_char_handler(prompt, str, NULL);
+	if (prompt->select.shell_var_brace)
+		default_char_handler(prompt, "}", NULL);
 	default_char_handler(prompt, " ", NULL);
 	return (RET_CONT);
 }
@@ -105,7 +104,7 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 	if (ft_vecinit(&poss))
 		return (SH_ERR_MALLOC);
 	prompt->select.shell_var_brace = 0;
-	prompt->select.command_complete = 0;
+	prompt->select.file_complete = 0;
 	autocomplete_command(line, shell, &poss, prompt);
 	if (replace_space_poss(&poss) == SH_ERR_MALLOC)
 		return (SH_ERR_MALLOC);
@@ -115,7 +114,7 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 		return (RET_CONT);
 	}
 	if (poss.size == 1)
-		return (one_poss_only(line, &poss, shell, prompt));
+		return (one_poss_only(&poss, prompt));
 	ft_vecsort(&poss, ft_strcmp);
 	ft_select(shell, &poss, prompt);
 	return (RET_CONT);
