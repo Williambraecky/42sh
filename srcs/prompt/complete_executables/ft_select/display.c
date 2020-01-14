@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:19:09 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 22:32:17 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 22:34:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int					display_poss_scroll(t_select *select, t_vec *poss,
 		j = 0;
 		while (j < (size_t)select->elem_per_row)
 		{
-			ft_printf("%d", i);
 			print_poss(poss, select, selected, i);
 			j++;
 			i += select->row_total;
