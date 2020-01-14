@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 01:15:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 18:07:34 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 		ret = SH_ERR_MALLOC;
 	ft_strdel(&tmp);
 	tmp = lexer->clean_line;
-	if (!(lexer->line = ft_strjoin(lexer->clean_line, line)))
+	if (!(lexer->clean_line = ft_strjoin(lexer->clean_line, line)))
 		ret = SH_ERR_MALLOC;
 	ft_strdel(&tmp);
 	lexer->line_size += ft_strlen(line);
