@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:43:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 21:44:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 14:33:22 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ static int	exec_pipeline(t_sh *shell, t_proc *pipeline)
 			pipe(pipe_);
 			pipeline->io.out = pipe_[1];
 			pipeline->next->io.in = pipe_[0];
+			pipeline->io.pipe_close = pipe_[0];
 		}
 		if ((ret = exec_proc(shell, pipeline)) != SH_SUCCESS)
 			break ;

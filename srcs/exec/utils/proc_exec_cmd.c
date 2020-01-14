@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 21:40:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 14:33:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ static void	fork_reset_stuff(t_proc *proc)
 	signal(SIGTSTP, SIG_DFL);
 	signal(SIGTTIN, SIG_DFL);
 	signal(SIGTTOU, SIG_DFL);
+	if (proc->io.pipe_close)
+		close(proc->io.pipe_close);
 }
 
 static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)

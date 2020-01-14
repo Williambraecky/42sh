@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 01:11:36 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 14:33:08 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ struct		s_io
 {
 	int		in;
 	int		out;
+	int		pipe_close;
 };
 
 struct		s_redir
