@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 13:18:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:47:05 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static int	init_shell(t_sh *shell, const char **env)
 		return (1);
 	if (builtin_init(shell) != SH_SUCCESS)
 		return (1);
+	add_alias(shell, "ls", "ls -G");
 	copy_env(shell, env);
 	if ((shell->prompt_mode = isatty(SH_IN)))
 		if (init_interactive_mode(shell))
