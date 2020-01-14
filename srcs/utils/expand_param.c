@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:23:53 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 17:10:24 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/14 23:33:12 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #define SUBST_NULL 3
 #define ERROR_EXIT 4
 #define REMOVE_SUFFIX 5
-#define REMOVE_PREFIXE 6
+#define REMOVE_PREFIX 6
 #define DO_NOTHING 7
 
 int		is_charset(char c, int first_char)
@@ -162,7 +162,7 @@ void	what_do(int status, char op, int *what_op)
 	else if (op == '%')
 		*what_op = REMOVE_SUFFIX;
 	else if (op == '#')
-		*what_op = REMOVE_PREFIXE;
+		*what_op = REMOVE_PREFIX;
 	else
 	{
 		if ((status == 0 && op == '+') || (status != 0 && op == '-'))
@@ -206,6 +206,36 @@ int		init_struct(t_brace *brace, t_sh *shell, char *str, char **result)
 	return (SH_SUCCESS);
 }
 
+int		remove_prefix(t_brace *brace)
+{
+	size_t	i;
+
+	i = 0;
+	while (brace->param_expand[i] && brace->word[i]
+		&& brace->param_expand[i] == brace->word[i])
+		i++;
+	*brace->result = ft_strdup(brace->param_expand + i);
+	return (SH_SUCCESS);
+}
+int		remove_suffix(t_brace *brace)
+{
+	size_t	len_w;
+	size_t	len_p;
+	char	tmp_c;
+
+	len_w = ft_strlen(brace->word);
+	len_p = ft_strlen(brace->param_expand);
+	while (brace->word[len_w] && brace->param_expand[len_p])
+	{
+		len_w--;
+		len_p--;
+	}
+	tmp_c = brace->param_expand[len_p];
+	brace->param_expand[len_p] = '\0';
+	*brace->result = ft_strdup(brace->param_expand);
+	brace->param_expand[len_p] = tmp_c;
+	return (SH_SUCCESS);
+}
 int		do_opt(t_brace *brace)
 {
 	int		ret;
@@ -226,9 +256,9 @@ int		do_opt(t_brace *brace)
 	else if (brace->what_op == ERROR_EXIT)
 		ft_dprintf(2, "42sh: %s: %s\n", brace->param, brace->word); //todo parameter not set
 	else if (brace->what_op == REMOVE_SUFFIX)
-		*brace->result = ft_strdup(brace->word);
-	else if (brace->what_op == REMOVE_PREFIXE)
-		*brace->result = ft_strdup(brace->word);
+		remove_suffix(brace);
+	else if (brace->what_op == REMOVE_PREFIX)
+		remove_prefix(brace);
 	else if (brace->what_op == DO_NOTHING)
 		*brace->result = brace->param_expand != NULL ?
 			ft_strdup(brace->param_expand) : ft_strdup(brace->param);
@@ -236,8 +266,6 @@ int		do_opt(t_brace *brace)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
-
-// TODO leak sur ERROR EXIT
 
 void	free_struct(t_brace *brace)
 {
@@ -256,10 +284,8 @@ int		expand_brace(t_sh *shell, char *str, char **result, size_t *len)
 	brace.len = len;
 	if ((ret = init_struct(&brace, shell, str, result)) != SH_SUCCESS)
 		return (ret);
-	ft_printf("ici\n");
 	if ((ret = do_opt(&brace)) != SH_SUCCESS)
 		return (ret);
-	ft_printf("ici\n");
 	if (brace.hashtag == 1)
 	{
 		tmp = *brace.result;
@@ -271,6 +297,8 @@ int		expand_brace(t_sh *shell, char *str, char **result, size_t *len)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
+
+// TODO leak
 
 int		expand_param(t_sh *shell, char *str, char **result)
 {
@@ -289,7 +317,6 @@ int		expand_param(t_sh *shell, char *str, char **result)
 		str[i] == '\'' ? quoted = !(quoted) : 0;
 		if (str[i] == '$' && !(is_char_escaped(str, i)) && quoted == 0 && ++i)
 		{
-			ft_printf("ici\n");
 			if (str[i] == '{')
 				ret = expand_brace(shell, str + i, result, &len);
 			else if (!(is_charset(str[i], FIRST_CHAR)))
