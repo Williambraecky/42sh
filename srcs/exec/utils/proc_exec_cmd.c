@@ -6,40 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 14:33:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 22:33:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-static int	prepare_args(t_sh *shell, t_proc *proc)
-{
-	size_t	i;
-	char	*curr;
-
-	if (!(proc->argv =
-		ft_memalloc(sizeof(*(proc->argv)) * (proc->unprocessed_argv.size + 1))))
-		return (SH_ERR_MALLOC);
-	i = 0;
-	while (i < proc->unprocessed_argv.size)
-	{
-		curr = ((t_token*)ft_vecget(&proc->unprocessed_argv, i))->str;
-		if (proxy_substitute(shell, curr, &(proc->argv[i])) != SH_SUCCESS)
-		{
-			ft_freesplit(proc->argv);
-			proc->argv = NULL;
-			return (SH_ERR_MALLOC);
-		}
-		i++;
-	}
-	if (make_env_array(shell, &proc->env) != SH_SUCCESS)
-	{
-		ft_freesplit(proc->argv);
-		proc->argv = NULL;
-		return (SH_ERR_MALLOC);
-	}
-	return (SH_SUCCESS);
-}
 
 static void	fork_reset_stuff(t_proc *proc)
 {
@@ -91,6 +62,20 @@ static void	exec_bin(t_sh *shell, t_proc *proc)
 	exit(127);
 }
 
+static int	post_fork(t_sh *shell, t_proc *proc, int builtin, int need_fork)
+{
+	int		ret;
+
+	ret = SH_SUCCESS;
+	if (need_fork)
+		fork_reset_stuff(proc);
+	if (builtin)
+		ret = exec_builtin(shell, proc, need_fork);
+	else
+		exec_bin(shell, proc);
+	return (ret);
+}
+
 /*
 ** NOTE: prepare command ie create argv and env for exec
 ** NOTE: fetch exec type
@@ -108,19 +93,12 @@ int			proc_exec_cmd(t_sh *shell, t_proc *proc)
 
 	if (proc->unprocessed_argv.size == 0)
 		return (SH_SUCCESS);
-	ret = prepare_args(shell, proc);
+	ret = SH_SUCCESS;
 	builtin = is_builtin(shell, proc->argv[0]);
 	need_fork = !builtin || proc->next != NULL || proc->parent->background;
 	pid = 0;
 	if (!need_fork || (pid = fork()) == 0)
-	{
-		if (need_fork)
-			fork_reset_stuff(proc);
-		if (builtin)
-			ret = exec_builtin(shell, proc, need_fork);
-		else
-			exec_bin(shell, proc);
-	}
+		ret = post_fork(shell, proc, builtin, need_fork);
 	else if (pid == -1)
 		ret = SH_ERR_FORK;
 	else
@@ -130,7 +108,5 @@ int			proc_exec_cmd(t_sh *shell, t_proc *proc)
 			proc->parent->pgid = pid;
 		setpgid(pid, proc->parent->pgid);
 	}
-	ft_freesplit(proc->argv);
-	ft_freesplit(proc->env);
 	return (ret);
 }
