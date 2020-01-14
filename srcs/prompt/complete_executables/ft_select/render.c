@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 00:01:57 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 17:06:44 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 15:57:58 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@
 ** NOTE: we should probably process informations such as elem_per_row etc here
 ** NOTE: this function should not disrupt the current cursor position
 */
+
+int		select_update_prompt_info(t_select *select, t_prompt *prompt, char *s)
+{
+	select->written = ft_wstrlen(s);
+	default_char_handler(prompt, s, NULL);
+	if (select->shell_var_brace > 0)
+	{
+		default_char_handler(prompt, "}", NULL);
+		select->written += 1;
+	}
+	return (SH_SUCCESS);
+}
 
 int		change_line(t_select *select, t_prompt *prompt)
 {
@@ -40,14 +52,8 @@ int		change_line(t_select *select, t_prompt *prompt)
 		handle_backspace(prompt, NULL, NULL);
 		select->written--;
 	}
-	select->written = ft_wstrlen(str);
-	default_char_handler(prompt, str, NULL);
-	if (select->shell_var_brace > 0)
-	{
-		default_char_handler(prompt, "}", NULL);
-		select->written += 1;
-	}
-	return (0);
+	select_update_prompt_info(select, prompt, str);
+	return (SH_SUCCESS);
 }
 
 int		select_render(t_prompt *prompt, t_select *select)

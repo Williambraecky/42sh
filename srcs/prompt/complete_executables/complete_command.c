@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   match_bin_built.c                                  :+:      :+:    :+:   */
+/*   complete_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/08 19:44:30 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:33:50 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,34 @@ static int			get_builtin(t_sh *shell, char *start, t_vec *poss)
 	return (SH_SUCCESS);
 }
 
-int					complete_command(t_sh *shell, char *start, t_vec *poss)
+int					autocomplete_poss(char *path, char *start, t_vec *poss)
+{
+	DIR				*dir;
+	struct dirent	*sd;
+
+	dir = opendir(path);
+	if (dir == NULL)
+		return (SH_ERR_OPEN_DIR);
+	while ((sd = readdir(dir)) != NULL)
+	{
+		if (start && ft_strstartswith(sd->d_name, start))
+		{
+			if ((ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, ".."))
+			&& ft_strequ("", start))
+				continue;
+			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name) + 1))
+			{
+				closedir(dir);
+				return (SH_ERR_MALLOC);
+			}
+		}
+	}
+	closedir(dir);
+	return (SH_SUCCESS);
+}
+
+int					complete_command(t_sh *shell, char *start, t_vec *poss,
+		t_prompt *prompt)
 {
 	char	**path_dir;
 	char	*path;
@@ -78,5 +105,7 @@ int					complete_command(t_sh *shell, char *start, t_vec *poss)
 	ft_freesplit(path_dir);
 	if ((ret = get_builtin(shell, start, poss)) != SH_SUCCESS)
 		return (ret);
-	return (get_aliases(shell, start, poss));
+	get_aliases(shell, start, poss);
+	prompt->select.command_complete = poss->size != 0 ? 1 : 0;
+	return (SH_SUCCESS);
 }

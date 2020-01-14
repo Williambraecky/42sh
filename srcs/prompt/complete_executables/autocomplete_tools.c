@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   auto_complete_tools.c                              :+:      :+:    :+:   */
+/*   autocomplete_tools.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:00:39 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/13 17:02:20 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 16:12:19 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		first_word(char *line, size_t i, int first)
 {
 	while (line[i] && line[i] == ' ')
 		i++;
-	while (line[i] && line[i] != ' ') // pas sur du != ' '
+	while (line[i] && line[i] != ' ')
 		i++;
 	if (line[i])
 		first = 0;
@@ -43,7 +43,7 @@ int		first_word(char *line, size_t i, int first)
 		if (line[i] == '|' || line[i] == '&' || line[i] == ';')
 		{
 			i++;
-			return (first_word(line, i, 1));
+			return (first_word(line, i + 2, 1));
 		}
 		i++;
 	}
@@ -74,6 +74,19 @@ int		get_path(char **line, char **path)
 	return (SH_SUCCESS);
 }
 
+int		get_cursor_word_len(char *line, t_prompt *prompt, int i, int j)
+{
+	prompt->select.cursor_left_len = j - i;
+	prompt->select.cursor_left_len = i == 0 ? prompt->select.cursor_left_len + 1
+		: prompt->select.cursor_left_len;
+	i = j;
+	while (line[j] && line[j] != ' ')
+		j++;
+	prompt->select.cursor_right_len = j - i - 1;
+//	ft_printf("\nright = %d -- left = %d\n", prompt->select.cursor_right_len, prompt->select.cursor_left_len);
+	return (SH_SUCCESS);
+}
+
 char	*get_cursor_word(char *line, t_prompt *prompt)
 {
 	int		i;
@@ -95,39 +108,6 @@ char	*get_cursor_word(char *line, t_prompt *prompt)
 	if (!tmp || !(word = ft_strtrim(tmp)))
 		return (NULL);
 	free(tmp);
-	prompt->select.cursor_left_len = j - i;
-	prompt->select.cursor_left_len = i == 0 ? prompt->select.cursor_left_len + 1
-		: prompt->select.cursor_left_len;
-	i = j;
-	while (line[j] && line[j] != ' ')
-		j++;
-	prompt->select.cursor_right_len = j - i - 1;
-//	ft_printf("\nleft = %d -- right = %d\n", prompt->select.cursor_left_len, prompt->select.cursor_right_len);
+	get_cursor_word_len(line, prompt, i, j);
 	return (word);
-}
-
-int		autocomplete_poss(char *path, char *start, t_vec *poss)
-{
-	DIR				*dir;
-	struct dirent	*sd;
-
-	dir = opendir(path);
-	if (dir == NULL)
-		return (SH_ERR_OPEN_DIR);
-	while ((sd = readdir(dir)) != NULL)
-	{
-		if (start && ft_strstartswith(sd->d_name, start))
-		{
-			if ((ft_strequ(sd->d_name, ".") || ft_strequ(sd->d_name, ".."))
-			&& ft_strequ("", start))
-				continue;
-			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name) + 1))
-			{
-				closedir(dir);
-				return (SH_ERR_MALLOC);
-			}
-		}
-	}
-	closedir(dir);
-	return (SH_SUCCESS);
 }
