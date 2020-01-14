@@ -6,35 +6,20 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:23:53 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 03:28:42 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/14 14:35:53 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
-
-/*
-** 	TO DO :
-** 	brackets not single quoted and not escaped
-** 	replace value even if non existent (empty str)
-** 	braceparam inside braceparam : do stack treatment, recursively
-** 	$expression
-** 	order of information:
-** 			parameter set and not null,
-** 			parameter set but null,
-** 			parameter unset
-**	$parameter:			substitute parameter
-**	${#parameter}:		strlen
-** 	${parameter:-word}:	substitute parameter/ substitute word/ substitute word
-** 	${parameter:=word}:	substitute parameter/ assign word/ assign word
-** 	${parameter:?word}:	substitute parameter/ error, exit/ error, exit
-** 	${parameter:+word}:	substitute word/ substitute null/ substitute null
-** 	${parameter%}	replace smallest suffix
-** 	${parameter%%}	replace largest suffix
-** 	${parameter#}	replace smallest prefix
-** 	${parameter##}	replace largest prefix
-*/
-
-#define FIRST_CHAR 1
+#define FIRST_CHAR 0
+#define SUBST_WORD 0
+#define SUBST_PARAM 1
+#define ASSIGN_WORD 2
+#define SUBST_NULL 3
+#define ERROR_EXIT 4
+#define REMOVE_SUFFIX 5
+#define REMOVE_PREFIXE 6
+#define DO_NOTHING 7
 
 int		is_charset(char c, int first_char)
 {
@@ -80,7 +65,6 @@ int		join_expanded(char *str, size_t *dollar, char **result, size_t len)
 	ft_strdel(&tmp_str);
 	if (!*result)
 		return (SH_ERR_MALLOC);
-	//ft_printf("str = %s, result = %s, str+d+l = %s, len = %d\n", str, *result, str + *dollar + len, len);
 	return (SH_SUCCESS);
 }
 
@@ -98,8 +82,13 @@ int		expand_no_brace(t_sh *shell, char *str, char **result, size_t *len)
 	return (SH_SUCCESS);
 }
 
-int		get_opt(char *str, char *op, size_t *len, int *status)
+int		get_opt(char *str, char *op, size_t *len)
 {
+	if (str[0] == '}')
+	{
+		op = 0;
+		return (SH_SUCCESS);
+	}
 	if ((str[0] == ':'
 		&& (str[1] == '-' || str[1] == '+' || str[1] == '?' || str[1] == '='))
 		|| (str[0] == '%' && str[1] == '%') || (str[0] == '#' && str[1] == '#'))
@@ -114,111 +103,158 @@ int		get_opt(char *str, char *op, size_t *len, int *status)
 	}
 	else if (str[0] != '}')
 		return (SH_ERR_BAD_SUBST);
-	if ((*status == 0 && *op == '+') || (*status != 0 && *op == '-'))
-		*status = 0; // substitute word
-	else if (*status == 0)
-		*status = 1; //substitute parameter
-	else if ((*status != 0 && *op == '='))
-		*status = 2; // assign word
-	else if ((*status != 0 && *op == '+'))
-		*status = 3; // substitute null
-	else if ((*status != 0 && *op == '?'))
-		*status = 4; // error exit
 	return (SH_SUCCESS);
 }
 
-int		get_good_param(char *str, size_t *len, char **param, int *status)
+int		get_key(char *str, char **result)
 {
-	if (*status == 1)
-		return (SH_SUCCESS);
-	ft_strdel(param);
-	if (*status == 0 || *status == 2)
-		*param = ft_strdup(str + (*len - 1));
-	else if (*status == 3 || *status == 4)
-		*param = ft_strdup("");
-	// TODO maybe add status 4 with weird error print sometime
-	if (!(*param))
+	size_t	i;
+	char	tmp_c;
+
+	i = 0;
+	while (str[i] && is_charset(str[i], i))
+		i++;
+	tmp_c = str[i];
+	str[i] = '\0';
+	*result = ft_strdup(str);
+	str[i] = tmp_c;
+	return (*result == NULL ? SH_ERR_MALLOC : SH_SUCCESS);
+}
+
+int		get_word(char *str, char **result, t_brace *brace)
+{
+	size_t	i;
+	char	tmp_c;
+	// char	*tmp;
+	// int		ret;
+
+	(void)brace;
+	i = 0;
+	while (str[i] && str[i] != '}' && !is_char_escaped(str, i))
+	{
+		// if (str[i] == '$')
+		// {
+		// 	tmp_c = str[i];
+		// 	str[i] = '\0';
+		// 	ret = expand_param(brace->shell, str, &tmp);
+		// 	*result = ft_strjoin(str, tmp);
+		// 	str[i] = tmp_c;
+		// 	ft_strdel(&tmp);
+		// 	if (ret != SH_SUCCESS || !*result)
+		// 		return (SH_ERR_MALLOC);
+		// }
+		i++;
+	}
+	tmp_c = str[i];
+	str[i] = '\0';
+	*result = ft_strdup(str);
+	str[i] = tmp_c;
+	return (*result == NULL ? SH_ERR_MALLOC : SH_SUCCESS);
+}
+
+void	what_do(int status, char op, int *what_op)
+{
+	if (op == 0)
+		*what_op = DO_NOTHING;
+	else if (op == '%')
+		*what_op = REMOVE_SUFFIX;
+	else if (op == '#')
+		*what_op = REMOVE_PREFIXE;
+	else
+	{
+		if ((status == 0 && op == '+') || (status != 0 && op == '-'))
+			*what_op = SUBST_WORD;
+		else if (status == 0)
+			*what_op = SUBST_PARAM;
+		else if ((status != 0 && op == '='))
+			*what_op = ASSIGN_WORD;
+		else if ((status != 0 && op == '+'))
+			*what_op = SUBST_NULL;
+		else if ((status != 0 && op == '?'))
+			*what_op = ERROR_EXIT;
+	}
+}
+
+int		init_struct(t_brace *brace, t_sh *shell, char *str, char **result)
+{
+	char	*tmp;
+
+	brace->shell = shell;
+	brace->str = str;
+	brace->result = result;
+	brace->hashtag = str[1] == '#' ? 1 : 0;
+	get_key((brace->str + brace->hashtag + 1), &brace->param);
+	if ((brace->param_status = get_internal(shell, brace->param, &tmp)) != 0)
+		brace->param_status = get_env(shell, brace->param, &tmp);
+	expand_no_brace(brace->shell, brace->param,
+		&brace->param_expand, brace->len);
+	if (get_opt(str + ft_strlen(brace->param) + 1 + brace->hashtag
+		, &brace->op, brace->len) != 0)
+		return (SH_ERR_BAD_SUBST);
+	get_word((str + *brace->len + brace->hashtag + 1), &brace->word, brace);
+	what_do(brace->param_status, brace->op, &brace->what_op);
+	*brace->len = 0;
+	while (str[*brace->len]
+		&& (str[*brace->len] != '}' || is_char_escaped(str, *brace->len)))
+		*brace->len += 1;
+	*brace->len += 1;
+	if (!brace->param || !brace->param_expand || !brace->word)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
 
-int		operator(char *str, size_t *len, char **param, int *status)
-{
-	char	op;
-
-	if (get_opt(str + (*len) - 1, &op, len, status) != SH_SUCCESS)
-		return (SH_ERR_BAD_SUBST);
-	get_good_param(str, len, param, status);
-	return (SH_SUCCESS);
-}
-
-// 0 found and not empty
-// 1 found and empty
-// 2 not found
-
-int		do_op(int status, char **param, t_sh *shell, char **result)
+int		do_opt(t_brace *brace)
 {
 	int		ret;
 
-	if (status == 1)
-		*result = ft_strdup(*param);
-	else if (status == 0)
+	if (brace->what_op == SUBST_WORD)
+		*brace->result = ft_strdup(brace->word);
+	else if (brace->what_op == SUBST_PARAM)
+		*brace->result = ft_strdup(brace->param_expand);
+	else if (brace->what_op == SUBST_NULL)
+		*brace->result = ft_strdup("");
+	else if (brace->what_op == ASSIGN_WORD)
 	{
-		ft_printf("param = %s\n", *param);
-		if ((ret = get_internal_clone(shell, *param, result)) != SH_SUCCESS)
-			if ((ret =get_env_clone(shell, *param, result)) != SH_SUCCESS)
-				if (!(*result = ft_strdup(*param)))
-					return (SH_ERR_MALLOC);
+		*brace->result = ft_strdup(brace->word);
+		if ((ret = (repl_internal(brace->shell, brace->param, brace->word)))
+			!= SH_SUCCESS)
+			return (ret);
 	}
-	else if (status == 2)
-		*result = ft_strdup(*param); //add internal to do
-	else if (status == 3)
-		*result = ft_strdup("");
-	ft_strdel(param);
-	if (!(*result))
+	else if (brace->what_op == REMOVE_SUFFIX)
+		*brace->result = ft_strdup(brace->word);
+	else if (brace->what_op == REMOVE_PREFIXE)
+		*brace->result = ft_strdup(brace->word);
+	else if (brace->what_op == DO_NOTHING)
+		*brace->result = brace->param_expand != NULL ?
+			ft_strdup(brace->param_expand) : ft_strdup(brace->param);
+	if (!*brace->result)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
 
-void 	calculate_len(size_t *len, char *str)
-{
-	while (str + *len && (str + *len)[0] != '}')
-		*len += 1;
-	*len += 1;
-}
+// TODO free struct function that takes ret to return itmake
 
 int		expand_brace(t_sh *shell, char *str, char **result, size_t *len)
 {
-	int		status;
-	char	*param;
-	int		hashtag;
+	t_brace	brace;
+	int		ret;
+	char	*tmp;
 
-	(void)result;
-	param = NULL;
-	hashtag = 0;
-	if (str[1] == '#')
-		hashtag = 1;
-	if ((expand_no_brace(shell, str + hashtag + 1, &param, len)) == SH_SUCCESS)
-		status = (ft_strlen(param) == 0);
-	else
-		status = 2;
-	*len += 1;
-	if (str[(*len)++] == '}')
+	brace.len = len;
+	if ((ret = init_struct(&brace, shell, str, result)) != SH_SUCCESS)
+		return (ret);
+	if ((ret = do_opt(&brace)) != SH_SUCCESS)
+		return (ret);
+	if (brace.hashtag == 1)
 	{
-		*result = param;
-		return (SH_SUCCESS);
+		tmp = *brace.result;
+		*result = ft_itoa(ft_strlen(*brace.result));
+		ft_strdel(&tmp);
+		if (!*result)
+			return (SH_ERR_MALLOC);
 	}
-	operator(str, len, &param, &status);
-	do_op(status, &param, shell, result);
-	//TODO hashtag itoa strlen instead
-	calculate_len(len, str);
 	return (SH_SUCCESS);
 }
-
-// TODO Some cases where closing brackets is added when substitute word
-// check leaks
-// do norm
-// fuck this horrible code
 
 int		expand_param(t_sh *shell, char *str, char **result)
 {

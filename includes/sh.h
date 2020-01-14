@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 13:18:07 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 14:27:27 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_sh	t_sh;
 typedef struct stat	t_stat;
 typedef struct termios	t_termi;
 typedef struct winsize	t_winsiz;
+typedef struct s_brace	t_brace;
 
 /*
 ** Enums
@@ -157,6 +158,23 @@ struct		s_sh
 	t_termi	current_termios;
 	pid_t	pid;
 	int		running;
+};
+
+struct		s_brace
+{
+	t_sh	*shell;
+	char	*str;
+	char	*param;
+	char	*param_expand;
+	int		param_status;
+	char	*word;
+	char	*word_expand;
+	char	op;
+	int		what_op;
+	int		hashtag;
+	size_t	*len;
+	size_t	i;
+	char	**result;
 };
 
 /*
