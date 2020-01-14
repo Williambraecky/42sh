@@ -6,11 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 15:01:51 by wbraeckm          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2020/01/13 21:34:51 by wdaher-a         ###   ########.fr       */
-=======
-/*   Updated: 2020/01/14 13:13:55 by wbraeckm         ###   ########.fr       */
->>>>>>> 801272c3c4ca7144eff9e4dba22addc430bc08ef
+/*   Updated: 2020/01/14 18:29:13 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +99,7 @@ int		alias_builtin(int argc, char **argv, t_sh *shell)
 	ret = SH_SUCCESS;
 	while (i < (size_t)argc && ret == SH_SUCCESS)
 	{
-<<<<<<< HEAD
-		if (ft_strchr(argv[i], '=') != NULL && valid_arg(argv[i]))
-=======
 		if (ft_strchr(argv[i], '=') != NULL)
->>>>>>> 801272c3c4ca7144eff9e4dba22addc430bc08ef
 		{
 			if (!(tmp = ft_strsplit(argv[i], '=')))
 			{
