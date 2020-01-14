@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 00:48:18 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/14 13:18:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,5 +244,6 @@ int			expand_param(t_sh *shell, char *str, char **result);
 int			expand_tilde(t_sh *shell, char *str, char **result);
 int			expand_exclamation(t_sh *shell, char *str, char **result);
 int			is_builtin(t_sh *shell, char *str);
+int			gen_prompt_string(t_sh *shell, char *ps1, char **result);
 
 #endif

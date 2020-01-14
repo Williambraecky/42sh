@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 21:33:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 13:18:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,10 @@ char		*g_error_str[] =
 	[SH_ERR_PIPE] = "pipe failed",
 	[SH_ERR_DUP] = "dup error"
 };
+
+/*
+** TODO: Initialize some variables like PS1 ? $ etc
+*/
 
 static int	init_shell(t_sh *shell, const char **env)
 {
@@ -63,14 +67,15 @@ static int	init_shell(t_sh *shell, const char **env)
 ** TODO: gen prompt (PS1)
 */
 
-int			main(__attribute__((unused)) int argc,
-	__attribute__((unused)) const char **argv, const char **env)
+int			main(int argc, const char **argv, const char **env)
 {
 	t_sh	shell;
 	char	*prompt;
 	char	*line;
 	t_lexer	lexer_;
 
+	(void)argc;
+	(void)argv;
 	if (init_shell(&shell, env))
 	{
 		free_sh(&shell);
@@ -79,10 +84,7 @@ int			main(__attribute__((unused)) int argc,
 	shell.running = 1;
 	while (shell.running)
 	{
-		prompt = getpwd_short(&shell);
-		line = prompt;
-		prompt = ft_strjoin(prompt, "> ");
-		free(line);
+		gen_prompt_string(&shell, "", &prompt);
 		handle_prompt(&shell, prompt, &line);
 		free(prompt);
 		lexer(line, &lexer_, &shell);
