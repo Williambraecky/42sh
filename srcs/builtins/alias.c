@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 15:01:51 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 21:27:12 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/14 13:13:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 **   6: profit
 */
 
-int	valid_arg(char *string)
+int		valid_arg(char *string)
 {
 	char	*tmp;
 	int		ret;
@@ -58,12 +58,12 @@ void	display(t_sh *shell, char **sorted_al)
 	}
 }
 
-int	print_aliases(t_sh *shell, t_map *al)
+int		print_aliases(t_sh *shell, t_map *al)
 {
-	char		**al_tosort;
+	char	**al_tosort;
 	size_t	i;
 	size_t	j;
-	int			len;
+	int		len;
 
 	len = shell->aliases->max_size;
 	if (!(al_tosort = (char **)malloc(sizeof(char *) * (len + 2))))
@@ -79,7 +79,7 @@ int	print_aliases(t_sh *shell, t_map *al)
 		}
 		++i;
 	}
-	al_tosort[j] =  NULL;
+	al_tosort[j] = NULL;
 	if (j > 1)
 		ft_strsort(al_tosort, j, &ft_strcmp);
 	display(shell, al_tosort);
@@ -89,29 +89,29 @@ int	print_aliases(t_sh *shell, t_map *al)
 
 int		alias_builtin(int argc, char **argv, t_sh *shell)
 {
-		char	**tmp;
-		size_t	i;
-		int		ret;
+	char	**tmp;
+	size_t	i;
+	int		ret;
 
-		if (argc == 1)
-			return (print_aliases(shell, shell->aliases));
-		i = 1;
-		ret = SH_SUCCESS;
-		while (i < (size_t)argc && ret == SH_SUCCESS)
+	if (argc == 1)
+		return (print_aliases(shell, shell->aliases));
+	i = 1;
+	ret = SH_SUCCESS;
+	while (i < (size_t)argc && ret == SH_SUCCESS)
+	{
+		if (ft_strchr(argv[i], '=') != NULL)
 		{
-			if (ft_strchr(argv[i], '=') != NULL)// && valid_arg(argv[i]))
+			if (!(tmp = ft_strsplit(argv[i], '=')))
 			{
-				if (!(tmp = ft_strsplit(argv[i], '=')))
-				{
-					ft_putendl("spliterror");
-					return (SH_ERR_MALLOC);
-				}
-				ret = repl_alias(shell, tmp[0], tmp[1]);
-				ft_freesplit(tmp);
+				ft_putendl("spliterror");
+				return (SH_ERR_MALLOC);
 			}
-			else
-				return (SH_ERR_SYNTAX);
-			++i;
+			ret = repl_alias(shell, tmp[0], tmp[1]);
+			ft_freesplit(tmp);
 		}
-		return (ret);
+		else
+			return (SH_ERR_SYNTAX);
+		++i;
+	}
+	return (ret);
 }
