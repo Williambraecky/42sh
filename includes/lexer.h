@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 00:04:22 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 01:11:36 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,12 +188,16 @@ struct		s_io_nb
 	int		io_nb;
 };
 
+/*
+** NOTE: clean_line is an unprocessed version of the line (used for history)
+*/
+
 struct		s_lexer
 {
-	t_vec	tokens; //NOTE: Do we really need this?
+	t_vec	tokens;
 	char	**alias_stack;
-	int		no_start;
 	int		can_be_alias;
+	char	*clean_line;
 	char	*line;
 	size_t	line_size;
 	size_t	i;
@@ -238,6 +242,7 @@ int			new_line_check(t_lexer *lex, size_t len);
 int			make_stack_prompt(t_vec *stack, char **result);
 int			lexer_handle_alias(t_sh *shell, t_lexer *lexer, char *str);
 int			alias_stack_contains(t_lexer *lexer, char *str);
+void		alias_stack_clear(t_lexer *lexer);
 
 /*
 ** Tokens

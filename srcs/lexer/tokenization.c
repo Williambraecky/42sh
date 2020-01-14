@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 00:04:34 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 01:15:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,12 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 	tmp = lexer->line;
 	if (!(lexer->line = ft_strjoin(lexer->line, line)))
 		ret = SH_ERR_MALLOC;
-	lexer->line_size += ft_strlen(line);
 	ft_strdel(&tmp);
+	tmp = lexer->clean_line;
+	if (!(lexer->line = ft_strjoin(lexer->clean_line, line)))
+		ret = SH_ERR_MALLOC;
+	ft_strdel(&tmp);
+	lexer->line_size += ft_strlen(line);
 	ft_strdel(&line);
 	while (check_stack_top(lexer))
 		stack_pop(lexer);
@@ -130,8 +134,7 @@ int			tokenization(t_lexer *lexer, t_sh *shell)
 	while (res == SH_SUCCESS)
 	{
 		res = tokenize_current(lexer, shell);
-		if (!lexer->no_start && res == SH_SUCCESS && (lexer->stack.size > 0 ||
-			((t_token*)ft_vecgettop(&lexer->tokens))->type != T_NEWLINE))
+		if (res == SH_SUCCESS && lexer->stack.size > 0)
 			res = get_next_part(lexer, shell);
 		else
 			break ;

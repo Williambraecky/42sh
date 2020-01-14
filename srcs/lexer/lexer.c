@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 18:06:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 00:21:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 01:08:08 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ int			init_lexer(t_sh *shell, t_lexer *lexer, char *line)
 	if (!(lexer->alias_stack = ft_memalloc(sizeof(char*) *
 		(shell->aliases->size + 1))))
 		return (SH_ERR_MALLOC);
-	if (!(lexer->line = ft_strdup(line)))
+	if (!(lexer->line = ft_strdup(line)) ||
+		!(lexer->clean_line = ft_strdup(line)))
 		return (SH_ERR_MALLOC);
 	lexer->line_size = ft_strlen(line);
 	lexer->can_be_alias = 1;

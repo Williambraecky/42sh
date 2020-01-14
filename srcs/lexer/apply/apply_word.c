@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 19:03:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 22:54:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 01:17:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ int			apply_word(t_token *token, t_build *build, t_lexer *lexer)
 		return (apply_assignment(token, build));
 	if (ft_vecpush(&build->work_proc->unprocessed_argv, token))
 		return (SH_ERR_MALLOC);
-	lexer->can_be_alias = 0;
+	if (lexer->can_be_alias == 1)
+		lexer->can_be_alias = 0;
+	else if (lexer->can_be_alias == 2)
+		lexer->can_be_alias = 1;
 	build->work_proc->argc++;
 	return (SH_SUCCESS);
 }
