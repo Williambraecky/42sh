@@ -6,13 +6,23 @@
 /*   By: wdaher-a <wdaher-a@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 16:11:26 by wdaher-a          #+#    #+#             */
-/*   Updated: 2020/01/12 23:32:56 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/14 18:20:03 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
+#include "lexer.h"
 
-int		get_lastmatch(t_sh *shell, char *str, char **result)
+static int		is_quoted(char *str, size_t i, t_type quote)
+{
+	if (quote == T_QUOTE)
+		return (str[i] != '\'');
+	else if (quote == T_DOUBLE_QUOTE)
+		return (is_char_escaped(str, i) || str[i] == '\'');
+	return (is_char_escaped(str, i));
+}
+
+static int		get_lastmatch(t_sh *shell, char *str, char **result)
 {
 	size_t	i;
 
@@ -29,7 +39,7 @@ int		get_lastmatch(t_sh *shell, char *str, char **result)
 	return (SH_ERR_NOEXIST);
 }
 
-int		get_lasti(t_sh *shell, char *str, char **result, int rev)
+static int		get_lasti(t_sh *shell, char *str, char **result, int rev)
 {
 	char	*index;
 	size_t	i;
@@ -51,7 +61,7 @@ int		get_lasti(t_sh *shell, char *str, char **result, int rev)
 	return (ret);
 }
 
-int		expand_exclamation(t_sh *shell, char *str, char **result)
+static int	substitution(t_sh *shell, char *str, char **result)
 {
 	if (!(*result = ft_strdup(str)))
 		return (SH_ERR_MALLOC);
@@ -69,5 +79,29 @@ int		expand_exclamation(t_sh *shell, char *str, char **result)
 		return (get_lasti(shell, str, result, 1));
 	else
 		ft_dprintf(2, "sh: event not found: %s\n", (str + 1));
+	return (SH_SUCCESS);
+}
+
+
+int		expand_exclamation(t_sh *shell, char *line, char **res)
+{
+	size_t	i;
+	char		*tmp;
+
+	if (!line || is_quoted(line, 0, T_QUOTE))
+		return (SH_SUCCESS);
+	i = 0;
+	if (!(tmp = ft_strdup(line)))
+		return (SH_ERR_MALLOC);
+	while (tmp[i])
+	{
+		if (tmp[i] == '!')
+		{
+			substitution(shell, (tmp + 1), res);
+			i = 0;
+		}
+		++i;
+	}
+	ft_putendl(*res);
 	return (SH_SUCCESS);
 }
