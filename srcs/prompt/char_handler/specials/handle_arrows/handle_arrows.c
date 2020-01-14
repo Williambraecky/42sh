@@ -3,18 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_arrows.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wbraeckm <wbraeckm@student.42.fr>          +#+  +:+       +#+        */
+/*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 19:29:59 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/14 21:16:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
-
-/*
-** TODO: don't calc prompt pos every single time
-*/
 
 int		handle_arrows(t_prompt *prompt, char *buffer)
 {
@@ -32,7 +28,7 @@ int		handle_arrows(t_prompt *prompt, char *buffer)
 	{
 		prompt->buffer_index = 0;
 		prompt->char_index = 0;
-		move_goto(prompt, prompt->prompt_pos); //TODO: home
+		move_goto(prompt, prompt->prompt_pos);
 	}
 	else if (buffer[2] == 'F')
 	{

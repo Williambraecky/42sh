@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:51:21 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 21:52:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 21:21:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,7 @@ static int	mark_process_status(t_cmd *cmd, pid_t pid, int status)
 			if (WIFSTOPPED(status))
 				curr->stopped = 1;
 			else
-			{
 				curr->completed = 1;
-				if (WIFSIGNALED(status))
-					; //TODO: handle error message here
-			}
 			return (0);
 		}
 		curr = curr->next;

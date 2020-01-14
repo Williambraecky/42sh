@@ -6,17 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 18:32:25 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 01:16:13 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 21:03:57 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-/*
-** TODO: better solution for this problem as this is temporary
-** TODO-NOTE: we might be able to use the stack for this
-** NOTE: T_SEMICOLON also passes here, he however always create new cmd
-*/
 
 static int	g_no_new_cmd_mask = M_DOUBLE_PIPE | M_DOUBLE_AMPERSAND | M_PIPE;
 

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 16:47:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 22:31:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ static int	init_shell(t_sh *shell, const char **env)
 
 /*
 ** TODO: we need to make sure to retrieve status for jobs in background etc
-** TODO: gen prompt (PS1)
 */
 
 int			main(int argc, const char **argv, const char **env)
@@ -88,8 +87,8 @@ int			main(int argc, const char **argv, const char **env)
 		gen_prompt_string(&shell, "", &prompt);
 		handle_prompt(&shell, prompt, &line);
 		free(prompt);
-		lexer(line, &lexer_, &shell);
-		exec_tree(&shell, lexer_.build.head);
+		if (lexer(line, &lexer_, &shell) == SH_SUCCESS)
+			exec_tree(&shell, lexer_.build.head);
 		free(line);
 	}
 	free_sh(&shell);

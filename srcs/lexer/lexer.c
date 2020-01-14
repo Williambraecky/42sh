@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 18:06:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 01:08:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 21:04:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,6 @@ int			init_lexer(t_sh *shell, t_lexer *lexer, char *line)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
-
-/*
-** TODO: combine lexer and build_tree these can be done in parallel
-*/
 
 int			lexer(char *line, t_lexer *lex, t_sh *shell)
 {

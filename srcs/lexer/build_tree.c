@@ -6,15 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:42:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 23:00:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 21:06:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-/*
-** TODO: everything; this should build the current working tree
-*/
 
 /*
 ** NOTE: head is the starting command so result should always be head at the end
@@ -22,11 +18,6 @@
 **    and print the error if found
 ** NOTE: nothing in t_build should be freed
 ** NOTE: do we actually need shell for building the tree?
-*/
-
-/*
-** TODO: for all these functions define a expected_type for the next one
-** TODO: move expected type from
 */
 
 int			(*g_dispatch_tokens[])(t_token*, t_build*, t_lexer*) =
@@ -116,10 +107,6 @@ static void	print_syntax_error(t_token *token, int ret)
 	ft_putnonprint_fd(token->str, 2);
 	ft_putstr_fd("'\n", 2);
 }
-
-/*
-** TODO: Newline doesn't always jump to the next command ex ls |\n cat -e
-*/
 
 int			build_tree_apply_token(t_lexer *lexer, t_token *token)
 {

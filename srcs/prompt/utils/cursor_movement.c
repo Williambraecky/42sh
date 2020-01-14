@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 17:42:12 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/12 16:44:31 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 21:06:23 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ void		move_cursor(t_pos rel_pos)
 		while (rel_pos.x++)
 			ft_putstr_fd(tgetstr("le", NULL), 0);
 }
-
-/*
-** TODO: when on x == 0 go back to x = winsize.win_col and y - 1
-*/
 
 void		move_left(t_prompt *prompt)
 {
@@ -79,10 +75,6 @@ static void	transform_pos(t_prompt *prompt, t_pos *pos, char c)
 		pos->y++;
 	}
 }
-
-/*
-** TODO: when on x == winsize.win_col go back to x = 0 and y + 1
-*/
 
 void		move_right(t_prompt *prompt)
 {
