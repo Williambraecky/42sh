@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 00:25:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 00:48:18 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@
 # define SH_ERR_FORK 10
 # define SH_ERR_OPEN 11
 # define SH_ERR_KILL 12
+# define SH_ERR_BAD_SUBST 13
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
