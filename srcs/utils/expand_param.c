@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:23:53 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 14:44:00 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/14 17:10:24 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,10 @@ int		get_opt(char *str, char *op, size_t *len)
 		*len += 1;
 	}
 	else if (str[0] != '}')
+	{
+		ft_dprintf(2, "42sh: %s: bad substitution\n", str);
 		return (SH_ERR_BAD_SUBST);
+	}
 	return (SH_SUCCESS);
 }
 
@@ -220,6 +223,8 @@ int		do_opt(t_brace *brace)
 			!= SH_SUCCESS)
 			return (ret);
 	}
+	else if (brace->what_op == ERROR_EXIT)
+		ft_dprintf(2, "42sh: %s: %s\n", brace->param, brace->word); //todo parameter not set
 	else if (brace->what_op == REMOVE_SUFFIX)
 		*brace->result = ft_strdup(brace->word);
 	else if (brace->what_op == REMOVE_PREFIXE)
@@ -227,12 +232,19 @@ int		do_opt(t_brace *brace)
 	else if (brace->what_op == DO_NOTHING)
 		*brace->result = brace->param_expand != NULL ?
 			ft_strdup(brace->param_expand) : ft_strdup(brace->param);
-	if (!*brace->result)
+	if (!*brace->result && brace->what_op != ERROR_EXIT)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
 
-// TODO free struct function that takes ret to return itmake
+// TODO leak sur ERROR EXIT
+
+void	free_struct(t_brace *brace)
+{
+	ft_strdel(&brace->param);
+	ft_strdel(&brace->param_expand);
+	ft_strdel(&brace->word);
+}
 
 int		expand_brace(t_sh *shell, char *str, char **result, size_t *len)
 {
@@ -240,19 +252,23 @@ int		expand_brace(t_sh *shell, char *str, char **result, size_t *len)
 	int		ret;
 	char	*tmp;
 
+	ft_bzero(&brace, sizeof(brace));
 	brace.len = len;
 	if ((ret = init_struct(&brace, shell, str, result)) != SH_SUCCESS)
 		return (ret);
+	ft_printf("ici\n");
 	if ((ret = do_opt(&brace)) != SH_SUCCESS)
 		return (ret);
+	ft_printf("ici\n");
 	if (brace.hashtag == 1)
 	{
 		tmp = *brace.result;
 		*result = ft_itoa(ft_strlen(*brace.result));
 		ft_strdel(&tmp);
-		if (!*result)
-			return (SH_ERR_MALLOC);
 	}
+	free_struct(&brace);
+	if (!*result)
+		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
 
@@ -267,11 +283,13 @@ int		expand_param(t_sh *shell, char *str, char **result)
 	len = 0;
 	quoted = 0;
 	ret = SH_SUCCESS;
+	*result = NULL;
 	while (str[i])
 	{
 		str[i] == '\'' ? quoted = !(quoted) : 0;
 		if (str[i] == '$' && !(is_char_escaped(str, i)) && quoted == 0 && ++i)
 		{
+			ft_printf("ici\n");
 			if (str[i] == '{')
 				ret = expand_brace(shell, str + i, result, &len);
 			else if (!(is_charset(str[i], FIRST_CHAR)))
