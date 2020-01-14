@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:19:09 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 22:47:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/14 22:56:23 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,17 +77,21 @@ int					get_scroll_limit(t_select *select, int selected,
 	return (SH_SUCCESS);
 }
 
+/*
+** TODO: replace cursor
+** TODO: fix when no place is available
+*/
+
 int					display_poss_scroll(t_select *select, t_vec *poss,
 	int selected, t_prompt *prompt)
 {
-	size_t	r;
+	int		r;
 	size_t	j;
 	int		i;
-	size_t	available_row;
+	int		available_row;
 
 	available_row = select->nb_row - (prompt->max_pos.y + 1);
 	get_scroll_limit(select, selected, prompt);
-//	ft_dprintf(2, "selected = %d -- current_row = %d --scroll_top = %d -- scroll_bottom = %d\n",select->selected,select->selected % select->nb_row, select->scroll_top, select->scroll_bottom);
 	i = select->scroll_top;
 	r = 0;
 	ft_dprintf(0, "\n");
@@ -101,7 +105,7 @@ int					display_poss_scroll(t_select *select, t_vec *poss,
 			i += select->row_total;
 		}
 		r++;
-		if (r == (size_t)available_row)
+		if (r == available_row)
 			break ;
 		ft_dprintf(0, "\n");
 		i -= (select->elem_per_row * select->row_total) - 1;
