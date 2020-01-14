@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 00:01:57 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 22:52:56 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 00:44:36 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int		select_render(t_prompt *prompt, t_select *select)
 	get_display_info(select, prompt);
 	if (prompt->select_mode == 2)
 		change_line(select, prompt);
+	move_cursor((t_pos){.x = prompt->max_pos.x - prompt->cursor_pos.x,
+		.y = prompt->max_pos.y - prompt->cursor_pos.y});
 	if (select->row_total > select->nb_row - prompt->max_pos.y + 1)
 		display_poss_scroll(&prompt->select, poss, prompt->select.selected, prompt);
 	else

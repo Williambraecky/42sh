@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:19:09 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 22:56:23 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 00:46:52 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int					replace_cursor(t_select *select, t_prompt *prompt)
 
 	ft_putstr_fd(tgetstr("cr", NULL), 0);
 	pos.x = prompt->cursor_pos.x;
-	pos.y = -select->row_total;
+	pos.y = -(select->row_total + (prompt->max_pos.y - prompt->cursor_pos.y));
 	move_cursor(pos);
 	return (SH_SUCCESS);
 }
@@ -111,6 +111,7 @@ int					display_poss_scroll(t_select *select, t_vec *poss,
 		i -= (select->elem_per_row * select->row_total) - 1;
 		i = i < 0 ? i + select->row_total : i;
 	}
+	select->row_total = available_row;
 	replace_cursor(select, prompt);
 	return (SH_SUCCESS);
 }

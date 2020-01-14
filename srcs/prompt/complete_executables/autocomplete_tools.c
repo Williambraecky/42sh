@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   autocomplete_tools.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:00:39 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 16:12:19 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/15 00:55:44 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		get_cursor_word_len(char *line, t_prompt *prompt, int i, int j)
 	prompt->select.cursor_left_len = i == 0 ? prompt->select.cursor_left_len + 1
 		: prompt->select.cursor_left_len;
 	i = j;
-	while (line[j] && line[j] != ' ')
+	while (line[j] && line[j] != ' ' && line[j] != '\t' && line[j] != '\n')
 		j++;
 	prompt->select.cursor_right_len = j - i - 1;
 //	ft_printf("\nright = %d -- left = %d\n", prompt->select.cursor_right_len, prompt->select.cursor_left_len);
@@ -102,7 +102,7 @@ char	*get_cursor_word(char *line, t_prompt *prompt)
 			return (NULL);
 		return (word);
 	}
-	while (i > 0 && line[i] != ' ')
+	while (i > 0 && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
 		i--;
 	tmp = ft_strsub(line, i, (j - i) + 1);
 	if (!tmp || !(word = ft_strtrim(tmp)))
