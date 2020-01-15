@@ -6,16 +6,62 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:21:03 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 18:21:31 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 12:33:32 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-int		export_builtin(int argc, char **argv, t_sh *shell)
+static int	valid_arg(char *string)
 {
-	(void)argc;
-	(void)argv;
-	(void)shell;
-	return (0);
+	char	*tmp;
+	int		ret;
+
+	tmp = ft_strchr(string, '=');
+	*tmp = '\0';
+	ret = 1;
+	if (!string || !str_is_name(string))
+		ret = 0;
+	*tmp = '=';
+	return (ret);
+}
+
+static void	print_env(t_map *map)
+{
+	size_t	i;
+
+	if (!map)
+		return ;
+	i = 0;
+	while (i < map->max_size)
+	{
+		if (map->nodes[i].is_used)
+			ft_printf("%s=%s\n", map->nodes[i].key, map->nodes[i].value);
+		i++;
+	}
+}
+
+int			export_builtin(int argc, char **argv, t_sh *shell)
+{
+	char	**av;
+	size_t	i;
+	int		ret;
+
+	if (argc == 1)
+		print_env(shell->env);
+	i = 1;
+	ret = SH_SUCCESS;
+	while (i < (size_t)argc && ret == SH_SUCCESS)
+	{
+		if (ft_strchr(argv[i], '=') != NULL && valid_arg(argv[i]))
+		{
+			av = ft_strsplit(argv[i], '=');
+			ret = repl_env(shell, av[0], av[1]);
+			ft_freesplit(av);
+		}
+		else
+			return (SH_ERR_SYNTAX);
+		++i;
+	}
+	return (ret);
 }
