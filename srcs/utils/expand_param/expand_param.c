@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 13:51:07 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/15 13:52:04 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 14:46:59 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		expand_param(t_sh *shell, char *str, char **result)
 	int		ret;
 
 	init_expand_param(&i, &len, &quoted, result);
-	while (str[i])
+	while (str != NULL && str[i])
 	{
 		str[i] == '\'' ? quoted = !(quoted) : 0;
 		if (str[i] == '$' && !(is_char_escaped(str, i)) && quoted == 0 && ++i
@@ -75,7 +75,7 @@ int		expand_param(t_sh *shell, char *str, char **result)
 		}
 		i++;
 	}
-	if (*result == NULL && !(*result = ft_strdup(str)))
+	if (*result == NULL && (str == NULL || !(*result = ft_strdup(str))))
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
