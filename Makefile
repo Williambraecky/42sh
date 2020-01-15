@@ -6,13 +6,13 @@
 #    By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/25 16:38:11 by wbraeckm          #+#    #+#              #
-#    Updated: 2020/01/15 01:52:52 by wbraeckm         ###   ########.fr        #
+#    Updated: 2020/01/15 17:12:36 by wbraeckm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 42sh
 CC = gcc
-FLAGS = -O3 -Wall -Wextra -Werror #-fsanitize=address
+FLAGS = -O3 -Wall -Wextra -Werror -fsanitize=address
 INCLUDES = ./includes/
 SRCSFOLDER = ./srcs/
 OBJFOLDER = ./obj/
