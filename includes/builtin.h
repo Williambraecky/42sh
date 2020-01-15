@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:53 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/15 15:17:37 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/15 17:52:48 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ struct		s_fc
   char  **old_new;
   int   start;
   int   end;
+  int   rev;
+  int   n;
   char  opt[6];
 };
 

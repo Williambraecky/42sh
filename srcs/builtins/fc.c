@@ -6,7 +6,7 @@
 /*   By: wdaher-a <wdaher-a@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 17:11:46 by wdaher-a          #+#    #+#             */
-/*   Updated: 2020/01/15 17:30:43 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/15 18:02:35 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,6 @@
 ** NOTE: The fc utility shall list, or shall edit and re-execute,
 ** commands previously entered to an interactive sh.
 */
-
-t_fc	*init_fc(t_sh *shell)
-{
-	t_fc	*ret;
-
-	if (!(ret = (t_fc *)malloc(sizeof(t_fc))))
-		return (NULL);
-	ret->f = NULL;
-	ret->l = NULL;
-	ret->old_new = NULL;
-	ret->start = 0;
-	ret->end = shell->history.size;
-	ft_bzero(ret->opt, 6);
-	return (ret);
-}
 
 static int	simple_list(t_sh *shell, t_fc *args, int rev, int nonumber)
 {
@@ -50,13 +35,11 @@ static int	simple_list(t_sh *shell, t_fc *args, int rev, int nonumber)
 	return (SH_SUCCESS);
 }
 
-static int			fc_l_option(t_sh *shell, t_fc *args)
+static int	fc_l_option(t_sh *shell, t_fc *args)
 {
-	int		rev;
-	int		n;
 	int		i;
 
-	rev = 0;
+	args->rev = (ft_strchr(args->opt, 'r')) ? 1 : 0;
 	i = shell->history.size - 1;
 	while (i >= 0 && shell->history.vec[i])
 	{
@@ -72,29 +55,27 @@ static int			fc_l_option(t_sh *shell, t_fc *args)
 				}
 				++i;
 			}
-			break;
+			break ;
 		}
 		--i;
 	}
-	if (ft_strchr(args->opt, 'r'))
-		rev = 1;
-	n = (ft_strchr(args->opt, 'n')) ? 1 : 0;
-	simple_list(shell, args, rev, n);
+	args->n = (ft_strchr(args->opt, 'n')) ? 1 : 0;
+	simple_list(shell, args, args->rev, args->n);
 	return (SH_SUCCESS);
 }
 
 /*
-static int	get_last_command(t_sh *shell, int rev, char **command)
-{
-	int	ret;
-	size_t	pos;
-
-	if (!shell)
-		return (SH_ERR_NOEXIST);
-	pos = (rev) ? 0 : shell->history.size - 1;
-	ret = get_history(shell, pos, command);
-	return (ret && remove_history(shell, pos));
-}
+** static int	get_last_command(t_sh *shell, int rev, char **command)
+** {
+** 	int	ret;
+** 	size_t	pos;
+**
+** 	if (!shell)
+** 		return (SH_ERR_NOEXIST);
+** 	pos = (rev) ? 0 : shell->history.size - 1;
+** 	ret = get_history(shell, pos, command);
+** 	return (ret && remove_history(shell, pos));
+** }
 */
 
 static int	set_options(int ac, char **av, t_fc *as)
@@ -139,7 +120,7 @@ static int	fc_parser(int ac, char **av, t_fc *as)
 			as->f = av[i];
 			if (av[i + 1])
 				as->l = av[i + 1];
-			break;
+			break ;
 		}
 		++i;
 	}
@@ -149,7 +130,6 @@ static int	fc_parser(int ac, char **av, t_fc *as)
 
 int			fc_builtin(int argc, char **argv, t_sh *shell)
 {
-	//char		*command;
 	t_fc *args;
 
 	args = init_fc(shell);
