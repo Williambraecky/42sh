@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:23:53 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 23:33:12 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 12:04:19 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,17 +223,20 @@ int		remove_suffix(t_brace *brace)
 	size_t	len_p;
 	char	tmp_c;
 
-	len_w = ft_strlen(brace->word);
-	len_p = ft_strlen(brace->param_expand);
-	while (brace->word[len_w] && brace->param_expand[len_p])
+	len_w = ft_strlen(brace->word) - 1;
+	len_p = ft_strlen(brace->param_expand) - 1;
+	while (brace->word[len_w] && brace->param_expand[len_p]
+		&& brace->word[len_w] == brace->param_expand[len_p])
 	{
+		ft_printf("w_char == %c, w_param == %c\n", brace->word[len_w] ,brace->param_expand[len_p]);
 		len_w--;
 		len_p--;
 	}
-	tmp_c = brace->param_expand[len_p];
-	brace->param_expand[len_p] = '\0';
+	tmp_c = brace->param_expand[len_p + 1];
+	brace->param_expand[len_p + 1] = '\0';
 	*brace->result = ft_strdup(brace->param_expand);
-	brace->param_expand[len_p] = tmp_c;
+	ft_printf("result = %s && param_expand = %s\n", *brace->result, brace->param_expand);
+	brace->param_expand[len_p + 1] = tmp_c;
 	return (SH_SUCCESS);
 }
 int		do_opt(t_brace *brace)
@@ -267,11 +270,12 @@ int		do_opt(t_brace *brace)
 	return (SH_SUCCESS);
 }
 
-void	free_struct(t_brace *brace)
+int		free_struct(t_brace *brace, int ret)
 {
 	ft_strdel(&brace->param);
 	ft_strdel(&brace->param_expand);
 	ft_strdel(&brace->word);
+	return (ret);
 }
 
 int		expand_brace(t_sh *shell, char *str, char **result, size_t *len)
@@ -283,22 +287,20 @@ int		expand_brace(t_sh *shell, char *str, char **result, size_t *len)
 	ft_bzero(&brace, sizeof(brace));
 	brace.len = len;
 	if ((ret = init_struct(&brace, shell, str, result)) != SH_SUCCESS)
-		return (ret);
+		return(free_struct(&brace, ret));
 	if ((ret = do_opt(&brace)) != SH_SUCCESS)
-		return (ret);
+		return(free_struct(&brace, ret));
 	if (brace.hashtag == 1)
 	{
 		tmp = *brace.result;
 		*result = ft_itoa(ft_strlen(*brace.result));
 		ft_strdel(&tmp);
 	}
-	free_struct(&brace);
+	free_struct(&brace, ret);
 	if (!*result)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
-
-// TODO leak
 
 int		expand_param(t_sh *shell, char *str, char **result)
 {
