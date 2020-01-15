@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 22:31:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 01:48:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,33 @@ char		*g_error_str[] =
 	[SH_ERR_DUP] = "dup error"
 };
 
+char		*g_history_test[] =
+{
+	"ls",
+	"echo salut les amis",
+	"echo coucou",
+	"cat",
+	"cd ~/Documents",
+	NULL
+};
+
+static int	fill_shell_history(t_sh *shell)
+{
+	size_t	i;
+
+	i = 0;
+	if (ft_vecinit(&shell->history))
+		return (1);
+	while (g_history_test[i])
+	{
+		if (ft_veccpush(&shell->history, g_history_test[i],
+			ft_strlen(g_history_test[i]) + 1))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 /*
 ** TODO: Initialize some variables like PS1 ? $ etc
 */
@@ -50,6 +77,8 @@ static int	init_shell(t_sh *shell, const char **env)
 	if (ft_vecinit(&shell->jobs))
 		return (1);
 	if (builtin_init(shell) != SH_SUCCESS)
+		return (1);
+	if (fill_shell_history(shell))
 		return (1);
 	add_alias(shell, "ls", "ls -G");
 	copy_env(shell, env);
@@ -88,7 +117,11 @@ int			main(int argc, const char **argv, const char **env)
 		handle_prompt(&shell, prompt, &line);
 		free(prompt);
 		if (lexer(line, &lexer_, &shell) == SH_SUCCESS)
+		{
+			ft_vecpush(&shell.history, ft_strndup(lexer_.clean_line,
+				ft_strlen(lexer_.clean_line) - 1));
 			exec_tree(&shell, lexer_.build.head);
+		}
 		free(line);
 	}
 	free_sh(&shell);
