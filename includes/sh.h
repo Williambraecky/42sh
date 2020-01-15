@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 14:27:27 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 14:11:47 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@
 # ifndef USE_BELL
 #  define USE_BELL 1
 # endif
+# define FIRST_CHAR 0
+# define SUBST_WORD 0
+# define SUBST_PARAM 1
+# define ASSIGN_WORD 2
+# define SUBST_NULL 3
+# define ERROR_EXIT 4
+# define REMOVE_SUFFIX 5
+# define REMOVE_PREFIX 6
+# define DO_NOTHING 7
 
 /*
 ** Typedefs
@@ -258,10 +267,30 @@ int			remove_quotes(char *str, char **result);
 int			backup_fds(t_sh *shell);
 int			backup_fd(t_sh *shell, int fd);
 int			map_del_filter(t_node *node);
-int			expand_param(t_sh *shell, char *str, char **result);
 int			expand_tilde(t_sh *shell, char *str, char **result);
 int			expand_exclamation(t_sh *shell, char *str, char **result);
 int			is_builtin(t_sh *shell, char *str);
 int			gen_prompt_string(t_sh *shell, char *ps1, char **result);
+
+/*
+** Expand param
+*/
+
+int			expand_brace(t_sh *shell, char *str, char **result, size_t *len);
+int			expand_no_brace(t_sh *shell, char *str, char **result, size_t *len);
+int			expand_param(t_sh *shell, char *str, char **result);
+int			get_word(char *str, char **result);
+int			get_key(char *str, char **result);
+int			get_op(char *str, char *op, size_t *len);
+int			get_valid_param(t_sh *shell, char *str, char **result, size_t *len);
+int			is_charset(char c, int first_char);
+int			join_expanded(char *str, size_t *dollar, char **result, size_t len);
+void		what_op_does(int status, char op, int *what_op);
+int			do_op(t_brace *brace);
+int			init_struct(t_brace *brace, t_sh *shell, char *str, char **result);
+void		init_expand_param(size_t *i, size_t *l, int *quoted, char **result);
+int			free_struct(t_brace *brace, int ret);
+int			remove_suffix(t_brace *brace);
+int			remove_prefix(t_brace *brace);
 
 #endif
