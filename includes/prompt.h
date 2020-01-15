@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 01:33:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 02:36:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,5 +173,6 @@ char			*get_brace_str(int shell_var_brace, char *line, t_prompt *p);
 int				display_poss_scroll(t_select *se, t_vec *, int s, t_prompt *p);
 char			*hquery_prev(t_sh *shell, t_hquery *hquery);
 char			*hquery_next(t_sh *shell, t_hquery *hquery);
+int				posscpush(t_vec *poss, char *str, size_t len);
 
 #endif
