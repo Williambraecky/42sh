@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 14:11:47 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 14:59:33 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,6 +271,7 @@ int			expand_tilde(t_sh *shell, char *str, char **result);
 int			expand_exclamation(t_sh *shell, char *str, char **result);
 int			is_builtin(t_sh *shell, char *str);
 int			gen_prompt_string(t_sh *shell, char *ps1, char **result);
+int			vecgetlastmatch_index(t_vec *vec, char *find);
 
 /*
 ** Expand param

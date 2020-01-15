@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:53 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 21:06:00 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/15 15:17:37 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,26 @@
 # include "sh.h"
 
 /*
+** Typedefs
+*/
+
+typedef struct s_fc	t_fc;
+
+/*
+** Structures
+*/
+
+struct		s_fc
+{
+	char	*f;
+  char  *l;
+  char  **old_new;
+  int   start;
+  int   end;
+  char  opt[6];
+};
+
+/*
 ** Prototypes
 */
 
@@ -28,6 +48,7 @@ int			builtin_init(t_sh *shell);
 /*
 ** Builtins
 */
+
 
 int			cd_builtin(int argc, char **argv, t_sh *shell);
 int			alias_builtin(int argc, char **argv, t_sh *shell);
@@ -73,5 +94,11 @@ int			int_cmp(char *s1, char *s2, char *cmp_op);
 int			not_op_reverse(int ret, int not_op);
 int			cmp_op(char **av, int ac, int not_op);
 int			test_op(char op, char **av, int ac, int not_op);
+
+/*
+**   fc Utils
+*/
+
+t_fc	 *init_fc(t_sh *shell);
 
 #endif

@@ -6,14 +6,14 @@
 /*   By: wdaher-a <wdaher-a@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 16:11:26 by wdaher-a          #+#    #+#             */
-/*   Updated: 2020/01/14 20:49:17 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/15 14:17:59 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 #include "lexer.h"
 
-int		is_quoted(char *str, size_t i, t_type quote)
+static int	is_quoted(char *str, size_t i, t_type quote)
 {
 	if (quote == T_QUOTE)
 		return (str[i] != '\'');
@@ -22,7 +22,7 @@ int		is_quoted(char *str, size_t i, t_type quote)
 	return (is_char_escaped(str, i));
 }
 
-int		get_lastmatch(t_sh *shell, char *str, char **result)
+static int	get_lastmatch(t_sh *shell, char *str, char **result)
 {
 	size_t	i;
 
@@ -39,7 +39,7 @@ int		get_lastmatch(t_sh *shell, char *str, char **result)
 	return (SH_ERR_NOEXIST);
 }
 
-int		get_lasti(t_sh *shell, char *str, char **result, int rev)
+static int	get_lasti(t_sh *shell, char *str, char **result, int rev)
 {
 	char	*index;
 	size_t	i;
