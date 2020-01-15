@@ -6,11 +6,17 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 16:43:31 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/11/25 16:48:03 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 01:38:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
+
+void	buff_clear(t_buff *buffer)
+{
+	ft_bzero(buffer->buffer, buffer->current_size);
+	buffer->current_size = 0;
+}
 
 int		buff_remove(t_buff *buffer, size_t pos)
 {

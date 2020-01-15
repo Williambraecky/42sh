@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/07 16:44:34 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/15 01:28:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,22 @@ static int	handle_select_char(t_prompt *prompt, char *buffer, t_sh *shell)
 	return (RET_EXIT_SELECT);
 }
 
+static void	finish_query(t_prompt *prompt)
+{
+	ft_strdel(&prompt->query.query);
+	ft_strdel(&prompt->query.orig);
+	prompt->querying = 0;
+}
+
 int			handle_new_char(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	int		(*dispatch_func)(t_prompt *, char *buffer, t_sh *shell);
 	int		ret;
 
 	dispatch_func = NULL;
+	if (prompt->querying && *((int*)buffer) != UP_ARROW &&
+		*((int*)buffer) != DOWN_ARROW)
+		finish_query(prompt);
 	if (prompt->select_mode == 2 &&
 		(ret = handle_select_char(prompt, buffer, shell)) != RET_EXIT_SELECT)
 		return (ret);
