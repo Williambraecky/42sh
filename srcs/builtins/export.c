@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:21:03 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 12:33:32 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 17:49:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void	print_env(t_map *map)
 	while (i < map->max_size)
 	{
 		if (map->nodes[i].is_used)
-			ft_printf("%s=%s\n", map->nodes[i].key, map->nodes[i].value);
+			ft_printf("%s=%s{eoc}\n", map->nodes[i].key, map->nodes[i].value);
 		i++;
 	}
 }

@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_tree.c                                        :+:      :+:    :+:   */
+/*   free_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/02 18:11:59 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 16:08:11 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/15 17:20:20 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/15 17:21:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-/*
-** TODO: add new fields when added
-** NOTE: since we copy the token and not the content
-**    we don't need to free the tokens here
-*/
 
 static void	free_pipeline(t_proc *pipeline)
 {
@@ -39,26 +33,9 @@ static void	free_pipeline(t_proc *pipeline)
 	}
 }
 
-/*
-** NOTE: backgrounded cmds are freed by the job control
-*/
-
-void		free_tree(t_cmd *cmd)
+void		free_cmd(t_cmd *cmd)
 {
-	t_cmd	*curr;
-
-	curr = cmd;
-	while (curr)
-	{
-		if (curr->background == 0)
-		{
-			free_pipeline(curr->pipeline);
-			ft_strdel(&cmd->cmd_str);
-			cmd = curr;
-			curr = curr->next;
-			free(cmd);
-		}
-		else
-			curr = curr->next;
-	}
+	free_pipeline(cmd->pipeline);
+	ft_strdel(&cmd->cmd_str);
+	free(cmd);
 }

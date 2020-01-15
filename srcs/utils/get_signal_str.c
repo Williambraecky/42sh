@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   jobs_add.c                                         :+:      :+:    :+:   */
+/*   get_signal_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/10 15:55:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 17:26:39 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/15 18:39:38 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/15 19:06:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
-#include "lexer.h"
 
-int		jobs_add(t_sh *shell, t_cmd *cmd, int notify)
+/*
+** NOTE: status is the return from wait
+*/
+
+char	*get_signal_str(int status)
 {
-	t_proc	*curr;
-
-	if (ft_vecpush(&shell->jobs, cmd))
-		return (SH_ERR_MALLOC);
-	if (!notify)
-		return (SH_SUCCESS);
-	ft_printf("[%zu] ", shell->jobs.size);
-	curr = cmd->pipeline;
-	while (curr)
+	(void)status;
+	if (WIFSTOPPED(status))
 	{
-		ft_printf("%d", curr->pid);
-		if (curr->next)
-			ft_printf(" ");
-		curr = curr->next;
+		if (WSTOPSIG(status) == SIGTSTP)
+			return ("suspended");
+		return ("stopped");
 	}
-	ft_printf("\n");
-	return (SH_SUCCESS);
+	else if (WIFSIGNALED(status))
+		return ("killed");
+	return ("temp");
 }

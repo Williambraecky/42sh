@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:44:18 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 17:26:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		jobs_to_background(t_sh *shell, t_cmd *cmd, int wake)
 		if (kill(-cmd->pgid, SIGCONT) < 0)
 			return (SH_ERR_KILL);
 	}
-	jobs_add(shell, cmd);
+	else
+		jobs_add(shell, cmd, 1);
 	return (SH_SUCCESS);
 }

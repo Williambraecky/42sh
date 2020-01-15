@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 14:28:36 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 15:48:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int			exec_proc(t_sh *shell, t_proc *proc)
 {
 	int	ret;
 
-	ret = SH_SUCCESS;
+	ret = proc_make_string(proc);
 	if (ret == SH_SUCCESS)
 		ret = apply_assigns(shell, proc);
 	if (ret == SH_SUCCESS && proc->unprocessed_argv.size > 0)

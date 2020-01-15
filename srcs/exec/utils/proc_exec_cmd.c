@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 22:33:01 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 18:20:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)
 	t_bltin	*bltin;
 	int		ret;
 
+	ft_reset_opt();
 	bltin = ft_mapget(shell->builtins, proc->argv[0]);
 	ret = bltin->fnc_ptr((int)proc->unprocessed_argv.size, proc->argv, shell);
 	if (bg)

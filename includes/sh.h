@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 17:38:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 18:41:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,6 +276,7 @@ int			end_gen_prompt(int ret, char **result, char *prompt);
 int			is_valid_esc(char *prompt, size_t *i);
 int			init_internal_vars(t_sh *shell);
 int			vecgetlastmatch_index(t_vec *vec, char *find);
+char		*get_signal_str(int status);
 
 /*
 ** Expand param

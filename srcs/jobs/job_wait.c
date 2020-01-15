@@ -6,19 +6,19 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:51:21 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 00:41:17 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 19:12:46 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static int	mark_process_status(t_cmd *cmd, pid_t pid, int status)
+static int		mark_process_status(t_cmd *cmd, pid_t pid, int status)
 {
 	t_proc	*curr;
 
 	if (pid == 0)
 		return (-1); //Nothing returned from wait
-	else if (pid < 0)
+	else if (pid < 0 || !cmd)
 		return (-1); //wait error
 	curr = cmd->pipeline;
 	while (curr)
@@ -37,7 +37,65 @@ static int	mark_process_status(t_cmd *cmd, pid_t pid, int status)
 	return (-1); //no job found with pid
 }
 
-void		job_wait(t_sh *shell, t_cmd *cmd)
+static t_cmd	*get_cmd(t_sh *shell, pid_t proc_pid)
+{
+	size_t	i;
+	t_cmd	*curr;
+	t_proc	*proc;
+
+	i = 0;
+	while (i < shell->jobs.size)
+	{
+		curr = ft_vecget(&shell->jobs, i++);
+		proc = curr->pipeline;
+		while (proc)
+		{
+			if (proc->pid == proc_pid)
+				return (curr);
+			proc = proc->next;
+		}
+	}
+	return (NULL);
+}
+
+/*
+** NOTE: updates any backgrounded jobs without blocking
+*/
+
+void			jobs_update_status(t_sh *shell)
+{
+	int		status;
+	pid_t	pid;
+
+	pid = waitpid(WAIT_ANY, &status, WUNTRACED | WNOHANG);
+	while (!mark_process_status(get_cmd(shell, pid), pid, status))
+	{
+		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WNOHANG);
+	}
+}
+
+static void		job_react(t_sh *shell, t_cmd *cmd, int status)
+{
+	cmd->status = status;
+	if (WIFEXITED(status))
+		set_last_return_code(shell, WEXITSTATUS(status));
+	else if (WIFSTOPPED(status))
+	{
+		ft_printf("\n");
+		set_last_return_code(shell, WSTOPSIG(status) + 128);
+		jobs_add(shell, cmd, 0);
+		return ;
+	}
+	else if (WIFSIGNALED(status))
+	{
+		set_last_return_code(shell, WTERMSIG(status) + 128);
+		if (WTERMSIG(status) != 2)
+			job_notify_cmd(cmd, shell->jobs.size, shell->jobs.size);
+	}
+	free_cmd(cmd);
+}
+
+void			job_wait(t_sh *shell, t_cmd *cmd)
 {
 	int		status;
 	pid_t	pid;
@@ -49,15 +107,6 @@ void		job_wait(t_sh *shell, t_cmd *cmd)
 	{
 		pid = waitpid(-cmd->pgid, &status, WUNTRACED);
 	}
-	if (WIFEXITED(status))
-		set_last_return_code(shell, WEXITSTATUS(status));
-	else if (WIFSTOPPED(status))
-	{
-		set_last_return_code(shell, WSTOPSIG(status) + 128);
-		cmd->background = 1; // TODO: add cmd to job control
-	}
-	else if (WIFSIGNALED(status))
-		set_last_return_code(shell, WTERMSIG(status) + 128);
-	else
-		set_last_return_code(shell, 1);
+	status = jobs_last_status(cmd);
+	job_react(shell, cmd, status);
 }

@@ -1,35 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   jobs_add.c                                         :+:      :+:    :+:   */
+/*   free_proc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/10 15:55:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 17:26:39 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/15 17:21:05 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/15 17:22:22 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
 #include "lexer.h"
 
-int		jobs_add(t_sh *shell, t_cmd *cmd, int notify)
+void	free_proc(t_proc *proc)
 {
-	t_proc	*curr;
-
-	if (ft_vecpush(&shell->jobs, cmd))
-		return (SH_ERR_MALLOC);
-	if (!notify)
-		return (SH_SUCCESS);
-	ft_printf("[%zu] ", shell->jobs.size);
-	curr = cmd->pipeline;
-	while (curr)
-	{
-		ft_printf("%d", curr->pid);
-		if (curr->next)
-			ft_printf(" ");
-		curr = curr->next;
-	}
-	ft_printf("\n");
-	return (SH_SUCCESS);
+	ft_vecdestroy(&proc->unprocessed_argv, default_vec_destroy_function);
+	ft_vecdestroy(&proc->redirections, default_vec_destroy_function);
+	ft_vecdestroy(&proc->assignments, default_vec_destroy_function);
+	if (proc->argv)
+		ft_freesplit(proc->argv);
+	if (proc->env)
+		ft_freesplit(proc->env);
+	ft_strdel(&proc->proc_str);
+	free(proc);
 }

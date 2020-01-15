@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/14 14:33:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 19:14:42 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ struct		s_proc
 {
 	t_cmd	*parent;
 	t_proc	*next;
+	char	*proc_str;
 	pid_t	pid;
 	int		argc;
 	t_vec	unprocessed_argv; //NOTE: those are all T_WORD
@@ -147,10 +148,13 @@ struct		s_proc
 struct		s_cmd
 {
 	t_proc	*pipeline;
+	char	*cmd_str;
+	int		status;
 	pid_t	pgid;
 	t_termi	termios;
 	int		(*condition)(int); //NOTE: OR AND etc
 	int		background;
+	int		notified;
 	t_cmd	*next;
 };
 
@@ -244,6 +248,8 @@ int			make_stack_prompt(t_vec *stack, char **result);
 int			lexer_handle_alias(t_sh *shell, t_lexer *lexer, char *str);
 int			alias_stack_contains(t_lexer *lexer, char *str);
 void		alias_stack_clear(t_lexer *lexer);
+int			cmd_make_string(t_cmd *cmd);
+int			proc_make_string(t_proc *proc);
 
 /*
 ** Tokens
@@ -305,12 +311,17 @@ int			apply_redir(t_token *token, t_build *build, t_lexer *lex);
 ** Jobs
 */
 
-int			jobs_add(t_sh *shell, t_cmd *cmd);
+int			jobs_add(t_sh *shell, t_cmd *cmd, int notify);
 int			job_is_stopped(t_cmd *cmd);
 int			job_is_completed(t_cmd *cmd);
 void		job_wait(t_sh *shell, t_cmd *cmd);
 int			jobs_to_background(t_sh *shell, t_cmd *cmd, int wake);
 int			jobs_to_foreground(t_sh *shell, t_cmd *cmd, int wake);
+void		jobs_update_status(t_sh *shell);
+void		job_notify(t_sh *shell);
+void		job_notify_cmd(t_cmd *cmd, size_t index, size_t max);
+int			jobs_last_status(t_cmd *cmd);
+void		job_continue(t_sh *shell, t_cmd *cmd, int fg);
 
 /*
 ** Utils
@@ -321,6 +332,8 @@ int			proc_new(t_proc **proc);
 int			or_condition(int last_ret_code);
 int			and_condition(int last_ret_code);
 void		free_tree(t_cmd *cmd);
+void		free_cmd(t_cmd *cmd);
+void		free_proc(t_proc *proc);
 int			proc_is_empty(t_proc *proc);
 int			cmd_is_empty(t_cmd *cmd);
 int			proc_apply_redir(t_sh *shell, t_proc *proc);

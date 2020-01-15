@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   jobs_add.c                                         :+:      :+:    :+:   */
+/*   jobs_last_status.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/10 15:55:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 17:26:39 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/15 19:07:34 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/15 19:07:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sh.h"
 #include "lexer.h"
 
-int		jobs_add(t_sh *shell, t_cmd *cmd, int notify)
+int		jobs_last_status(t_cmd *cmd)
 {
-	t_proc	*curr;
+	t_proc	*proc;
 
-	if (ft_vecpush(&shell->jobs, cmd))
-		return (SH_ERR_MALLOC);
-	if (!notify)
-		return (SH_SUCCESS);
-	ft_printf("[%zu] ", shell->jobs.size);
-	curr = cmd->pipeline;
-	while (curr)
-	{
-		ft_printf("%d", curr->pid);
-		if (curr->next)
-			ft_printf(" ");
-		curr = curr->next;
-	}
-	ft_printf("\n");
-	return (SH_SUCCESS);
+	proc = cmd->pipeline;
+	while (proc->next)
+		proc = proc->next;
+	return (proc->status);
 }

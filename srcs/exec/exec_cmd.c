@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:43:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 14:33:22 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 15:28:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ int			exec_cmd(t_sh *shell, t_cmd *cmd)
 
 	if (cmd_is_empty(cmd))
 		return (SH_SUCCESS);
+	if (cmd_make_string(cmd) != SH_SUCCESS)
+		return (SH_ERR_MALLOC);
 	ret = exec_pipeline(shell, cmd->pipeline);
 	if (cmd->background)
 	{

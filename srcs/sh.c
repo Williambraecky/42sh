@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 14:45:43 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 19:44:03 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int			main(int argc, const char **argv, const char **env)
 	t_sh	shell;
 	char	*prompt;
 	char	*line;
+	char	*ps1;
 	t_lexer	lexer_;
 
 	(void)argc;
@@ -111,14 +112,18 @@ int			main(int argc, const char **argv, const char **env)
 	shell.running = 1;
 	while (shell.running)
 	{
-		gen_prompt_string(&shell, "", &prompt);
+		get_internal(&shell, "PS1", &ps1);
+		gen_prompt_string(&shell, ps1, &prompt);
 		handle_prompt(&shell, prompt, &line);
+		job_notify(&shell);
 		free(prompt);
 		if (lexer(line, &lexer_, &shell) == SH_SUCCESS)
 		{
 			ft_vecpush(&shell.history, ft_strndup(lexer_.clean_line,
 				ft_strlen(lexer_.clean_line) - 1));
 			exec_tree(&shell, lexer_.build.head);
+			usleep(50000);
+			job_notify(&shell);
 		}
 		free(line);
 	}
