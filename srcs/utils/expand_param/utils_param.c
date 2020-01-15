@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 13:55:51 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/15 14:32:35 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 14:40:15 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int		is_charset(char c, int first_char)
 			|| (c >= 'A' && c <= 'Z')
 			|| (c >= '0' && c <= '9' && first_char != FIRST_CHAR)
 			|| (c == '?' && first_char == FIRST_CHAR)
+			|| (c == '$' && first_char == FIRST_CHAR)
 			|| c == '_');
 }
 
