@@ -6,11 +6,11 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 13:55:51 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/15 14:40:15 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 17:28:54 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "sh.h"
 
 int		is_charset(char c, int first_char)
 {

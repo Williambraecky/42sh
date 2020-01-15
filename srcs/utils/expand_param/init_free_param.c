@@ -6,11 +6,11 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 13:57:17 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/15 14:02:51 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 17:29:06 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "sh.h"
 
 int		free_struct(t_brace *brace, int ret)
 {

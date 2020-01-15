@@ -6,11 +6,11 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 14:03:08 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/15 14:07:41 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 17:29:01 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "sh.h"
 
 int		remove_suffix(t_brace *brace)
 {
