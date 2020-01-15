@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   remove_env.c                                       :+:      :+:    :+:   */
+/*   path_change.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/19 15:33:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 14:25:14 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/15 14:22:33 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/15 14:24:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-void	remove_env(t_sh *shell, char *key)
+static int	map_hash_filter(t_node *node)
 {
-	t_node		*node;
-	t_s64		hash;
+	t_hashed	*hashed;
 
-	if (!has_env(shell, key))
-		return ;
-	if (ft_strequ(key, "PATH"))
-		path_change(shell);
-	hash = ft_maphash(shell->env, key);
-	node = &shell->env->nodes[hash];
-	ft_memdel(&node->value);
-	ft_strdel(&node->key);
-	node->is_used = 0;
+	hashed = node->value;
+	free(hashed->path);
+	free(node->value);
+	free(node->key);
+	return (0);
+}
+
+/*
+** NOTE: function to be called whenever PATH changes
+** NOTE: this should reset the hash table
+*/
+
+void		path_change(t_sh *shell)
+{
+	ft_mapfilter(shell->use_hash, map_hash_filter);
 }

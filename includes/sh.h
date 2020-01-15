@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 14:11:47 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 14:24:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +234,7 @@ int			get_hash(t_sh *shell, char *bin, t_hashed **hash);
 int			has_hash(t_sh *shell, char *bin);
 void		remove_hash(t_sh *shell, char *bin);
 int			get_hash_ignorecase(t_sh *shell, char *str, char **result);
+void		path_change(t_sh *shell);
 
 /*
 ** History
