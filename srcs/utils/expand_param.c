@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:23:53 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/15 12:04:19 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 13:21:34 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int		expand_no_brace(t_sh *shell, char *str, char **result, size_t *len)
 	return (SH_SUCCESS);
 }
 
-int		get_opt(char *str, char *op, size_t *len)
+int		get_op(char *str, char *op, size_t *len)
 {
 	if (str[0] == '}')
 	{
@@ -124,30 +124,14 @@ int		get_key(char *str, char **result)
 	return (*result == NULL ? SH_ERR_MALLOC : SH_SUCCESS);
 }
 
-int		get_word(char *str, char **result, t_brace *brace)
+int		get_word(char *str, char **result)
 {
 	size_t	i;
 	char	tmp_c;
-	// char	*tmp;
-	// int		ret;
 
-	(void)brace;
 	i = 0;
 	while (str[i] && str[i] != '}' && !is_char_escaped(str, i))
-	{
-		// if (str[i] == '$')
-		// {
-		// 	tmp_c = str[i];
-		// 	str[i] = '\0';
-		// 	ret = expand_param(brace->shell, str, &tmp);
-		// 	*result = ft_strjoin(str, tmp);
-		// 	str[i] = tmp_c;
-		// 	ft_strdel(&tmp);
-		// 	if (ret != SH_SUCCESS || !*result)
-		// 		return (SH_ERR_MALLOC);
-		// }
 		i++;
-	}
 	tmp_c = str[i];
 	str[i] = '\0';
 	*result = ft_strdup(str);
@@ -155,7 +139,7 @@ int		get_word(char *str, char **result, t_brace *brace)
 	return (*result == NULL ? SH_ERR_MALLOC : SH_SUCCESS);
 }
 
-void	what_do(int status, char op, int *what_op)
+void	what_op_does(int status, char op, int *what_op)
 {
 	if (op == 0)
 		*what_op = DO_NOTHING;
@@ -191,11 +175,11 @@ int		init_struct(t_brace *brace, t_sh *shell, char *str, char **result)
 		brace->param_status = get_env(shell, brace->param, &tmp);
 	expand_no_brace(brace->shell, brace->param,
 		&brace->param_expand, brace->len);
-	if (get_opt(str + ft_strlen(brace->param) + 1 + brace->hashtag
+	if (get_op(str + ft_strlen(brace->param) + 1 + brace->hashtag
 		, &brace->op, brace->len) != 0)
 		return (SH_ERR_BAD_SUBST);
-	get_word((str + *brace->len + brace->hashtag + 1), &brace->word, brace);
-	what_do(brace->param_status, brace->op, &brace->what_op);
+	get_word((str + *brace->len + brace->hashtag + 1), &brace->word);
+	what_op_does(brace->param_status, brace->op, &brace->what_op);
 	*brace->len = 0;
 	while (str[*brace->len]
 		&& (str[*brace->len] != '}' || is_char_escaped(str, *brace->len)))
@@ -217,6 +201,7 @@ int		remove_prefix(t_brace *brace)
 	*brace->result = ft_strdup(brace->param_expand + i);
 	return (SH_SUCCESS);
 }
+
 int		remove_suffix(t_brace *brace)
 {
 	size_t	len_w;
@@ -228,36 +213,33 @@ int		remove_suffix(t_brace *brace)
 	while (brace->word[len_w] && brace->param_expand[len_p]
 		&& brace->word[len_w] == brace->param_expand[len_p])
 	{
-		ft_printf("w_char == %c, w_param == %c\n", brace->word[len_w] ,brace->param_expand[len_p]);
 		len_w--;
 		len_p--;
 	}
 	tmp_c = brace->param_expand[len_p + 1];
 	brace->param_expand[len_p + 1] = '\0';
 	*brace->result = ft_strdup(brace->param_expand);
-	ft_printf("result = %s && param_expand = %s\n", *brace->result, brace->param_expand);
 	brace->param_expand[len_p + 1] = tmp_c;
 	return (SH_SUCCESS);
 }
-int		do_opt(t_brace *brace)
+
+int		do_op(t_brace *brace)
 {
 	int		ret;
 
-	if (brace->what_op == SUBST_WORD)
-		*brace->result = ft_strdup(brace->word);
-	else if (brace->what_op == SUBST_PARAM)
+	if (brace->what_op == SUBST_PARAM)
 		*brace->result = ft_strdup(brace->param_expand);
 	else if (brace->what_op == SUBST_NULL)
 		*brace->result = ft_strdup("");
-	else if (brace->what_op == ASSIGN_WORD)
+	else if (brace->what_op == ASSIGN_WORD || brace->what_op == SUBST_WORD)
 	{
 		*brace->result = ft_strdup(brace->word);
-		if ((ret = (repl_internal(brace->shell, brace->param, brace->word)))
-			!= SH_SUCCESS)
+		if (brace->what_op == ASSIGN_WORD && (SH_SUCCESS !=
+			(ret = (repl_internal(brace->shell, brace->param, brace->word)))))
 			return (ret);
 	}
 	else if (brace->what_op == ERROR_EXIT)
-		ft_dprintf(2, "42sh: %s: %s\n", brace->param, brace->word); //todo parameter not set
+		ft_dprintf(2, "42sh: %s: %s\n", brace->param, brace->word);
 	else if (brace->what_op == REMOVE_SUFFIX)
 		remove_suffix(brace);
 	else if (brace->what_op == REMOVE_PREFIX)
@@ -287,9 +269,9 @@ int		expand_brace(t_sh *shell, char *str, char **result, size_t *len)
 	ft_bzero(&brace, sizeof(brace));
 	brace.len = len;
 	if ((ret = init_struct(&brace, shell, str, result)) != SH_SUCCESS)
-		return(free_struct(&brace, ret));
-	if ((ret = do_opt(&brace)) != SH_SUCCESS)
-		return(free_struct(&brace, ret));
+		return (free_struct(&brace, ret));
+	if ((ret = do_op(&brace)) != SH_SUCCESS)
+		return (free_struct(&brace, ret));
 	if (brace.hashtag == 1)
 	{
 		tmp = *brace.result;
@@ -302,6 +284,14 @@ int		expand_brace(t_sh *shell, char *str, char **result, size_t *len)
 	return (SH_SUCCESS);
 }
 
+void	init_expand_param(size_t *i, size_t *len, int *quoted, char **result)
+{
+	*i = 0;
+	*len = 0;
+	*quoted = 0;
+	*result = NULL;
+}
+
 int		expand_param(t_sh *shell, char *str, char **result)
 {
 	size_t	i;
@@ -309,20 +299,15 @@ int		expand_param(t_sh *shell, char *str, char **result)
 	int		quoted;
 	int		ret;
 
-	i = 0;
-	len = 0;
-	quoted = 0;
-	ret = SH_SUCCESS;
-	*result = NULL;
+	init_expand_param(&i, &len, &quoted, result);
 	while (str[i])
 	{
 		str[i] == '\'' ? quoted = !(quoted) : 0;
-		if (str[i] == '$' && !(is_char_escaped(str, i)) && quoted == 0 && ++i)
+		if (str[i] == '$' && !(is_char_escaped(str, i)) && quoted == 0 && ++i
+			&& (str[i] == '{' || is_charset(str[i], FIRST_CHAR)))
 		{
 			if (str[i] == '{')
 				ret = expand_brace(shell, str + i, result, &len);
-			else if (!(is_charset(str[i], FIRST_CHAR)))
-				*result = "$";
 			else
 				ret = expand_no_brace(shell, str + i, result, &len);
 			if (ret != SH_SUCCESS
@@ -331,8 +316,7 @@ int		expand_param(t_sh *shell, char *str, char **result)
 		}
 		i++;
 	}
-	if (*result == NULL)
-		if (!(*result = ft_strdup(str)))
-			return (SH_ERR_MALLOC);
+	if (*result == NULL && !(*result = ft_strdup(str)))
+		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
