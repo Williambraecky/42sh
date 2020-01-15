@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 16:47:31 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/15 02:37:13 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		get_internals(char *str, t_vec *poss, t_map *internals)
 		{
 			key = internals->nodes[i].key;
 			if (ft_strstartswith(key, str + 1))
-				if (ft_veccpush(poss, key, ft_strlen(key) + 1))
+				if (posscpush(poss, key, ft_strlen(key) + 1))
 					return (SH_ERR_NOEXIST);
 		}
 		i++;
@@ -54,7 +54,7 @@ int		complete_shell_var(char *line, t_vec *poss, t_sh *shell,
 		{
 			key = env->nodes[i].key;
 			if (ft_strstartswith(key, str + 1))
-				if (ft_veccpush(poss, key, ft_strlen(key) + 1))
+				if (posscpush(poss, key, ft_strlen(key) + 1))
 					return (SH_ERR_NOEXIST);
 		}
 		i++;
@@ -75,7 +75,7 @@ int		get_files(char *line, char *path, t_vec *poss)
 			(!ft_strequ(line, ".") && !ft_strequ(line, "..")))
 			continue;
 		if (ft_strstartswith(sd->d_name, line))
-			if (ft_veccpush(poss, sd->d_name, ft_strlen(sd->d_name) + 1))
+			if (posscpush(poss, sd->d_name, ft_strlen(sd->d_name) + 1))
 			{
 				closedir(dir);
 				return (SH_ERR_NOEXIST);
