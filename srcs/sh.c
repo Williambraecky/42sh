@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 01:48:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 14:45:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,6 @@ static int	fill_shell_history(t_sh *shell)
 	return (0);
 }
 
-/*
-** TODO: Initialize some variables like PS1 ? $ etc
-*/
-
 static int	init_shell(t_sh *shell, const char **env)
 {
 	ft_memset(shell, 0, sizeof(shell));
@@ -79,6 +75,8 @@ static int	init_shell(t_sh *shell, const char **env)
 	if (builtin_init(shell) != SH_SUCCESS)
 		return (1);
 	if (fill_shell_history(shell))
+		return (1);
+	if (init_internal_vars(shell))
 		return (1);
 	add_alias(shell, "ls", "ls -G");
 	copy_env(shell, env);

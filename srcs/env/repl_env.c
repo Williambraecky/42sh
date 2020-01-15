@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 17:21:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 19:07:03 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 14:25:24 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int		repl_env(t_sh *shell, char *key, char *value)
 		free(value);
 		return (SH_ERR_MALLOC);
 	}
+	if (ft_strequ(key, "PATH"))
+		path_change(shell);
 	if (ft_mapcontains(shell->env, key))
 	{
 		hash = ft_maphash(shell->env, key);

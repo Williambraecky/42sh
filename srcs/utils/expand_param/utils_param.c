@@ -6,17 +6,19 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 13:55:51 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/15 13:57:06 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 17:28:54 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "sh.h"
 
 int		is_charset(char c, int first_char)
 {
 	return ((c >= 'a' && c <= 'z')
 			|| (c >= 'A' && c <= 'Z')
 			|| (c >= '0' && c <= '9' && first_char != FIRST_CHAR)
+			|| (c == '?' && first_char == FIRST_CHAR)
+			|| (c == '$' && first_char == FIRST_CHAR)
 			|| c == '_');
 }
 

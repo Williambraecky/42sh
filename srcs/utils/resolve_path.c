@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 15:51:35 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/11 14:41:28 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 14:17:34 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,6 @@ int			resolve_path_env(char *paths, char *name, char **result)
 	char	*tok;
 	int		ret;
 
-	if (ft_strchr(name, '/'))
-	{
-		if (!(*result = ft_strdup(name)))
-			return (SH_ERR_MALLOC);
-		return (SH_SUCCESS);
-	}
 	if (!(dup = ft_strdup(paths)))
 		return (SH_ERR_MALLOC);
 	tok = ft_strtok(dup, ":");
@@ -63,6 +57,12 @@ int			resolve_path(t_sh *shell, char *name, char **result)
 	if (get_hash_ignorecase(shell, name, result) == SH_SUCCESS)
 	{
 		if (!(*result = ft_strdup(*result)))
+			return (SH_ERR_MALLOC);
+		return (SH_SUCCESS);
+	}
+	if (ft_strchr(name, '/'))
+	{
+		if (!(*result = ft_strdup(name)))
 			return (SH_ERR_MALLOC);
 		return (SH_SUCCESS);
 	}

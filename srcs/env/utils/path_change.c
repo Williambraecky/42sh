@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gen_prompt_string.c                                :+:      :+:    :+:   */
+/*   path_change.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/02 16:41:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 13:17:49 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/15 14:22:33 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/15 14:24:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
+static int	map_hash_filter(t_node *node)
+{
+	t_hashed	*hashed;
+
+	hashed = node->value;
+	free(hashed->path);
+	free(node->value);
+	free(node->key);
+	return (0);
+}
+
 /*
-** TODO: should we implement something like this or hardcode the prompt?
-** NOTE: main procedure for substituting PS1
-** NOTE: not as fancy as bash's; handles \h \H \u \w \W
+** NOTE: function to be called whenever PATH changes
+** NOTE: this should reset the hash table
 */
 
-int		gen_prompt_string(t_sh *shell, char *ps1, char **result)
+void		path_change(t_sh *shell)
 {
-	char	*prompt;
-	char	*tmp;
-
-	(void)ps1;
-	prompt = getpwd_short(shell);
-	tmp = prompt;
-	prompt = ft_strjoin(prompt, "> ");
-	free(tmp);
-	*result = prompt;
-	return (SH_SUCCESS);
+	ft_mapfilter(shell->use_hash, map_hash_filter);
 }

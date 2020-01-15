@@ -6,7 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 14:59:33 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/15 17:34:36 by wdaher-a         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+>>>>>>> 0a56687563eeb917de4bc1e2394d6b48e25ed0b0
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,6 +238,7 @@ int			get_hash(t_sh *shell, char *bin, t_hashed **hash);
 int			has_hash(t_sh *shell, char *bin);
 void		remove_hash(t_sh *shell, char *bin);
 int			get_hash_ignorecase(t_sh *shell, char *str, char **result);
+void		path_change(t_sh *shell);
 
 /*
 ** History
@@ -271,6 +276,9 @@ int			expand_tilde(t_sh *shell, char *str, char **result);
 int			expand_exclamation(t_sh *shell, char *str, char **result);
 int			is_builtin(t_sh *shell, char *str);
 int			gen_prompt_string(t_sh *shell, char *ps1, char **result);
+int			end_gen_prompt(int ret, char **result, char *prompt);
+int			is_valid_esc(char *prompt, size_t *i);
+int			init_internal_vars(t_sh *shell);
 int			vecgetlastmatch_index(t_vec *vec, char *find);
 
 /*
