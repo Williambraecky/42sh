@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:13:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 21:05:30 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/15 12:25:22 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_bltin		g_builtin_table[] =
 	{"unset", unset_builtin},
 	{"echo", echo_builtin},
 	{"export", export_builtin},
+	{"setenv", export_builtin},
 	{"hash", hash_builtin},
 	{"rehash", rehash_builtin},
 	{"pwd", pwd_builtin},
