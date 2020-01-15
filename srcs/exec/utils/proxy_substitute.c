@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:48:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 19:46:35 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/15 20:11:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,9 @@
 int	proxy_substitute(t_sh *shell, char *str, char **result)
 {
 	size_t	i;
-	char	*tmp;
+	//char	*tmp;
 	size_t	len;
-	char	*tmp2;
+	//char	*tmp2;
 	int		ret;
 	int		quoted;
 
