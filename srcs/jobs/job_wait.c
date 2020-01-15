@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:51:21 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 21:21:33 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 00:41:17 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ void		job_wait(t_sh *shell, t_cmd *cmd)
 	int		status;
 	pid_t	pid;
 
-	pid = waitpid(WAIT_ANY, &status, WUNTRACED);
+	pid = waitpid(-cmd->pgid, &status, WUNTRACED);
 	while (!mark_process_status(cmd, pid, status) &&
 		!job_is_completed(cmd) &&
 		!job_is_stopped(cmd))
 	{
-		pid = waitpid(WAIT_ANY, &status, WUNTRACED);
+		pid = waitpid(-cmd->pgid, &status, WUNTRACED);
 	}
 	if (WIFEXITED(status))
 		set_last_return_code(shell, WEXITSTATUS(status));
