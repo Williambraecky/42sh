@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 15:30:55 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/15 01:55:23 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	select_handle_newline(t_prompt *prompt, char *buffer, t_sh *shell)
 	prompt->select_mode = 0;
 	erase_poss(prompt);
 	default_char_handler(prompt, " ", NULL);
+	ft_vecdestroy(&prompt->select.poss, default_vec_destroy_function);
 	return (RET_CONT);
 }
 

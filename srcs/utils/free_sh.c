@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:25:57 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 02:04:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void		free_sh(t_sh *shell)
 	ft_mapdel(shell->use_hash);
 	ft_mapdel(shell->builtins);
 	ft_vecdestroy(&shell->jobs, jobs_destroy);
+	ft_vecdestroy(&shell->history, default_vec_destroy_function);
 	if (shell->prompt_mode)
 	{
 		tcsetattr(SH_IN, TCSADRAIN, &shell->old_termios);
@@ -77,4 +78,5 @@ void		free_sh(t_sh *shell)
 		signal(SIGCHLD, SIG_DFL);
 		signal(SIGWINCH, SIG_DFL);
 	}
+	ft_bzero(shell, sizeof(*shell));
 }

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 01:28:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/15 01:55:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int			handle_new_char(t_prompt *prompt, char *buffer, t_sh *shell)
 		(prompt->select_mode == 1 && *buffer != '\t'))
 	{
 		prompt->select_mode = 0;
-		ft_vecfree(&prompt->select.poss);
+		ft_vecdestroy(&prompt->select.poss, default_vec_destroy_function);
 	}
 	if ((t_u64)buffer[0] < (sizeof(g_dispatch_char) / sizeof(*g_dispatch_char)))
 		dispatch_func = g_dispatch_char[(int)*buffer];
