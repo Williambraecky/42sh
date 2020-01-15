@@ -6,13 +6,13 @@
 #    By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/25 16:38:11 by wbraeckm          #+#    #+#              #
-#    Updated: 2019/10/20 18:26:55 by wbraeckm         ###   ########.fr        #
+#    Updated: 2020/01/15 01:52:52 by wbraeckm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 42sh
 CC = gcc
-FLAGS = -O3 -Wall -Wextra -Werror -fsanitize=address
+FLAGS = -O3 -Wall -Wextra -Werror #-fsanitize=address
 INCLUDES = ./includes/
 SRCSFOLDER = ./srcs/
 OBJFOLDER = ./obj/
@@ -33,7 +33,7 @@ LONGEST = $(shell echo $(notdir $(SRCS)) | tr " " "\n" | \
 
 all: $(NAME)
 
-$(OBJFOLDER)/%.o:$(SRCSFOLDER)/%.c $(HEADERS) $(LIBFT_HEADERS)
+$(OBJFOLDER)/%.o:$(SRCSFOLDER)/%.c $(HEADERS) $(LIBFT_HEADERS) Makefile
 	@printf "\r$(CC_BLUE)Compiling %-$(LONGEST)s" $(notdir $<)
 	@$(CC) $(FLAGS) -o $@ -c $< -I$(INCLUDES) -I$(LIBFT_INCLUDES)
 	@printf "$(CC_GRAY)[$(CC_LIGHT_GREEN)√$(CC_GRAY)]$(CC_EOC)"
