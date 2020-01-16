@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/26 12:15:50 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/02 19:11:44 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 01:15:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int			istok_word(t_lexer *lexer, t_token *token)
 
 int			transform_word(t_lexer *lexer, t_token *token)
 {
-	if (ft_strlen(token->str) == 1 &&
+	if (token->len == 1 &&
 		(token->str[0] == ' ' || token->str[0] == '\t'))
 	{
 		free(token->str);
