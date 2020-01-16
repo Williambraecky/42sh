@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 18:20:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 02:40:39 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ int			proc_exec_cmd(t_sh *shell, t_proc *proc)
 		return (SH_SUCCESS);
 	ret = SH_SUCCESS;
 	builtin = is_builtin(shell, proc->argv[0]);
-	need_fork = !builtin || proc->next != NULL || proc->parent->background;
+	need_fork = !builtin || proc->next != NULL || proc->parent->background ||
+		ft_strequ(proc->argv[0], "fc");
 	pid = 0;
 	if (!need_fork || (pid = fork()) == 0)
 		ret = post_fork(shell, proc, builtin, need_fork);

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:48:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 20:13:46 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 01:17:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,13 @@
 
 int	proxy_substitute(t_sh *shell, char *str, char **result)
 {
-	(void)shell;
+	char	*tmp;
+	int		ret;
+
 	if (expand_param(shell, str, result) != SH_SUCCESS)
 		return (SH_ERR_MALLOC);
-	return (remove_quotes(*result, result));
+	tmp = *result;
+	ret = remove_quotes(tmp, result);
+	free(tmp);
+	return (ret);
 }

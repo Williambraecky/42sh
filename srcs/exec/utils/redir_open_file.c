@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 15:42:00 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 02:10:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,54 @@ static int	get_flags_for_type(t_type type)
 	return (O_CREAT | O_RDONLY);
 }
 
-int			redir_open_file(char *name, t_type type)
+static void	find_error(t_redir *redir, int write)
 {
-	int	flag;
+	t_stat	stat_t;
 
-	flag = get_flags_for_type(type);
-	return (open(name, flag, 0666));
+	if (stat(redir->filename, &stat_t) != 0)
+		ft_dprintf(2, "42sh: no such file or directory: %s\n", redir->filename);
+	else if (S_ISDIR(stat_t.st_mode))
+		ft_dprintf(2, "42sh: is a direcotyr: %s\n", redir->filename);
+	else if (write && access(redir->filename, W_OK) != 0)
+		ft_dprintf(2, "42sh: permission denied: %s\n", redir->filename);
+	else if (!write && access(redir->filename, R_OK) != 0)
+		ft_dprintf(2, "42sh: permission denied: %s\n", redir->filename);
+	else
+		ft_dprintf(2, "42sh: error opening file: %s\n", redir->filename);
+}
+
+static int	check_redirand(t_redir *redir)
+{
+	if (redir->token->type != T_LESSER_AND &&
+		redir->token->type != T_GREATER_AND)
+		return (0);
+	if (ft_strequ(redir->filename, "-"))
+		return (1);
+	if (ft_strisnumber(redir->filename) && ft_atoi(redir->filename) >= 0)
+		return (1);
+	return (0);
+}
+
+/*
+** TODO: handle errors
+*/
+
+int			redir_open_file(t_redir *redir)
+{
+	int		flag;
+	int		fd;
+
+	if (redir->token->type == T_DOUBLE_LESSER)
+		return (SH_SUCCESS);
+	if (check_redirand(redir))
+		return (SH_SUCCESS);
+	flag = get_flags_for_type(redir->token->type);
+	fd = open(redir->filename, flag, 0666);
+	if (fd == -1)
+	{
+		find_error(redir, flag & O_WRONLY);
+		return (SH_ERR_OPEN);
+	}
+	redir->to = fd;
+	return (SH_SUCCESS);
 }

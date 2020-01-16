@@ -6,40 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 15:48:00 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 02:20:52 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-static int	prepare_args(t_sh *shell, t_proc *proc)
-{
-	size_t	i;
-	char	*curr;
-
-	if (!(proc->argv =
-		ft_memalloc(sizeof(*(proc->argv)) * (proc->unprocessed_argv.size + 1))))
-		return (SH_ERR_MALLOC);
-	i = 0;
-	while (i < proc->unprocessed_argv.size)
-	{
-		curr = ((t_token*)ft_vecget(&proc->unprocessed_argv, i))->str;
-		if (proxy_substitute(shell, curr, &(proc->argv[i])) != SH_SUCCESS)
-		{
-			ft_freesplit(proc->argv);
-			proc->argv = NULL;
-			return (SH_ERR_MALLOC);
-		}
-		i++;
-	}
-	if (make_env_array(shell, &proc->env) != SH_SUCCESS)
-	{
-		ft_freesplit(proc->argv);
-		proc->argv = NULL;
-		return (SH_ERR_MALLOC);
-	}
-	return (SH_SUCCESS);
-}
 
 /*
 ** TODO: those assigns need to be substituted aswell
@@ -125,9 +96,9 @@ int			exec_proc(t_sh *shell, t_proc *proc)
 
 	ret = proc_make_string(proc);
 	if (ret == SH_SUCCESS)
+		prepare_proc(shell, proc);
+	if (ret == SH_SUCCESS)
 		ret = apply_assigns(shell, proc);
-	if (ret == SH_SUCCESS && proc->unprocessed_argv.size > 0)
-		ret = prepare_args(shell, proc);
 	if (ret == SH_SUCCESS)
 		ret = proc_apply_redir(shell, proc);
 	if (ret == SH_SUCCESS)

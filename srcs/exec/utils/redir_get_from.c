@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redir_get_fd.c                                     :+:      :+:    :+:   */
+/*   redir_get_from.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 15:51:28 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 01:34:02 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	redir_get_base_fd(t_type type)
 	return (0);
 }
 
-int			redir_get_fd(t_redir *redir)
+int			redir_get_from(t_redir *redir)
 {
 	if (redir->io_nb)
 		return (redir->io_nb->io_nb);

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:51:10 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 18:02:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 02:29:53 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int			apply_dlesser_redir(t_proc *proc, t_redir *redir)
 	int	fd;
 	int	ret;
 
-	redirected = redir_get_fd(redir);
+	redirected = redir_get_from(redir);
 	fd = ((t_hdoc*)redir->token)->pipe[0];
 	if (fd == -1)
 		return (SH_ERR_OPEN);
@@ -44,7 +44,7 @@ static int	redirand_get_fd(t_redir *redir)
 		return (0);
 	if (ft_strisnumber(redir->filename) && ft_atoi(redir->filename) >= 0)
 		return (ft_atoi(redir->filename));
-	return (redir_open_file(redir->filename, redir->token->type));
+	return (redir->to);
 }
 
 static int	redirand_check_closed(t_proc *proc, int fd)
@@ -78,9 +78,10 @@ int			apply_and_redir(t_proc *proc, t_redir *redir)
 	int	ret;
 
 	ret = SH_SUCCESS;
-	redirected = redir_get_fd(redir);
-	if ((fd = redirand_get_fd(redir)) == -1)
+	redirected = redir_get_from(redir);
+	if (redir_open_file(redir) != SH_SUCCESS)
 		return (SH_ERR_OPEN);
+	fd = redirand_get_fd(redir);
 	if ((ret = redir_add_undo(proc, redirected)) != SH_SUCCESS)
 		return (ret);
 	if (ft_strequ(redir->filename, "-") &&
@@ -111,10 +112,10 @@ int			apply_base_redir(t_proc *proc, t_redir *redir)
 	int	fd;
 	int	ret;
 
-	redirected = redir_get_fd(redir);
-	fd = redir_open_file(redir->filename, redir->token->type);
-	if (fd == -1)
+	redirected = redir_get_from(redir);
+	if (redir_open_file(redir))
 		return (SH_ERR_OPEN);
+	fd = redir->to;
 	if ((ret = redir_add_undo(proc, redirected)) != SH_SUCCESS)
 		return (ret);
 	close(redirected);

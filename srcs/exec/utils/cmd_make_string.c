@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:06:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 15:27:18 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 00:59:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void		build_array_proc(t_proc *proc, char **array, size_t *i)
 	while (count < proc->unprocessed_argv.size)
 	{
 		array[(*i)++] =
-			((t_token*)ft_vecget(&proc->unprocessed_argv, count++))->str;
+			(char*)ft_vecget(&proc->unprocessed_argv, count++);
 	}
 	count = 0;
 	while (count < proc->redirections.size)

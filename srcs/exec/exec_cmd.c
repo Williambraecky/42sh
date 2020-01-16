@@ -6,11 +6,15 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:43:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 15:28:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 02:34:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
+
+/*
+** TODO: some errors are not critical (i. e open errors)
+*/
 
 static int	exec_pipeline(t_sh *shell, t_proc *pipeline)
 {
@@ -43,10 +47,22 @@ int			exec_cmd(t_sh *shell, t_cmd *cmd)
 	int		ret;
 
 	if (cmd_is_empty(cmd))
+	{
+		free_cmd(cmd);
 		return (SH_SUCCESS);
+	}
 	if (cmd_make_string(cmd) != SH_SUCCESS)
+	{
+		free_cmd(cmd);
 		return (SH_ERR_MALLOC);
+	}
 	ret = exec_pipeline(shell, cmd->pipeline);
+	if (ret != SH_SUCCESS)
+	{
+		free_cmd(cmd);
+		set_last_return_code(shell, 1);
+		return (ret);
+	}
 	if (cmd->background)
 	{
 		jobs_to_background(shell, cmd, 0);
