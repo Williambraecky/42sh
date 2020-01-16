@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 17:19:33 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 21:13:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 03:11:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,11 @@ char	*g_short_names[] =
 	[T_NULL] = ""
 };
 
-int		make_stack_prompt(t_vec *stack, char **result)
+static void	fill_list(t_vec *stack, char **list)
 {
-	char	**list;
-	char	*tmp;
 	t_type	*type;
 	size_t	i;
 
-	if (!(list = ft_memalloc(sizeof(*list) * (stack->size + 1))))
-		return (SH_ERR_MALLOC);
 	i = 0;
 	while (i < stack->size)
 	{
@@ -41,13 +37,28 @@ int		make_stack_prompt(t_vec *stack, char **result)
 			list[i] = g_short_names[*type];
 		i++;
 	}
-	if (!(*result = ft_tabjoin(list, " ")))
+}
+
+int		make_stack_prompt(t_vec *stack, char **result)
+{
+	char	**list;
+	char	*tmp;
+
+	if (!(list = ft_memalloc(sizeof(*list) * (stack->size + 1))))
 		return (SH_ERR_MALLOC);
+	fill_list(stack, list);
+	if (!(*result = ft_tabjoin(list, " ")))
+	{
+		free(list);
+		return (SH_ERR_MALLOC);
+	}
 	if (!(tmp = ft_strjoin(*result, "> ")))
 	{
+		free(list);
 		free(*result);
 		return (SH_ERR_MALLOC);
 	}
+	free(list);
 	free(*result);
 	*result = tmp;
 	return (SH_SUCCESS);

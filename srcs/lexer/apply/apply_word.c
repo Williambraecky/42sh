@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 19:03:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 21:04:39 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 01:47:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,28 @@ static int	check_redir_filename(t_token *token, t_build *build)
 	return (1);
 }
 
+static int	apply_redir_filename(t_token *token, t_build *build)
+{
+	t_redir	*redir;
+
+	redir = (t_redir*)ft_vecgettop(&build->work_proc->redirections);
+	if (!(redir->filename = ft_strdup(token->str)))
+		return (SH_ERR_MALLOC);
+	return (SH_SUCCESS);
+}
+
 int			apply_word(t_token *token, t_build *build, t_lexer *lexer)
 {
-	(void)lexer;
 	if (check_redir_filename(token, build) == 1)
-		return (SH_SUCCESS);
+		return (apply_redir_filename(token, build));
 	if (can_be_assign(token, build))
 		return (apply_assignment(token, build));
-	if (ft_vecpush(&build->work_proc->unprocessed_argv, token))
+	if (ft_veccpush(&build->work_proc->unprocessed_argv,
+		token->str, token->len + 1))
 		return (SH_ERR_MALLOC);
 	if (lexer->can_be_alias == 1)
 		lexer->can_be_alias = 0;
 	else if (lexer->can_be_alias == 2)
 		lexer->can_be_alias = 1;
-	build->work_proc->argc++;
 	return (SH_SUCCESS);
 }

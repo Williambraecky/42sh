@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/15 19:14:42 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 02:20:24 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ struct		s_redir
 	t_io_nb	*io_nb;
 	t_token	*token;
 	char	*filename;
+	int		to;
 };
 
 /*
@@ -124,8 +125,7 @@ struct		s_proc
 	t_proc	*next;
 	char	*proc_str;
 	pid_t	pid;
-	int		argc;
-	t_vec	unprocessed_argv; //NOTE: those are all T_WORD
+	t_vec	unprocessed_argv;
 	char	**argv;
 	char	**env;
 	t_vec	redirections;
@@ -296,6 +296,7 @@ int			exec_tree(t_sh *shell, t_cmd *tree);
 int			exec_cmd(t_sh *shell, t_cmd *cmd);
 int			exec_proc(t_sh *shell, t_proc *proc);
 int			proc_exec_cmd(t_sh *shell, t_proc *proc);
+int			prepare_proc(t_sh *shell, t_proc *proc);
 
 int			apply_newline(t_token *token, t_build *build, t_lexer *lex);
 int			apply_ampersand(t_token *token, t_build *build, t_lexer *lex);
@@ -337,8 +338,8 @@ void		free_proc(t_proc *proc);
 int			proc_is_empty(t_proc *proc);
 int			cmd_is_empty(t_cmd *cmd);
 int			proc_apply_redir(t_sh *shell, t_proc *proc);
-int			redir_open_file(char *name, t_type type);
-int			redir_get_fd(t_redir *redir);
+int			redir_open_file(t_redir *redir);
+int			redir_get_from(t_redir *redir);
 int			redir_add_undo(t_proc *proc, int fd);
 int			apply_base_redir(t_proc *proc, t_redir *redir);
 int			apply_and_redir(t_proc *proc, t_redir *redir);

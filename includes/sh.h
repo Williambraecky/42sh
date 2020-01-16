@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 18:41:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 02:42:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 # define SH_ERR_OPEN 11
 # define SH_ERR_KILL 12
 # define SH_ERR_BAD_SUBST 13
+# define SH_ERR_READ 14
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -167,6 +168,7 @@ struct		s_sh
 	t_termi	current_termios;
 	pid_t	pid;
 	int		running;
+	int		stop_code;
 };
 
 struct		s_brace
@@ -243,6 +245,7 @@ void		path_change(t_sh *shell);
 int			init_history(t_sh *shell);
 int			get_history(t_sh *shell, size_t index, char **histo);
 int			remove_history(t_sh *shell, size_t index);
+int			add_history(t_sh *shell, char *str);
 
 /*
 **  Utils
@@ -277,6 +280,7 @@ int			is_valid_esc(char *prompt, size_t *i);
 int			init_internal_vars(t_sh *shell);
 int			vecgetlastmatch_index(t_vec *vec, char *find);
 char		*get_signal_str(int status);
+int			run_command(t_sh *shell, char *command);
 
 /*
 ** Expand param

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 19:44:03 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 03:05:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,21 +86,51 @@ static int	init_shell(t_sh *shell, const char **env)
 	return (0);
 }
 
+int			run_command(t_sh *shell, char *command)
+{
+	t_lexer	lexer_;
+	int		ret;
+
+	if ((ret = lexer(command, &lexer_, shell)) == SH_SUCCESS)
+	{
+		exec_tree(shell, lexer_.build.head);
+	}
+	else
+		free_tree(lexer_.build.head);
+	if (ret != SH_ERR_MALLOC)
+		add_history(shell, lexer_.clean_line);
+	lexer_free(&lexer_);
+	return (ret);
+}
+
 /*
 ** TODO: print errors
 */
 
-/*
-** TODO: we need to make sure to retrieve status for jobs in background etc
-*/
+static void	run(t_sh *shell)
+{
+	char	*prompt;
+	char	*line;
+	char	*ps1;
+	int		ret;
+
+	get_internal(shell, "PS1", &ps1);
+	gen_prompt_string(shell, ps1, &prompt);
+	ret = handle_prompt(shell, prompt, &line);
+	job_notify(shell);
+	free(prompt);
+	if (ret == SH_SUCCESS)
+	{
+		run_command(shell, line);
+		usleep(5000);
+		job_notify(shell);
+	}
+	free(line);
+}
 
 int			main(int argc, const char **argv, const char **env)
 {
 	t_sh	shell;
-	char	*prompt;
-	char	*line;
-	char	*ps1;
-	t_lexer	lexer_;
 
 	(void)argc;
 	(void)argv;
@@ -112,21 +142,8 @@ int			main(int argc, const char **argv, const char **env)
 	shell.running = 1;
 	while (shell.running)
 	{
-		get_internal(&shell, "PS1", &ps1);
-		gen_prompt_string(&shell, ps1, &prompt);
-		handle_prompt(&shell, prompt, &line);
-		job_notify(&shell);
-		free(prompt);
-		if (lexer(line, &lexer_, &shell) == SH_SUCCESS)
-		{
-			ft_vecpush(&shell.history, ft_strndup(lexer_.clean_line,
-				ft_strlen(lexer_.clean_line) - 1));
-			exec_tree(&shell, lexer_.build.head);
-			usleep(50000);
-			job_notify(&shell);
-		}
-		free(line);
+		run(&shell);
 	}
 	free_sh(&shell);
-	return (0);
+	return (shell.stop_code);
 }

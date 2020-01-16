@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 15:59:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 16:58:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 00:18:10 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 /*
 ** TODO: define behaviour when jobs are running in background
+** TODO: better handle arg reading
 */
 
 int		exit_builtin(int argc, char **argv, t_sh *shell)
@@ -25,5 +26,6 @@ int		exit_builtin(int argc, char **argv, t_sh *shell)
 		ret = ft_atoi(argv[1]);
 	if (getpid() == shell->pid)
 		shell->running = 0;
-	return (ret);
+	shell->stop_code = ret;
+	return (0);
 }
