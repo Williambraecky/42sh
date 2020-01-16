@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 01:55:23 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 00:31:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	select_handle_newline(t_prompt *prompt, char *buffer, t_sh *shell)
 	erase_poss(prompt);
 	default_char_handler(prompt, " ", NULL);
 	ft_vecdestroy(&prompt->select.poss, default_vec_destroy_function);
-	return (RET_CONT);
+	return (SH_SUCCESS);
 }
 
 int	handle_newline(t_prompt *prompt, char *buffer, t_sh *shell)
@@ -49,5 +49,6 @@ int	handle_newline(t_prompt *prompt, char *buffer, t_sh *shell)
 	if (buff_insert(&prompt->buffer, "\n", ft_strlen(prompt->buffer.buffer))
 			!= SH_SUCCESS)
 		return (SH_ERR_MALLOC);
-	return (RET_NL);
+	prompt->done = 1;
+	return (SH_SUCCESS);
 }

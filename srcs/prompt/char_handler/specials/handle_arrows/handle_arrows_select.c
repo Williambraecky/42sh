@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_arrows_select.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 19:21:43 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 15:29:18 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/16 00:28:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int		select_handle_arrows(t_prompt *prompt, char *buffer)
 		select->selected -= select->row_total;
 	}
 	else
-		return (RET_EXIT_SELECT);
+		return (PROMPT_EXIT_SELECT);
 	select_render(prompt, select);
-	return (RET_CONT);
+	return (SH_SUCCESS);
 }

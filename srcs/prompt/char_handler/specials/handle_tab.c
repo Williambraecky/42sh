@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:55:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 02:03:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 00:32:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int			select_handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 	select->selected = (select->selected == select->nb_elem - 1) ? 0
 		: select->selected + 1;
 	select_render(prompt, select);
-	return (RET_CONT);
+	return (SH_SUCCESS);
 }
 
 static int	one_poss_only(t_vec *poss, t_prompt *prompt)
@@ -52,7 +52,7 @@ static int	one_poss_only(t_vec *poss, t_prompt *prompt)
 		default_char_handler(prompt, "}", NULL);
 	default_char_handler(prompt, " ", NULL);
 	ft_vecdestroy(poss, default_vec_destroy_function);
-	return (RET_CONT);
+	return (SH_SUCCESS);
 }
 
 /*
@@ -82,15 +82,12 @@ static int	replace_space_poss(t_vec *poss)
 	return (SH_SUCCESS);
 }
 
-int			select_mode_one(t_prompt *prompt)
+static int	select_mode_one(t_prompt *prompt)
 {
 	prompt->select.selected = 0;
 	prompt->select_mode = 2;
 	select_render(prompt, &prompt->select);
-	//TODO: render again
-	//NOTE: we already processed the completion just need to enter select mode
-	//NOTE: this also implies that we free poss correctly all the time
-	return (RET_CONT);
+	return (SH_SUCCESS);
 }
 
 int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
@@ -111,12 +108,13 @@ int			handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 		return (SH_ERR_MALLOC);
 	if (poss.size == 0)
 	{
+		ring_bell();
 		ft_vecfree(&poss);
-		return (RET_CONT);
+		return (SH_SUCCESS);
 	}
 	if (poss.size == 1)
 		return (one_poss_only(&poss, prompt));
 	ft_vecsort(&poss, ft_strcmp);
 	ft_select(shell, &poss, prompt);
-	return (RET_CONT);
+	return (SH_SUCCESS);
 }

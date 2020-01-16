@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 01:43:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 00:29:27 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ static int	handle_query(t_prompt *prompt, int direction, t_sh *shell)
 	if (!prompt->querying)
 	{
 		if (direction == 2)
-			return (RET_CONT);
+			return (SH_SUCCESS);
 		if (!(prompt->query.query =
 			ft_strndup(prompt->buffer.buffer, prompt->buffer_index)))
-			return (RET_ERR);
+			return (SH_ERR_MALLOC);
 		if (!(prompt->query.orig = ft_strdup(prompt->buffer.buffer)))
-			return (RET_ERR);
+			return (SH_ERR_MALLOC);
 		prompt->query.curr_index = shell->history.size;
 		prompt->querying = 1;
 	}
@@ -45,7 +45,7 @@ static int	handle_query(t_prompt *prompt, int direction, t_sh *shell)
 	else
 		queried = hquery_next(shell, &prompt->query);
 	if (!queried)
-		return (RET_CONT);
+		return (SH_ERR_MALLOC);
 	prepare_query(prompt);
 	return (default_char_handler(prompt, queried, shell));
 }
@@ -75,5 +75,5 @@ int			handle_arrows(t_prompt *prompt, char *buffer, t_sh *shell)
 			prompt->char_index) - prompt->buffer.buffer;
 		move_goto(prompt, prompt->max_pos);
 	}
-	return (RET_CONT);
+	return (SH_SUCCESS);
 }

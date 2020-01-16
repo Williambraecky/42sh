@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 02:36:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 03:17:38 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@
 ** Defines
 */
 
-# define RET_CONT (1 << 0)
-# define RET_NL (1 << 1)
-# define RET_ERR (1 << 2)
-# define RET_PRINT (1 << 3)
-# define RET_REPRINT (1 << 4)
-# define RET_EXIT_SELECT (1 << 5)
+# define PROMPT_EXIT_SELECT -1
 # define PBUFF_DEF_SIZE 512
 # define UP_ARROW 4283163
 # define DOWN_ARROW 4348699
@@ -114,19 +109,28 @@ struct			s_prompt
 	int			select_mode;
 	t_hquery	query;
 	int			querying;
+	int			done;
 };
 
 /*
 ** Prototypes
 */
 
+/*
+** Prompt
+*/
+
 int				handle_prompt(t_sh *shell, char *prompt_str, char **result);
+
+/*
+** Utils
+*/
+
 int				gen_prompt(t_sh *shell, char *prompt_str, t_prompt *prompt);
 void			free_prompt(t_prompt *prompt);
 size_t			wcharlen(char c);
 t_pos			new_calc(t_prompt *prompt, size_t written);
 t_pos			new_calc_write(t_prompt *prompt, size_t written);
-int				handle_new_char(t_prompt *prompt, char *buffer, t_sh *shell);
 void			move_goto(t_prompt *prompt, t_pos pos);
 void			move_cursor(t_pos rel_pos);
 void			move_left(t_prompt *prompt);
@@ -135,6 +139,13 @@ char			*wstr_remove_char(char *str, size_t index);
 void			reprint_everything(t_prompt *prompt);
 void			reprint_buffer(t_prompt *prompt);
 void			print_from_cursor(t_prompt *prompt, t_pos *next_pos);
+int				pos_equals(t_pos pos1, t_pos pos2);
+
+/*
+** Handlers
+*/
+
+int				handle_new_char(t_prompt *prompt, char *buffer, t_sh *shell);
 int				default_char_handler(t_prompt *prompt,
 	char *buffer, t_sh *shell);
 int				handle_arrows(t_prompt *prompt, char *buffer, t_sh *shell);
@@ -142,10 +153,33 @@ int				handle_newline(t_prompt *prompt, char *buffer, t_sh *shell);
 int				handle_backspace(t_prompt *prompt, char *buffer, t_sh *shell);
 int				handle_tab(t_prompt *prompt, char *buffer, t_sh *shell);
 int				handle_escape(t_prompt *prompt, char *buffer, t_sh *shell);
-int				pos_equals(t_pos pos1, t_pos pos2);
+int				select_handle_escape(t_prompt *prompt,
+				char *buffer, t_sh *shell);
+int				select_handle_newline(t_prompt *prompt,
+				char *buffer, t_sh *shell);
+int				select_handle_tab(t_prompt *prompt,
+				char *buffer, t_sh *shell);
+int				select_handle_arrows(t_prompt *prompt, char *buffer);
+
+/*
+** Buffer
+*/
+
 int				buff_insert(t_buff *buffer, char *insert, size_t pos);
 int				buff_remove(t_buff *buffer, size_t pos);
 void			buff_clear(t_buff *buffer);
+
+/*
+** History
+*/
+
+char			*hquery_prev(t_sh *shell, t_hquery *hquery);
+char			*hquery_next(t_sh *shell, t_hquery *hquery);
+
+/*
+** Select
+*/
+
 char			*get_cursor_word(char *line, t_prompt *prompt);
 int				get_path(char **last_word, char **path);
 int				complete_command(t_sh *shell, char *s, t_vec *p);
@@ -158,21 +192,11 @@ int				display_poss(t_select *sel, t_vec *poss, int selected,
 				t_prompt *prompt);
 int				print_selected(t_select *sel, t_vec *poss, int i);
 int				replace_cursor(t_select *sel, t_prompt *prompt);
-int				select_handle_escape(t_prompt *prompt,
-				char *buffer, t_sh *shell);
-int				select_handle_newline(t_prompt *prompt,
-				char *buffer, t_sh *shell);
-int				select_handle_tab(t_prompt *prompt,
-				char *buffer, t_sh *shell);
-int				select_handle_arrows(t_prompt *prompt, char *buffer);
 int				select_render(t_prompt *prompt, t_select *select);
 int				change_line(t_select *select, t_prompt *prompt);
 int				first_word(char *line, size_t i, int first_word);
-int				select_handle_arrows(t_prompt *prompt, char *buffer);
 char			*get_brace_str(int shell_var_brace, char *line, t_prompt *p);
 int				display_poss_scroll(t_select *se, t_vec *, int s, t_prompt *p);
-char			*hquery_prev(t_sh *shell, t_hquery *hquery);
-char			*hquery_next(t_sh *shell, t_hquery *hquery);
 int				posscpush(t_vec *poss, char *str, size_t len);
 
 #endif

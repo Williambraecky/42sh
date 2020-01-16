@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:54:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 01:50:19 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 00:32:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			default_char_handler(t_prompt *prompt, char *buffer, t_sh *shell)
 	(void)shell;
 	if (buff_insert(&prompt->buffer, buffer, prompt->buffer_index)
 			!= SH_SUCCESS)
-		return (RET_ERR);
+		return (SH_ERR_MALLOC);
 	new = prompt->cursor_pos;
 	i = 0;
 	wlen = 0;
@@ -49,5 +49,5 @@ int			default_char_handler(t_prompt *prompt, char *buffer, t_sh *shell)
 	print_from_cursor(prompt, &new);
 	prompt->buffer_index += i;
 	prompt->char_index += wlen;
-	return (RET_CONT);
+	return (SH_SUCCESS);
 }

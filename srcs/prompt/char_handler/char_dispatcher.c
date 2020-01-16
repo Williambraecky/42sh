@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 01:55:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 00:28:20 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	handle_select_char(t_prompt *prompt, char *buffer, t_sh *shell)
 		dispatch_func = g_select_dispatch[(int)*buffer];
 	if (dispatch_func)
 		return (dispatch_func(prompt, buffer, shell));
-	return (RET_EXIT_SELECT);
+	return (PROMPT_EXIT_SELECT);
 }
 
 static void	finish_query(t_prompt *prompt)
@@ -63,7 +63,7 @@ int			handle_new_char(t_prompt *prompt, char *buffer, t_sh *shell)
 		*((int*)buffer) != DOWN_ARROW)
 		finish_query(prompt);
 	if (prompt->select_mode == 2 &&
-		(ret = handle_select_char(prompt, buffer, shell)) != RET_EXIT_SELECT)
+		(ret = handle_select_char(prompt, buffer, shell)) != PROMPT_EXIT_SELECT)
 		return (ret);
 	if (prompt->select_mode == 2 ||
 		(prompt->select_mode == 1 && *buffer != '\t'))

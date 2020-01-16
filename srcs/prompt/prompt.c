@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 00:35:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/16 00:46:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,26 +59,26 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 	ssize_t	j;
 
 	print_prompt(shell, prompt);
-	ret = 0;
-	while (19)
+	ret = SH_SUCCESS;
+	while (!prompt->done)
 	{
 		buffer = 0;
-		j = read(0, &buffer, 1);
-		if (j == -1)
-			return (SH_ERR_SIGINT);
+		if ((j = read(0, &buffer, 1)) == -1)
+		{
+			ret = g_sigint ? SH_ERR_SIGINT : SH_ERR_READ;
+			break ;
+		}
 		j += read(0, (char *)(&buffer) + 1, wcharlen(buffer) - 1);
 		if (g_winchange)
 			recalc_cursor(prompt);
-		ret = handle_new_char(prompt, (char*)&buffer, shell);
-		if (ret & RET_REPRINT)
-			reprint_buffer(prompt);
-		if (!(ret & RET_CONT))
+		if ((ret = handle_new_char(prompt, (char*)&buffer, shell))
+			!= SH_SUCCESS)
 			break ;
 	}
 	move_goto(prompt, prompt->max_pos);
 	ft_putstr_fd(tgetstr("cd", NULL), 0);
 	move_cursor((t_pos){.x = 0, .y = 1});
-	return (0);
+	return (ret);
 }
 
 /*
