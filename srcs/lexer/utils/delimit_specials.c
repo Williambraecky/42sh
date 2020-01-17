@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:41:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 15:50:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:23:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ static int		push_or_pop(t_lexer *lex, t_type type)
 {
 	t_type	type_2;
 
-	type_2 = stack_top(lex);
+	type_2 = stack_top(&lex->stack);
 	if (type != type_2)
-		return (stack_push(lex, type));
-	stack_pop(lex);
+		return (stack_push(&lex->stack, type));
+	stack_pop(&lex->stack);
 	return (SH_SUCCESS);
 }
 
@@ -53,8 +53,9 @@ int				handle_specials(t_lexer *lex, size_t len)
 	else if (ft_strequ(g_specials[i], "'"))
 		return (push_or_pop(lex, T_QUOTE));
 	else if (ft_strequ(g_specials[i], "${"))
-		return (stack_push(lex, T_BRACEPARAM));
-	else if (ft_strequ(g_specials[i], "}") && stack_top(lex) == T_BRACEPARAM)
-		stack_pop(lex);
+		return (stack_push(&lex->stack, T_BRACEPARAM));
+	else if (ft_strequ(g_specials[i], "}") &&
+		stack_top(&lex->stack) == T_BRACEPARAM)
+		stack_pop(&lex->stack);
 	return (SH_SUCCESS);
 }

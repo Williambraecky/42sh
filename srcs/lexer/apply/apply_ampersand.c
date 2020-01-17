@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 18:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 01:15:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:21:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 static void	empty_stack(t_lexer *lexer)
 {
-	while (stack_top(lexer) == T_PIPE ||
-		stack_top(lexer) == T_DOUBLE_PIPE ||
-		stack_top(lexer) == T_DOUBLE_AMPERSAND)
-		stack_pop(lexer);
+	t_type top;
+
+	top = stack_top(&lexer->stack);
+	while (top == T_PIPE ||
+		top == T_DOUBLE_PIPE ||
+		top == T_DOUBLE_AMPERSAND)
+	{
+		stack_pop(&lexer->stack);
+		top = stack_top(&lexer->stack);
+	}
 }
 
 int			apply_ampersand(t_token *token, t_build *build, t_lexer *lexer)

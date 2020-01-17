@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 22:47:03 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:22:16 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int		check_dless_exist(t_lexer *lex)
 				return (SH_ERR_MALLOC);
 			if (pipe(((t_hdoc*)tok)->pipe) == -1)
 				return (SH_ERR_PIPE);
-			return (stack_push(lex, T_DOUBLE_LESSER));
+			return (stack_push(&lex->stack, T_DOUBLE_LESSER));
 		}
 		i++;
 	}
@@ -95,7 +95,7 @@ static int		do_heredoc(t_lexer *lex, t_token *tok)
 	{
 		close(hdoc->pipe[1]);
 		hdoc->completed = 1;
-		stack_pop(lex);
+		stack_pop(&lex->stack);
 	}
 	else
 		ft_putstr_fd(tok->str, hdoc->pipe[1]);
@@ -110,7 +110,7 @@ int				token_process(t_lexer *lexer, t_token *token)
 	ret = SH_SUCCESS;
 	if (!(tok_dup = ft_memdup(token, token->size)))
 		return (SH_ERR_MALLOC);
-	if (stack_top(lexer) == T_DOUBLE_LESSER)
+	if (stack_top(&lexer->stack) == T_DOUBLE_LESSER)
 		do_heredoc(lexer, tok_dup);
 	else
 	{

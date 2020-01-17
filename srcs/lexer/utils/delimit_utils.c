@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:42:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 21:24:03 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:22:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ static int	stack_sig_top(t_lexer *lex)
 {
 	size_t	i;
 
-	if (1 << stack_top(lex) & g_sig_type)
-		return (stack_top(lex));
+	if (1 << stack_top(&lex->stack) & g_sig_type)
+		return (stack_top(&lex->stack));
 	i = lex->stack.size;
 	while (i--)
 	{
@@ -57,12 +57,12 @@ int			new_line_check(t_lexer *lex, size_t len)
 {
 	if (lex->line[len] != '\\' || lex->line[len + 1] != '\n')
 		return (1);
-	if (is_escaped(lex, len + 1) || stack_top(lex) == T_DOUBLE_LESSER)
+	if (is_escaped(lex, len + 1) || stack_top(&lex->stack) == T_DOUBLE_LESSER)
 	{
 		ft_memmove(lex->line + len, lex->line + len + 2,
 			ft_strlen(lex->line + len + 2) + 1);
 	}
 	if (!(lex->line[len]))
-		stack_push(lex, T_NEWLINE);
+		stack_push(&lex->stack, T_NEWLINE);
 	return (lex->line[len]);
 }

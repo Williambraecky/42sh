@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/16 02:49:34 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:23:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	g_top_mask = M_QUOTE | M_DOUBLE_QUOTE | M_BRACEPARAM | M_NEWLINE;
 
 static int	check_stack_top(t_lexer *lexer)
 {
-	if ((1 << stack_top(lexer)) & g_top_mask)
+	if ((1 << stack_top(&lexer->stack)) & g_top_mask)
 		return (1);
 	return (0);
 }
@@ -92,7 +92,7 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 	lexer->line_size += ft_strlen(line);
 	ft_strdel(&line);
 	while (check_stack_top(lexer))
-		stack_pop(lexer);
+		stack_pop(&lexer->stack);
 	return (ret);
 }
 

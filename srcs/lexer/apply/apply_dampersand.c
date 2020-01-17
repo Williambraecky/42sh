@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 18:45:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 01:16:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:21:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	empty_stack(t_lexer *lexer)
 {
-	while (stack_top(lexer) == T_PIPE)
-		stack_pop(lexer);
+	while (stack_top(&lexer->stack) == T_PIPE)
+		stack_pop(&lexer->stack);
 }
 
 int		apply_dampersand(t_token *token, t_build *build, t_lexer *lexer)
@@ -29,7 +29,7 @@ int		apply_dampersand(t_token *token, t_build *build, t_lexer *lexer)
 	build->work_proc = build->work->pipeline;
 	build->work_proc->parent = build->work;
 	empty_stack(lexer);
-	if (stack_push(lexer, token->type) != SH_SUCCESS)
+	if (stack_push(&lexer->stack, token->type) != SH_SUCCESS)
 		return (SH_ERR_MALLOC);
 	lexer->can_be_alias = 1;
 	alias_stack_clear(lexer);

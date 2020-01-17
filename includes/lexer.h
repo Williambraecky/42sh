@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/16 02:20:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 16:17:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,9 +238,9 @@ int			delimit_token(t_lexer *lex, char **result);
 */
 
 void		lexer_free(t_lexer *lexer);
-int			stack_push(t_lexer *lex, t_type type);
-t_type		stack_pop(t_lexer *lex);
-t_type		stack_top(t_lexer *lex);
+int			stack_push(t_vec *stack, t_type type);
+t_type		stack_pop(t_vec *stack);
+t_type		stack_top(t_vec *stack);
 int			is_escaped(t_lexer *lex, size_t len);
 int			handle_specials(t_lexer *lex, size_t len);
 int			new_line_check(t_lexer *lex, size_t len);
