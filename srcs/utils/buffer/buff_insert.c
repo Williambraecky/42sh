@@ -6,19 +6,19 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 16:31:12 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 18:48:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 20:51:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-static int	check_size(t_buff *buffer, char *insert)
+static int	check_size(t_buff *buffer, size_t n)
 {
 	size_t	len;
 	size_t	new_len;
 	char	*new;
 
-	len = ft_strlen(insert);
+	len = n;
 	if (buffer->size + len < buffer->max_size)
 		return (SH_SUCCESS);
 	new_len = buffer->max_size + (buffer->max_size / 2);
@@ -35,12 +35,12 @@ int			buff_ninsert(t_buff *buffer, char *insert, size_t pos, size_t n)
 {
 	size_t	len;
 
-	if (check_size(buffer, insert) != SH_SUCCESS)
+	(void)n;
+	len = ft_min(n, ft_strlen(insert));
+	if (check_size(buffer, len) != SH_SUCCESS)
 		return (SH_ERR_MALLOC);
-	len = ft_intmin(n, ft_strlen(insert));
-	if (pos != buffer->size)
-		ft_memmove(buffer->buffer + pos + len, buffer->buffer + pos,
-			ft_strlen(buffer->buffer + pos));
+	ft_memmove(buffer->buffer + pos + len, buffer->buffer + pos,
+		ft_strlen(buffer->buffer + pos));
 	ft_memcpy(buffer->buffer + pos, insert, len);
 	buffer->size += len;
 	return (SH_SUCCESS);
@@ -49,6 +49,11 @@ int			buff_ninsert(t_buff *buffer, char *insert, size_t pos, size_t n)
 int			buff_insert(t_buff *buffer, char *insert, size_t pos)
 {
 	return (buff_ninsert(buffer, insert, pos, ft_strlen(insert)));
+}
+
+int			buff_nappend(t_buff *buffer, char *str, size_t n)
+{
+	return (buff_ninsert(buffer, str, buffer->size, n));
 }
 
 int			buff_append(t_buff *buffer, char *str)
