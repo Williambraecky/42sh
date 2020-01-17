@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buff_remove.c                                      :+:      :+:    :+:   */
+/*   buff_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/25 16:43:31 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 01:38:00 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/17 18:17:20 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/17 18:19:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "prompt.h"
+#include "sh.h"
 
-void	buff_clear(t_buff *buffer)
+int		buff_init_size(t_buff *buffer, size_t size)
 {
-	ft_bzero(buffer->buffer, buffer->current_size);
-	buffer->current_size = 0;
+	if (!(buffer->buffer = ft_strnew(size)))
+		return (SH_ERR_MALLOC);
+	buffer->size = 0;
+	buffer->max_size = size;
+	return (SH_SUCCESS);
 }
 
-int		buff_remove(t_buff *buffer, size_t pos)
+int		buff_init(t_buff *buffer)
 {
-	size_t	len;
-
-	len = wcharlen(buffer->buffer[pos]);
-	ft_memcpy(buffer->buffer + pos, buffer->buffer + pos + len,
-		ft_strlen(buffer->buffer + pos + len) + 1);
-	buffer->current_size -= len;
-	return (SH_SUCCESS);
+	return (buff_init_size(buffer, PBUFF_DEF_SIZE));
 }

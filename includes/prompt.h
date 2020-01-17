@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 03:17:38 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 18:17:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 */
 
 # define PROMPT_EXIT_SELECT -1
-# define PBUFF_DEF_SIZE 512
 # define UP_ARROW 4283163
 # define DOWN_ARROW 4348699
 
@@ -34,7 +33,6 @@
 
 typedef struct s_hquery	t_hquery;
 typedef struct s_pos	t_pos;
-typedef struct s_buff	t_buff;
 typedef struct s_prompt	t_prompt;
 typedef struct s_select	t_select;
 typedef struct termios	t_termi;
@@ -76,13 +74,6 @@ struct			s_select
 	size_t		scroll_bottom;
 	t_pos		original_pos;
 	t_vec		poss;
-};
-
-struct			s_buff
-{
-	char		*buffer;
-	size_t		max_size;
-	size_t		current_size;
 };
 
 /*
@@ -161,14 +152,6 @@ int				select_handle_newline(t_prompt *prompt,
 int				select_handle_tab(t_prompt *prompt,
 				char *buffer, t_sh *shell);
 int				select_handle_arrows(t_prompt *prompt, char *buffer);
-
-/*
-** Buffer
-*/
-
-int				buff_insert(t_buff *buffer, char *insert, size_t pos);
-int				buff_remove(t_buff *buffer, size_t pos);
-void			buff_clear(t_buff *buffer);
 
 /*
 ** History
