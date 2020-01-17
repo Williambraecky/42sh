@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 02:42:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 19:09:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@
 # define REMOVE_SUFFIX 5
 # define REMOVE_PREFIX 6
 # define DO_NOTHING 7
+# define PBUFF_DEF_SIZE 64
 
 /*
 ** Typedefs
@@ -77,11 +78,13 @@ typedef enum e_extype	t_extype;
 typedef union u_intval	t_intvl;
 typedef struct s_bltin	t_bltin;
 typedef struct s_hashed	t_hashed;
+typedef struct s_buff	t_buff;
 typedef struct s_sh	t_sh;
 typedef struct stat	t_stat;
 typedef struct termios	t_termi;
 typedef struct winsize	t_winsiz;
 typedef struct s_brace	t_brace;
+typedef struct s_subst	t_subst;
 
 /*
 ** Enums
@@ -138,6 +141,13 @@ struct		s_hashed
 	char	*path;
 };
 
+struct			s_buff
+{
+	char		*buffer;
+	size_t		max_size;
+	size_t		size;
+};
+
 /*
 ** NOTE:
 **  - internals => map<string->string>
@@ -169,6 +179,17 @@ struct		s_sh
 	pid_t	pid;
 	int		running;
 	int		stop_code;
+};
+
+struct		s_subst
+{
+	t_sh	*shell;
+	t_buff	buffer;
+	t_vec	stack;
+	char	*str;
+	size_t	i;
+	int		profile;
+	int		err;
 };
 
 struct		s_brace
@@ -203,6 +224,18 @@ char		*get_alias(t_sh *shell, char *alias);
 int			repl_alias(t_sh *shell, char *key, char *value);
 
 /*
+** Buffer
+*/
+
+int			buff_ninsert(t_buff *buffer, char *insert, size_t pos, size_t n);
+int			buff_insert(t_buff *buffer, char *insert, size_t pos);
+int			buff_remove(t_buff *buffer, size_t pos);
+void		buff_clear(t_buff *buffer);
+int			buff_append(t_buff *buffer, char *str);
+int			buff_init(t_buff *buffer);
+int			buff_init_size(t_buff *buffer, size_t size);
+
+/*
 **  Env
 */
 
@@ -214,6 +247,7 @@ int			has_env(t_sh *shell, char *key);
 void		remove_env(t_sh *shell, char *key);
 int			repl_env(t_sh *shell, char *key, char *value);
 int			make_env_array(t_sh *shell, char ***array);
+int			make_env_array_no_malloc(t_sh *shell, char **array);
 
 /*
 ** Internals
@@ -281,6 +315,7 @@ int			init_internal_vars(t_sh *shell);
 int			vecgetlastmatch_index(t_vec *vec, char *find);
 char		*get_signal_str(int status);
 int			run_command(t_sh *shell, char *command);
+void		free_subst(t_subst *subst);
 
 /*
 ** Expand param
