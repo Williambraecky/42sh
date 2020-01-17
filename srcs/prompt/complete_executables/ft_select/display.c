@@ -100,6 +100,7 @@ int					display_poss_scroll(t_select *select, t_vec *poss,
 		j = 0;
 		while (j < (size_t)select->elem_per_row)
 		{
+			ft_dprintf(0, "%d", i);
 			print_poss(poss, select, selected, i);
 			j++;
 			i += select->row_total;

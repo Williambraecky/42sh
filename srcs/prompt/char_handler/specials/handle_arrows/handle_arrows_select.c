@@ -26,12 +26,16 @@ void	select_handle_up_arrow(t_select *select)
 
 void	select_handle_right_arrow(t_select *select)
 {
-	if (select->selected > ((select->row_total * select->elem_per_row)
-			- select->row_total - 1))
-		select->selected %= select->row_total;
+	int real_row_total;
+
+	real_row_total = select->scroll ? select->nb_elem / select->elem_per_row + 1
+	: select->row_total;
+	if (select->selected > ((real_row_total * select->elem_per_row)
+			- real_row_total - 1))
+		select->selected %= real_row_total;
 	else
 	{
-		select->selected += select->row_total;
+		select->selected += real_row_total;
 		if (select->selected > select->nb_elem - 1)
 			select->selected = select->nb_elem - 1;
 	}
@@ -39,15 +43,19 @@ void	select_handle_right_arrow(t_select *select)
 
 void	select_handle_left_arrow(t_select *select)
 {
-	if (select->selected < select->row_total)
+	int real_row_total;
+
+	real_row_total = select->scroll ? select->nb_elem / select->elem_per_row + 1
+	: select->row_total;
+	if (select->selected < real_row_total)
 	{
-		select->selected = (select->row_total * (select->elem_per_row - 1))
-			+ (select->selected % select->row_total);
+		select->selected = (real_row_total * (select->elem_per_row - 1))
+			+ (select->selected % real_row_total);
 		if (select->selected > select->nb_elem - 1)
 			select->selected = select->nb_elem - 1;
 	}
 	else
-		select->selected -= select->row_total;
+		select->selected -= real_row_total;
 }
 
 int		select_handle_arrows(t_prompt *prompt, char *buffer)
