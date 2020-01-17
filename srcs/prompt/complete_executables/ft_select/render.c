@@ -68,8 +68,14 @@ int		select_render(t_prompt *prompt, t_select *select)
 	move_cursor((t_pos){.x = prompt->max_pos.x - prompt->cursor_pos.x,
 		.y = prompt->max_pos.y - prompt->cursor_pos.y});
 	if (select->row_total > select->nb_row - prompt->max_pos.y + 1)
+	{
+		select->scroll = 1;
 		display_poss_scroll(&prompt->select, poss, prompt->select.selected, prompt);
+	}
 	else
+	{
+		select->scroll = 0;
 		display_poss(&prompt->select, poss, prompt->select.selected, prompt);
+	}
 	return (SH_SUCCESS);
 }

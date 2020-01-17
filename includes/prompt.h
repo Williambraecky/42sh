@@ -69,6 +69,7 @@ struct			s_select
 	int			written;
 	int			shell_var_brace;
 	int			file_complete;
+	int			scroll;
 	size_t		scroll_top;
 	size_t		scroll_bottom;
 	t_pos		original_pos;
