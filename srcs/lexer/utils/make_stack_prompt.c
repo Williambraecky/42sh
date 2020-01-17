@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 17:19:33 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 03:11:26 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 18:26:06 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ char	*g_short_names[] =
 
 static void	fill_list(t_vec *stack, char **list)
 {
-	t_type	*type;
+	t_type	type;
 	size_t	i;
 
 	i = 0;
 	while (i < stack->size)
 	{
-		type = (t_type*)ft_vecget(stack, i);
-		if (*type != T_NULL && g_short_names[*type])
-			list[i] = g_short_names[*type];
+		type = (t_type)ft_vecget(stack, i);
+		if (type != T_NULL && g_short_names[type])
+			list[i] = g_short_names[type];
 		i++;
 	}
 }

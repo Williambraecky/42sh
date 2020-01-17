@@ -6,19 +6,27 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:41:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 16:23:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 21:42:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-extern char	*g_specials[];
+char	*g_specials[] =
+{
+	"\\",
+	"\"",
+	"'",
+	"${",
+	"}",
+	NULL
+};
 
 /*
 ** NOTE: this one returns the index in specials of the match
 */
 
-static size_t	match_special_character(char *str)
+int			match_special_character(char *str)
 {
 	size_t	i;
 
@@ -32,30 +40,19 @@ static size_t	match_special_character(char *str)
 	return (0);
 }
 
-static int		push_or_pop(t_lexer *lex, t_type type)
-{
-	t_type	type_2;
-
-	type_2 = stack_top(&lex->stack);
-	if (type != type_2)
-		return (stack_push(&lex->stack, type));
-	stack_pop(&lex->stack);
-	return (SH_SUCCESS);
-}
-
-int				handle_specials(t_lexer *lex, size_t len)
+int				delim_handle_specials(t_vec *stack, char *line, size_t len)
 {
 	size_t	i;
 
-	i = match_special_character(lex->line + len);
+	i = match_special_character(line + len);
 	if (ft_strequ(g_specials[i], "\""))
-		return (push_or_pop(lex, T_DOUBLE_QUOTE));
+		return (stack_push_or_pop(stack, T_DOUBLE_QUOTE));
 	else if (ft_strequ(g_specials[i], "'"))
-		return (push_or_pop(lex, T_QUOTE));
+		return (stack_push_or_pop(stack, T_QUOTE));
 	else if (ft_strequ(g_specials[i], "${"))
-		return (stack_push(&lex->stack, T_BRACEPARAM));
+		return (stack_push(stack, T_BRACEPARAM));
 	else if (ft_strequ(g_specials[i], "}") &&
-		stack_top(&lex->stack) == T_BRACEPARAM)
-		stack_pop(&lex->stack);
+		stack_top(stack) == T_BRACEPARAM)
+		stack_pop(stack);
 	return (SH_SUCCESS);
 }

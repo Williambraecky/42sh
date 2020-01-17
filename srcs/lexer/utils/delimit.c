@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:20:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 23:15:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 21:41:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,6 @@ char	*g_operators[] =
 	NULL
 };
 
-char	*g_specials[] =
-{
-	"\\",
-	"\"",
-	"'",
-	"${",
-	"}",
-	NULL
-};
-
 static int	match_operator(t_lexer *lex, size_t len, size_t operator)
 {
 	size_t	i;
@@ -61,26 +51,12 @@ static int	match_operator(t_lexer *lex, size_t len, size_t operator)
 	return (0);
 }
 
-static int	match_special_character(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (g_specials[i])
-	{
-		if (ft_strstartswith(str, g_specials[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 static int	should_delimit(t_lexer *lex, size_t len,
 	size_t operator, int curr_operator)
 {
 	int		escaped;
 
-	escaped = is_escaped(lex, len);
+	escaped = is_escaped(&lex->stack, lex->line, len);
 	if (operator && !curr_operator)
 		return (1);
 	else if (curr_operator && lex->i + operator != len + 1)
@@ -92,7 +68,7 @@ static int	should_delimit(t_lexer *lex, size_t len,
 	return (0);
 }
 
-int			delimit_wspace(t_lexer *lex, char **result)
+static int	delimit_wspace(t_lexer *lex, char **result)
 {
 	if (!(*result = ft_strndup(lex->line + lex->i, 1)))
 		return (SH_ERR_MALLOC);
@@ -115,15 +91,15 @@ int			delimit_token(t_lexer *lex, char **result)
 	operator = 0;
 	while (lex->line[len] && new_line_check(lex, len))
 	{
-		if (!is_escaped(lex, len) &&
+		if (!is_escaped(&lex->stack, lex->line, len) &&
 			(curr_operator = match_operator(lex, len, operator)))
 			operator += 1;
 		else
 			curr_operator = 0;
 		if (should_delimit(lex, len, operator, curr_operator))
 			break ;
-		if (!is_escaped(lex, len) && match_special_character(lex->line + len))
-			if (handle_specials(lex, len) != SH_SUCCESS)
+		if (!is_escaped(&lex->stack, lex->line, len) &&
+		match_special_character(lex->line + len) && delim_handle_specials(&lex->stack, lex->line, len))
 				return (SH_ERR_MALLOC);
 		len++;
 	}

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 15:59:02 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 13:13:00 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 22:47:21 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,5 @@ void	lexer_free(t_lexer *lexer)
 	ft_freesplit(lexer->alias_stack);
 	ft_strdel(&lexer->clean_line);
 	ft_strdel(&lexer->line);
-	if (lexer->stack.vec)
-		ft_vecdestroy(&lexer->stack, default_vec_destroy_function);
+	ft_vecfree(&lexer->stack);
 }
