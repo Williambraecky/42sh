@@ -344,7 +344,6 @@ int			redir_add_undo(t_proc *proc, int fd);
 int			apply_base_redir(t_proc *proc, t_redir *redir);
 int			apply_and_redir(t_proc *proc, t_redir *redir);
 int			apply_dlesser_redir(t_proc *proc, t_redir *redir);
-int			proxy_substitute(t_sh *shell, char *str, char **result);
 int			init_build_tree(t_build *build);
 
 #endif
