@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 15:43:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 01:57:02 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 17:59:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,14 @@
 char	*getpwd_short(t_sh *shell)
 {
 	char	*pwd;
+	char	*home;
 	char	*short_pwd;
 	char	*last;
 
 	if (!(pwd = getpwd(shell)))
 		return (NULL);
+	if (get_env(shell, "HOME", &home) == SH_SUCCESS && ft_strequ(pwd, home))
+		return (ft_strdup("~"));
 	last = ft_strrchr(pwd, '/');
 	if (last == pwd)
 		short_pwd = ft_strdup(last);
@@ -39,7 +42,7 @@ char	*getpwd(t_sh *shell)
 {
 	char	*pwd;
 
-	if (!get_env_clone(shell, "PWD", &pwd))
+	if (get_env_clone(shell, "PWD", &pwd) == SH_SUCCESS)
 		return (pwd);
 	return (getcwd(NULL, PATH_MAX));
 }
