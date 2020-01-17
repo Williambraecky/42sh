@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/17 16:17:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 22:53:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ struct		s_redir
 ** NOTE: io used for pipes
 ** NOTE: fd_backups is for restoring fds after redirection
 ** NOTE: implementation only asks to handle 0 to 9 inclusive
+** TODO: if status != 0 do not do execution (still fork if needed)
 */
 
 struct		s_proc
@@ -132,7 +133,6 @@ struct		s_proc
 	t_vec	assignments;
 	t_io	io;
 	int		fd_backups[PROC_FD_BACKUP_SIZE];
-	t_map	*env_backup;
 	int		status;
 	int		stopped;
 	int		completed;
@@ -246,8 +246,9 @@ void		lexer_free(t_lexer *lexer);
 int			stack_push(t_vec *stack, t_type type);
 t_type		stack_pop(t_vec *stack);
 t_type		stack_top(t_vec *stack);
-int			is_escaped(t_lexer *lex, size_t len);
-int			handle_specials(t_lexer *lex, size_t len);
+int			stack_push_or_pop(t_vec *stack, t_type type);
+int			is_escaped(t_vec *stack, char *str, size_t len);
+int			delim_handle_specials(t_vec *stack, char *line, size_t len);
 int			new_line_check(t_lexer *lex, size_t len);
 int			make_stack_prompt(t_vec *stack, char **result);
 int			lexer_handle_alias(t_sh *shell, t_lexer *lexer, char *str);
@@ -255,6 +256,7 @@ int			alias_stack_contains(t_lexer *lexer, char *str);
 void		alias_stack_clear(t_lexer *lexer);
 int			cmd_make_string(t_cmd *cmd);
 int			proc_make_string(t_proc *proc);
+int			match_special_character(char *str);
 
 /*
 ** Tokens

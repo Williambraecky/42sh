@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 19:09:00 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 22:28:17 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,11 @@
 # define REMOVE_SUFFIX 5
 # define REMOVE_PREFIX 6
 # define DO_NOTHING 7
-# define PBUFF_DEF_SIZE 64
+# define PBUFF_DEF_SIZE 512
+# define SUB_QUOTE (1 << 0)
+# define SUB_PARAM (1 << 1)
+# define SUB_TILDE (1 << 2)
+# define SUB_ASSIGN (1 << 3)
 
 /*
 ** Typedefs
@@ -231,6 +235,7 @@ int			buff_ninsert(t_buff *buffer, char *insert, size_t pos, size_t n);
 int			buff_insert(t_buff *buffer, char *insert, size_t pos);
 int			buff_remove(t_buff *buffer, size_t pos);
 void		buff_clear(t_buff *buffer);
+int			buff_nappend(t_buff *buffer, char *str, size_t n);
 int			buff_append(t_buff *buffer, char *str);
 int			buff_init(t_buff *buffer);
 int			buff_init_size(t_buff *buffer, size_t size);
@@ -282,6 +287,18 @@ int			remove_history(t_sh *shell, size_t index);
 int			add_history(t_sh *shell, char *str);
 
 /*
+** Substitute
+*/
+
+void		free_subst(t_subst *subst);
+int			tilde_check(t_subst *subst, size_t j);
+void		subst_handle_specials(t_subst *subst);
+int			substitute(t_sh *shell, char *str, char **result, int profile);
+void		substitute_tilde(t_subst *subst);
+void		substitute_param(t_subst *subst);
+void		substitute_parambrace(t_subst *subst);
+
+/*
 **  Utils
 */
 
@@ -301,11 +318,9 @@ void		*ring_bell(void);
 int			resolve_path(t_sh *shell, char *name, char **result);
 int			resolve_path_env(char *paths, char *name, char **result);
 int			str_is_name(char *str);
-int			remove_quotes(char *str, char **result);
 int			backup_fds(t_sh *shell);
 int			backup_fd(t_sh *shell, int fd);
 int			map_del_filter(t_node *node);
-int			expand_tilde(t_sh *shell, char *str, char **result);
 int			expand_exclamation(t_sh *shell, char *str, char **result);
 int			is_builtin(t_sh *shell, char *str);
 int			gen_prompt_string(t_sh *shell, char *ps1, char **result);
@@ -315,7 +330,6 @@ int			init_internal_vars(t_sh *shell);
 int			vecgetlastmatch_index(t_vec *vec, char *find);
 char		*get_signal_str(int status);
 int			run_command(t_sh *shell, char *command);
-void		free_subst(t_subst *subst);
 
 /*
 ** Expand param

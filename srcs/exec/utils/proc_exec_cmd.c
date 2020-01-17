@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 02:40:39 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 17:46:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)
 	int		ret;
 
 	ft_reset_opt();
+	if (proc->status != 0)
+		exit(1);
 	bltin = ft_mapget(shell->builtins, proc->argv[0]);
 	ret = bltin->fnc_ptr((int)proc->unprocessed_argv.size, proc->argv, shell);
 	if (bg)
@@ -53,6 +55,8 @@ static void	exec_bin(t_sh *shell, t_proc *proc)
 {
 	char	*path;
 
+	if (proc->status != 0)
+		exit(1);
 	if (resolve_path(shell, proc->argv[0], &path) != SH_SUCCESS)
 	{
 		ft_dprintf(2, "42sh: command not found: %s\n", proc->argv[0]);

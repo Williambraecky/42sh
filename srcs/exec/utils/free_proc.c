@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 17:21:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 02:36:45 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 17:12:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	free_proc(t_proc *proc)
 	size_t	i;
 
 	i = proc->unprocessed_argv.size;
-	while (i--)
+	while (proc->argv && i--)
 		free(proc->argv[i]);
 	free(proc->argv);
 	ft_vecdestroy(&proc->unprocessed_argv, default_vec_destroy_function);

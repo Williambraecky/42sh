@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/18 18:06:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/16 02:58:16 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 17:40:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,5 @@ int			lexer(char *line, t_lexer *lex, t_sh *shell)
 		return (res);
 	res = tokenization(&lexer, shell);
 	*lex = lexer;
-	return (SH_SUCCESS);
+	return (res);
 }
