@@ -179,10 +179,15 @@ struct		s_token
 	size_t	len;
 };
 
+/*
+** TODO: content needs to be substituted but only before runtime so it needs to be stored
+*/
+
 struct		s_hdoc
 {
 	t_token	token;
 	char	*name;
+	char	*content;
 	int		pipe[2];
 	int		completed;
 };
@@ -297,6 +302,7 @@ int			exec_cmd(t_sh *shell, t_cmd *cmd);
 int			exec_proc(t_sh *shell, t_proc *proc);
 int			proc_exec_cmd(t_sh *shell, t_proc *proc);
 int			prepare_proc(t_sh *shell, t_proc *proc);
+int			prepare_hdoc(t_sh *shell, t_hdoc *doc);
 
 int			apply_newline(t_token *token, t_build *build, t_lexer *lex);
 int			apply_ampersand(t_token *token, t_build *build, t_lexer *lex);

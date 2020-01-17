@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 16:22:16 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/17 22:32:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,22 @@ int				g_stackable[] =
 static int		check_dless_exist(t_lexer *lex)
 {
 	size_t	i;
-	t_token	*tok;
+	t_hdoc	*tok;
+	t_token	*word;
+	int		ret;
 
 	i = 0;
 	while (i < lex->tokens.size)
 	{
-		tok = (t_token*)ft_vecget(&lex->tokens, i);
-		if ((tok->type == T_DOUBLE_LESSER) && ((t_hdoc*)tok)->completed == 0)
+		tok = (t_hdoc*)ft_vecget(&lex->tokens, i);
+		if ((tok->token.type == T_DOUBLE_LESSER) && tok->completed == 0)
 		{
-			if ((i + 1) < lex->tokens.size
-				&& ((t_token*)ft_vecget(&lex->tokens, i + 1))->type != T_WORD)
+			word = ft_vecget(&lex->tokens, i + 1);
+			if (!word || word->type != T_WORD)
 				return (SH_ERR_SYNTAX);
-			if (remove_quotes(((t_token*)ft_vecget(&lex->tokens, i + 1))->str,
-				&((t_hdoc*)tok)->name) != SH_SUCCESS)
-				return (SH_ERR_MALLOC);
-			if (pipe(((t_hdoc*)tok)->pipe) == -1)
-				return (SH_ERR_PIPE);
+			if ((ret = substitute(NULL, word->str, &tok->name, SUB_QUOTE))
+				!= SH_SUCCESS)
+				return (ret);
 			return (stack_push(&lex->stack, T_DOUBLE_LESSER));
 		}
 		i++;
@@ -88,17 +88,22 @@ static t_hdoc	*find_heredoc(t_lexer *lex)
 
 static int		do_heredoc(t_lexer *lex, t_token *tok)
 {
+	char	*new;
 	t_hdoc	*hdoc;
 
 	hdoc = find_heredoc(lex);
 	if (ft_strcmp(tok->str, hdoc->name) == 0)
 	{
-		close(hdoc->pipe[1]);
 		hdoc->completed = 1;
 		stack_pop(&lex->stack);
 	}
 	else
-		ft_putstr_fd(tok->str, hdoc->pipe[1]);
+	{
+		if (!(new = ft_strjoin(hdoc->content, tok->str)))
+			return (SH_ERR_MALLOC);
+		free(hdoc->content);
+		hdoc->content = new;
+	}
 	return (SH_SUCCESS);
 }
 
