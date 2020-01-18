@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 17:08:38 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 23:24:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,5 +340,6 @@ char		*get_signal_str(int status);
 int			run_command(t_sh *shell, char *command);
 char		*get_hostname(t_sh *shell);
 char		*get_hostname_short(t_sh *shell);
+char		*get_git_branch(t_sh *shell);
 
 #endif

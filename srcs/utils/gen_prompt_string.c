@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 16:41:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 03:12:43 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 23:25:56 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 ** TODO: implement \g for github branch \g = (BRANCH)
 */
 
-static char		*g_handled = "hHwWu";
+static char		*g_handled = "hHwWug";
 
 static int		get_append(t_sh *shell, char c, char **result)
 {
@@ -41,8 +41,10 @@ static int		get_append(t_sh *shell, char c, char **result)
 	}
 	else if (c == 'h')
 		*result = get_hostname_short(shell);
-	else
+	else if (c == 'H')
 		*result = get_hostname(shell);
+	else if (c == 'g')
+		*result = get_git_branch(shell);
 	if (!*result)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
