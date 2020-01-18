@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:53:12 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 14:37:32 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 23:34:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		set_last_return_code(t_sh *shell, int ret)
 	char	*str;
 	int		ret_;
 
+	if (shell->block_ret_update)
+		return (SH_SUCCESS);
 	if (get_last_return_code(shell) == ret)
 		return (SH_SUCCESS);
 	if (!(str = ft_itoa(ret)))

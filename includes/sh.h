@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 23:24:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 23:33:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,7 @@ struct		s_sh
 	pid_t	pid;
 	int		running;
 	int		stop_code;
+	int		block_ret_update;
 };
 
 struct		s_subst

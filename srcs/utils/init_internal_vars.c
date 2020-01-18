@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 14:39:11 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 23:29:17 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 23:35:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static char	*g_base_vars[][2] =
 {
 	{"?", "0"},
-	{"PS1", "${yellow}\\u@\\h${eoc}:${magenta}\\W ${blue}\\g ${eoc}$ "},
+	{"PS1", "${yellow}\\u@\\h${eoc}:${magenta}\\W ${blue}\\g${eoc}$ "},
 	{"eoc", "\e[0m"},
 	{"bold", "\e[1m"},
 	{"dim", "\e[2m"},

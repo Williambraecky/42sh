@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 23:14:51 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 23:29:53 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 23:34:57 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*read_output(int fd)
 	buffer[j] = '\0';
 	if (j > 0 && buffer[j - 1] == '\n')
 		buffer[j - 1] = '\0';
-	return (ft_strformat("(%s)", buffer));
+	return (ft_strformat("(%s) ", buffer));
 }
 
 char		*get_git_branch(t_sh *shell)
@@ -59,12 +59,14 @@ char		*get_git_branch(t_sh *shell)
 
 	if (setup_redir(pipe_, &new_fd) != SH_SUCCESS)
 		return (ft_strdup(""));
+	shell->block_ret_update = 1;
 	if ((ret = lexer("git rev-parse --abbrev-ref HEAD 2>/dev/null",
 		&lexer_, shell)) == SH_SUCCESS)
 		exec_tree(shell, lexer_.build.head);
 	else
 		free_tree(lexer_.build.head);
 	lexer_free(&lexer_);
+	shell->block_ret_update = 0;
 	close(SH_OUT);
 	dup2(new_fd, SH_OUT);
 	close(new_fd);
