@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 18:39:38 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 19:06:07 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 16:19:02 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,7 @@ char	*get_signal_str(int status)
 	}
 	else if (WIFSIGNALED(status))
 		return ("killed");
+	else if (WIFEXITED(status))
+		return ("Done");
 	return ("temp");
 }
