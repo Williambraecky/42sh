@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 16:31:12 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 17:03:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 21:56:46 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int			buff_ninsert(t_buff *buffer, char *insert, size_t pos, size_t n)
 		ft_strlen(buffer->buffer + pos));
 	ft_memcpy(buffer->buffer + pos, insert, len);
 	buffer->size += len;
+	buffer->buffer[buffer->size] = '\0';
 	return (SH_SUCCESS);
 }
 
