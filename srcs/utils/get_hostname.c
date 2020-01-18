@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 02:52:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 02:57:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 03:15:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_hostname(t_sh *shell)
 	char	*hostname;
 
 	if (get_internal_clone(shell, "HOST", &hostname) == SH_SUCCESS ||
-		get_env_clone(shell, "HOST", &hostname))
+		get_env_clone(shell, "HOST", &hostname) == SH_SUCCESS)
 			return (hostname);
 	if (!(hostname = ft_strnew(256)))
 		return (NULL);
