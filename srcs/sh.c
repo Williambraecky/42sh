@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 15:55:36 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 17:45:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,33 +30,6 @@ char		*g_error_str[] =
 	[SH_ERR_DUP] = "dup error"
 };
 
-char		*g_history_test[] =
-{
-	"ls",
-	"echo salut les amis",
-	"echo coucou",
-	"cat",
-	"cd ~/Documents",
-	NULL
-};
-
-static int	fill_shell_history(t_sh *shell)
-{
-	size_t	i;
-
-	i = 0;
-	if (ft_vecinit(&shell->history))
-		return (1);
-	while (g_history_test[i])
-	{
-		if (ft_veccpush(&shell->history, g_history_test[i],
-			ft_strlen(g_history_test[i]) + 1))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 static int	init_shell(t_sh *shell, const char **env)
 {
 	ft_memset(shell, 0, sizeof(shell));
@@ -74,12 +47,13 @@ static int	init_shell(t_sh *shell, const char **env)
 		return (1);
 	if (builtin_init(shell) != SH_SUCCESS)
 		return (1);
-	if (fill_shell_history(shell))
-		return (1);
 	if (init_internal_vars(shell))
 		return (1);
 	add_alias(shell, "ls", "ls -G");
-	copy_env(shell, env);
+	if (copy_env(shell, env) != SH_SUCCESS)
+		return (1);
+	if (init_history(shell) != SH_SUCCESS)
+		return (1);
 	if ((shell->prompt_mode = isatty(SH_IN)))
 		if (init_interactive_mode(shell))
 			return (1);
@@ -123,7 +97,7 @@ static void	run(t_sh *shell)
 	if (ret == SH_SUCCESS)
 	{
 		run_command(shell, line);
-		usleep(5000);
+		usleep(50000);
 		job_notify(shell);
 	}
 	free(line);

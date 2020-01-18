@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 02:41:43 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 03:01:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 17:49:17 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,19 @@ static int	check_empty(char *str)
 	return (1);
 }
 
+static int	add_to_file(t_sh *shell, char *str)
+{
+	char	*replaced;
+
+	if (shell->history_file <= 0)
+		return (SH_SUCCESS);
+	if (!(replaced = ft_strsreplall(str, "\n", "\\\n")))
+		return (SH_ERR_MALLOC);
+	ft_dprintf(shell->history_file, "%s\n", replaced);
+	free(replaced);
+	return (SH_SUCCESS);
+}
+
 /*
 ** TODO: do not add if empty or if last line was the same
 */
@@ -30,6 +43,7 @@ static int	check_empty(char *str)
 int			add_history(t_sh *shell, char *str)
 {
 	char	*top;
+	char	*dup;
 
 	if (check_empty(str))
 		return (SH_SUCCESS);
@@ -37,6 +51,14 @@ int			add_history(t_sh *shell, char *str)
 	str[ft_strlen(str) - 1] = '\0';
 	if (top && ft_strequ(str, top))
 		return (SH_SUCCESS);
-	ft_vecpush(&shell->history, ft_strdup(str));
+	if (!(dup = ft_strdup(str)))
+		return (SH_ERR_MALLOC);
+	if (add_to_file(shell, str) != SH_SUCCESS ||
+		ft_vecpush(&shell->history, ft_strdup(str)))
+	{
+		free(dup);
+		return (SH_ERR_MALLOC);
+	}
+	free(dup);
 	return (SH_SUCCESS);
 }

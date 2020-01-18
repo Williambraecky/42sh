@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 02:04:07 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 17:25:24 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ void		free_sh(t_sh *shell)
 	ft_mapdel(shell->builtins);
 	ft_vecdestroy(&shell->jobs, jobs_destroy);
 	ft_vecdestroy(&shell->history, default_vec_destroy_function);
+	if (shell->history_file > 0)
+		close(shell->history_file);
 	if (shell->prompt_mode)
 	{
 		tcsetattr(SH_IN, TCSADRAIN, &shell->old_termios);

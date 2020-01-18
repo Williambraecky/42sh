@@ -6,33 +6,76 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 16:51:59 by ntom              #+#    #+#             */
-/*   Updated: 2019/11/20 16:26:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 17:53:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-int		init_history(t_sh *shell)
-{
-	int		fd;
-	char	*line;
-	char	*home_cont;
-	char	buff[PATH_MAX + 1];
+/*
+** TODO: open and read history file
+*/
 
-	fd = 0;
-	ft_vecinit(&shell->history);
-	line = NULL;
-	home_cont = NULL;
-	buff[0] = '\0';
-	if (get_env(shell, "HOME", &home_cont) != SH_SUCCESS)
-		return (SH_ERR_NOEXIST);
-	ft_strlcat(buff, home_cont, PATH_MAX);
-	ft_strlcat(buff, "/.42sh_history", PATH_MAX);
-	if ((fd = open(buff, O_RDWR)) == -1)
-		return (SH_ERR_OPEN_HIST);
-	while (get_next_line(fd, &line) > 0)
-		if (ft_vecpush(&shell->history, (void *)line) != 0)
+static int	read_history_file(t_sh *shell)
+{
+	char	*gnl;
+	char	*tmp;
+	char	*tmp2;
+
+	tmp = NULL;
+	while (get_next_line(shell->history_file, &gnl) == 1)
+	{
+		if (gnl[ft_strlen(gnl) - 1] == '\\' || tmp)
+		{
+			tmp2 = tmp;
+			if (tmp)
+				tmp = ft_strtrijoin(tmp, "\n", gnl);
+			else
+				tmp = ft_strdup(gnl);
+			free(tmp2);
+			if (gnl[ft_strlen(gnl) - 1] == '\\')
+				continue ;
+			tmp2 = tmp;
+			tmp = ft_strsreplall(tmp, "\\\n", "\n");
+			free(tmp2);
+		}
+		else
+			tmp = ft_strdup(gnl);
+		if (!tmp || ft_vecpush(&shell->history, tmp))
 			return (SH_ERR_MALLOC);
-	close(fd);
+		tmp = NULL;
+	}
+	return (SH_SUCCESS);
+}
+
+static int	open_history_file(t_sh *shell)
+{
+	char	path[PATH_MAX + 1];
+	char	*home;
+	int		fd;
+
+	path[0] = '\0';
+	if (get_internal(shell, "HISTFILE", &home) == SH_SUCCESS &&
+		(fd = open(path, O_CREAT | O_APPEND | O_RDWR, 0666)) != -1)
+		return (fd);
+	if (get_env(shell, "HOME", &home) != SH_SUCCESS)
+		return (-1);
+	ft_strlcat(path, home, PATH_MAX + 1);
+	if (path[ft_strlen(path) - 1] != '/')
+		ft_strlcat(path, "/", PATH_MAX + 1);
+	ft_strlcat(path, ".willish_history", PATH_MAX + 1);
+	if ((fd = open(path, O_CREAT | O_APPEND | O_RDWR, 0666)) == -1)
+		return (-1);
+	add_internal(shell, "HISTFILE", path);
+	return (fd);
+}
+
+int			init_history(t_sh *shell)
+{
+	shell->history_file = open_history_file(shell);
+	if (ft_vecinit(&shell->history))
+		return (SH_ERR_MALLOC);
+	if (shell->history_file > 0 && read_history_file(shell))
+		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }

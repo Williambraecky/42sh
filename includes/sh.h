@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 14:24:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 17:08:38 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ struct		s_sh
 	t_map	*builtins;
 	t_map	*use_hash;
 	t_vec	history;
+	int		history_file;
 	t_vec	jobs;
 	int		prompt_mode;
 	t_termi	old_termios;
