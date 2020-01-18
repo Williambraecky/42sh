@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 18:17:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 22:07:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,8 @@ int				select_handle_newline(t_prompt *prompt,
 int				select_handle_tab(t_prompt *prompt,
 				char *buffer, t_sh *shell);
 int				select_handle_arrows(t_prompt *prompt, char *buffer);
+int				handle_shift_arrows(t_prompt *prompt, char *buffer,
+				t_sh *shell);
 
 /*
 ** History

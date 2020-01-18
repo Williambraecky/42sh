@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 00:29:27 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 22:17:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,23 @@ static int	handle_query(t_prompt *prompt, int direction, t_sh *shell)
 	return (default_char_handler(prompt, queried, shell));
 }
 
+int			handle_shift_arrows(t_prompt *prompt, char *buffer, t_sh *shell)
+{
+	(void)shell;
+	(void)prompt;
+	if (buffer[3] == 'A')
+		; //TODO: move cursor 1 up if possible
+	else if (buffer[3] == 'B')
+		; //TODO: move cursor 1 down if possible
+	else if (buffer[3] == 'C')
+		; //TODO: move cursor 1 word to the right if possible
+	else if (buffer[3] == 'D')
+		; //TODO: move cursor 1 word to the left if possible
+	return (SH_SUCCESS);
+}
+
 int			handle_arrows(t_prompt *prompt, char *buffer, t_sh *shell)
 {
-	if (buffer[1] != '[')
-		return (1);
 	if (buffer[2] == 'A')
 		return (handle_query(prompt, 1, shell));
 	else if (buffer[2] == 'B')
