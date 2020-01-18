@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 01:36:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 01:17:29 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 22:23:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ static int	prepare_redirections(t_sh *shell, t_proc *proc)
 	{
 		redir = (t_redir*)ft_vecget(&proc->redirections, i);
 		tmp = redir->filename;
-		if ((ret = substitute(shell, tmp, &redir->filename, ~SUB_ASSIGN))
+		if (redir->token->type == T_DOUBLE_LESSER)
+			tmp = NULL;
+		else if ((ret = substitute(shell, tmp, &redir->filename, ~SUB_ASSIGN))
 		 	!= SH_SUCCESS)
 			return (ret);
 		if (redir->token->type == T_DOUBLE_LESSER &&
