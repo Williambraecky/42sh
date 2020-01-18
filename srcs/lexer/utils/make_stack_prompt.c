@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 17:19:33 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 18:26:06 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 14:26:57 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 char	*g_short_names[] =
 {
 	[T_BRACEPARAM] = "braceparam",
+	[T_CMDSUBST] = "cmdsubst",
 	[T_DOUBLE_QUOTE] = "dquote",
 	[T_QUOTE] = "quote",
 	[T_PIPE] = "pipe",

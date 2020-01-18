@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/17 22:53:07 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 15:54:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ enum		e_type
 {
 	T_NEWLINE,
 	T_BRACEPARAM,
+	T_CMDSUBST,
 	T_DOUBLE_AMPERSAND,
 	T_DOUBLE_PIPE,
 	T_DOUBLE_LESSER,
@@ -56,6 +57,7 @@ enum		e_tmask
 {
 	M_NEWLINE = 1 << T_NEWLINE,
 	M_BRACEPARAM = 1 << T_BRACEPARAM,
+	M_CMDSUBST = 1 << T_CMDSUBST,
 	M_DOUBLE_AMPERSAND = 1 << T_DOUBLE_AMPERSAND,
 	M_DOUBLE_PIPE = 1 << T_DOUBLE_PIPE,
 	M_DOUBLE_LESSER = 1 << T_DOUBLE_LESSER,
@@ -136,6 +138,7 @@ struct		s_proc
 	int		status;
 	int		stopped;
 	int		completed;
+	int		block_sigtstp;
 };
 
 /*
@@ -205,6 +208,7 @@ struct		s_io_nb
 struct		s_lexer
 {
 	t_vec	tokens;
+	int		block_sigtstp;
 	char	**alias_stack;
 	int		can_be_alias;
 	char	*clean_line;
@@ -257,6 +261,7 @@ void		alias_stack_clear(t_lexer *lexer);
 int			cmd_make_string(t_cmd *cmd);
 int			proc_make_string(t_proc *proc);
 int			match_special_character(char *str);
+int			delim_stack_sig_top(t_vec *stack);
 
 /*
 ** Tokens

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 02:08:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 16:00:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ static void	fork_reset_stuff(t_proc *proc)
 	signal(SIGINT, SIG_DFL);
 	signal(SIGWINCH, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	signal(SIGTSTP, SIG_DFL);
+	if (!proc->block_sigtstp)
+		signal(SIGTSTP, SIG_DFL);
 	signal(SIGTTIN, SIG_DFL);
 	signal(SIGTTOU, SIG_DFL);
 	if (proc->io.pipe_close)
@@ -37,8 +38,12 @@ static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)
 	ft_reset_opt();
 	if (proc->status != 0 && bg)
 		exit(1);
-	bltin = ft_mapget(shell->builtins, proc->argv[0]);
-	ret = bltin->fnc_ptr((int)proc->unprocessed_argv.size, proc->argv, shell);
+	if (proc->status == 0)
+	{
+		bltin = ft_mapget(shell->builtins, proc->argv[0]);
+		ret = bltin->fnc_ptr((int)proc->unprocessed_argv.size,
+			proc->argv, shell);
+	}
 	if (bg)
 		exit(ret);
 	proc->status = ret;

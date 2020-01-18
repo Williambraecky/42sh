@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 21:07:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 21:35:28 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 14:24:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,10 @@ void			substitute_param(t_subst *subst)
 
 	if (subst->str[subst->i + 1] == '{')
 		return (substitute_parambrace(subst));
+	else if (subst->str[subst->i + 1] == '(')
+		return (substitute_cmd(subst));
 	subst->i++;
-	j = count_characters(subst, subst->i);
-	if (j == 0)
+	if ((j = count_characters(subst, subst->i)) == 0)
 	{
 		subst->err = buff_append(&subst->buffer, "$");
 		return ;

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 18:49:13 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 16:21:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 15:56:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int		apply_dpipe(t_token *token, t_build *build, t_lexer *lexer)
 		return (SH_ERR_MALLOC);
 	build->work_proc = build->work->pipeline;
 	build->work_proc->parent = build->work;
+	build->work_proc->block_sigtstp = lexer->block_sigtstp;
 	empty_stack(lexer);
 	if (stack_push(&lexer->stack, token->type) != SH_SUCCESS)
 		return (SH_ERR_MALLOC);

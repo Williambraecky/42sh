@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 03:05:28 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 15:55:36 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int			run_command(t_sh *shell, char *command)
 	t_lexer	lexer_;
 	int		ret;
 
+	ft_bzero(&lexer_, sizeof(lexer_));
 	if ((ret = lexer(command, &lexer_, shell)) == SH_SUCCESS)
 	{
 		exec_tree(shell, lexer_.build.head);

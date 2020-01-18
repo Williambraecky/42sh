@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 18:11:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 02:06:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 14:22:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,11 @@ static int		is_special(t_subst *subst, size_t j)
 		return (tilde_check(subst, j));
 	else if (*tmp == '\'' || *tmp == '\"' || *tmp == '\\')
 		return (subst->profile & SUB_QUOTE);
-	else if (*tmp == '$')
-		return (subst->profile & SUB_PARAM);
-	return (1);
+	else if (*tmp == '$' && subst->str[j + 1] != '(')
+		return ((subst->profile & SUB_PARAM));
+	else if (*tmp == '$' && subst->str[j + 1] == '(')
+		return ((subst->profile & SUB_CMDSUBST));
+	return (0);
 }
 
 /*

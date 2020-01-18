@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 02:58:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 14:24:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@
 # define SH_ERR_KILL 12
 # define SH_ERR_BAD_SUBST 13
 # define SH_ERR_READ 14
+# define SH_ERR_PARSE 15
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -72,6 +73,7 @@
 # define SUB_PARAM (1 << 1)
 # define SUB_TILDE (1 << 2)
 # define SUB_ASSIGN (1 << 3)
+# define SUB_CMDSUBST (1 << 4)
 
 /*
 ** Typedefs
@@ -301,6 +303,7 @@ void		free_bparam(t_bparam *bparam);
 void		apply_percent(t_subst *subst, t_bparam *bparam);
 void		apply_hashtag(t_subst *subst, t_bparam *bparam);
 void		apply_hashtag_flag(t_subst *subst, t_bparam *bparam);
+void		substitute_cmd(t_subst *subst);
 
 /*
 **  Utils

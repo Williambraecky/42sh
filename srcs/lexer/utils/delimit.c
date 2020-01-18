@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:20:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 21:41:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 14:34:42 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,17 @@ static int	delimit_wspace(t_lexer *lex, char **result)
 	return (SH_SUCCESS);
 }
 
+static int	do_specials_logic(t_lexer *lex, size_t len)
+{
+	int	ret;
+
+	if (!is_escaped(&lex->stack, lex->line, len) &&
+	match_special_character(lex->line + len) &&
+	(ret = delim_handle_specials(&lex->stack, lex->line, len)) != SH_SUCCESS)
+		return (ret);
+	return (SH_SUCCESS);
+}
+
 /*
 ** NOTE: operator is a boolean defining if we found an operator or not
 */
@@ -84,6 +95,7 @@ int			delimit_token(t_lexer *lex, char **result)
 	size_t	len;
 	size_t	operator;
 	int		curr_operator;
+	int		ret;
 
 	len = lex->i;
 	if (lex->line[len] && ft_strchr(" \t\n", lex->line[len]))
@@ -98,9 +110,8 @@ int			delimit_token(t_lexer *lex, char **result)
 			curr_operator = 0;
 		if (should_delimit(lex, len, operator, curr_operator))
 			break ;
-		if (!is_escaped(&lex->stack, lex->line, len) &&
-		match_special_character(lex->line + len) && delim_handle_specials(&lex->stack, lex->line, len))
-				return (SH_ERR_MALLOC);
+		if ((ret = do_specials_logic(lex, len)) != SH_SUCCESS)
+			return (ret);
 		len++;
 	}
 	if (!(*result = ft_strndup(lex->line + lex->i, len - lex->i)))
