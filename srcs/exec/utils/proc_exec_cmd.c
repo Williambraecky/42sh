@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 17:46:32 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 02:08:24 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)
 	int		ret;
 
 	ft_reset_opt();
-	if (proc->status != 0)
+	if (proc->status != 0 && bg)
 		exit(1);
 	bltin = ft_mapget(shell->builtins, proc->argv[0]);
 	ret = bltin->fnc_ptr((int)proc->unprocessed_argv.size, proc->argv, shell);
@@ -97,11 +97,11 @@ int			proc_exec_cmd(t_sh *shell, t_proc *proc)
 	pid_t	pid;
 
 	if (proc->unprocessed_argv.size == 0)
-		return (SH_SUCCESS);
+		return (proc->status);
 	ret = SH_SUCCESS;
-	builtin = is_builtin(shell, proc->argv[0]);
+	builtin = proc->argv && proc->argv[0] && is_builtin(shell, proc->argv[0]);
 	need_fork = !builtin || proc->next != NULL || proc->parent->background ||
-		ft_strequ(proc->argv[0], "fc");
+		(proc->argv && proc->argv[0] && ft_strequ(proc->argv[0], "fc"));
 	pid = 0;
 	if (!need_fork || (pid = fork()) == 0)
 		ret = post_fork(shell, proc, builtin, need_fork);

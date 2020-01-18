@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 01:36:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 22:39:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 01:17:29 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static int	prepare_args(t_sh *shell, t_proc *proc)
 {
 	size_t	i;
 	char	*curr;
+	int		ret;
 
 	if (proc->unprocessed_argv.size == 0)
 		return (SH_SUCCESS);
@@ -26,13 +27,9 @@ static int	prepare_args(t_sh *shell, t_proc *proc)
 	while (i < proc->unprocessed_argv.size)
 	{
 		curr = (char*)ft_vecget(&proc->unprocessed_argv, i);
-		if (substitute(shell, curr, &(proc->argv[i]), ~SUB_ASSIGN)
+		if ((ret = substitute(shell, curr, &(proc->argv[i]), ~SUB_ASSIGN))
 			!= SH_SUCCESS)
-		{
-			ft_freesplit(proc->argv);
-			proc->argv = NULL;
-			return (SH_ERR_MALLOC);
-		}
+			return (ret);
 		i++;
 	}
 	return (SH_SUCCESS);
@@ -95,7 +92,7 @@ static int	prepare_redirections(t_sh *shell, t_proc *proc)
 		tmp = redir->filename;
 		if ((ret = substitute(shell, tmp, &redir->filename, ~SUB_ASSIGN))
 		 	!= SH_SUCCESS)
-			return (SH_ERR_MALLOC);
+			return (ret);
 		if (redir->token->type == T_DOUBLE_LESSER &&
 			(ret = prepare_hdoc(shell, (t_hdoc*)redir->token)) != SH_SUCCESS)
 			return (ret);
