@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 01:23:01 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 02:58:05 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -334,5 +334,7 @@ int			init_internal_vars(t_sh *shell);
 int			vecgetlastmatch_index(t_vec *vec, char *find);
 char		*get_signal_str(int status);
 int			run_command(t_sh *shell, char *command);
+char		*get_hostname(t_sh *shell);
+char		*get_hostname_short(t_sh *shell);
 
 #endif
