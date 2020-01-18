@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 16:41:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 23:25:56 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 23:44:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@
 ** \w   The current working directory.
 ** \W   The basename of $PWD.
 ** \u   The username of the current user. $USER
-** TODO: implement \g for github branch \g = (BRANCH)
+** \g   The current git branch in a "(%s) " format
+** \j   The current number of jobs handled by the shell
 */
 
-static char		*g_handled = "hHwWug";
+static char		*g_handled = "hHwWugj";
 
 static int		get_append(t_sh *shell, char c, char **result)
 {
@@ -45,6 +46,8 @@ static int		get_append(t_sh *shell, char c, char **result)
 		*result = get_hostname(shell);
 	else if (c == 'g')
 		*result = get_git_branch(shell);
+	else if (c == 'j')
+		*result = ft_uitoa(shell->jobs.size);
 	if (!*result)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
