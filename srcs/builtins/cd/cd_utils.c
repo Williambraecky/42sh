@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 13:39:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 16:14:47 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 16:39:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		cd_get_pwd(t_sh *shell, char *buffer, size_t buff_size)
 
 	if (get_env(shell, "PWD", &value) != SH_SUCCESS)
 	{
-		ft_strlcat(buffer, value, buff_size + 1);
+		ft_strlcat(buffer, value, buff_size);
 		return (0);
 	}
 	if (!getcwd(buffer, buff_size))
@@ -64,14 +64,14 @@ int		cd_scan_cdpath(t_sh *shell, char *path, char *curpath)
 	i = 0;
 	while (split[i])
 	{
-		ft_strcpy(buffer, split[i]);
+		ft_strncpy(buffer, split[i], MAXPATHLEN);
 		if (buffer[ft_strlen(buffer) - 1] != '/')
-			ft_strcat(buffer, "/");
-		ft_strcat(buffer, path);
+			ft_strlcat(buffer, "/", MAXPATHLEN + 1);
+		ft_strlcat(buffer, path, MAXPATHLEN + 1);
 		if (ft_is_dir(buffer))
 		{
 			ft_freesplit(split);
-			ft_strcpy(curpath, buffer);
+			ft_strncpy(curpath, buffer, MAXPATHLEN);
 			return (0);
 		}
 		i++;

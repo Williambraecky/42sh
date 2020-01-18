@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 13:43:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 16:16:36 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 16:55:20 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,13 @@ extern int	g_optopt;
 ** NOTE: do we really need another buffer?
 */
 
-static void	dot_dot_sanitization(char *curpath)
+void		dot_dot_sanitization(char *curpath)
 {
 	char	buffer[MAXPATHLEN * 2 + 1];
 	char	*tok;
 	char	*prev_tok;
 
-	ft_strcpy(buffer, curpath);
+	ft_strncpy(buffer, curpath, MAXPATHLEN * 2);
 	tok = buffer;
 	prev_tok = NULL;
 	ft_memset(curpath, 0, MAXPATHLEN * 2 + 1);
@@ -52,7 +52,7 @@ static void	dot_dot_sanitization(char *curpath)
 ** NOTE: Does not allocate another string, directly modifies the current one
 */
 
-static int	sanitize_curpath(char *curpath)
+ int	sanitize_curpath(char *curpath)
 {
 	char	*error;
 	size_t	len;
@@ -68,7 +68,7 @@ static int	sanitize_curpath(char *curpath)
 	return (0);
 }
 
-static int	get_curpath(char *path, t_sh *shell, char *curpath, int pflag)
+ int	get_curpath(char *path, t_sh *shell, char *curpath, int pflag)
 {
 	char	pwd[MAXPATHLEN * 2 + 1];
 
@@ -87,9 +87,9 @@ static int	get_curpath(char *path, t_sh *shell, char *curpath, int pflag)
 	if (*curpath != '/')
 	{
 		if (pwd[ft_strlen(pwd) - 1] != '/')
-			ft_strcat(pwd, "/");
-		ft_strcat(pwd, curpath);
-		ft_strcpy(curpath, pwd);
+			ft_strlcat(pwd, "/", MAXPATHLEN * 2 + 1);
+		ft_strlcat(pwd, curpath, MAXPATHLEN * 2 + 1);
+		ft_strncpy(curpath, pwd, MAXPATHLEN * 2);
 	}
 	return (sanitize_curpath(curpath));
 }
@@ -116,11 +116,16 @@ char		*get_start_operand(int argc, char **argv, t_sh *shell)
 	}
 	else
 		operand = argv[0];
+	if (ft_strlen(operand) > MAXPATHLEN * 2)
+	{
+		ft_dprintf(2, "42sh: cd: operand too long\n");
+		return (NULL);
+	}
 	return (operand);
 }
 
 /*
-** TODO: allocate curpath by default
+** TODO: rework cd completely we should not limit input size
 ** NOTE: is MAXPATHLEN + 1 enough?
 */
 
@@ -132,7 +137,7 @@ int			cd_builtin(int argc, char **argv, t_sh *shell)
 	char	*operand;
 
 	pflag = 0;
-	curpath[0] = '\0';
+	ft_bzero(curpath, sizeof(curpath));
 	while ((ret = ft_getopt(argc, argv, "LP")) != -1)
 	{
 		if (ret == 'L' || ret == 'P')
