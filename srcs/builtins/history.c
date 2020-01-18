@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:30:04 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 01:05:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 18:04:10 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ static int	print_history(t_sh *shell, int offset)
 	while (i < shell->history.size)
 	{
 		if (i >= (size_t)offset)
-			ft_printf("%-6zu %s\n", i, (char*)ft_vecget(&shell->history, i));
+		{
+			ft_printf("%-6zu ", i);
+			ft_putnonprint(ft_vecget(&shell->history, i));
+			ft_putstr("\n");
+		}
 		++i;
 	}
 	return (0);
