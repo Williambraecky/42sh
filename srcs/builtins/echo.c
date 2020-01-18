@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:19:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 16:19:22 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 01:08:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		echo_builtin(int argc, char **argv, t_sh *shell)
 	n_flag = 0;
 	if (argc >= 2 && ft_strequ(argv[1], "-n"))
 		n_flag = 1;
-	i = 1;
+	i = 1 + n_flag;
 	while (i < (size_t)argc)
 	{
 		write(1, argv[i], ft_strlen(argv[i]));
