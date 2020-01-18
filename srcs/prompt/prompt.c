@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 00:46:00 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 18:21:42 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ static void	print_prompt(t_sh *shell, t_prompt *prompt)
 
 /*
 ** NOTE: Interactive prompt; Prompt gets printed here
+** TODO: if read returns 0 make it exit
 */
 
 static int	interactive_prompt(t_sh *shell, t_prompt *prompt)

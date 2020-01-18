@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 00:28:20 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 18:21:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,60 @@ int			(*g_select_dispatch[])(t_prompt *, char *buffer, t_sh *shell) =
 	[127] = NULL,
 };
 
+static int	char_ignore(t_prompt *prompt, char *buffer, t_sh *shell)
+{
+	(void)prompt;
+	(void)buffer;
+	(void)shell;
+	return (SH_SUCCESS);
+}
+
+static int	char_empty(t_prompt *prompt, char *buffer, t_sh *shell)
+{
+	(void)buffer;
+	(void)shell;
+	buff_clear(&prompt->buffer);
+	if (buff_append(&prompt->buffer, "exit\n") != SH_SUCCESS)
+		return (SH_ERR_MALLOC);
+	prompt->done = 1;
+	return (SH_SUCCESS);
+}
+
+/*
+** TODO: some characters are just to be ignored
+*/
+
 int			(*g_dispatch_char[])(t_prompt *, char *buffer, t_sh *shell) =
 {
+	[0] = char_ignore,
+	[1] = char_ignore,
+	[2] = char_ignore,
+	[3] = char_ignore,
+	[4] = char_empty,
+	[5] = char_ignore,
+	[6] = char_ignore,
+	[7] = char_ignore,
+	[8] = char_ignore,
+	[11] = char_ignore,
+	[12] = char_ignore,
+	[13] = char_ignore,
+	[14] = char_ignore,
+	[15] = char_ignore,
+	[16] = char_ignore,
+	[17] = char_ignore,
+	[18] = char_ignore,
+	[19] = char_ignore,
+	[20] = char_ignore,
+	[21] = char_ignore,
+	[22] = char_ignore,
+	[23] = char_ignore,
+	[24] = char_ignore,
+	[25] = char_ignore,
+	[26] = char_ignore,
+	[28] = char_ignore,
+	[29] = char_ignore,
+	[30] = char_ignore,
+	[31] = char_ignore,
 	[127] = handle_backspace,
 	['\t'] = handle_tab,
 	['\n'] = handle_newline,
