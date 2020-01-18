@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 18:11:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 22:42:18 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 02:06:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int		init_subst(t_subst *subst, t_sh *shell, char *str, int profile)
 	subst->shell = shell;
 	subst->str = str;
 	subst->profile = profile;
-	if (ft_vecinit_size(&subst->stack, ft_strlen(str) / 4)
+	if (ft_vecinit_size(&subst->stack, ft_strlen(str))
 		|| buff_init(&subst->buffer) != SH_SUCCESS)
 	{
 		free_subst(subst);

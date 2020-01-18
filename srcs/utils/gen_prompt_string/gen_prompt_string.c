@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 16:41:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 17:29:29 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/18 01:25:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ int			gen_prompt_string(t_sh *shell, char *ps1, char **result)
 		prompt = ft_strdup("");
 	else
 	{
-		ret = expand_param(shell, ps1, &prompt);
+		ret = substitute(shell, ps1, &prompt, ~(SUB_ASSIGN | SUB_QUOTE));
 		while (prompt[i] && (tmp = prompt))
 		{
 			if (is_valid_esc(prompt, &i))

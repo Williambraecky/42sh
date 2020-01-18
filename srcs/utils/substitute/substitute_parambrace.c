@@ -6,12 +6,70 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 21:08:52 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 22:23:43 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 02:18:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 #include "lexer.h"
+
+static int		var_exists(t_subst *subst, char *str, size_t start)
+{
+	char	buffer[2];
+
+	buffer[0] = str[start];
+	buffer[1] = '\0';
+	return (has_internal(subst->shell, buffer) ||
+		has_env(subst->shell, buffer));
+}
+
+static size_t	count_characters(t_subst *subst, char *str, size_t start)
+{
+	size_t	end;
+
+	end = start;
+	if (str[end] == '\0')
+		return (0);
+	while (str[end])
+	{
+		if (end == start && !ft_isalpha(str[end]) &&
+			str[end] != '_')
+			break ;
+		else if (!ft_isalnum(str[end]) && str[end] != '_')
+			break ;
+		end++;
+	}
+	if (start == end && var_exists(subst, str, start))
+		return (1);
+	return (end - start);
+}
+
+/*
+** TODO: extract key, define operator, substitute word id needed, apply operator
+*/
+
+static void		expand_parambrace(t_subst *subst, char *param)
+{
+	t_bparam	bparam;
+
+	ft_bzero(&bparam, sizeof(bparam));
+	bparam.param = param;
+	if (param[2] == '#')
+		bparam.hashtag = 1;
+	bparam.end = count_characters(subst, param, 2 + bparam.hashtag);
+	if (!(bparam.key = ft_strndup(param + 2 + bparam.hashtag, bparam.end)))
+	{
+		subst->err = SH_ERR_MALLOC;
+		return ;
+	}
+	bparam.end += 2 + bparam.hashtag;
+	read_operator(subst, &bparam);
+	if (subst->err == SH_SUCCESS)
+		apply_bparam_operator(subst, &bparam);
+	if (subst->err == SH_SUCCESS)
+		subst->err = buff_append(&subst->buffer, bparam.result);
+	free_bparam(&bparam);
+}
 
 /*
 ** NOTE: delimit to where it should stop using the stack
@@ -38,13 +96,12 @@ static size_t	delimit_parambrace(t_subst *subst)
 		ft_dprintf(2, "42sh: parse error\n");
 		subst->err = SH_ERR_SYNTAX;
 	}
-	return (j);
+	return (j - subst->i);
 }
 
 void	substitute_parambrace(t_subst *subst)
 {
 	char	*tmp;
-	char	*new;
 	size_t	j;
 
 	j = delimit_parambrace(subst);
@@ -55,9 +112,7 @@ void	substitute_parambrace(t_subst *subst)
 		subst->err = SH_ERR_MALLOC;
 		return ;
 	}
-	subst->err = expand_param(subst->shell, tmp, &new);
-	if (subst->err == SH_SUCCESS)
-		subst->err = buff_append(&subst->buffer, new);
+	expand_parambrace(subst, tmp);
 	free(tmp);
 	subst->i += j;
 }

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 22:28:17 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 01:23:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ typedef struct s_sh	t_sh;
 typedef struct stat	t_stat;
 typedef struct termios	t_termi;
 typedef struct winsize	t_winsiz;
-typedef struct s_brace	t_brace;
 typedef struct s_subst	t_subst;
+typedef struct s_bparam	t_bparam;
 
 /*
 ** Enums
@@ -196,21 +196,18 @@ struct		s_subst
 	int		err;
 };
 
-struct		s_brace
+struct		s_bparam
 {
-	t_sh	*shell;
-	char	*str;
 	char	*param;
-	char	*param_expand;
-	int		param_status;
-	char	*word;
-	char	*word_expand;
-	char	op;
-	int		what_op;
+	char	*key;
+	char	*val;
+	int		unset;
+	size_t	end;
 	int		hashtag;
-	size_t	*len;
-	size_t	i;
-	char	**result;
+	char	*word;
+	int		colon;
+	int		operator;
+	char	*result;
 };
 
 /*
@@ -297,6 +294,13 @@ int			substitute(t_sh *shell, char *str, char **result, int profile);
 void		substitute_tilde(t_subst *subst);
 void		substitute_param(t_subst *subst);
 void		substitute_parambrace(t_subst *subst);
+int			is_valid_operator(char c);
+void		read_operator(t_subst *subst, t_bparam *bparam);
+void		apply_bparam_operator(t_subst *subst, t_bparam *bparam);
+void		free_bparam(t_bparam *bparam);
+void		apply_percent(t_subst *subst, t_bparam *bparam);
+void		apply_hashtag(t_subst *subst, t_bparam *bparam);
+void		apply_hashtag_flag(t_subst *subst, t_bparam *bparam);
 
 /*
 **  Utils
@@ -330,26 +334,5 @@ int			init_internal_vars(t_sh *shell);
 int			vecgetlastmatch_index(t_vec *vec, char *find);
 char		*get_signal_str(int status);
 int			run_command(t_sh *shell, char *command);
-
-/*
-** Expand param
-*/
-
-int			expand_brace(t_sh *shell, char *str, char **result, size_t *len);
-int			expand_no_brace(t_sh *shell, char *str, char **result, size_t *len);
-int			expand_param(t_sh *shell, char *str, char **result);
-int			get_word(char *str, char **result);
-int			get_key(char *str, char **result);
-int			get_op(char *str, char *op, size_t *len);
-int			get_valid_param(t_sh *shell, char *str, char **result, size_t *len);
-int			is_charset(char c, int first_char);
-int			join_expanded(char *str, size_t *dollar, char **result, size_t len);
-void		what_op_does(int status, char op, int *what_op);
-int			do_op(t_brace *brace);
-int			init_struct(t_brace *brace, t_sh *shell, char *str, char **result);
-void		init_expand_param(size_t *i, size_t *l, int *quoted, char **result);
-int			free_struct(t_brace *brace, int ret);
-int			remove_suffix(t_brace *brace);
-int			remove_prefix(t_brace *brace);
 
 #endif
