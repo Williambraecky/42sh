@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/25 16:31:12 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 20:51:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 17:03:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ static int	check_size(t_buff *buffer, size_t n)
 	len = n;
 	if (buffer->size + len < buffer->max_size)
 		return (SH_SUCCESS);
-	new_len = buffer->max_size + (buffer->max_size / 2);
+	new_len = buffer->max_size * 2;
 	if (new_len == 0)
 		new_len = 256;
+	while (buffer->size + len >= new_len)
+		new_len *= 2;
 	if (!(new = ft_realloc(buffer->buffer, buffer->max_size + 1, new_len + 1)))
 		return (SH_ERR_MALLOC);
 	buffer->buffer = new;
@@ -35,7 +37,6 @@ int			buff_ninsert(t_buff *buffer, char *insert, size_t pos, size_t n)
 {
 	size_t	len;
 
-	(void)n;
 	len = ft_min(n, ft_strlen(insert));
 	if (check_size(buffer, len) != SH_SUCCESS)
 		return (SH_ERR_MALLOC);
