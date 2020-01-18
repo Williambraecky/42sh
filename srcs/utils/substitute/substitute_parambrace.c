@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 21:08:52 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 02:18:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/18 22:33:10 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ static void		expand_parambrace(t_subst *subst, char *param)
 	}
 	bparam.end += 2 + bparam.hashtag;
 	read_operator(subst, &bparam);
+	if (!(bparam.word = ft_strndup(bparam.param + bparam.end,
+		ft_strlen(bparam.param + bparam.end) - 1)))
+		subst->err = SH_ERR_MALLOC;
 	if (subst->err == SH_SUCCESS)
 		apply_bparam_operator(subst, &bparam);
 	if (subst->err == SH_SUCCESS)
