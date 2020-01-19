@@ -6,13 +6,13 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 01:26:19 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 01:51:32 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 03:18:22 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-static void	prev_word(t_prompt *prompt)
+static void		prev_word(t_prompt *prompt)
 {
 	char	*buff;
 	size_t	i;
@@ -41,7 +41,7 @@ static void	prev_word(t_prompt *prompt)
 	move_goto(prompt, calc_cursor_pos(prompt, j));
 }
 
-static void	skip_word(t_prompt *prompt)
+static void		skip_word(t_prompt *prompt)
 {
 	char	*buff;
 	size_t	i;
@@ -67,15 +67,16 @@ static void	skip_word(t_prompt *prompt)
 	move_goto(prompt, calc_cursor_pos(prompt, j));
 }
 
-int			handle_shift_arrows(t_prompt *prompt, char *buffer, t_sh *shell)
+int				handle_shift_arrows(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	(void)shell;
-	(void)prompt;
 	if (buffer[3] == 'A')
 		; //TODO: move cursor 1 up if possible (use lines)
 	else if (buffer[3] == 'B')
-		; //TODO: move cursor 1 down if possible (use lines)
-	else if (buffer[3] == 'C')
+		next_line(prompt); //TODO: move cursor 1 down if possible (use lines)
+	else
+		prompt->nl_offset = -1;
+	if (buffer[3] == 'C')
 		skip_word(prompt);
 	else if (buffer[3] == 'D')
 		prev_word(prompt);

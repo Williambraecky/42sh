@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 18:28:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 03:14:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,8 @@ int			handle_new_char(t_prompt *prompt, char *buffer, t_sh *shell)
 	int		ret;
 
 	dispatch_func = NULL;
+	if (*buffer != '\e')
+		prompt->nl_offset = -1;
 	if (prompt->querying && *((int*)buffer) != UP_ARROW &&
 		*((int*)buffer) != DOWN_ARROW)
 		finish_query(prompt);

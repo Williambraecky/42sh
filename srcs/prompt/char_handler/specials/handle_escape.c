@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:59:07 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 01:55:46 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 03:17:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ int	select_handle_escape(t_prompt *prompt, char *buffer, t_sh *shell)
 
 int	handle_escape(t_prompt *prompt, char *buffer, t_sh *shell)
 {
+	if (buffer[1] != '\e')
+		prompt->nl_offset = -1;
 	if (buffer[1] == '[')
 		return (handle_arrows(prompt, buffer, shell));
 	else if (buffer[1] == '\e' && buffer[2] == '[')

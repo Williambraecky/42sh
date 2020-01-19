@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 16:37:51 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/09 14:22:25 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 03:14:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int		gen_prompt(t_sh *shell, char *prompt_str, t_prompt *prompt)
 	if (!(prompt->buffer.buffer = ft_strnew(PBUFF_DEF_SIZE)))
 		return (SH_ERR_MALLOC);
 	prompt->buffer.max_size = PBUFF_DEF_SIZE;
+	prompt->nl_offset = -1;
 	if (!gettermsize(&prompt->winsize))
 		prompt->valid_size = 1;
 	return (0);
