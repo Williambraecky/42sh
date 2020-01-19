@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 01:34:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 01:56:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void			reprint_buffer(t_prompt *prompt);
 void			print_from_cursor(t_prompt *prompt, t_pos *next_pos);
 int				pos_equals(t_pos pos1, t_pos pos2);
 t_pos			calc_cursor_pos(t_prompt *prompt, size_t written);
+void			transform_pos(t_prompt *prompt, t_pos *pos, char c);
 
 /*
 ** Handlers

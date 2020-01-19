@@ -6,26 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:54:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 00:32:31 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 01:56:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
-
-static void	transform_pos(t_prompt *prompt, t_pos *pos, char c)
-{
-	if (c == '\n')
-		pos->x = prompt->winsize.ws_col;
-	else if (c == '\t')
-		pos->x += 8 - pos->x % 8;
-	else
-		pos->x++;
-	if (pos->x == prompt->winsize.ws_col)
-	{
-		pos->x = 0;
-		pos->y++;
-	}
-}
 
 int			default_char_handler(t_prompt *prompt, char *buffer, t_sh *shell)
 {

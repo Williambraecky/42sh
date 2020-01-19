@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 00:51:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 18:16:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 01:56:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,6 @@ void			reprint_buffer(t_prompt *prompt)
 	print_from_cursor(prompt, &back);
 	prompt->buffer_index = buffer_index_back;
 	prompt->char_index = char_index_back;
-}
-
-static void		transform_pos(t_prompt *prompt, t_pos *pos, char c)
-{
-	if (c == '\n')
-		pos->x = prompt->winsize.ws_col;
-	else if (c == '\t')
-		pos->x += 8 - pos->x % 8;
-	else
-		pos->x++;
-	if (pos->x == prompt->winsize.ws_col)
-	{
-		pos->x = 0;
-		pos->y++;
-	}
 }
 
 static size_t	calc_line_size(t_prompt *prompt, size_t index, t_pos *pos)

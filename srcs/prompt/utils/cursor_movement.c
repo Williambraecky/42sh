@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 17:42:12 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 21:06:23 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 02:00:13 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,7 @@ void		move_left(t_prompt *prompt)
 
 	if (prompt->char_index == 0)
 		return ;
-	pos = new_calc(prompt,
-		prompt->prompt_len + prompt->char_index - 1);
+	pos = calc_cursor_pos(prompt, prompt->char_index - 1);
 	prompt->char_index -= 1;
 	prompt->buffer_index =
 		ft_wstrindex(prompt->buffer.buffer, prompt->char_index)
@@ -59,21 +58,6 @@ void		move_left(t_prompt *prompt)
 	pos.y -= prompt->cursor_pos.y;
 	prompt->cursor_pos = back;
 	move_cursor(pos);
-}
-
-static void	transform_pos(t_prompt *prompt, t_pos *pos, char c)
-{
-	if (c == '\n')
-		pos->x = prompt->winsize.ws_col;
-	else if (c == '\t')
-		pos->x += 8 - pos->x % 8;
-	else
-		pos->x++;
-	if (pos->x == prompt->winsize.ws_col)
-	{
-		pos->x = 0;
-		pos->y++;
-	}
 }
 
 void		move_right(t_prompt *prompt)
