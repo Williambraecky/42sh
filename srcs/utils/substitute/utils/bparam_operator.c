@@ -15,7 +15,7 @@
 int		is_valid_operator(char c)
 {
 	return (c == '+' || c == '-' || c == '?' ||
-		c == '=' || c == '%' || c == '%');
+		c == '=' || c == '%' || c == '#');
 }
 
 void	read_operator(t_subst *subst, t_bparam *bparam)
