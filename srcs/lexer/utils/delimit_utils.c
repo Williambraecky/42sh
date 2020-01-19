@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 16:42:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 14:28:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 16:25:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ static int	is_dquote_escaped(char *str, size_t len)
 	if (str[len] == '$' ||
 		str[len] == '\"' ||
 		str[len] == '}' ||
-		str[len] == ')')
+		str[len] == ')' ||
+		str[len] == '!')
 		return (is_char_escaped(str, len));
 	return (1);
 }
@@ -27,7 +28,8 @@ static int	is_bparam_escaped(char *str, size_t len)
 	if (str[len] == '$' ||
 		str[len] == '\"' ||
 		str[len] == '\'' ||
-		str[len] == '}')
+		str[len] == '}' ||
+		str[len] == '!')
 		return (is_char_escaped(str, len));
 	return (1);
 }
@@ -37,7 +39,8 @@ static int	is_cmdsubst_escaped(char *str, size_t len)
 	if (str[len] == '$' ||
 		str[len] == '\"' ||
 		str[len] == '\'' ||
-		str[len] == ')')
+		str[len] == ')' ||
+		str[len] == '!')
 		return (is_char_escaped(str, len));
 	return (1);
 }

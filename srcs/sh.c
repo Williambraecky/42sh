@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 17:45:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 17:07:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ int			run_command(t_sh *shell, char *command)
 
 /*
 ** TODO: print errors
+** TODO: handle event substitution
 */
 
 static void	run(t_sh *shell)
@@ -92,8 +93,18 @@ static void	run(t_sh *shell)
 	get_internal(shell, "PS1", &ps1);
 	gen_prompt_string(shell, ps1, &prompt);
 	ret = handle_prompt(shell, prompt, &line);
-	job_notify(shell);
 	free(prompt);
+	if (ret == SH_SUCCESS && ft_strchr(line, '!'))
+	{
+		if ((ret = substitute_event(shell, line, &prompt)) == SH_SUCCESS)
+		{
+			if (!ft_strequ(line, prompt))
+				ft_dprintf(0, "%s", prompt);
+			free(line);
+			line = prompt;
+		}
+	}
+	job_notify(shell);
 	if (ret == SH_SUCCESS)
 	{
 		run_command(shell, line);

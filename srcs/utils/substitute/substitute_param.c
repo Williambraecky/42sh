@@ -6,21 +6,12 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 21:07:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 14:24:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 16:31:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 #include "lexer.h"
-// if (!*str || ft_isdigit(*str))
-// 	return (0);
-// while (*str)
-// {
-// 	if (!(ft_isalnum(*str) || *str == '_'))
-// 		return (0);
-// 	str++;
-// }
-// return (1);
 
 /*
 ** NOTE: special rule if it starts with an out of set character

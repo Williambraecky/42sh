@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 23:33:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 16:55:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@
 # define SH_ERR_BAD_SUBST 13
 # define SH_ERR_READ 14
 # define SH_ERR_PARSE 15
+# define SH_ERR_NOEVENT 16
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -85,8 +86,8 @@ typedef union u_intval	t_intvl;
 typedef struct s_bltin	t_bltin;
 typedef struct s_hashed	t_hashed;
 typedef struct s_buff	t_buff;
-typedef struct s_sh	t_sh;
-typedef struct stat	t_stat;
+typedef struct s_sh		t_sh;
+typedef struct stat		t_stat;
 typedef struct termios	t_termi;
 typedef struct winsize	t_winsiz;
 typedef struct s_subst	t_subst;
@@ -298,6 +299,7 @@ int			substitute(t_sh *shell, char *str, char **result, int profile);
 void		substitute_tilde(t_subst *subst);
 void		substitute_param(t_subst *subst);
 void		substitute_parambrace(t_subst *subst);
+void		substitute_spec_event(t_subst *subst);
 int			is_valid_operator(char c);
 void		read_operator(t_subst *subst, t_bparam *bparam);
 void		apply_bparam_operator(t_subst *subst, t_bparam *bparam);
@@ -306,6 +308,7 @@ void		apply_percent(t_subst *subst, t_bparam *bparam);
 void		apply_hashtag(t_subst *subst, t_bparam *bparam);
 void		apply_hashtag_flag(t_subst *subst, t_bparam *bparam);
 void		substitute_cmd(t_subst *subst);
+int			substitute_event(t_sh *shell, char *str, char **result);
 
 /*
 **  Utils
