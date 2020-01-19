@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 01:26:19 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 03:18:22 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 16:06:24 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ int				handle_shift_arrows(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	(void)shell;
 	if (buffer[3] == 'A')
-		; //TODO: move cursor 1 up if possible (use lines)
+		prev_line(prompt);
 	else if (buffer[3] == 'B')
-		next_line(prompt); //TODO: move cursor 1 down if possible (use lines)
+		next_line(prompt);
 	else
 		prompt->nl_offset = -1;
 	if (buffer[3] == 'C')

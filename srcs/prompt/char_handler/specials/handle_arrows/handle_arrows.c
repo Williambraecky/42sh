@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 03:11:03 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 15:57:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int			handle_arrows(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	if (buffer[2] == 'A' && pre_query_check(prompt))
 		return (handle_query(prompt, 1, shell));
+	else if (buffer[2] == 'A')
+		prev_line(prompt);
 	else if (buffer[2] == 'B' && pre_query_check(prompt))
 		return (handle_query(prompt, 2, shell));
 	else if (buffer[2] == 'B')
