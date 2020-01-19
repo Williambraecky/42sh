@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 16:00:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 04:08:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	fork_reset_stuff(t_proc *proc)
 
 	i = PROC_FD_BACKUP_SIZE;
 	while (i--)
-		close(proc->fd_backups[i]);
+		if (proc->fd_backups[i] != -1)
+			close(proc->fd_backups[i]);
 	signal(SIGINT, SIG_DFL);
 	signal(SIGWINCH, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);

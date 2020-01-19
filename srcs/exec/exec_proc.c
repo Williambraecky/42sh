@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 01:19:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/19 04:07:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ static int	undo_redir(t_proc *proc, int ret)
 			close(i);
 			if (dup2(proc->fd_backups[i], i) == -1)
 				ret = SH_ERR_DUP;
+			close(proc->fd_backups[i]);
 		}
-		close(proc->fd_backups[i]);
 	}
 	return (ret);
 }
