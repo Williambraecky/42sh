@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 16:51:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/18 17:53:45 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/20 20:00:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,17 @@ static int	read_history_file(t_sh *shell)
 				tmp = ft_strdup(gnl);
 			free(tmp2);
 			if (gnl[ft_strlen(gnl) - 1] == '\\')
+			{
+				free(gnl);
 				continue ;
+			}
 			tmp2 = tmp;
 			tmp = ft_strsreplall(tmp, "\\\n", "\n");
 			free(tmp2);
 		}
 		else
 			tmp = ft_strdup(gnl);
+		free(gnl);
 		if (!tmp || ft_vecpush(&shell->history, tmp))
 			return (SH_ERR_MALLOC);
 		tmp = NULL;
