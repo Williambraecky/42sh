@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 14:23:53 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 15:55:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/20 20:30:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ static void		expand_cmdsubst(t_subst *subst, char *cmd)
 	cmd += 2;
 	cmd[ft_strlen(cmd) - 1] = '\n';
 	setup_fds(subst, pipe_, &new_fd);
+	ft_bzero(&lexer_, sizeof(lexer_));
 	if (subst->err != SH_SUCCESS)
 		return ;
 	lexer_.block_sigtstp = 1;

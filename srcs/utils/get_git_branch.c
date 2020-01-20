@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 23:14:51 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 23:34:57 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/20 20:30:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char		*get_git_branch(t_sh *shell)
 
 	if (setup_redir(pipe_, &new_fd) != SH_SUCCESS)
 		return (ft_strdup(""));
+	ft_bzero(&lexer_, sizeof(lexer_));
 	shell->block_ret_update = 1;
 	if ((ret = lexer("git rev-parse --abbrev-ref HEAD 2>/dev/null",
 		&lexer_, shell)) == SH_SUCCESS)
