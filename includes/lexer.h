@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/18 15:54:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 00:48:21 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,6 +262,7 @@ int			cmd_make_string(t_cmd *cmd);
 int			proc_make_string(t_proc *proc);
 int			match_special_character(char *str);
 int			delim_stack_sig_top(t_vec *stack);
+char		*get_signal_str(t_proc *proc);
 
 /*
 ** Tokens

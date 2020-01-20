@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:26:55 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 18:53:42 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 00:51:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ static void	print_cmd(t_cmd *cmd, size_t index, size_t max, int lpflag)
 	}
 }
 
+/*
+** TODO: get_signal_str here is wrong
+*/
+
 static void	basic_print(t_cmd *cmd, size_t index, size_t max)
 {
 	t_proc	*curr;
@@ -62,7 +66,7 @@ static void	basic_print(t_cmd *cmd, size_t index, size_t max)
 		ft_printf(" - ");
 	else
 		ft_printf("   ");
-	ft_printf("%-*s %s\n", 10, get_signal_str(cmd->status), cmd->cmd_str);
+	ft_printf("%-*s %s\n", 10, get_signal_str(cmd->pipeline), cmd->cmd_str);
 }
 
 static void	print_all(t_sh *shell, int lpflag)

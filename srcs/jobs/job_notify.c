@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:35:38 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 19:03:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 00:49:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void		job_notify_cmd(t_cmd *cmd, size_t index, size_t max)
 		else
 			ft_printf("%*s    ", len + 2, "");
 		ft_printf("%d %-*s(%d) %s\n", curr->pid, 10,
-			get_signal_str(curr->status), curr->status, curr->proc_str);
+			get_signal_str(curr), curr->status, curr->proc_str);
 		curr = curr->next;
 	}
 }
