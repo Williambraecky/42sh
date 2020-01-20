@@ -6,18 +6,36 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:07:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/15 01:45:34 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 00:35:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-char	*hquery_prev(t_sh *shell, t_hquery *hquery)
+char	*hquery_cprev(t_sh *shell, t_hquery *hquery)
 {
-	t_vec 	history;
 	size_t	last;
 
-	history = shell->history;
+	last = hquery->curr_index;
+	if (last == shell->history.size + 1)
+	{
+		hquery->curr_index--;
+		if (ft_strstr(hquery->orig, hquery->query))
+			return (hquery->query);
+	}
+	while (hquery->curr_index--)
+	{
+		if (ft_strstr(shell->history.vec[hquery->curr_index], hquery->query))
+			return (shell->history.vec[hquery->curr_index]);
+	}
+	hquery->curr_index = last;
+	return (ring_bell());
+}
+
+char	*hquery_prev(t_sh *shell, t_hquery *hquery)
+{
+	size_t	last;
+
 	last = hquery->curr_index;
 	while (hquery->curr_index--)
 	{
@@ -29,11 +47,21 @@ char	*hquery_prev(t_sh *shell, t_hquery *hquery)
 	return (ring_bell());
 }
 
+char	*hquery_cnext(t_sh *shell, t_hquery *hquery)
+{
+	if (hquery->curr_index == shell->history.size)
+		return (ring_bell());
+	while (hquery->curr_index + 1 < shell->history.size)
+	{
+		hquery->curr_index++;
+		if (ft_strstr(shell->history.vec[hquery->curr_index], hquery->query))
+			return (shell->history.vec[hquery->curr_index]);
+	}
+	return (hquery->orig);
+}
+
 char	*hquery_next(t_sh *shell, t_hquery *hquery)
 {
-	t_vec history;
-
-	history = shell->history;
 	if (hquery->curr_index == shell->history.size)
 		return (ring_bell());
 	while (hquery->curr_index + 1 < shell->history.size)

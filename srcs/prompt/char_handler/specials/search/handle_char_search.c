@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_prompt.c                                      :+:      :+:    :+:   */
+/*   handle_char_search.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 16:37:07 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/20 23:25:58 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/20 23:00:45 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/21 00:26:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-void	free_prompt(t_prompt *prompt)
+/*
+** NOTE: basically we need to add to the search buffer and do another search
+*/
+
+int			handle_char_search(t_prompt *prompt, char *buffer, t_sh *shell)
 {
-	ft_strdel(&prompt->query.query);
-	ft_strdel(&prompt->query.orig);
-	ft_strdel(&prompt->prompt);
-	ft_strdel(&prompt->search_buffer.buffer);
-	if (prompt->select.poss.vec)
-		ft_vecfree(&prompt->select.poss);
+	if (buff_insert(&prompt->search_buffer, buffer,
+		prompt->search_buffer.size) != SH_SUCCESS)
+		return (SH_ERR_MALLOC);
+	prompt->query.curr_index = shell->history.size + 1;
+	return (search_history(prompt, shell));
 }

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 16:37:51 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 03:14:07 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/20 23:22:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ int		gen_prompt(t_sh *shell, char *prompt_str, t_prompt *prompt)
 		return (SH_ERR_MALLOC);
 	if (!get_cursor_pos(shell, &prompt->cursor_pos.x, &prompt->cursor_pos.y))
 		prompt->valid_pos = 1;
-	if (!(prompt->buffer.buffer = ft_strnew(PBUFF_DEF_SIZE)))
+	if (buff_init(&prompt->buffer) != SH_SUCCESS)
 		return (SH_ERR_MALLOC);
-	prompt->buffer.max_size = PBUFF_DEF_SIZE;
+	if (buff_init(&prompt->search_buffer) != SH_SUCCESS)
+		return (SH_ERR_MALLOC);
 	prompt->nl_offset = -1;
 	if (!gettermsize(&prompt->winsize))
 		prompt->valid_size = 1;

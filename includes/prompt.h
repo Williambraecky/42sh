@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 15:57:21 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 00:17:34 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 */
 
 # define PROMPT_EXIT_SELECT -1
-# define UP_ARROW 4283163
-# define DOWN_ARROW 4348699
+# define UP 4283163
+# define DOWN 4348699
 
 /*
 ** Typedefs
@@ -99,6 +99,9 @@ struct			s_prompt
 	int			valid_pos;
 	t_select	select;
 	int			select_mode;
+	int			searching;
+	int			search_found;
+	t_buff		search_buffer;
 	t_hquery	query;
 	int			querying;
 	int			done;
@@ -149,14 +152,21 @@ int				handle_backspace(t_prompt *prompt, char *buffer, t_sh *shell);
 int				handle_tab(t_prompt *prompt, char *buffer, t_sh *shell);
 int				handle_escape(t_prompt *prompt, char *buffer, t_sh *shell);
 int				select_handle_escape(t_prompt *prompt,
-				char *buffer, t_sh *shell);
+	char *buffer, t_sh *shell);
 int				select_handle_newline(t_prompt *prompt,
-				char *buffer, t_sh *shell);
+	char *buffer, t_sh *shell);
 int				select_handle_tab(t_prompt *prompt,
-				char *buffer, t_sh *shell);
+	char *buffer, t_sh *shell);
 int				select_handle_arrows(t_prompt *prompt, char *buffer);
 int				handle_shift_arrows(t_prompt *prompt, char *buffer,
-				t_sh *shell);
+	t_sh *shell);
+int				handle_search(t_prompt *prompt, char *buffer, t_sh *shell);
+int				search_history(t_prompt *prompt, t_sh *shell);
+int				char_ignore(t_prompt *prompt, char *buffer, t_sh *shell);
+int				char_empty(t_prompt *prompt, char *buffer, t_sh *shell);
+int				handle_char_search(t_prompt *prompt, char *buffer, t_sh *shell);
+int				handle_backspace_search(t_prompt *prompt, char *buffer,
+	t_sh *shell);
 void			next_line(t_prompt *prompt);
 void			prev_line(t_prompt *prompt);
 
@@ -164,8 +174,12 @@ void			prev_line(t_prompt *prompt);
 ** History
 */
 
+char			*hquery_cprev(t_sh *shell, t_hquery *hquery);
 char			*hquery_prev(t_sh *shell, t_hquery *hquery);
+char			*hquery_cnext(t_sh *shell, t_hquery *hquery);
 char			*hquery_next(t_sh *shell, t_hquery *hquery);
+void			search_render(t_prompt *prompt);
+int				search_render_found(t_prompt *prompt, char *found);
 
 /*
 ** Select
@@ -176,11 +190,11 @@ int				get_path(char **last_word, char **path);
 int				complete_command(t_sh *shell, char *s, t_vec *p);
 int				autocomplete_poss(char *path, char *start, t_vec *poss);
 int				autocomplete_command(char *line, t_sh *shell, t_vec *poss,
-				t_prompt *prompt);
+	t_prompt *prompt);
 int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt);
 int				get_display_info(t_select *select, t_prompt *prompt);
 int				display_poss(t_select *sel, t_vec *poss, int selected,
-				t_prompt *prompt);
+	t_prompt *prompt);
 int				print_selected(t_select *sel, t_vec *poss, int i);
 int				replace_cursor(t_select *sel, t_prompt *prompt);
 int				select_render(t_prompt *prompt, t_select *select);
