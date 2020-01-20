@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 16:51:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/20 20:00:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/20 21:08:29 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static int	open_history_file(t_sh *shell)
 	if (get_env(shell, "HOME", &home) != SH_SUCCESS)
 		return (-1);
 	ft_strlcat(path, home, PATH_MAX + 1);
-	if (path[ft_strlen(path) - 1] != '/')
+	if (path[0] && path[ft_strlen(path) - 1] != '/')
 		ft_strlcat(path, "/", PATH_MAX + 1);
 	ft_strlcat(path, ".willish_history", PATH_MAX + 1);
 	if ((fd = open(path, O_CREAT | O_APPEND | O_RDWR, 0666)) == -1)
