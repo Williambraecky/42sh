@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:38:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 03:20:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/20 22:30:56 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,18 @@
 ** NOTE: wake flag is if the process previously was asleep (due to ctrl+z)
 */
 
-int		jobs_to_foreground(t_sh *shell, t_cmd *cmd, int wake)
+static int	job_contains(t_sh *shell, t_cmd *cmd)
+{
+	size_t	i;
+
+	i = shell->jobs.size;
+	while (i--)
+		if (ft_vecget(&shell->jobs, i) == (void*)cmd)
+			return (1);
+	return (0);
+}
+
+int			jobs_to_foreground(t_sh *shell, t_cmd *cmd, int wake)
 {
 	tcsetpgrp(STDIN_FILENO, cmd->pgid);
 	if (wake)
@@ -29,7 +40,8 @@ int		jobs_to_foreground(t_sh *shell, t_cmd *cmd, int wake)
 	}
 	job_wait(shell, cmd);
 	tcsetpgrp(STDIN_FILENO, shell->pid);
-	tcgetattr(STDIN_FILENO, &cmd->termios);
+	if (job_contains(shell, cmd))
+		tcgetattr(STDIN_FILENO, &cmd->termios);
 	tcsetattr(STDIN_FILENO, TCSADRAIN, &shell->current_termios);
 	return (SH_SUCCESS);
 }
