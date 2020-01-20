@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 15:43:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 17:59:51 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/20 20:28:42 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ char	*getpwd_short(t_sh *shell)
 	if (!(pwd = getpwd(shell)))
 		return (NULL);
 	if (get_env(shell, "HOME", &home) == SH_SUCCESS && ft_strequ(pwd, home))
+	{
+		free(pwd);
 		return (ft_strdup("~"));
+	}
 	last = ft_strrchr(pwd, '/');
 	if (last == pwd)
 		short_pwd = ft_strdup(last);
