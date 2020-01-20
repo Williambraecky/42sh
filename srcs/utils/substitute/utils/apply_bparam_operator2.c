@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 00:37:50 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 01:32:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/20 20:22:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	apply_hashtag(t_subst *subst, t_bparam *bparam)
 	if (subst->err != SH_SUCCESS)
 		return ;
 	bparam->result = ft_strsrepl(bparam->val, pattern, "");
+	free(pattern);
 	if (!bparam->result)
 		subst->err = SH_ERR_MALLOC;
 }
