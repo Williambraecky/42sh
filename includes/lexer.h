@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/21 23:04:47 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 00:13:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -339,6 +339,9 @@ void		job_notify_cmd(t_cmd *cmd, size_t index, size_t max);
 int			jobs_last_status(t_cmd *cmd);
 void		job_continue(t_sh *shell, t_cmd *cmd, int fg);
 t_cmd		*job_by_id(t_sh *shell, char *id);
+void		print_lflag(t_cmd *cmd, size_t index, size_t max);
+void		print_pflag(t_cmd *cmd, size_t index, size_t max);
+void		basic_print(t_cmd *cmd, size_t index, size_t max);
 
 /*
 ** Utils
