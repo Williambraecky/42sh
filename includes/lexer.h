@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/21 21:25:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 23:04:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ struct		s_proc
 	char	*proc_str;
 	pid_t	pid;
 	t_vec	unprocessed_argv;
+	char	*path;
 	char	**argv;
 	char	**env;
 	t_vec	redirections;

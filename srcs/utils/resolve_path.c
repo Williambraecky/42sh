@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 15:51:35 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 17:47:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 23:16:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static int	check_dir(char *tok, char *name, char **result)
 
 	if (!(filepath = ft_strtrijoin(tok, "/", name)))
 		return (SH_ERR_MALLOC);
-	if (access(filepath, X_OK) == 0 &&
-		stat(filepath, &stat_t) == 0 && !S_ISDIR(stat_t.st_mode))
+	if (stat(filepath, &stat_t) == 0)
 	{
 		*result = filepath;
 		return (SH_SUCCESS);
@@ -53,12 +52,13 @@ int			resolve_path_env(char *paths, char *name, char **result)
 
 int			resolve_path(t_sh *shell, char *name, char **result)
 {
-	char	*paths;
-	int		ret;
+	t_hashed	*hashed;
+	char		*paths;
+	int			ret;
 
-	if (get_hash_ignorecase(shell, name, result) == SH_SUCCESS)
+	if (get_hash(shell, name, &hashed) == SH_SUCCESS)
 	{
-		if (!(*result = ft_strdup(*result)))
+		if (!(*result = ft_strdup(hashed->path)))
 			return (SH_ERR_MALLOC);
 		return (SH_SUCCESS);
 	}

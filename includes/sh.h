@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 00:48:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 23:22:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ struct		s_sh
 	int		running;
 	int		stop_code;
 	int		block_ret_update;
+	int		allow_hash_update;
 };
 
 struct		s_subst
@@ -278,6 +279,10 @@ int			has_hash(t_sh *shell, char *bin);
 void		remove_hash(t_sh *shell, char *bin);
 int			get_hash_ignorecase(t_sh *shell, char *str, char **result);
 void		path_change(t_sh *shell);
+int			add_hash(t_sh *shell, char *cmd, char *path);
+void		hash_add_use(t_sh *shell, char *name);
+int			hash_add_use_insert(t_sh *shell, char *name, char *path);
+void		reset_hash(t_sh *shell, char *cmd);
 
 /*
 ** History
@@ -344,5 +349,6 @@ int			run_command(t_sh *shell, char *command);
 char		*get_hostname(t_sh *shell);
 char		*get_hostname_short(t_sh *shell);
 char		*get_git_branch(t_sh *shell);
+int			is_dir(char *str);
 
 #endif

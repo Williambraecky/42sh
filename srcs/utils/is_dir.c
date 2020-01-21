@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_hash.c                                         :+:      :+:    :+:   */
+/*   is_dir.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/19 15:28:15 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 22:50:41 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/21 23:17:50 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/21 23:18:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-int		get_hash(t_sh *shell, char *bin, t_hashed **hash)
+int		is_dir(char *str)
 {
-	if (!has_hash(shell, bin))
-		return (SH_ERR_NOEXIST);
-	*hash = ft_mapget(shell->use_hash, bin);
-	return (SH_SUCCESS);
+	struct stat st;
+
+	if (stat(str, &st) == -1)
+		return (0);
+	return (S_ISDIR(st.st_mode));
 }

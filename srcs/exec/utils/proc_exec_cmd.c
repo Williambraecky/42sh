@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 04:08:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 23:20:16 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,30 @@ static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)
 
 /*
 ** TODO: free path
+** TODO: add path verification (directory etc)
 */
 
 static void	exec_bin(t_sh *shell, t_proc *proc)
 {
-	char	*path;
-
 	if (proc->status != 0)
 		exit(1);
-	if (resolve_path(shell, proc->argv[0], &path) != SH_SUCCESS)
+	if (!proc->path)
 	{
 		ft_dprintf(2, "42sh: command not found: %s\n", proc->argv[0]);
 		exit(127);
 	}
-	execve(path, proc->argv, proc->env);
+	if (access(proc->path, X_OK) == -1)
+	{
+		ft_dprintf(2, "42sh: permission denied: %s\n", proc->argv[0]);
+		exit(127);
+	}
+	if (is_dir(proc->path))
+	{
+		ft_dprintf(2, "42sh: is a directory: %s\n", proc->argv[0]);
+		exit(127);
+	}
+	hash_add_use_insert(shell, proc->argv[0], proc->path);
+	execve(proc->path, proc->argv, proc->env);
 	ft_dprintf(2, "42sh: error executing: %s\n", proc->argv[0]);
 	exit(127);
 }

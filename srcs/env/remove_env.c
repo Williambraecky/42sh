@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:33:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 14:25:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 22:52:25 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,5 @@ void	remove_env(t_sh *shell, char *key)
 	ft_memdel(&node->value);
 	ft_strdel(&node->key);
 	node->is_used = 0;
+	shell->env->size--;
 }

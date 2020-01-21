@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:34:43 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 15:35:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 22:53:23 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,5 @@ void	remove_internal(t_sh *shell, char *key)
 	ft_memdel(&node->value);
 	ft_strdel(&node->key);
 	node->is_used = 0;
+	shell->internals->size--;
 }

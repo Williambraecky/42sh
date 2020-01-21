@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 13:43:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 16:55:20 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 23:19:17 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void		dot_dot_sanitization(char *curpath)
 	prev_tok = NULL;
 	ft_memset(curpath, 0, MAXPATHLEN * 2 + 1);
 	ft_strcat(curpath, "/");
-	while ((tok = ft_strtok(tok, "/")) && ft_is_dir(curpath))
+	while ((tok = ft_strtok(tok, "/")) && is_dir(curpath))
 	{
 		if (!ft_strequ(tok, "..") && !ft_strequ(tok, "."))
 		{

@@ -6,84 +6,42 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:21:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/08 18:38:06 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/21 22:50:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
+extern int	g_optind;
+extern int	g_optopt;
+
 /*
 ** NOTE: prints executables currently in hash list (with usage)
 */
 
-static int	check_in_path_dir(DIR *dir, char *name)
-{
-	struct dirent	*sd;
-
-	while ((sd = readdir(dir)) != NULL)
-	{
-		if (ft_strequ(name, sd->d_name))
-			return (0);
-	}
-	return (1);
-}
-
-static int	is_binary(char *name, t_sh *shell)
-{
-	DIR		*dir;
-	char	*path;
-	char	**path_dir;
-	size_t	i;
-	int		ret;
-
-	if (get_env(shell, "PATH", &path) != SH_SUCCESS
-	|| !(path_dir = ft_strsplit(path, ':')))
-		return (has_env(shell, "PATH") ? SH_ERR_ENV_NOEXIST : SH_ERR_MALLOC);
-	i = 0;
-	while (path_dir[i])
-	{
-		dir = opendir(path_dir[i]);
-		if (dir == NULL)
-			return (SH_ERR_OPEN_DIR);
-		if ((ret = check_in_path_dir(dir, name)) == 0)
-			return (ret);
-		i++;
-	}
-	return (SH_ERR_NOEXIST);
-}
-
-static int	print_hash_table(char **av, t_sh *shell)
+static void	print_hash_table(t_sh *shell)
 {
 	size_t		i;
-	int			ret;
 	t_hashed	*hash;
 
-	i = 1;
-	while (av[i])
-	{
-		if ((ret = is_binary(av[i], shell)) > 0)
-			return (ret);
-		i++;
-		if (!av[i])
-			return (SH_SUCCESS);
-	}
-	if (shell->use_hash->max_size < 1)
-		return (SH_SUCCESS);
 	i = 0;
+	if (!shell->use_hash->size)
+		return ;
+	ft_printf("hits    command\n");
 	while (i < shell->use_hash->max_size)
 	{
 		if (shell->use_hash->nodes[i].is_used)
-			get_hash(shell, shell->use_hash->nodes[i].value, &hash);
-		ft_printf("%d\t%s", hash->uses, hash->path);
+		{
+			get_hash(shell, shell->use_hash->nodes[i].key, &hash);
+			ft_printf("%4d    %s\n", hash->uses, hash->path);
+		}
 		i++;
 	}
-	return (SH_SUCCESS);
 }
 
-static int	clear_hash_table(char **av, t_sh *shell)
+static void	clear_hash_table(t_sh *shell)
 {
 	size_t	i;
-	int		ret;
 
 	i = 0;
 	while (i < shell->use_hash->max_size)
@@ -92,38 +50,61 @@ static int	clear_hash_table(char **av, t_sh *shell)
 			remove_hash(shell, shell->use_hash->nodes[i].key);
 		i++;
 	}
-	i = 2;
-	while (av[i])
-	{
-		if ((ret = is_binary(av[i], shell)) > 0)
-			return (ret);
-		i++;
-	}
-	return (SH_SUCCESS);
 }
 
-int			hash_builtin(int ac, char **av, t_sh *shell)
+static int	hash_arguments(t_sh *shell, int argc, char **argv)
 {
-	int		r_flg;
-	size_t	i;
+	char	*path;
+	int		err;
 
-	r_flg = 0;
-	i = 1;
-	while (i < (size_t)ac && av[i] && av[i][0] == '-')
+	err = 0;
+	while (argc--)
 	{
-		if (ft_strequ("-r", av[i]))
-			r_flg = 1;
+		if (resolve_path(shell, argv[argc], &path) != SH_SUCCESS)
+		{
+			ft_dprintf(2, "42sh: hash: %s: not found\n", argv[argc]);
+			err = 1;
+			continue ;
+		}
+		if (has_hash(shell, argv[argc]))
+			reset_hash(shell, argv[argc]);
 		else
 		{
-			ft_printf("42sh: hash: -%c: invalid option\n", av[i][1]);
-			ft_printf("usage: hash [-r] [name...]\n");
-			return (SH_SUCCESS);
+			if (add_hash(shell, argv[argc], path) != SH_SUCCESS)
+			{
+				free(path);
+				return (1);
+			}
 		}
-		i++;
+		free(path);
 	}
+	return (err);
+}
+
+int			hash_builtin(int argc, char **argv, t_sh *shell)
+{
+	int		r_flg;
+	int		ret;
+
+	r_flg = 0;
+	while ((ret = ft_getopt(argc, argv, "r")) != -1)
+	{
+		if (ret == 'r')
+			r_flg = 1;
+		else if (ret == '?')
+		{
+			ft_printf("42sh: hash: -%c: invalid option\n", ret);
+			ft_printf("usage: hash [-r] [name...]\n");
+			return (1);
+		}
+	}
+	argc -= g_optind;
+	argv += g_optind;
 	if (r_flg)
-		return (clear_hash_table(av, shell));
+		clear_hash_table(shell);
+	if (argc == 0)
+		print_hash_table(shell);
 	else
-		return (print_hash_table(av, shell));
-	return (SH_SUCCESS);
+		return (hash_arguments(shell, argc, argv)); //TODO hash arguments
+	return (0);
 }

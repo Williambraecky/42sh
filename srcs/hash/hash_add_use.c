@@ -1,21 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_hash.c                                         :+:      :+:    :+:   */
+/*   hash_add_use.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/19 15:28:15 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 22:50:41 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/21 22:17:52 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/21 23:23:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-int		get_hash(t_sh *shell, char *bin, t_hashed **hash)
+int		hash_add_use_insert(t_sh *shell, char *name, char *path)
 {
-	if (!has_hash(shell, bin))
-		return (SH_ERR_NOEXIST);
-	*hash = ft_mapget(shell->use_hash, bin);
+	if (!shell->allow_hash_update)
+		return (SH_SUCCESS);
+	if (!has_hash(shell, name))
+	{
+		if (add_hash(shell, name, path) != SH_SUCCESS)
+			return (SH_ERR_MALLOC);
+	}
+	hash_add_use(shell, name);
 	return (SH_SUCCESS);
+}
+
+void	hash_add_use(t_sh *shell, char *name)
+{
+	t_hashed	*hashed;
+
+	if (!shell->allow_hash_update)
+		return ;
+	if (get_hash(shell, name, &hashed) != SH_SUCCESS)
+		return ;
+	hashed->uses += 1;
 }

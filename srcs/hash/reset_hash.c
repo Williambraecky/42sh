@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_hash.c                                         :+:      :+:    :+:   */
+/*   reset_hash.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/19 15:28:15 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 22:50:41 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/21 22:39:29 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/21 22:40:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-int		get_hash(t_sh *shell, char *bin, t_hashed **hash)
+void	reset_hash(t_sh *shell, char *cmd)
 {
-	if (!has_hash(shell, bin))
-		return (SH_ERR_NOEXIST);
-	*hash = ft_mapget(shell->use_hash, bin);
-	return (SH_SUCCESS);
+	t_hashed	*hashed;
+
+	if (get_hash(shell, cmd, &hashed) != SH_SUCCESS)
+		return ;
+	hashed->uses = 0;
 }

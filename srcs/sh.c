@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 17:07:51 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 23:24:52 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char		*g_error_str[] =
 
 static int	init_shell(t_sh *shell, const char **env)
 {
-	ft_memset(shell, 0, sizeof(shell));
+	ft_memset(shell, 0, sizeof(*shell));
 	if (!(shell->internals = ft_mapnew(100)))
 		return (1);
 	if (!(shell->env = ft_mapnew(100)))
@@ -68,7 +68,9 @@ int			run_command(t_sh *shell, char *command)
 	ft_bzero(&lexer_, sizeof(lexer_));
 	if ((ret = lexer(command, &lexer_, shell)) == SH_SUCCESS)
 	{
+		shell->allow_hash_update = 1;
 		exec_tree(shell, lexer_.build.head);
+		shell->allow_hash_update = 0;
 	}
 	else
 		free_tree(lexer_.build.head);

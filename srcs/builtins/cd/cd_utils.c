@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 13:39:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 16:39:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 23:19:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,6 @@
 #include "builtin.h"
 #include <sys/stat.h>
 #include <sys/param.h>
-
-int		ft_is_dir(char *str)
-{
-	struct stat st;
-
-	if (stat(str, &st) == -1)
-		return (0);
-	return (S_ISDIR(st.st_mode));
-}
 
 int		cd_get_pwd(t_sh *shell, char *buffer, size_t buff_size)
 {
@@ -68,7 +59,7 @@ int		cd_scan_cdpath(t_sh *shell, char *path, char *curpath)
 		if (buffer[ft_strlen(buffer) - 1] != '/')
 			ft_strlcat(buffer, "/", MAXPATHLEN + 1);
 		ft_strlcat(buffer, path, MAXPATHLEN + 1);
-		if (ft_is_dir(buffer))
+		if (is_dir(buffer))
 		{
 			ft_freesplit(split);
 			ft_strncpy(curpath, buffer, MAXPATHLEN);

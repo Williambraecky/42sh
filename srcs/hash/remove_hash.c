@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/19 15:30:45 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 15:33:22 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 22:52:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,5 @@ void	remove_hash(t_sh *shell, char *bin)
 	ft_memdel(&node->value);
 	ft_strdel(&node->key);
 	node->is_used = 0;
+	shell->use_hash->size--;
 }
