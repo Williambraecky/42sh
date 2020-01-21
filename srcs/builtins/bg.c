@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:26:13 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 19:15:02 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 21:51:29 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,12 @@
 
 /*
 ** NOTE: puts current top job to background (no waiting)
+** TODO: handle arguments (multiple)
 ** TODO: job id as argument
 */
 
-int		bg_builtin(int argc, char **argv, t_sh *shell)
+static int	goto_bg(t_sh *shell, t_cmd *cmd)
 {
-	t_cmd	*cmd;
-
-	(void)argc;
-	(void)argv;
-	if (shell->jobs.size == 0)
-	{
-		ft_dprintf(2, "bg: no current job\n");
-		return (1);
-	}
-	cmd = ft_vecget(&shell->jobs, shell->jobs.size - 1);
 	if (cmd->background)
 	{
 		ft_dprintf(2, "bg: job already in background\n");
@@ -37,4 +28,42 @@ int		bg_builtin(int argc, char **argv, t_sh *shell)
 	}
 	job_continue(shell, cmd, 0);
 	return (0);
+}
+
+static int	handle_args(int argc, char **argv, t_sh *shell)
+{
+	t_cmd	*cmd;
+	int		i;
+
+	i = 1;
+	while (i < argc)
+	{
+		cmd = job_by_id(shell, argv[i]);
+		if (!cmd)
+		{
+			ft_dprintf(2, "42sh: bg: %s: no such job\n", argv[i]);
+			return (1);
+		}
+		goto_bg(shell, cmd);
+		i++;
+	}
+	return (0);
+}
+
+int			bg_builtin(int argc, char **argv, t_sh *shell)
+{
+	t_cmd	*cmd;
+
+	if (argc == 1)
+	{
+		if (shell->jobs.size == 0)
+		{
+			ft_dprintf(2, "bg: no current job\n");
+			return (1);
+		}
+		cmd = ft_vecget(&shell->jobs, shell->jobs.size - 1);
+		if (goto_bg(shell, cmd))
+			return (1);
+	}
+	return (handle_args(argc, argv, shell));
 }

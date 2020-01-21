@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:43:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 02:34:33 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 21:42:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int			exec_cmd(t_sh *shell, t_cmd *cmd)
 		set_last_return_code(shell, 1);
 		return (ret);
 	}
+	cmd->termios = shell->old_termios;
 	if (cmd->background)
 	{
 		jobs_to_background(shell, cmd, 0);

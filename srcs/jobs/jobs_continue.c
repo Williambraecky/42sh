@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 01:08:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 19:14:16 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 21:38:17 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void		job_continue(t_sh *shell, t_cmd *cmd, int fg)
 {
 	unflag_stopped(cmd);
 	if (fg)
-		jobs_to_foreground(shell, cmd, !cmd->background);
+		jobs_to_foreground(shell, cmd, 1);
 	else
-		jobs_to_background(shell, cmd, !cmd->background);
+		jobs_to_background(shell, cmd, 1);
 }
