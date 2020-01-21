@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 17:44:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 18:00:57 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 23:48:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,89 +19,40 @@
 
 static int	check_is_alias(char *name, t_sh *shell)
 {
-	size_t	i;
-	char	*alias_value;
-	char	*alias_key;
-
-	i = 0;
-	while (i < shell->aliases->max_size)
+	if (has_alias(shell, name))
 	{
-		if (shell->aliases->nodes[i].is_used)
-		{
-			alias_value = (char*)shell->aliases->nodes[i].value;
-			alias_key = (char*)shell->aliases->nodes[i].key;
-			if (ft_strequ(alias_key, name))
-			{
-				ft_printf("%s is an alias for %s\n", alias_key, alias_value);
-				return (-1);
-			}
-		}
-		i++;
+		ft_printf("%s is an alias for '%s'\n", name, get_alias(shell, name));
+		return (-1);
 	}
 	return (0);
 }
 
 static int	check_is_builtin(char *name, t_sh *shell)
 {
-	size_t	i;
-	char	*built_key;
-
-	i = 0;
-	while (i < shell->builtins->max_size)
+	if (is_builtin(shell, name))
 	{
-		if (shell->builtins->nodes[i].is_used)
-		{
-			built_key = (char*)shell->builtins->nodes[i].key;
-			if (ft_strequ(built_key, name))
-			{
-				ft_printf("%s is a shell builtin\n", name);
-				return (-1);
-			}
-		}
-		i++;
-	}
-	return (0);
-}
-
-static int	check_inside_path_dir(DIR *dir, char *name, char *path)
-{
-	struct dirent	*sd;
-
-	while ((sd = readdir(dir)) != NULL)
-	{
-		if (ft_strequ(name, sd->d_name))
-		{
-			ft_printf("%s is %s/%s\n", name, path, name);
-			return (-1);
-		}
+		ft_printf("%s is a shell builtin\n", name);
+		return (-1);
 	}
 	return (0);
 }
 
 static int	check_is_exec(char *name, t_sh *shell)
 {
-	char	**path_dir;
 	char	*path;
-	size_t	i;
-	int		ret;
-	DIR		*dir;
+	t_stat	stat_t;
 
-	if (get_env(shell, "PATH", &path) != SH_SUCCESS
-		|| !(path_dir = ft_strsplit(path, ':')))
-		return (has_env(shell, "PATH") ? SH_ERR_NOEXIST : SH_ERR_MALLOC);
-	i = 0;
-	while (path_dir[i])
+	if (resolve_path(shell, name, &path) == SH_SUCCESS)
 	{
-		dir = opendir(path_dir[i]);
-		if (dir == NULL)
-			return (SH_ERR_OPEN_DIR);
-		ret = check_inside_path_dir(dir, name, path_dir[i]);
-		if (ret)
-			return (ret);
-		i++;
+		if (stat(path, &stat_t) == 0 && !S_ISDIR(stat_t.st_mode) &&
+			access(path, X_OK) == 0)
+		{
+			ft_printf("%s is %s\n", name, path);
+			free(path);
+			return (-1);
+		}
+		free(path);
 	}
-	ft_freesplit(path_dir);
-	closedir(dir);
 	return (0);
 }
 
