@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:15:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 17:06:15 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/21 23:32:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,6 @@
 /*
 ** NOTE: defines internal variable + other
 */
-
-static int	valid_arg(char *string)
-{
-	char	*tmp;
-	int		ret;
-
-	tmp = ft_strchr(string, '=');
-	*tmp = '\0';
-	ret = 1;
-	if (!string || !str_is_name(string))
-		ret = 0;
-	else if (!(tmp + 1) || !str_is_name(tmp + 1))
-		ret = 0;
-	*tmp = '=';
-	return (ret);
-}
 
 static void	print_internals(t_map *map)
 {
@@ -47,9 +31,26 @@ static void	print_internals(t_map *map)
 	}
 }
 
+static int	handle_define(t_sh *shell, char *definition)
+{
+	char	*equals;
+
+	equals = ft_strchr(definition, '=');
+	*equals = '\0';
+	if (!str_is_name(definition))
+	{
+		*equals = '=';
+		ft_dprintf(2, "42sh: set: `%s': not a valid identifier\n",
+			definition);
+		return (1);
+	}
+	if (repl_internal(shell, definition, equals + 1) != SH_SUCCESS)
+		return (SH_ERR_MALLOC);
+	return (SH_SUCCESS);
+}
+
 int			set_builtin(int argc, char **argv, t_sh *shell)
 {
-	char	**av;
 	size_t	i;
 	int		ret;
 
@@ -57,17 +58,11 @@ int			set_builtin(int argc, char **argv, t_sh *shell)
 		print_internals(shell->internals);
 	i = 1;
 	ret = SH_SUCCESS;
-	while (i < (size_t)argc && ret == SH_SUCCESS)
+	while (i < (size_t)argc)
 	{
-		if (ft_strchr(argv[i], '=') != NULL && valid_arg(argv[i]))
-		{
-			av = ft_strsplit(argv[i], '=');
-			ret = repl_internal(shell, av[0], av[1]);
-			ft_freesplit(av);
-		}
-		else
-			return (SH_ERR_SYNTAX);
-		++i;
+		if (ft_strchr(argv[i], '=') != NULL)
+			ret = handle_define(shell, argv[i]);
+		i++;
 	}
 	return (ret);
 }
