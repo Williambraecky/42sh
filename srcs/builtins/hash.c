@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:21:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 22:50:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 00:11:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int			hash_builtin(int argc, char **argv, t_sh *shell)
 			r_flg = 1;
 		else if (ret == '?')
 		{
-			ft_printf("42sh: hash: -%c: invalid option\n", ret);
+			ft_printf("42sh: hash: -%c: invalid option\n", g_optopt);
 			ft_printf("usage: hash [-r] [name...]\n");
 			return (1);
 		}
