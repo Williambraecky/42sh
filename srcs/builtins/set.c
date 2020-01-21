@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:15:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 17:49:25 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:06:15 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static int	valid_arg(char *string)
 	*tmp = '\0';
 	ret = 1;
 	if (!string || !str_is_name(string))
+		ret = 0;
+	else if (!(tmp + 1) || !str_is_name(tmp + 1))
 		ret = 0;
 	*tmp = '=';
 	return (ret);
