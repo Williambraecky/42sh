@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 17:25:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 22:01:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ int			map_del_filter(t_node *node)
 ** TODO: actually do it lol
 */
 
-static void	jobs_destroy(t_cmd **cmd)
+static void	jobs_destroy(t_cmd *cmd)
 {
-	(void)cmd;
+	free_cmd(cmd);
 }
 
 /*
