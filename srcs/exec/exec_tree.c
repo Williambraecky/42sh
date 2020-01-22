@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:44:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/22 22:30:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 22:39:52 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,11 @@ int		exec_tree(t_sh *shell, t_cmd *tree)
 	t_cmd	*next;
 
 	curr = tree;
-	while (curr && shell->running)
+	while (curr)
 	{
 		next = curr->next;
-		if (!curr->condition || curr->condition(get_last_return_code(shell)))
+		if (shell->running &&
+			(!curr->condition || curr->condition(get_last_return_code(shell))))
 			exec_cmd(shell, curr);
 		else
 			free_cmd(curr);
