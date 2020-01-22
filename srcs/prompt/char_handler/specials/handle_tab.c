@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:55:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 00:32:19 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 22:14:57 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ static int	one_poss_only(t_vec *poss, t_prompt *prompt)
 	default_char_handler(prompt, str, NULL);
 	if (prompt->select.shell_var_brace)
 		default_char_handler(prompt, "}", NULL);
-	default_char_handler(prompt, " ", NULL);
+	if (is_dir(str))
+		default_char_handler(prompt, "/", NULL);
+	else
+		default_char_handler(prompt, " ", NULL);
 	ft_vecdestroy(poss, default_vec_destroy_function);
 	return (SH_SUCCESS);
 }
