@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 23:20:16 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 22:21:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)
 ** TODO: add path verification (directory etc)
 */
 
-static void	exec_bin(t_sh *shell, t_proc *proc)
+static void	exec_bin(t_proc *proc)
 {
 	if (proc->status != 0)
 		exit(1);
@@ -77,7 +77,6 @@ static void	exec_bin(t_sh *shell, t_proc *proc)
 		ft_dprintf(2, "42sh: is a directory: %s\n", proc->argv[0]);
 		exit(127);
 	}
-	hash_add_use_insert(shell, proc->argv[0], proc->path);
 	execve(proc->path, proc->argv, proc->env);
 	ft_dprintf(2, "42sh: error executing: %s\n", proc->argv[0]);
 	exit(127);
@@ -93,7 +92,7 @@ static int	post_fork(t_sh *shell, t_proc *proc, int builtin, int need_fork)
 	if (builtin)
 		ret = exec_builtin(shell, proc, need_fork);
 	else
-		exec_bin(shell, proc);
+		exec_bin(proc);
 	return (ret);
 }
 
