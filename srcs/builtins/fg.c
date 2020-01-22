@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:25:11 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 21:52:26 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 19:17:24 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,25 @@
 ** TODO: job id as argument
 */
 
+/*
+** TODO: remove cmd from jobs
+*/
+
+static size_t	job_index(t_sh *shell, t_cmd *cmd)
+{
+	size_t	i;
+
+	i = shell->jobs.size;
+	while (i--)
+		if (ft_vecget(&shell->jobs, i) == cmd)
+			return (i);
+	return (i);
+}
+
 static int	goto_fg(t_sh *shell, t_cmd *cmd)
 {
 	ft_printf("%s\n", cmd->cmd_str);
+	ft_vecdel(&shell->jobs, job_index(shell, cmd));
 	job_continue(shell, cmd, 1);
 	return (0);
 }
