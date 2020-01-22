@@ -6,11 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 16:44:34 by wbraeckm          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2020/01/22 22:50:24 by wbraeckm         ###   ########.fr       */
-=======
-/*   Updated: 2020/01/22 23:00:44 by wbraeckm         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Updated: 2020/01/22 23:02:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +30,7 @@ static int	read_pos_from_buffer(char *buffer, int *x, int *y)
 		return (2);
 	*tmp = '\0';
 	write = buffer;
-<<<<<<< Updated upstream
-	while (write != tmp)
-=======
 	while (write != tmp - 1)
->>>>>>> Stashed changes
 		ioctl(0, TIOCSTI, write++);
 	tmp_y = ft_atoi(tmp + 1);
 	if (!(tmp = ft_strchr(tmp, ';')))
