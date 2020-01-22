@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:00:39 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/15 00:55:44 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 22:10:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,27 +50,30 @@ int		first_word(char *line, size_t i, int first)
 	return (first);
 }
 
-int		get_path(char **line, char **path)
+int		get_path(t_sh *shell, char **line, char **path)
 {
 	int		i;
 
+	if (**line == '~' && has_env(shell, "HOME"))
+	{
+		*line = ft_strdup(*((*line) + 1) == '/' ? (*line) + 2 : (*line) + 1);
+		return (get_env_clone(shell, "HOME", path));
+	}
 	i = ft_strlen(*line) - 1;
-	if (strchr(*line, '/'))
+	if (ft_strchr(*line, '/'))
 	{
 		while (i > 0 && line[0][i] != '/')
 			i--;
 		*path = ft_strsub(*line, 0, i + 1);
 		*line = ft_strdup(*line + i + 1);
-		if (!*path || !*line)
-			return (SH_ERR_MALLOC);
 	}
 	else
 	{
 		*path = ft_strdup(".");
 		*line = ft_strdup(*line);
-		if (!*path || !*line)
-			return (SH_ERR_MALLOC);
 	}
+	if (!*path || !*line)
+		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
 

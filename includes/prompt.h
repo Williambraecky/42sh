@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 00:17:34 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 21:58:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ int				search_render_found(t_prompt *prompt, char *found);
 */
 
 char			*get_cursor_word(char *line, t_prompt *prompt);
-int				get_path(char **last_word, char **path);
+int				get_path(t_sh *shell, char **last_word, char **path);
 int				complete_command(t_sh *shell, char *s, t_vec *p);
 int				autocomplete_poss(char *path, char *start, t_vec *poss);
 int				autocomplete_command(char *line, t_sh *shell, t_vec *poss,
