@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 23:24:52 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 18:59:53 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ static void	run(t_sh *shell)
 int			main(int argc, const char **argv, const char **env)
 {
 	t_sh	shell;
+	int		stop_code;
 
 	(void)argc;
 	(void)argv;
@@ -132,6 +133,7 @@ int			main(int argc, const char **argv, const char **env)
 	{
 		run(&shell);
 	}
+	stop_code = shell.stop_code;
 	free_sh(&shell);
-	return (shell.stop_code);
+	return (stop_code);
 }
