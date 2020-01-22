@@ -23,6 +23,8 @@
 **
 */
 
+extern int	g_optopt;
+
 static int	set_options(int ac, char **av, t_fc *as)
 {
 	char	c;
@@ -48,7 +50,7 @@ static int	set_options(int ac, char **av, t_fc *as)
 		else
 		{
 			ret = NO_ARG;
-			ft_dprintf(2, "fc: bad options: %c\n", c);
+			ft_dprintf(2, "fc: bad options: %c\n", g_optopt);
 		}
 
 	}
