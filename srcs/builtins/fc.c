@@ -6,7 +6,7 @@
 /*   By: wdaher-a <wdaher-a@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/22 17:11:46 by wdaher-a          #+#    #+#             */
-/*   Updated: 2020/01/15 20:05:19 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/22 17:53:08 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,42 @@
 ** commands previously entered to an interactive sh.
 */
 
+/*
+** TODO:
+** free fc after use
+**
+*/
+
 static int	set_options(int ac, char **av, t_fc *as)
 {
 	char	c;
+	int		ret;
 
 	ft_bzero(as->opt, 5);
-	while ((c = ft_getopt(ac, av, "elnrs")) != -1)
+	ret =  SH_SUCCESS;
+	while ((c = ft_getopt(ac, av, "elnrs")) != -1 && ret ==  SH_SUCCESS)
 	{
-		if (c == 'e' && !ft_strchr(as->opt, 'e'))
-			ft_strcat(as->opt, "e");
-		else if (c == 'l' && !ft_strchr(as->opt, 'l'))
-			ft_strcat(as->opt, "l");
-		else if (c == 'n' && !ft_strchr(as->opt, 'n'))
-		{
-			ft_strcat(as->opt, "n");
+		if (c == 'n')
 			as->n = 1;
-		}
-		else if (c == 'r' && !ft_strchr(as->opt, 'r'))
-		{
-			ft_strcat(as->opt, "r");
+		if (c == 'r')
 			as->rev = 1;
-		}
-		else if (c == 's' && !ft_strchr(as->opt, 's'))
+		if (c == 'e' && !ft_strchr(as->opt, 'e') &&
+		(!ft_strchr(as->opt, 'l') && !ft_strchr(as->opt, 's')))
+			ft_strcat(as->opt, "e");
+		else if (c == 'l' && !ft_strchr(as->opt, 'l') &&
+		(!ft_strchr(as->opt, 's') && !ft_strchr(as->opt, 'e')))
+			ft_strcat(as->opt, "l");
+		else if (c == 's' && !ft_strchr(as->opt, 's') &&
+		(!ft_strchr(as->opt, 'e') && !ft_strchr(as->opt, 'l')))
 			ft_strcat(as->opt, "s");
 		else
-			return (NO_ARG);
+		{
+			ret = NO_ARG;
+			ft_dprintf(2, "fc: bad options: %c\n", c);
+		}
+
 	}
-	return (SH_SUCCESS);
+	return (ret);
 }
 
 static int	fc_parser(int ac, char **av, t_fc *as)
@@ -62,8 +71,9 @@ static int	fc_parser(int ac, char **av, t_fc *as)
 		}
 		if (!ft_strchr(av[i], '-') && !ft_strchr(av[i], '='))
 		{
-			as->f = av[i];
-			if (av[i + 1])
+			if (!as->f)
+				as->f = av[i];
+			if (!as->l && av[i + 1])
 				if (!ft_strchr(av[i + 1], '-') && !ft_strchr(av[i + 1], '='))
 					as->l = av[i + 1];
 		}
@@ -72,19 +82,6 @@ static int	fc_parser(int ac, char **av, t_fc *as)
 	ret = set_options(ac, av, as);
 	return (ret);
 }
-
-/*
-** static int	fc_s_option(t_sh *shell, t_fc *args)
-** {
-** 	size_t i;
-**
-** 	if (args->old_new)
-** 	{
-** 			i = 0;
-** 			while ()
-** 	}
-** }
-*/
 
 static int	simple_list(t_sh *shell, t_fc *args, int rev, int nonumber)
 {
@@ -133,50 +130,84 @@ static int	fc_l_option(t_sh *shell, t_fc *args)
 
 static int	get_last_command(t_sh *shell, t_fc *as, char **command)
 {
-	int		ret;
-	size_t	pos;
 	int		i;
+	int		ret;
 
-	if (!shell)
-		return (SH_ERR_NOEXIST);
-	i = shell->history.size - 1;
-	while (as->f && i >= 0)
+	if (!shell || !as)
+		return (SH_ERR);
+	ret = SH_SUCCESS;
+	i = (as->rev) ? 0 : shell->history.size - 1;
+	while (i >= 0 && i < (int)shell->history.size && as->f)
 	{
 		if (ft_strstartswith(shell->history.vec[i], as->f))
-		{
-			*command = ft_strdup(shell->history.vec[i]);
-			if (as->old_new && ft_strstartswith(*command, as->old_new[0]))
-				*command = ft_strsreplall(*command, as->old_new[0],
-						as->old_new[1]);
-			return ((command) ? SH_ERR_MALLOC : SH_SUCCESS);
-		}
-		--i;
+			break ;
+		if (as->rev)
+			++i;
+		else
+			--i;
 	}
-	pos = (as->rev) ? 0 : shell->history.size - 1;
-	ret = get_history(shell, pos, command);
-	return (ret && remove_history(shell, pos));
+	if (i >= 0 && i < (int)shell->history.size)
+	{
+		*command = ft_strdup(shell->history.vec[i]);
+		if (!command)
+			return (SH_ERR_MALLOC);
+		ret = remove_history(shell, i);
+	}
+	//if (as->old_new && ft_strstartswith(*command, as->old_new[0]))
+		//ft_strsreplall(*command, as->old_new[0], as->old_new[1]);
+	return (ret);
+}
+
+int		fc_e_option(t_sh *shell, t_fc *as, char **command)
+{
+	int		ret;
+
+	ret = get_last_command(shell, as, command);
+	if (command ==  NULL)
+		return (ret);
+	if ((as->fd = open("/tmp/.42sh_tmp_fc", O_RDWR | O_CREAT | O_TRUNC, 0755)) == -1)
+		return (SH_ERR_OPEN);
+	ft_dprintf(as->fd, *command);
+	close(as->fd);
+	ret = run_command(shell, ft_strjoin(as->ed, " /tmp/.42sh_tmp_fc"));
+	// here i need to get back that edited line;
+	ret = unlink("/tmp/.42sh_tmp_fc");
+	return (ret);
+}
+
+int		fc_s_option(t_sh *shell, t_fc *as, char **command)
+{
+	int		ret;
+	char	*tmp;
+
+	ret =  SH_SUCCESS;
+	tmp =  NULL;
+	as->rev = 0;
+	ret = get_last_command(shell, as, &tmp);
+	if (tmp)
+		*command = tmp;
+	//here i need to execute retrieved command
+	return (ret);
 }
 
 int		fc_builtin(int argc, char **argv, t_sh *shell)
 {
-	t_fc	*args;
-	char	*command;
+	t_fc	*as;
 	int		ret;
+	char	*command;
 
-	args = init_fc(shell);
-	if (fc_parser(argc, argv, args) > 0)
-		return (SH_ERR_NOEXIST);
-	ft_printf("first = %s, last = %s\n", args->f, args->l);
-	if (args->old_new)
-		ft_printf("%s=%s\n", args->old_new[0], args->old_new[1]);
-	ft_printf("start = %d end = %d\n", args->start, args->end);
-	ft_printf("opt = %s\n", args->opt);
-	if (ft_strchr(args->opt, 'l'))
-		return (fc_l_option(shell, args));
-	if (ft_strchr(args->opt, 's'))
-	{
-		ret = get_last_command(shell, args, &command);
-		ft_printf("command = %s\n", command);
-	}
-	return (SH_SUCCESS);
+	if (argc == 1)
+		return (SH_SUCCESS);
+	as = init_fc(shell);
+	ret = SH_SUCCESS;
+	if (fc_parser(argc, argv, as) > 0)
+		ret = SH_ERR_NOEXIST;
+	if (ft_strchr(as->opt, 'l'))
+		ret = fc_l_option(shell, as);
+	if (ft_strchr(as->opt, 'e') || ft_strlen(as->opt) < 1)
+		ret = fc_e_option(shell, as, &command);
+	if (ft_strchr(as->opt, 's'))
+		ret = fc_s_option(shell, as, &command);
+	//ret = free_fc(as);
+	return (ret);
 }

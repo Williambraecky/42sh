@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:53 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/15 17:52:48 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/21 18:27:15 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ struct		s_fc
 	char	*f;
   char  *l;
   char  **old_new;
+  char	*ed;
   int   start;
   int   end;
   int   rev;
   int   n;
+  int	fd;
   char  opt[6];
 };
 
@@ -101,6 +103,7 @@ int			test_op(char op, char **av, int ac, int not_op);
 **   fc Utils
 */
 
-t_fc	 *init_fc(t_sh *shell);
+t_fc	*init_fc(t_sh *shell);
+int		free_fc(t_fc *fc);
 
 #endif

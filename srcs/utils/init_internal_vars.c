@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 14:39:11 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 16:15:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/21 17:48:13 by wdaher-a         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static char	*g_base_vars[][2] =
 	{"bg_light_magenta", "\e[105m"},
 	{"bg_light_cyan", "\e[106m"},
 	{"bg_white", "\e[107m"},
+	{"fcedit", "/usr/bin/vim"},
 	{NULL, NULL},
 };
 
