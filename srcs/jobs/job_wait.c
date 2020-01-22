@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:51:21 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 19:12:46 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 21:41:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,11 @@ static int		mark_process_status(t_cmd *cmd, pid_t pid, int status)
 		if (curr->pid == pid)
 		{
 			curr->status = status;
+			ft_strdel(&curr->status_str);
+			cmd->notified = 0;
 			if (WIFSTOPPED(status))
 				curr->stopped = 1;
-			else
+			else if (WIFSIGNALED(status) || WIFEXITED(status))
 				curr->completed = 1;
 			return (0);
 		}
@@ -67,10 +69,10 @@ void			jobs_update_status(t_sh *shell)
 	int		status;
 	pid_t	pid;
 
-	pid = waitpid(WAIT_ANY, &status, WUNTRACED | WNOHANG);
+	pid = waitpid(WAIT_ANY, &status, WUNTRACED | WNOHANG | WCONTINUED);
 	while (!mark_process_status(get_cmd(shell, pid), pid, status))
 	{
-		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WNOHANG);
+		pid = waitpid(WAIT_ANY, &status, WUNTRACED | WNOHANG | WCONTINUED);
 	}
 }
 
@@ -100,12 +102,12 @@ void			job_wait(t_sh *shell, t_cmd *cmd)
 	int		status;
 	pid_t	pid;
 
-	pid = waitpid(-cmd->pgid, &status, WUNTRACED);
+	pid = waitpid(-cmd->pgid, &status, WUNTRACED | WCONTINUED);
 	while (!mark_process_status(cmd, pid, status) &&
 		!job_is_completed(cmd) &&
 		!job_is_stopped(cmd))
 	{
-		pid = waitpid(-cmd->pgid, &status, WUNTRACED);
+		pid = waitpid(-cmd->pgid, &status, WUNTRACED | WCONTINUED);
 	}
 	status = jobs_last_status(cmd);
 	job_react(shell, cmd, status);

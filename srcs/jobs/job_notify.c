@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 15:35:38 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 00:49:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 21:47:08 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void		job_notify_cmd(t_cmd *cmd, size_t index, size_t max)
 		}
 		else
 			ft_printf("%*s    ", len + 2, "");
-		ft_printf("%d %-*s(%d) %s\n", curr->pid, 10,
-			get_signal_str(curr), curr->status, curr->proc_str);
+		ft_printf("%d %-*s %s\n", curr->pid, 10,
+			get_signal_str(curr), curr->proc_str);
 		curr = curr->next;
 	}
 }
@@ -53,17 +53,16 @@ void		job_notify(t_sh *shell)
 	while (i < shell->jobs.size && ++j)
 	{
 		curr = (t_cmd*)ft_vecget(&shell->jobs, i++);
-		if (job_is_completed(curr))
-		{
-			job_notify_cmd(curr, j, max);
-			ft_vecdel(&shell->jobs, --i); //TODO: free cmd
-			free_cmd(curr);
-			continue ;
-		}
-		else if (job_is_stopped(curr) && !curr->notified)
+		if (!curr->notified)
 		{
 			job_notify_cmd(curr, i, shell->jobs.size);
 			curr->notified = 1;
+		}
+		if (job_is_completed(curr))
+		{
+			ft_vecdel(&shell->jobs, --i);
+			free_cmd(curr);
+			continue ;
 		}
 	}
 }

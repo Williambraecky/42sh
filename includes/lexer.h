@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/22 00:13:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 20:54:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ struct		s_proc
 	t_io	io;
 	int		fd_backups[PROC_FD_BACKUP_SIZE];
 	int		status;
+	char	*status_str;
 	int		stopped;
 	int		completed;
 	int		block_sigtstp;
