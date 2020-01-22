@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:51:21 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/22 21:41:47 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/22 21:51:36 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static void		job_react(t_sh *shell, t_cmd *cmd, int status)
 	{
 		set_last_return_code(shell, WTERMSIG(status) + 128);
 		if (WTERMSIG(status) != 2)
-			job_notify_cmd(cmd, shell->jobs.size, shell->jobs.size);
+			job_notify_cmd(cmd, shell->jobs.size + 1, shell->jobs.size);
 	}
 	free_cmd(cmd);
 }
