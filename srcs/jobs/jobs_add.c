@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:55:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/15 17:26:39 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/23 16:36:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,6 @@ int		jobs_add(t_sh *shell, t_cmd *cmd, int notify)
 		curr = curr->next;
 	}
 	ft_printf("\n");
+	cmd->notified = 1;
 	return (SH_SUCCESS);
 }
