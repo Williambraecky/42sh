@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 13:43:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 23:19:17 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/23 16:40:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int			cd_builtin(int argc, char **argv, t_sh *shell)
 			pflag = (ret == 'P');
 		else if (ret == '?')
 			return (ft_dprintf(2, "42sh: cd: -%c: invalid option\n"
-				"cd: usage: cd [-L|-P] [dir]", g_optopt) > 0);
+				"cd: usage: cd [-L|-P] [dir]\n", g_optopt) > 0);
 	}
 	argc -= g_optind;
 	argv += g_optind;
