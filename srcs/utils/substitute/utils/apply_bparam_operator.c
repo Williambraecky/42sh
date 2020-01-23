@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 23:34:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 22:28:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/23 13:50:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	apply_qmark(t_subst *subst, t_bparam *bparam)
 			bparam->result = ft_strdup("");
 		else
 		{
-			if (!bparam->word || ft_strlen(bparam->word) == 0)
+			if (bparam->word && ft_strlen(bparam->word) != 0)
 				ft_dprintf(2, "42sh: %s: %s\n", bparam->key, bparam->word);
 			else
 				ft_dprintf(2, "42sh: %s: parameter not set\n", bparam->key);
