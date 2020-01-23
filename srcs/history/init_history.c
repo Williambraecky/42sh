@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 16:51:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/21 00:56:03 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 00:44:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	read_history_file(t_sh *shell)
 	tmp = NULL;
 	while (get_next_line(shell->history_file, &gnl) == 1)
 	{
-		if (gnl[ft_strlen(gnl) - 1] == '\\' || tmp)
+		if ((ft_strlen(gnl) && gnl[ft_strlen(gnl) - 1] == '\\') || tmp)
 		{
 			tmp2 = tmp;
 			if (tmp)
@@ -33,7 +33,7 @@ static int	read_history_file(t_sh *shell)
 			else
 				tmp = ft_strdup(gnl);
 			free(tmp2);
-			if (gnl[ft_strlen(gnl) - 1] == '\\')
+			if (ft_strlen(gnl) && gnl[ft_strlen(gnl) - 1] == '\\')
 			{
 				free(gnl);
 				continue ;
