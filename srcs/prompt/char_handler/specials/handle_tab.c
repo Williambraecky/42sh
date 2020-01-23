@@ -29,11 +29,13 @@ static int	one_poss_only(t_vec *poss, t_prompt *prompt)
 {
 	char	*str;
 	size_t	i;
-	int		file_complete;
+	int		file_complete; //maybe useless
 
 	str = (char *)ft_vecget(poss, 0);
 	i = (int)prompt->buffer_index - 1;
-	file_complete = prompt->select.file_complete ? 1 : 0;
+//	file_complete = prompt->select.file_complete ? 1 : 0;
+	file_complete = 0;
+//	ft_printf("\nin one_poss left = %d\n", prompt->select.cursor_left_len);
 	while (prompt->select.cursor_right_len > 0)
 	{
 		move_right(prompt);

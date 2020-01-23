@@ -95,7 +95,8 @@ int		complete_files(t_sh *shell, t_prompt *prompt, char *line, t_vec *poss)
 	if (get_path(shell, &line, &path) == SH_ERR_MALLOC)
 		return (SH_ERR_MALLOC);
 	free(tmp);
-	prompt->select.cursor_left_len = ft_strlen(line) - 1;
+//	ft_printf("\nLINE = %s\n", line);
+	prompt->select.cursor_left_len = ft_strlen(line);
 	if ((ret = get_files(line, path, poss)) != SH_SUCCESS)
 	{
 		free(path);
@@ -104,7 +105,7 @@ int		complete_files(t_sh *shell, t_prompt *prompt, char *line, t_vec *poss)
 	}
 	free(path);
 	free(line);
-	prompt->select.file_complete = 1;
+	prompt->select.file_complete = 1;//maybe useless
 	return (SH_SUCCESS);
 }
 

@@ -86,7 +86,6 @@ int		get_cursor_word_len(char *line, t_prompt *prompt, int i, int j)
 	while (line[j] && line[j] != ' ' && line[j] != '\t' && line[j] != '\n')
 		j++;
 	prompt->select.cursor_right_len = j - i - 1;
-//	ft_printf("\nright = %d -- left = %d\n", prompt->select.cursor_right_len, prompt->select.cursor_left_len);
 	return (SH_SUCCESS);
 }
 
