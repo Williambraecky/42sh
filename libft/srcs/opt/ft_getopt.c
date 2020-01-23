@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/03/20 16:52:57 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/05/08 17:49:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/23 16:42:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int			ft_getopt(int argc, char **argv, const char *optstring)
 
 void		ft_reset_opt(void)
 {
+	g_optcursor = NULL;
 	g_optarg = NULL;
 	g_optind = 1;
 	g_opterr = 0;
