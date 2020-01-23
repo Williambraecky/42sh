@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 00:30:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/23 17:28:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ static size_t	g_search_size =
 
 static int		(*g_dispatch_char[])(t_prompt *, char *buffer, t_sh *shell) =
 {
-	[0 ... 8] = char_ignore,
+	[0 ... 3] = char_ignore,
+	[4] = char_empty,
+	[5 ... 8] = char_ignore,
 	['\t'] = handle_tab,
 	['\n'] = handle_newline,
 	[11 ... 17] = char_ignore,
