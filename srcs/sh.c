@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/22 18:59:53 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/23 23:37:46 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,14 @@ static void	run(t_sh *shell)
 
 int			main(int argc, const char **argv, const char **env)
 {
-	t_sh	shell;
-	int		stop_code;
+	t_sh		shell;
+	int			stop_code;
+	struct timeval	time;
 
 	(void)argc;
 	(void)argv;
+	gettimeofday(&time, NULL);
+	srand(time.tv_usec);
 	if (init_shell(&shell, env))
 	{
 		free_sh(&shell);

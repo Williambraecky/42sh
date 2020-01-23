@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 23:22:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/23 23:39:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <fcntl.h>
 # include <sys/ioctl.h>
 # include <sys/stat.h>
+# include <sys/time.h>
 # include <dirent.h>
 
 /*
@@ -350,5 +351,9 @@ char		*get_hostname(t_sh *shell);
 char		*get_hostname_short(t_sh *shell);
 char		*get_git_branch(t_sh *shell);
 int			is_dir(char *str);
+int			sh_rand(void);
+void		sh_srand(t_u64 seed);
+char		*sh_randstr(size_t len, char *charset);
+int			sh_rand_range(int min, int max);
 
 #endif
