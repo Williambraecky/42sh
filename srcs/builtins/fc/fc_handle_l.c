@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 02:44:53 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 03:14:07 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 12:13:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ int			willifc_handle_l(t_sh *shell, t_fc *fc)
 	i = fc->opt_r ? max : 0;
 	while (range && (fc->opt_r ? i-- : i < max))
 	{
-		willifc_print_history(fc, range[i],
-			ft_vecget(&shell->history, range[i] - 1));
+		willifc_print_history(fc, range[i] + 1,
+			ft_vecget(&shell->history, range[i]));
 		if (!fc->opt_r)
 			i++;
 	}

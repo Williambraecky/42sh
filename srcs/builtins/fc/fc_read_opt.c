@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 02:48:20 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 03:09:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 12:14:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ static size_t	willifc_index_from_str(t_sh *shell, t_fc *fc, char *str)
 		return (0);
 	if (ft_strisnumber(str))
 	{
-		if (ft_atol(str) < 0)
-			return (ft_max(shell->history.size - 1,
-				shell->history.size + ft_atol(str)));
-		else if (ft_atol(str) == 0)
+		if (ft_atol(str) < 0 &&
+			(size_t)(shell->history.size + ft_atol(str)) < shell->history.size)
+			return (shell->history.size + ft_atol(str));
+		else if (ft_atol(str) <= 0)
 			return (shell->history.size - 1);
-		return (ft_min(shell->history.size - 1, ft_atol(str)));
+		return (ft_min(shell->history.size - 1, ft_atol(str) - 1));
 	}
 	i = shell->history.size;
 	while (i--)
@@ -105,7 +105,7 @@ void			willifc_read_first_last(t_sh *shell, t_fc *fc,
 		if (!fc->opt_l)
 			fc->first = shell->history.size - 1;
 		else
-			fc->first = shell->history.size - 17;
+			fc->first = shell->history.size - 16;
 		fc->last = shell->history.size - 1;
 	}
 	else if (argc == 1)
