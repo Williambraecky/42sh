@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 02:51:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 03:10:06 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 12:23:34 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ static int	willifc_exec_edited(t_sh *shell, char *filename)
 	{
 		close(fd);
 		unlink(filename);
-		ft_dprintf(2, "42sh: fc: malloc error sas\n");
+		free(filename);
+		ft_dprintf(2, "42sh: fc: malloc error\n");
 		return (1);
 	}
 	ft_printf("%s", command);
@@ -103,8 +104,8 @@ int			willifc_handle_edit(t_sh *shell, t_fc *fc)
 	}
 	if (willifc_do_edit(shell, fc, filename))
 	{
-		free(filename);
 		unlink(filename);
+		free(filename);
 		return (1);
 	}
 	return (willifc_exec_edited(shell, filename));
