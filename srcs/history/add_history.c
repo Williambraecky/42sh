@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 02:41:43 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 17:49:17 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 02:22:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int			add_history(t_sh *shell, char *str)
 	char	*top;
 	char	*dup;
 
+	if (shell->block_history)
+		return (SH_SUCCESS);
 	if (check_empty(str))
 		return (SH_SUCCESS);
 	top = ft_vecgettop(&shell->history);

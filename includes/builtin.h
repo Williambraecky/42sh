@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:53 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/23 16:50:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 02:52:20 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,16 @@ typedef struct s_fc	t_fc;
 
 struct		s_fc
 {
-	char	*f;
-  char  *l;
-  char  **old_new;
-  char	*ed;
-  int   start;
-  int   end;
-  int   rev;
-  int   n;
-  int	fd;
-  char  opt[6];
+	int		opt_l;
+	int		opt_n;
+	int		opt_r;
+	int		opt_e;
+	char	*editor;
+	int		opt_s;
+	char	*s_replace;
+	size_t	first;
+	size_t	last;
+	int		err;
 };
 
 /*
@@ -76,6 +76,7 @@ int			exit_builtin(int argc, char **argv, t_sh *shell);
 int			unsetenv_builtin(int argc, char **argv, t_sh *shell);
 int			fc_builtin(int argc, char **argv, t_sh *shell);
 int			unalias_builtin(int argc, char **argv, t_sh *shell);
+int			fc_builtin(int argc, char **argv, t_sh *shell);
 
 /*
 ** Utils
@@ -101,10 +102,18 @@ int			cmp_op(char **av, int ac, int not_op);
 int			test_op(char op, char **av, int ac, int not_op);
 
 /*
-**   fc Utils
+**   Fc Utils
 */
 
-t_fc	*init_fc(t_sh *shell);
-int		free_fc(t_fc *fc);
+int			willifc_handle_l(t_sh *shell, t_fc *fc);
+size_t		*willifc_make_range(size_t first, size_t last);
+int			willifc_read_opt(t_fc *fc, int *argc, char ***argv);
+void		willifc_read_first_last(t_sh *shell, t_fc *fc,
+	int argc, char **argv);
+int			willifc_ensure_newline(char **command);
+int			willifc_handle_s(t_sh *shell, t_fc *fc);
+char		*willifc_get_filename(void);
+char		*file_to_str(int fd);
+int			willifc_handle_edit(t_sh *shell, t_fc *fc);
 
 #endif

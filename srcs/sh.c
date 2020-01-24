@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/23 23:37:46 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 02:35:06 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ static void	run(t_sh *shell)
 		usleep(50000);
 		job_notify(shell);
 	}
+	shell->block_history = 0;
 	free(line);
 }
 

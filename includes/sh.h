@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/23 23:39:45 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 02:22:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ struct		s_sh
 	int		stop_code;
 	int		block_ret_update;
 	int		allow_hash_update;
+	int		block_history;
 };
 
 struct		s_subst
