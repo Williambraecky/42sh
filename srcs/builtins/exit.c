@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 15:59:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 22:03:32 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:18:04 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int			exit_builtin(int argc, char **argv, t_sh *shell)
 	if (check_stopped_jobs(shell))
 	{
 		if (ft_strstartswith((char*)ft_vecgettop(&shell->history), "exit"))
-			kill_jobs(shell);//TODO: kill jobs
+			kill_jobs(shell);
 		else
 		{
 			ft_dprintf(2, "42sh: exit: there are stopped jobs.\n");

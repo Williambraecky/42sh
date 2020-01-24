@@ -6,14 +6,15 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 16:51:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/24 00:44:33 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:40:39 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
 /*
-** TODO: strsreplall is not good here it will replace \\\n if there are more lines
+** TODO: strsreplall is not good here it will replace
+**	\\\n if there are more lines
 */
 
 static int	read_history_file(t_sh *shell)

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 17:21:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/22 20:54:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:26:33 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	free_redir(t_redir *redir)
 	free(redir);
 }
 
-void	free_proc(t_proc *proc)
+void		free_proc(t_proc *proc)
 {
 	size_t	i;
 

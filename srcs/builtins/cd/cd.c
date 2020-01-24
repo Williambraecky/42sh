@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 13:43:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/23 16:40:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:14:18 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void		dot_dot_sanitization(char *curpath)
 ** NOTE: Does not allocate another string, directly modifies the current one
 */
 
- int	sanitize_curpath(char *curpath)
+int			sanitize_curpath(char *curpath)
 {
 	char	*error;
 	size_t	len;
@@ -68,7 +68,7 @@ void		dot_dot_sanitization(char *curpath)
 	return (0);
 }
 
- int	get_curpath(char *path, t_sh *shell, char *curpath, int pflag)
+int			get_curpath(char *path, t_sh *shell, char *curpath, int pflag)
 {
 	char	pwd[MAXPATHLEN * 2 + 1];
 

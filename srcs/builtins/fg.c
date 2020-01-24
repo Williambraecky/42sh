@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:25:11 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/22 19:17:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:19:11 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t	job_index(t_sh *shell, t_cmd *cmd)
 	return (i);
 }
 
-static int	goto_fg(t_sh *shell, t_cmd *cmd)
+static int		goto_fg(t_sh *shell, t_cmd *cmd)
 {
 	ft_printf("%s\n", cmd->cmd_str);
 	ft_vecdel(&shell->jobs, job_index(shell, cmd));
@@ -41,7 +41,7 @@ static int	goto_fg(t_sh *shell, t_cmd *cmd)
 	return (0);
 }
 
-static int	handle_args(int argc, char **argv, t_sh *shell)
+static int		handle_args(int argc, char **argv, t_sh *shell)
 {
 	t_cmd	*cmd;
 	int		i;
@@ -62,7 +62,7 @@ static int	handle_args(int argc, char **argv, t_sh *shell)
 	return (get_last_return_code(shell));
 }
 
-int		fg_builtin(int argc, char **argv, t_sh *shell)
+int				fg_builtin(int argc, char **argv, t_sh *shell)
 {
 	t_cmd	*cmd;
 

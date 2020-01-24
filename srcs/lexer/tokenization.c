@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/17 16:23:26 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:46:07 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 	char	*tmp;
 	int		ret;
 
-	ret = SH_SUCCESS;
 	if ((ret = make_stack_prompt(&lexer->stack, &tmp)) != SH_SUCCESS)
 		return (ret);
 	if ((ret = handle_prompt(shell, tmp, &line)) != SH_SUCCESS)

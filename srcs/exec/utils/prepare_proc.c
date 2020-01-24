@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 01:36:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 23:19:25 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:28:18 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static int	prepare_redirections(t_sh *shell, t_proc *proc)
 		if (redir->token->type == T_DOUBLE_LESSER)
 			tmp = NULL;
 		else if ((ret = substitute(shell, tmp, &redir->filename, ~SUB_ASSIGN))
-		 	!= SH_SUCCESS)
+			!= SH_SUCCESS)
 			return (ret);
 		if (redir->token->type == T_DOUBLE_LESSER &&
 			(ret = prepare_hdoc(shell, (t_hdoc*)redir->token)) != SH_SUCCESS)
@@ -104,7 +104,7 @@ static int	prepare_redirections(t_sh *shell, t_proc *proc)
 	return (SH_SUCCESS);
 }
 
-int		prepare_proc(t_sh *shell, t_proc *proc)
+int			prepare_proc(t_sh *shell, t_proc *proc)
 {
 	int	ret;
 

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 02:22:33 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 17:38:38 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ typedef struct s_bparam	t_bparam;
 ** Enums
 */
 
-enum	e_intern
+enum		e_intern
 {
 	UNDEFINED,
 	STRING,
@@ -108,7 +108,7 @@ enum	e_intern
 	LONG
 };
 
-enum	e_extype
+enum		e_extype
 {
 	BUILTIN,
 	EXECUTABLE
@@ -149,7 +149,7 @@ struct		s_hashed
 	char	*path;
 };
 
-struct			s_buff
+struct		s_buff
 {
 	char		*buffer;
 	size_t		max_size;

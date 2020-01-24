@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/22 22:12:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 19:09:36 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ int		complete_files(t_sh *shell, t_prompt *prompt, char *line, t_vec *poss)
 	if (get_path(shell, &line, &path) == SH_ERR_MALLOC)
 		return (SH_ERR_MALLOC);
 	free(tmp);
-//	ft_printf("\nLINE = %s\n", line);
 	prompt->select.cursor_left_len = ft_strlen(line);
 	if ((ret = get_files(line, path, poss)) != SH_SUCCESS)
 	{
@@ -105,7 +104,7 @@ int		complete_files(t_sh *shell, t_prompt *prompt, char *line, t_vec *poss)
 	}
 	free(path);
 	free(line);
-	prompt->select.file_complete = 1;//maybe useless
+	prompt->select.file_complete = 1;
 	return (SH_SUCCESS);
 }
 

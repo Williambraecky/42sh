@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_select.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:06:10 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/14 21:34:05 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/24 19:10:02 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int				ft_select(t_sh *shell, t_vec *poss, t_prompt *prompt)
 	prompt->select.shell_var_brace = shell_var_brace;
 	prompt->select.file_complete = file_complete;
 	prompt->select.scroll_top = 0;
-	prompt->select.scroll_bottom = prompt->select.nb_row - prompt->max_pos.y - 1;
+	prompt->select.scroll_bottom =
+		prompt->select.nb_row - prompt->max_pos.y - 1;
 	select_render(prompt, &prompt->select);
 	return (SH_SUCCESS);
 }

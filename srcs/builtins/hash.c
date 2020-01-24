@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:21:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/22 00:11:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:20:56 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,6 @@ int			hash_builtin(int argc, char **argv, t_sh *shell)
 	if (argc == 0)
 		print_hash_table(shell);
 	else
-		return (hash_arguments(shell, argc, argv)); //TODO hash arguments
+		return (hash_arguments(shell, argc, argv));
 	return (0);
 }

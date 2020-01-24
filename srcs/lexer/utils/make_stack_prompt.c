@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 17:19:33 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 14:26:57 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:46:27 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	fill_list(t_vec *stack, char **list)
 	}
 }
 
-int		make_stack_prompt(t_vec *stack, char **result)
+int			make_stack_prompt(t_vec *stack, char **result)
 {
 	char	**list;
 	char	*tmp;

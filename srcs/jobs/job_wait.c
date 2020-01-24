@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:51:21 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/22 21:51:36 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:44:19 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static int		mark_process_status(t_cmd *cmd, pid_t pid, int status)
 	t_proc	*curr;
 
 	if (pid == 0)
-		return (-1); //Nothing returned from wait
+		return (-1);
 	else if (pid < 0 || !cmd)
-		return (-1); //wait error
+		return (-1);
 	curr = cmd->pipeline;
 	while (curr)
 	{
@@ -36,7 +36,7 @@ static int		mark_process_status(t_cmd *cmd, pid_t pid, int status)
 		}
 		curr = curr->next;
 	}
-	return (-1); //no job found with pid
+	return (-1);
 }
 
 static t_cmd	*get_cmd(t_sh *shell, pid_t proc_pid)

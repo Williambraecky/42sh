@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 02:48:20 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 12:14:47 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:19:55 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern int	g_optind;
 extern int	g_optopt;
 extern char	*g_optarg;
 
-static int	willifc_read_spec_opt(t_fc *fc, int getopt_ret)
+static int		willifc_read_spec_opt(t_fc *fc, int getopt_ret)
 {
 	if (getopt_ret == 's')
 	{
@@ -44,7 +44,7 @@ static int	willifc_read_spec_opt(t_fc *fc, int getopt_ret)
 	return (0);
 }
 
-int			willifc_read_opt(t_fc *fc, int *argc, char ***argv)
+int				willifc_read_opt(t_fc *fc, int *argc, char ***argv)
 {
 	int		ret;
 

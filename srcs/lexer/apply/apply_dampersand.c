@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 18:45:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 15:56:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:45:34 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	empty_stack(t_lexer *lexer)
 		stack_pop(&lexer->stack);
 }
 
-int		apply_dampersand(t_token *token, t_build *build, t_lexer *lexer)
+int			apply_dampersand(t_token *token, t_build *build, t_lexer *lexer)
 {
 	if (cmd_new(&build->work->next))
 		return (SH_ERR_MALLOC);

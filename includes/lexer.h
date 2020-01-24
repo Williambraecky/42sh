@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/22 20:54:19 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:17:16 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ struct		s_cmd
 	int		status;
 	pid_t	pgid;
 	t_termi	termios;
-	int		(*condition)(int); //NOTE: OR AND etc
+	int		(*condition)(int);
 	int		background;
 	int		notified;
 	t_cmd	*next;
@@ -169,7 +169,7 @@ struct		s_build
 	t_cmd	*work;
 	t_proc	*work_proc;
 	t_type	prev_type;
-	int		expected_type; //NOTE: used for syntax errors
+	int		expected_type;
 };
 
 /*
@@ -185,7 +185,8 @@ struct		s_token
 };
 
 /*
-** TODO: content needs to be substituted but only before runtime so it needs to be stored
+** TODO: content needs to be substituted
+** but only before runtime so it needs to be stored
 */
 
 struct		s_hdoc

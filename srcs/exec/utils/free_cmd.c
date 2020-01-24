@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 17:20:20 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 02:38:06 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 18:25:55 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static void	free_pipeline(t_proc *pipeline)
 	{
 		next = curr->next;
 		free_proc(curr);
-		curr = next; 
+		curr = next;
 	}
 }
 
