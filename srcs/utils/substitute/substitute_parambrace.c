@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 21:08:52 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 22:33:10 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 23:37:44 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static size_t	delimit_parambrace(t_subst *subst)
 	return (j - subst->i);
 }
 
-void	substitute_parambrace(t_subst *subst)
+void			substitute_parambrace(t_subst *subst)
 {
 	char	*tmp;
 	size_t	j;

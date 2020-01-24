@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 16:51:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/24 18:40:39 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/25 00:20:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,38 +17,47 @@
 **	\\\n if there are more lines
 */
 
+static int	read_history_handle_new_line(t_sh *shell, char *gnl, char **tmp)
+{
+	char	*tmp2;
+
+	if ((gnl[0] != '\0' && gnl[ft_strlen(gnl) - 1] == '\\') || *tmp)
+	{
+		if (gnl[0] != '\0' && gnl[ft_strlen(gnl) - 1] == '\\')
+			gnl[ft_strlen(gnl) - 1] = '\0';
+		tmp2 = *tmp;
+		if (*tmp)
+			*tmp = ft_strtrijoin(*tmp, "\n", gnl);
+		else
+			*tmp = ft_strdup(gnl);
+		free(tmp2);
+		if (gnl[0] != '\0' && gnl[ft_strlen(gnl) - 1] == '\\')
+		{
+			free(gnl);
+			return (SH_SUCCESS);
+		}
+	}
+	else
+		*tmp = ft_strdup(gnl);
+	free(gnl);
+	if (!*tmp || ft_vecpush(&shell->history, *tmp))
+		return (SH_ERR_MALLOC);
+	*tmp = NULL;
+	return (SH_SUCCESS);
+}
+
 static int	read_history_file(t_sh *shell)
 {
 	char	*gnl;
 	char	*tmp;
-	char	*tmp2;
+	int		ret;
 
 	tmp = NULL;
 	while (get_next_line(shell->history_file, &gnl) == 1)
 	{
-		if ((ft_strlen(gnl) && gnl[ft_strlen(gnl) - 1] == '\\') || tmp)
-		{
-			tmp2 = tmp;
-			if (tmp)
-				tmp = ft_strtrijoin(tmp, "\n", gnl);
-			else
-				tmp = ft_strdup(gnl);
-			free(tmp2);
-			if (ft_strlen(gnl) && gnl[ft_strlen(gnl) - 1] == '\\')
-			{
-				free(gnl);
-				continue ;
-			}
-			tmp2 = tmp;
-			tmp = ft_strsreplall(tmp, "\\\n", "\n");
-			free(tmp2);
-		}
-		else
-			tmp = ft_strdup(gnl);
-		free(gnl);
-		if (!tmp || ft_vecpush(&shell->history, tmp))
-			return (SH_ERR_MALLOC);
-		tmp = NULL;
+		if ((ret = read_history_handle_new_line(shell, gnl, &tmp))
+			!= SH_SUCCESS)
+			return (ret);
 	}
 	return (SH_SUCCESS);
 }

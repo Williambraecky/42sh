@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:55:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 19:08:17 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/24 23:50:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,16 @@ static int	one_poss_only(t_vec *poss, t_prompt *prompt)
 {
 	char	*str;
 	size_t	i;
-	int		file_complete;
 
 	str = (char *)ft_vecget(poss, 0);
 	i = (int)prompt->buffer_index - 1;
-	file_complete = 0;
 	while (prompt->select.cursor_right_len > 0)
 	{
 		move_right(prompt);
 		handle_backspace(prompt, NULL, NULL);
 		prompt->select.cursor_right_len--;
 	}
-	while (prompt->select.cursor_left_len + file_complete
-			&& prompt->buffer.buffer[i] != '/')
+	while (prompt->select.cursor_left_len && prompt->buffer.buffer[i] != '/')
 	{
 		handle_backspace(prompt, NULL, NULL);
 		prompt->select.cursor_left_len--;
@@ -50,10 +47,8 @@ static int	one_poss_only(t_vec *poss, t_prompt *prompt)
 	default_char_handler(prompt, str, NULL);
 	if (prompt->select.shell_var_brace)
 		default_char_handler(prompt, "}", NULL);
-	if (is_dir(str))
-		default_char_handler(prompt, "/", NULL);
 	else
-		default_char_handler(prompt, " ", NULL);
+		default_char_handler(prompt, is_dir(str) ? "/" : " ", NULL);
 	ft_vecdestroy(poss, default_vec_destroy_function);
 	return (SH_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 16:41:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 23:44:28 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 23:33:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int		handle_esc(t_sh *shell, t_buff *buffer, char *ps1, char **next)
 	format = ft_strchr(g_handled, ps1[1]);
 	if (!format || *format == '\0')
 	{
-		*next = ps1+ 1;
+		*next = ps1 + 1;
 		return (buff_nappend(buffer, ps1, 1));
 	}
 	*next = ps1 + 2;
@@ -98,7 +98,7 @@ static size_t	next_esc(t_sh *shell, t_buff *buffer, char *ps1, int *ret)
 	return (next - ps1);
 }
 
-int			gen_prompt_string(t_sh *shell, char *ps1, char **result)
+int				gen_prompt_string(t_sh *shell, char *ps1, char **result)
 {
 	t_buff	buffer;
 	size_t	i;

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 20:54:43 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 22:18:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 23:37:13 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void		substitute_tilde(t_subst *subst)
 ** NOTE: SUB_ASSIGN allows for tilde to be preceded by = or :
 */
 
-int		tilde_check(t_subst *subst, size_t j)
+int			tilde_check(t_subst *subst, size_t j)
 {
 	size_t	i;
 

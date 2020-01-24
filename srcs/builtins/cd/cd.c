@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 13:43:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 18:14:18 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/25 00:29:56 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,34 +94,33 @@ int			get_curpath(char *path, t_sh *shell, char *curpath, int pflag)
 	return (sanitize_curpath(curpath));
 }
 
-char		*get_start_operand(int argc, char **argv, t_sh *shell)
+static int	get_start_operand(int argc, char **argv,
+	t_sh *shell, char **operand)
 {
-	char	*operand;
-
 	if (argc == 0)
 	{
-		if (get_env(shell, "HOME", &operand) != SH_SUCCESS)
+		if (get_env(shell, "HOME", operand) != SH_SUCCESS)
 		{
 			ft_dprintf(2, "42sh: cd: HOME not set\n");
-			return (NULL);
+			return (1);
 		}
 	}
 	else if (ft_strequ(argv[0], "-"))
 	{
-		if (get_env(shell, "OLDPWD", &operand) != SH_SUCCESS)
+		if (get_env(shell, "OLDPWD", operand) != SH_SUCCESS)
 		{
 			ft_dprintf(2, "42sh: cd: OLDPWD not set\n");
-			return (NULL);
+			return (1);
 		}
 	}
 	else
-		operand = argv[0];
-	if (ft_strlen(operand) > MAXPATHLEN * 2)
+		*operand = argv[0];
+	if (ft_strlen(*operand) > MAXPATHLEN * 2)
 	{
 		ft_dprintf(2, "42sh: cd: operand too long\n");
-		return (NULL);
+		return (1);
 	}
-	return (operand);
+	return (0);
 }
 
 /*
@@ -148,7 +147,7 @@ int			cd_builtin(int argc, char **argv, t_sh *shell)
 	}
 	argc -= g_optind;
 	argv += g_optind;
-	if (!(operand = get_start_operand(argc, argv, shell)) ||
+	if (get_start_operand(argc, argv, shell, &operand) ||
 		(ret = get_curpath(operand, shell, curpath, pflag)) == -1 ||
 		cd_switch_dir(operand, curpath, pflag, shell))
 		return (1);

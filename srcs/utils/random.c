@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/23 23:27:36 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/23 23:39:38 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 23:35:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char		*g_def_charset = "abcdefghijklmnopqrstuvwxyz1234567890";
 int				sh_rand(void)
 {
 	g_next = g_next * 1103515245 + 12345;
-	return ((unsigned int)(g_next/65536) % 32768);
+	return ((unsigned int)(g_next / 65536) % 32768);
 }
 
 int				sh_rand_range(int min, int max)

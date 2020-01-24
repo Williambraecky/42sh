@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 23:59:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 22:34:43 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 23:36:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	read_operator(t_subst *subst, t_bparam *bparam)
 	if (!is_valid_operator(bparam->operator))
 	{
 		ft_dprintf(2, "42sh: unknown operator: %c\n", bparam->operator);
-		subst->err = SH_ERR_BAD_SUBST; //TODO: print error
+		subst->err = SH_ERR_BAD_SUBST;
 		return ;
 	}
 	if ((bparam->operator == '%' || bparam->operator == '#') &&

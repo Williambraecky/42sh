@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 17:38:38 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/25 00:37:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,8 +331,6 @@ char		*getpwd_short(t_sh *shell);
 int			gettermsize(t_winsiz *winsize);
 size_t		strlen_nocolor(char *str);
 void		window_change_signal(int signo);
-int			get_paths(t_sh *shell, char ***paths);
-int			get_binaries(t_sh *shell, char **paths, char ***binaries);
 void		*ring_bell(void);
 int			resolve_path(t_sh *shell, char *name, char **result);
 int			resolve_path_env(char *paths, char *name, char **result);

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:51:10 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 18:29:04 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/25 00:21:18 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int			apply_and_redir(t_proc *proc, t_redir *redir)
 	int	fd;
 	int	ret;
 
-	ret = SH_SUCCESS;
 	redirected = redir_get_from(redir);
 	if (redir_open_file(redir) != SH_SUCCESS)
 		return (SH_ERR_OPEN);

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 23:34:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/23 13:50:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 23:36:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	apply_plus(t_subst *subst, t_bparam *bparam)
 	}
 }
 
-void	apply_bparam_operator(t_subst *subst, t_bparam *bparam)
+void		apply_bparam_operator(t_subst *subst, t_bparam *bparam)
 {
 	if (get_internal(subst->shell, bparam->key, &bparam->val) != SH_SUCCESS &&
 		get_env(subst->shell, bparam->key, &bparam->val) != SH_SUCCESS)

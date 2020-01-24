@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 16:22:06 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 16:24:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/24 23:37:56 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int		init_subst(t_subst *subst, t_sh *shell, char *str, int profile)
 	return (SH_SUCCESS);
 }
 
-int		substitute_event(t_sh *shell, char *str, char **result)
+int				substitute_event(t_sh *shell, char *str, char **result)
 {
 	t_subst	subst;
 	size_t	next;

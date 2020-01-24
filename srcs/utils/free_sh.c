@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 22:01:14 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 00:35:13 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,24 @@ static void	jobs_destroy(t_cmd *cmd)
 ** TODO: this should be done in the prompt code
 */
 
-void		free_sh(t_sh *shell)
+static void	reset_signals(t_sh *shell)
 {
 	struct sigaction action;
 
+	tcsetattr(SH_IN, TCSADRAIN, &shell->old_termios);
+	ft_memset(&action, 0, sizeof(action));
+	action.sa_handler = SIG_DFL;
+	sigaction(SIGINT, &action, NULL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGTSTP, SIG_DFL);
+	signal(SIGTTIN, SIG_DFL);
+	signal(SIGTTOU, SIG_DFL);
+	signal(SIGCHLD, SIG_DFL);
+	signal(SIGWINCH, SIG_DFL);
+}
+
+void		free_sh(t_sh *shell)
+{
 	ft_mapfilter(shell->internals, map_del_filter);
 	ft_mapdel(shell->internals);
 	ft_mapfilter(shell->env, map_del_filter);
@@ -68,17 +82,6 @@ void		free_sh(t_sh *shell)
 	if (shell->history_file > 0)
 		close(shell->history_file);
 	if (shell->prompt_mode)
-	{
-		tcsetattr(SH_IN, TCSADRAIN, &shell->old_termios);
-		ft_memset(&action, 0, sizeof(action));
-		action.sa_handler = SIG_DFL;
-		sigaction(SIGINT, &action, NULL);
-		signal(SIGQUIT, SIG_DFL);
-		signal(SIGTSTP, SIG_DFL);
-		signal(SIGTTIN, SIG_DFL);
-		signal(SIGTTOU, SIG_DFL);
-		signal(SIGCHLD, SIG_DFL);
-		signal(SIGWINCH, SIG_DFL);
-	}
+		reset_signals(shell);
 	ft_bzero(shell, sizeof(*shell));
 }

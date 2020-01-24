@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 17:37:29 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/25 00:38:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,17 +125,14 @@ int				handle_prompt(t_sh *shell, char *prompt_str, char **result);
 int				gen_prompt(t_sh *shell, char *prompt_str, t_prompt *prompt);
 void			free_prompt(t_prompt *prompt);
 size_t			wcharlen(char c);
-t_pos			new_calc(t_prompt *prompt, size_t written);
-t_pos			new_calc_write(t_prompt *prompt, size_t written);
 void			move_goto(t_prompt *prompt, t_pos pos);
 void			move_cursor(t_pos rel_pos);
 void			move_left(t_prompt *prompt);
 void			move_right(t_prompt *prompt);
-char			*wstr_remove_char(char *str, size_t index);
 void			reprint_everything(t_prompt *prompt);
 void			reprint_buffer(t_prompt *prompt);
 void			print_from_cursor(t_prompt *prompt, t_pos *next_pos);
-int				pos_equals(t_pos pos1, t_pos pos2);
+t_pos			calc_prompt_pos(t_prompt *prompt);
 t_pos			calc_cursor_pos(t_prompt *prompt, size_t written);
 void			transform_pos(t_prompt *prompt, t_pos *pos, char c);
 

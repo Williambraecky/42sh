@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:43:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 21:42:43 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 00:25:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,30 @@ static int	exec_pipeline(t_sh *shell, t_proc *pipeline)
 	return (ret);
 }
 
+static int	pre_exec(t_cmd *cmd)
+{
+	if (cmd_make_string(cmd) != SH_SUCCESS)
+		return (SH_ERR_MALLOC);
+	return (SH_SUCCESS);
+}
+
+static void	post_exec(t_sh *shell, t_cmd *cmd, int ret)
+{
+	if (ret != SH_SUCCESS)
+	{
+		free_cmd(cmd);
+		set_last_return_code(shell, 1);
+		return ;
+	}
+	if (cmd->background)
+	{
+		jobs_to_background(shell, cmd, 0);
+		set_last_return_code(shell, ret);
+	}
+	else
+		jobs_to_foreground(shell, cmd, 0);
+}
+
 /*
 ** TODO: validate that cmd_is_empty is good
 */
@@ -51,25 +75,13 @@ int			exec_cmd(t_sh *shell, t_cmd *cmd)
 		free_cmd(cmd);
 		return (SH_SUCCESS);
 	}
-	if (cmd_make_string(cmd) != SH_SUCCESS)
+	if (pre_exec(cmd) != SH_SUCCESS)
 	{
 		free_cmd(cmd);
 		return (SH_ERR_MALLOC);
 	}
-	ret = exec_pipeline(shell, cmd->pipeline);
-	if (ret != SH_SUCCESS)
-	{
-		free_cmd(cmd);
-		set_last_return_code(shell, 1);
-		return (ret);
-	}
 	cmd->termios = shell->old_termios;
-	if (cmd->background)
-	{
-		jobs_to_background(shell, cmd, 0);
-		set_last_return_code(shell, ret);
-	}
-	else
-		jobs_to_foreground(shell, cmd, 0);
-	return (SH_SUCCESS);
+	ret = exec_pipeline(shell, cmd->pipeline);
+	post_exec(shell, cmd, ret);
+	return (ret);
 }
