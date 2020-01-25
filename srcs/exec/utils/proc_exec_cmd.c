@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/23 23:21:39 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 22:49:47 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static void	fork_reset_stuff(t_proc *proc)
 {
 	size_t	i;
+	int		ret;
 
 	i = PROC_FD_BACKUP_SIZE;
 	while (i--)
@@ -29,6 +30,8 @@ static void	fork_reset_stuff(t_proc *proc)
 	signal(SIGTTOU, SIG_DFL);
 	if (proc->io.pipe_close)
 		close(proc->io.pipe_close);
+	if (proc->parent->background && (ret = proc_apply_redir(proc)))
+		proc->status = ret;
 }
 
 static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)
@@ -62,6 +65,8 @@ static void	exec_bin(t_proc *proc)
 {
 	if (proc->status != 0)
 		exit(1);
+	if (!proc->argv)
+		exit(0);
 	if (!proc->path)
 	{
 		ft_dprintf(2, "42sh: command not found: %s\n", proc->argv[0]);
@@ -111,8 +116,6 @@ int			proc_exec_cmd(t_sh *shell, t_proc *proc)
 	int		need_fork;
 	pid_t	pid;
 
-	if (proc->unprocessed_argv.size == 0)
-		return (proc->status);
 	ret = SH_SUCCESS;
 	builtin = proc->argv && proc->argv[0] && is_builtin(shell, proc->argv[0]);
 	need_fork = !builtin || proc->next != NULL || proc->parent->background;

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 19:10:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 02:31:32 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 22:16:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,13 @@ static int	redir_apply_pipe(t_proc *proc, int io, int to)
 	return (SH_SUCCESS);
 }
 
-int			proc_apply_redir(t_sh *shell, t_proc *proc)
+int			proc_apply_redir(t_proc *proc)
 {
 	t_redir	*redir;
 	size_t	i;
 	int		ret;
 
 	i = 0;
-	(void)shell;
 	if ((ret = redir_apply_pipe(proc, proc->io.out, 1)) != SH_SUCCESS)
 		return (ret);
 	if ((ret = redir_apply_pipe(proc, proc->io.in, 0)) != SH_SUCCESS)

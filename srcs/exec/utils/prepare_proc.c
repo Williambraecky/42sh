@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 01:36:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 18:28:18 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/25 22:55:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,5 @@ int			prepare_proc(t_sh *shell, t_proc *proc)
 		ret = prepare_assigns(shell, proc);
 	if (ret == SH_SUCCESS)
 		ret = prepare_redirections(shell, proc);
-	if (ret == SH_SUCCESS && proc->unprocessed_argv.size > 0 &&
-		!is_builtin(shell, proc->argv[0]))
-	{
-		if (resolve_path(shell, proc->argv[0], &proc->path) != SH_SUCCESS)
-			proc->path = NULL;
-		if (proc->path && access(proc->path, X_OK) == 0 &&
-			!is_dir(proc->path))
-			hash_add_use_insert(shell, proc->argv[0], proc->path);
-	}
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 22:17:52 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 23:23:47 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 23:10:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		hash_add_use_insert(t_sh *shell, char *name, char *path)
 {
-	if (!shell->allow_hash_update)
+	if (!shell->use_hash || !shell->allow_hash_update)
 		return (SH_SUCCESS);
 	if (!has_hash(shell, name))
 	{
@@ -29,7 +29,7 @@ void	hash_add_use(t_sh *shell, char *name)
 {
 	t_hashed	*hashed;
 
-	if (!shell->allow_hash_update)
+	if (!shell->use_hash || !shell->allow_hash_update)
 		return ;
 	if (get_hash(shell, name, &hashed) != SH_SUCCESS)
 		return ;

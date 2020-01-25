@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 22:21:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 23:23:31 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 23:09:44 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		add_hash(t_sh *shell, char *cmd, char *path)
 	char		*key_dup;
 	char		*path_dup;
 
-	if (!shell->allow_hash_update)
+	if (!shell->use_hash || !shell->allow_hash_update)
 		return (SH_SUCCESS);
 	key_dup = NULL;
 	path_dup = NULL;

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:51:10 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 00:21:18 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 22:21:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static int	redirand_check_closed(t_proc *proc, int fd)
 	size_t	i;
 	int		new;
 
+	if (proc->parent->background)
+		return (SH_SUCCESS);
 	i = PROC_FD_BACKUP_SIZE;
 	while (i--)
 	{

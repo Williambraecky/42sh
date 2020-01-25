@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/24 18:17:16 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/25 23:08:05 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ struct		s_proc
 	char	*path;
 	char	**argv;
 	char	**env;
+	t_map	*env_backup;
+	t_map	*hash_backup;
 	t_vec	redirections;
 	t_vec	assignments;
 	t_io	io;
@@ -358,7 +360,7 @@ void		free_cmd(t_cmd *cmd);
 void		free_proc(t_proc *proc);
 int			proc_is_empty(t_proc *proc);
 int			cmd_is_empty(t_cmd *cmd);
-int			proc_apply_redir(t_sh *shell, t_proc *proc);
+int			proc_apply_redir(t_proc *proc);
 int			redir_open_file(t_redir *redir);
 int			redir_get_from(t_redir *redir);
 int			redir_add_undo(t_proc *proc, int fd);

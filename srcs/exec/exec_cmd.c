@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:43:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 00:25:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 22:32:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ static int	exec_pipeline(t_sh *shell, t_proc *pipeline)
 		}
 		if ((ret = exec_proc(shell, pipeline)) != SH_SUCCESS)
 			break ;
+		if (pipeline->parent->background && pipeline->io.out)
+			close(pipeline->io.out);
+		if (pipeline->parent->background && pipeline->io.in)
+			close(pipeline->io.in);
 		pipeline = pipeline->next;
 	}
 	return (ret);
