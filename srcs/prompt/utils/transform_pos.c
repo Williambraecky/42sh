@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 01:56:23 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 00:19:01 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 21:26:53 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void		transform_pos(t_prompt *prompt, t_pos *pos, char c)
 		pos->x = prompt->winsize.ws_col;
 	else if (c == '\t')
 		pos->x += 8 - pos->x % 8;
-	else if (c < 8)
+	else if (c >= 0 && c < 8)
 		;
 	else
 		pos->x++;
