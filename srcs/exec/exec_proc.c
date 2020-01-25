@@ -6,38 +6,50 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 04:07:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 23:09:18 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
 /*
-** TODO: we don't free proc->env here if the function fails
+** TODO: add assignments to shell env and undo after execution
 */
 
 static int	make_env(t_sh *shell, t_proc *proc)
 {
 	size_t	i;
-	size_t	j;
+	char	*equal;
 
-	if (!(proc->env = ft_memalloc(sizeof(char*) *
-		(shell->env->size + proc->assignments.size + 1))))
+	if (!(proc->env_backup = ft_mapclone(shell->env)))
 		return (SH_ERR_MALLOC);
-	if (make_env_array_no_malloc(shell, proc->env) != SH_SUCCESS)
-		return (SH_ERR_MALLOC);
-	i = 0;
-	while (proc->env[i])
-		i++;
-	j = 0;
-	while (j < proc->assignments.size)
+	ft_memswap(&proc->env_backup, &shell->env, sizeof(t_map *));
+	ft_memswap(&proc->hash_backup, &shell->use_hash, sizeof(t_map *));
+	i = proc->assignments.size;
+	while (i--)
 	{
-		if (!(proc->env[i++] =
-			ft_strdup((char*)ft_vecget(&proc->assignments, j))))
+		equal = ft_strchr(ft_vecget(&proc->assignments, i), '=');
+		*equal = '\0';
+		if (repl_env(shell, ft_vecget(&proc->assignments, i), equal + 1))
+		{
+			ft_memswap(&proc->env_backup, &shell->env, sizeof(t_map *));
+			ft_mapfilter(proc->env_backup, map_del_filter);
+			ft_mapdel(proc->env_backup);
+			proc->env_backup = NULL;
 			return (SH_ERR_MALLOC);
-		j++;
+		}
 	}
-	return (SH_SUCCESS);
+	return (make_env_array(shell, &proc->env));
+}
+
+static void	revert_env(t_sh *shell, t_proc *proc)
+{
+	if (!proc->env_backup)
+		return ;
+	ft_memswap(&proc->env_backup, &shell->env, sizeof(t_map *));
+	ft_memswap(&proc->hash_backup, &shell->use_hash, sizeof(t_map *));
+	ft_mapfilter(proc->env_backup, map_del_filter);
+	ft_mapdel(proc->env_backup);
 }
 
 static int	apply_assigns(t_sh *shell, t_proc *proc)
@@ -46,8 +58,12 @@ static int	apply_assigns(t_sh *shell, t_proc *proc)
 	char	*tmp;
 	size_t	i;
 
+	if (proc->assignments.size == 0)
+		return (SH_SUCCESS);
 	if (proc->unprocessed_argv.size > 0)
 		return (make_env(shell, proc));
+	if (proc->parent->background)
+		return (SH_SUCCESS);
 	i = 0;
 	while (i < proc->assignments.size)
 	{
@@ -83,6 +99,7 @@ static int	undo_redir(t_proc *proc, int ret)
 /*
 ** NOTE: substitute all words related to arguments
 ** NOTE: exec command
+** NOTE: redirections for backgrounded commands are done after fork
 */
 
 int			exec_proc(t_sh *shell, t_proc *proc)
@@ -94,8 +111,18 @@ int			exec_proc(t_sh *shell, t_proc *proc)
 		ret = prepare_proc(shell, proc);
 	if (ret == SH_SUCCESS)
 		ret = apply_assigns(shell, proc);
-	if (ret == SH_SUCCESS)
-		ret = proc_apply_redir(shell, proc);
+	if (ret == SH_SUCCESS && proc->parent->background == 0)
+		ret = proc_apply_redir(proc);
+	if (ret == SH_SUCCESS && proc->unprocessed_argv.size > 0 &&
+		!is_builtin(shell, proc->argv[0]))
+	{
+		if (resolve_path(shell, proc->argv[0], &proc->path) != SH_SUCCESS)
+			proc->path = NULL;
+		if (proc->path && access(proc->path, X_OK) == 0 &&
+			!is_dir(proc->path))
+			hash_add_use_insert(shell, proc->argv[0], proc->path);
+	}
+	revert_env(shell, proc);
 	if (ret != SH_SUCCESS)
 		proc->status = ret;
 	ret = proc_exec_cmd(shell, proc);
