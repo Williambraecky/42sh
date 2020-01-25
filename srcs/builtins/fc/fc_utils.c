@@ -6,13 +6,13 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 02:47:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 02:51:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 22:35:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-size_t		*willifc_make_range(size_t first, size_t last)
+size_t		*fc_make_range(size_t first, size_t last)
 {
 	size_t		*new;
 	size_t		len;
@@ -26,7 +26,7 @@ size_t		*willifc_make_range(size_t first, size_t last)
 	return (new - len);
 }
 
-int			willifc_ensure_newline(char **command)
+int			fc_ensure_newline(char **command)
 {
 	char	*new;
 
@@ -43,7 +43,7 @@ int			willifc_ensure_newline(char **command)
 	return (0);
 }
 
-char		*willifc_get_filename(void)
+char		*fc_get_filename(void)
 {
 	char	*rand;
 	char	*filename;

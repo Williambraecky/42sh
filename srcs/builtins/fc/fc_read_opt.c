@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 02:48:20 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 18:19:55 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/25 22:35:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern int	g_optind;
 extern int	g_optopt;
 extern char	*g_optarg;
 
-static int		willifc_read_spec_opt(t_fc *fc, int getopt_ret)
+static int		fc_read_spec_opt(t_fc *fc, int getopt_ret)
 {
 	if (getopt_ret == 's')
 	{
@@ -44,7 +44,7 @@ static int		willifc_read_spec_opt(t_fc *fc, int getopt_ret)
 	return (0);
 }
 
-int				willifc_read_opt(t_fc *fc, int *argc, char ***argv)
+int				fc_read_opt(t_fc *fc, int *argc, char ***argv)
 {
 	int		ret;
 
@@ -61,7 +61,7 @@ int				willifc_read_opt(t_fc *fc, int *argc, char ***argv)
 			fc->opt_e = 1;
 			fc->editor = g_optarg;
 		}
-		else if (willifc_read_spec_opt(fc, ret))
+		else if (fc_read_spec_opt(fc, ret))
 			return (1);
 	}
 	*argc -= g_optind;
@@ -73,7 +73,7 @@ int				willifc_read_opt(t_fc *fc, int *argc, char ***argv)
 	return (0);
 }
 
-static size_t	willifc_index_from_str(t_sh *shell, t_fc *fc, char *str)
+static size_t	fc_index_from_str(t_sh *shell, t_fc *fc, char *str)
 {
 	size_t	i;
 
@@ -97,7 +97,7 @@ static size_t	willifc_index_from_str(t_sh *shell, t_fc *fc, char *str)
 	return (0);
 }
 
-void			willifc_read_first_last(t_sh *shell, t_fc *fc,
+void			fc_read_first_last(t_sh *shell, t_fc *fc,
 	int argc, char **argv)
 {
 	if (argc == 0)
@@ -110,7 +110,7 @@ void			willifc_read_first_last(t_sh *shell, t_fc *fc,
 	}
 	else if (argc == 1)
 	{
-		fc->first = willifc_index_from_str(shell, fc, argv[0]);
+		fc->first = fc_index_from_str(shell, fc, argv[0]);
 		if (fc->opt_l)
 			fc->last = shell->history.size - 1;
 		else
@@ -118,7 +118,7 @@ void			willifc_read_first_last(t_sh *shell, t_fc *fc,
 	}
 	else if (argc >= 2)
 	{
-		fc->first = willifc_index_from_str(shell, fc, argv[0]);
-		fc->last = willifc_index_from_str(shell, fc, argv[1]);
+		fc->first = fc_index_from_str(shell, fc, argv[0]);
+		fc->last = fc_index_from_str(shell, fc, argv[1]);
 	}
 }

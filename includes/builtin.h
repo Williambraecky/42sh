@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 16:07:53 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/24 17:06:21 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/25 22:35:22 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,15 +104,15 @@ int			test_op(char op, char **av, int ac, int not_op);
 **   Fc Utils
 */
 
-int			willifc_handle_l(t_sh *shell, t_fc *fc);
-size_t		*willifc_make_range(size_t first, size_t last);
-int			willifc_read_opt(t_fc *fc, int *argc, char ***argv);
-void		willifc_read_first_last(t_sh *shell, t_fc *fc,
+int			fc_handle_l(t_sh *shell, t_fc *fc);
+size_t		*fc_make_range(size_t first, size_t last);
+int			fc_read_opt(t_fc *fc, int *argc, char ***argv);
+void		fc_read_first_last(t_sh *shell, t_fc *fc,
 	int argc, char **argv);
-int			willifc_ensure_newline(char **command);
-int			willifc_handle_s(t_sh *shell, t_fc *fc);
-char		*willifc_get_filename(void);
+int			fc_ensure_newline(char **command);
+int			fc_handle_s(t_sh *shell, t_fc *fc);
+char		*fc_get_filename(void);
 char		*file_to_str(int fd);
-int			willifc_handle_edit(t_sh *shell, t_fc *fc);
+int			fc_handle_edit(t_sh *shell, t_fc *fc);
 
 #endif

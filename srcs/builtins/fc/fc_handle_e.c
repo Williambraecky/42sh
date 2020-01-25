@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 02:51:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 12:23:34 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 22:35:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	write_history_to_file(t_sh *shell, t_fc *fc, char *filename)
 
 	max = fc->first >= fc->last ?
 		fc->first - fc->last + 1 : fc->last - fc->first + 1;
-	range = willifc_make_range(fc->first, fc->last);
+	range = fc_make_range(fc->first, fc->last);
 	i = fc->opt_r ? max : 0;
 	if ((fd = open(filename, O_RDWR | O_CREAT | O_TRUNC, 0666)) == -1)
 		return (1);
@@ -40,7 +40,7 @@ static int	write_history_to_file(t_sh *shell, t_fc *fc, char *filename)
 ** TODO: execute the command
 */
 
-static int	willifc_do_edit(t_sh *shell, t_fc *fc, char *filename)
+static int	fc_do_edit(t_sh *shell, t_fc *fc, char *filename)
 {
 	char	*command;
 
@@ -60,7 +60,7 @@ static int	willifc_do_edit(t_sh *shell, t_fc *fc, char *filename)
 	return (get_last_return_code(shell));
 }
 
-static int	willifc_exec_edited(t_sh *shell, char *filename)
+static int	fc_exec_edited(t_sh *shell, char *filename)
 {
 	int		fd;
 	char	*command;
@@ -70,7 +70,7 @@ static int	willifc_exec_edited(t_sh *shell, char *filename)
 		ft_dprintf(2, "42sh: fc: error opening %s\n", filename);
 		return (1);
 	}
-	if (!(command = file_to_str(fd)) || willifc_ensure_newline(&command))
+	if (!(command = file_to_str(fd)) || fc_ensure_newline(&command))
 	{
 		close(fd);
 		unlink(filename);
@@ -87,11 +87,11 @@ static int	willifc_exec_edited(t_sh *shell, char *filename)
 	return (get_last_return_code(shell) > 0);
 }
 
-int			willifc_handle_edit(t_sh *shell, t_fc *fc)
+int			fc_handle_edit(t_sh *shell, t_fc *fc)
 {
 	char	*filename;
 
-	if (!(filename = willifc_get_filename()))
+	if (!(filename = fc_get_filename()))
 	{
 		ft_dprintf(2, "42sh: fc: malloc error\n");
 		return (1);
@@ -102,11 +102,11 @@ int			willifc_handle_edit(t_sh *shell, t_fc *fc)
 		free(filename);
 		return (1);
 	}
-	if (willifc_do_edit(shell, fc, filename))
+	if (fc_do_edit(shell, fc, filename))
 	{
 		unlink(filename);
 		free(filename);
 		return (1);
 	}
-	return (willifc_exec_edited(shell, filename));
+	return (fc_exec_edited(shell, filename));
 }
