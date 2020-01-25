@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 22:34:28 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 22:37:45 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 21:14:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int		prepare_hdoc(t_sh *shell, t_hdoc *doc)
 		return (ret);
 	}
 	write(doc->pipe[1], new, ft_strlen(new));
+	free(new);
 	close(doc->pipe[1]);
 	return (SH_SUCCESS);
 }

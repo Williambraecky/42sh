@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 22:32:43 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 21:10:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,14 @@ static int		do_heredoc(t_lexer *lex, t_token *tok)
 	else
 	{
 		if (!(new = ft_strjoin(hdoc->content, tok->str)))
+		{
+			token_free(tok);
 			return (SH_ERR_MALLOC);
+		}
 		free(hdoc->content);
 		hdoc->content = new;
 	}
+	token_free(tok);
 	return (SH_SUCCESS);
 }
 

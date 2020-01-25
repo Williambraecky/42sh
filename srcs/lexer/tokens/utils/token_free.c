@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 15:59:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/17 22:32:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 21:13:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ static void	default_free(t_token *token)
 	ft_strdel(&token->str);
 	free(token);
 }
-
-/*
-** TODO: Should we close pipe here?
-*/
 
 static void	hdoc_free(t_hdoc *doc)
 {
