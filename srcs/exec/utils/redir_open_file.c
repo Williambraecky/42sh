@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 15:42:00 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 02:10:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 22:09:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,21 @@ static void	find_error(t_redir *redir, int write)
 		ft_dprintf(2, "42sh: error opening file: %s\n", redir->filename);
 }
 
+static int	check_redirand_fd(t_redir *redir)
+{
+	int		fd;
+
+	if (ft_strequ(redir->filename, "-"))
+		return (SH_SUCCESS);
+	fd = ft_atoi(redir->filename);
+	if (fcntl(fd, F_GETFD) == -1)
+	{
+		ft_dprintf(2, "42sh: %d: bad file descriptor\n", fd);
+		return (SH_ERR_OPEN);
+	}
+	return (SH_SUCCESS);
+}
+
 static int	check_redirand(t_redir *redir)
 {
 	if (redir->token->type != T_LESSER_AND &&
@@ -63,7 +78,7 @@ int			redir_open_file(t_redir *redir)
 	if (redir->token->type == T_DOUBLE_LESSER)
 		return (SH_SUCCESS);
 	if (check_redirand(redir))
-		return (SH_SUCCESS);
+		return (check_redirand_fd(redir));
 	flag = get_flags_for_type(redir->token->type);
 	fd = open(redir->filename, flag, 0666);
 	if (fd == -1)
