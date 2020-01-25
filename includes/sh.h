@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 00:37:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 21:48:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,6 +350,7 @@ char		*get_hostname(t_sh *shell);
 char		*get_hostname_short(t_sh *shell);
 char		*get_git_branch(t_sh *shell);
 int			is_dir(char *str);
+int			is_fifo(char *str);
 int			sh_rand(void);
 void		sh_srand(t_u64 seed);
 char		*sh_randstr(size_t len, char *charset);
