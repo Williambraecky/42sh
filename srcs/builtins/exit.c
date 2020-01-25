@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 15:59:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 18:18:04 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/25 21:19:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,27 @@ static void	kill_jobs(t_sh *shell)
 	}
 }
 
+static int	handle_args(int argc, char **argv, int *ret)
+{
+	if (!ft_strisnumber(argv[1]))
+		ft_dprintf(2, "42sh: exit: %s: numerical arguemnt expected\n", argv[1]);
+	else if (argc > 2)
+	{
+		ft_dprintf(2, "42sh: exit: too many arguments\n");
+		return (1);
+	}
+	else
+		*ret = ft_atoi(argv[1]);
+	return (0);
+}
+
 int			exit_builtin(int argc, char **argv, t_sh *shell)
 {
 	int	ret;
 
 	ret = 0;
-	if (argc > 1)
-		ret = ft_atoi(argv[1]);
+	if (argc > 1 && handle_args(argc, argv, &ret))
+		return (1);
 	ret = (ret % 256 + 256) % 256;
 	if (getpid() != shell->pid)
 		return (ret);
