@@ -6,32 +6,25 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 16:51:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/25 00:20:30 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 23:22:13 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-/*
-** TODO: strsreplall is not good here it will replace
-**	\\\n if there are more lines
-*/
-
 static int	read_history_handle_new_line(t_sh *shell, char *gnl, char **tmp)
 {
 	char	*tmp2;
+	int		esc;
 
-	if ((gnl[0] != '\0' && gnl[ft_strlen(gnl) - 1] == '\\') || *tmp)
+	if ((esc = (gnl[0] != '\0' && gnl[ft_strlen(gnl) - 1] == '\\')) || *tmp)
 	{
-		if (gnl[0] != '\0' && gnl[ft_strlen(gnl) - 1] == '\\')
+		if (esc)
 			gnl[ft_strlen(gnl) - 1] = '\0';
 		tmp2 = *tmp;
-		if (*tmp)
-			*tmp = ft_strtrijoin(*tmp, "\n", gnl);
-		else
-			*tmp = ft_strdup(gnl);
+		*tmp = *tmp ? ft_strtrijoin(*tmp, "\n", gnl) : ft_strdup(gnl);
 		free(tmp2);
-		if (gnl[0] != '\0' && gnl[ft_strlen(gnl) - 1] == '\\')
+		if (esc)
 		{
 			free(gnl);
 			return (SH_SUCCESS);
