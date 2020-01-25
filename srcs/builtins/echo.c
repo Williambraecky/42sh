@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:19:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 01:08:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/25 21:05:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,13 @@
 ** NOTE: should only handle -n as option
 */
 
-int		echo_builtin(int argc, char **argv, t_sh *shell)
+static int	echo_err(void)
+{
+	ft_dprintf(2, "42sh: echo: write error\n");
+	return (1);
+}
+
+int			echo_builtin(int argc, char **argv, t_sh *shell)
 {
 	size_t	i;
 	int		n_flag;
@@ -28,10 +34,12 @@ int		echo_builtin(int argc, char **argv, t_sh *shell)
 	i = 1 + n_flag;
 	while (i < (size_t)argc)
 	{
-		write(1, argv[i], ft_strlen(argv[i]));
+		if (write(1, argv[i], ft_strlen(argv[i])) == -1)
+			return (echo_err());
 		i++;
 		if (i != (size_t)argc)
-			write(1, " ", 1);
+			if (write(1, " ", 1) == -1)
+				return (echo_err());
 	}
 	if (!n_flag)
 		write(1, "\n", 1);
