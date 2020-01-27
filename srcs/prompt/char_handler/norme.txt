@@ -1,2 +1,0 @@
-Norme: ./char_dispatcher.c
-Warning: /Users/ntom/Desktop/Days/42sh/srcs/prompt/char_handler/char_dispatcher.c may not compile or is invalid for some reasons.
