@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:00:39 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/22 22:10:43 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 16:43:50 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,19 @@ int		first_word(char *line, size_t i, int first)
 
 int		get_path(t_sh *shell, char **line, char **path)
 {
+	char	*tmp;
+	char	*home;
 	int		i;
 
-	if (**line == '~' && has_env(shell, "HOME"))
+	tmp = NULL;
+	if (**line == '~' && get_env(shell, "HOME", &home) == SH_SUCCESS)
 	{
-		*line = ft_strdup(*((*line) + 1) == '/' ? (*line) + 2 : (*line) + 1);
-		return (get_env_clone(shell, "HOME", path));
+		*line = ft_strsrepl(*line, "~", home);
+		tmp = *line;
 	}
-	i = ft_strlen(*line) - 1;
 	if (ft_strchr(*line, '/'))
 	{
-		while (i > 0 && line[0][i] != '/')
-			i--;
+		i = ft_strrchr(*line, '/') - *line;
 		*path = ft_strsub(*line, 0, i + 1);
 		*line = ft_strdup(*line + i + 1);
 	}
@@ -72,9 +73,9 @@ int		get_path(t_sh *shell, char **line, char **path)
 		*path = ft_strdup(".");
 		*line = ft_strdup(*line);
 	}
-	if (!*path || !*line)
-		return (SH_ERR_MALLOC);
-	return (SH_SUCCESS);
+	if (tmp)
+		free(tmp);
+	return ((*path && *line) ? SH_SUCCESS : SH_ERR_MALLOC);
 }
 
 int		get_cursor_word_len(char *line, t_prompt *prompt, int i, int j)
