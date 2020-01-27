@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 16:44:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/28 00:01:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/28 00:07:36 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ static void	reinsert_in_buffer(char *buffer, char *end)
 	while (*end)
 		ioctl(0, TIOCSTI, end++);
 	while (queued--)
+	{
 		read(0, &buff, 1);
 		ioctl(0, TIOCSTI, &buff);
+	}
 }
 
 static int	read_pos_from_buffer(char *buffer, int *x, int *y)
