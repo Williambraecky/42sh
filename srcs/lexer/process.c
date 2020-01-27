@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 17:41:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 21:10:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 16:30:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ static int		check_dless_exist(t_lexer *lex)
 			if ((ret = substitute(NULL, word->str, &tok->name, SUB_QUOTE))
 				!= SH_SUCCESS)
 				return (ret);
+			if (!(tok->content = ft_strnew(0)))
+				return (SH_ERR_MALLOC);
 			return (stack_push(&lex->stack, T_DOUBLE_LESSER));
 		}
 		i++;
