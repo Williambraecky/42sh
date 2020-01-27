@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 17:21:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/10 18:55:31 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 17:00:36 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		repl_internal(t_sh *shell, char *key, char *value)
 		node->is_used = 0;
 	}
 	if (ft_mapputnoclone(shell->internals, key,
-		value, ft_strlen(value)) != MAP_OK)
+		value, ft_strlen(value) + 1) != MAP_OK)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
