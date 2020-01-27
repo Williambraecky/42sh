@@ -6,7 +6,7 @@
 /*   By: wdaher-a <wdaher-a@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 18:04:37 by wdaher-a          #+#    #+#             */
-/*   Updated: 2020/01/13 18:08:44 by wdaher-a         ###   ########.fr       */
+/*   Updated: 2020/01/27 17:34:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		repl_alias(t_sh *shell, char *key, char *value)
 		node->is_used = 0;
 	}
 	if (ft_mapputnoclone(shell->aliases, key,
-		value, ft_strlen(value)) != MAP_OK)
+		value, ft_strlen(value) + 1) != MAP_OK)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
