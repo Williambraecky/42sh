@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:25:11 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 18:19:11 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/27 17:05:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int		handle_args(int argc, char **argv, t_sh *shell)
 		cmd = job_by_id(shell, argv[i]);
 		if (!cmd)
 		{
-			ft_dprintf(2, "42sh: bg: %s: no such job\n", argv[i]);
+			ft_dprintf(2, "42sh: fg: %s: no such job\n", argv[i]);
 			return (get_last_return_code(shell));
 		}
 		ft_printf("%s\n", cmd->cmd_str);
@@ -66,11 +66,16 @@ int				fg_builtin(int argc, char **argv, t_sh *shell)
 {
 	t_cmd	*cmd;
 
+	if (getpid() != shell->pid)
+	{
+		ft_dprintf(2, "fg: not useable in background\n");
+		return (1);
+	}
 	if (argc == 1)
 	{
 		if (shell->jobs.size == 0)
 		{
-			ft_dprintf(2, "bg: no current job\n");
+			ft_dprintf(2, "fg: no current job\n");
 			return (1);
 		}
 		cmd = ft_vecget(&shell->jobs, shell->jobs.size - 1);
