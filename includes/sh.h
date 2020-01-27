@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 21:48:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 17:45:25 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -344,6 +344,7 @@ int			gen_prompt_string(t_sh *shell, char *ps1, char **result);
 int			end_gen_prompt(int ret, char **result, char *prompt);
 int			is_valid_esc(char *prompt, size_t *i);
 int			init_internal_vars(t_sh *shell);
+int			init_aliases(t_sh *shell);
 int			vecgetlastmatch_index(t_vec *vec, char *find);
 int			run_command(t_sh *shell, char *command);
 char		*get_hostname(t_sh *shell);

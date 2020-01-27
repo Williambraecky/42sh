@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 18:08:14 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/27 18:03:06 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,11 @@ char		*g_error_str[] =
 static int	init_shell(t_sh *shell, const char **env)
 {
 	ft_memset(shell, 0, sizeof(*shell));
-	if (!(shell->internals = ft_mapnew(100)))
-		return (1);
-	if (!(shell->env = ft_mapnew(100)))
-		return (1);
-	if (!(shell->aliases = ft_mapnew(10)))
-		return (1);
-	if (!(shell->builtins = ft_mapnew(30)))
-		return (1);
-	if (!(shell->use_hash = ft_mapnew(30)))
+	if (!(shell->internals = ft_mapnew(100)) ||
+		!(shell->env = ft_mapnew(100)) ||
+		!(shell->aliases = ft_mapnew(10)) ||
+		!(shell->builtins = ft_mapnew(30)) ||
+		!(shell->use_hash = ft_mapnew(30)))
 		return (1);
 	if (ft_vecinit(&shell->jobs))
 		return (1);
@@ -49,7 +45,8 @@ static int	init_shell(t_sh *shell, const char **env)
 		return (1);
 	if (init_internal_vars(shell))
 		return (1);
-	add_alias(shell, "ls", "ls -G");
+	if (init_aliases(shell))
+		return (1);
 	if (copy_env(shell, env) != SH_SUCCESS)
 		return (1);
 	if (init_history(shell) != SH_SUCCESS)
@@ -82,8 +79,26 @@ int			run_command(t_sh *shell, char *command)
 
 /*
 ** TODO: print errors
-** TODO: handle event substitution
 */
+
+static int	do_event_subst(t_sh *shell, char **line)
+{
+	char	*new;
+	int		ret;
+
+	ret = SH_SUCCESS;
+	if (ft_strchr(*line, '!'))
+	{
+		if ((ret = substitute_event(shell, *line, &new)) == SH_SUCCESS)
+		{
+			if (!ft_strequ(*line, new))
+				ft_dprintf(0, "%s", new);
+			free(*line);
+			*line = new;
+		}
+	}
+	return (ret);
+}
 
 static void	run(t_sh *shell)
 {
@@ -97,22 +112,12 @@ static void	run(t_sh *shell)
 	ret = handle_prompt(shell, prompt, &line);
 	free(prompt);
 	if (ret == SH_SUCCESS && ft_strchr(line, '!'))
-	{
-		if ((ret = substitute_event(shell, line, &prompt)) == SH_SUCCESS)
-		{
-			if (!ft_strequ(line, prompt))
-				ft_dprintf(0, "%s", prompt);
-			free(line);
-			line = prompt;
-		}
-	}
+		ret = do_event_subst(shell, &line);
 	job_notify(shell);
 	if (ret == SH_SUCCESS)
-	{
 		run_command(shell, line);
-		usleep(50000);
-		job_notify(shell);
-	}
+	usleep(50000);
+	job_notify(shell);
 	shell->block_history = 0;
 	free(line);
 }
