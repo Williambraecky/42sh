@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 17:45:25 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:53:32 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,7 @@
 ** Typedefs
 */
 
-typedef enum e_intern	t_intyp;
-typedef enum e_extype	t_extype;
-typedef union u_intval	t_intvl;
+typedef struct s_var	t_var;
 typedef struct s_bltin	t_bltin;
 typedef struct s_hashed	t_hashed;
 typedef struct s_buff	t_buff;
@@ -98,43 +96,14 @@ typedef struct s_bparam	t_bparam;
 ** Enums
 */
 
-enum		e_intern
-{
-	UNDEFINED,
-	STRING,
-	FLOAT,
-	DOUBLE,
-	INTEGER,
-	LONG
-};
-
-enum		e_extype
-{
-	BUILTIN,
-	EXECUTABLE
-};
-
 /*
 ** Structures
 */
 
-/*
-** TODO: maybe use them? unsure if we actually need such thing
-*/
-
-union		u_intval
+struct		s_var
 {
-	char	*str_;
-	float	flt_;
-	double	dbl_;
-	int		int_;
-	long	lng_;
-};
-
-struct		s_intern
-{
-	t_intyp	type;
-	t_intvl	val;
+	char	*var;
+	int		exported;
 };
 
 struct		s_bltin
@@ -151,15 +120,15 @@ struct		s_hashed
 
 struct		s_buff
 {
-	char		*buffer;
-	size_t		max_size;
-	size_t		size;
+	char	*buffer;
+	size_t	max_size;
+	size_t	size;
 };
 
 /*
 ** NOTE:
+**  - vars => map<string->t_var>
 **  - internals => map<string->string>
-**  - env => map<string->string>
 **  - aliases -> map<string->string>
 **  - builtins -> map<string->t_bltin>
 **  - use_hash -> map<string->t_hashed>
@@ -174,8 +143,7 @@ struct		s_buff
 
 struct		s_sh
 {
-	t_map	*internals;
-	t_map	*env;
+	t_map	*vars;
 	t_map	*aliases;
 	t_map	*builtins;
 	t_map	*use_hash;
@@ -257,20 +225,22 @@ int			has_env(t_sh *shell, char *key);
 void		remove_env(t_sh *shell, char *key);
 int			repl_env(t_sh *shell, char *key, char *value);
 int			make_env_array(t_sh *shell, char ***array);
-int			make_env_array_no_malloc(t_sh *shell, char **array);
+size_t		count_env(t_sh *shell);
 
 /*
-** Internals
+** Vars
 */
 
-int			add_internal(t_sh *shell, char *key, char *value);
-int			get_internal_clone(t_sh *shell, char *key, char **result);
-int			get_internal(t_sh *shell, char *key, char **result);
-int			has_internal(t_sh *shell, char *key);
-void		remove_internal(t_sh *shell, char *key);
-int			repl_internal(t_sh *shell, char *key, char *value);
-int			get_last_return_code(t_sh *shell);
-int			set_last_return_code(t_sh *shell, int ret);
+int			add_var(t_sh *shell, char *key, char *value);
+t_map		*clone_var(t_sh *shell);
+int			get_exit_code(t_sh *shell);
+int			get_var_clone(t_sh *shell, char *key, char **result);
+int			get_var(t_sh *shell, char *key, char **result);
+void		remove_var(t_sh *shell, char *key);
+int			has_var(t_sh *shell, char *key);
+int			repl_var(t_sh *shell, char *key, char *value);
+int			set_exit_code(t_sh *shell, int ret);
+int			var_del_filter(t_node *node);
 
 /*
 ** Hash

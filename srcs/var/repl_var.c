@@ -1,28 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   remove_internal.c                                  :+:      :+:    :+:   */
+/*   repl_var.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/19 15:34:43 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 22:53:23 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/27 21:42:48 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/27 21:48:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-void	remove_internal(t_sh *shell, char *key)
+int			repl_var(t_sh *shell, char *key, char *value)
 {
-	t_node		*node;
-	t_s64		hash;
+	char	*val_dup;
+	t_var	*old;
 
-	if (!has_internal(shell, key))
-		return ;
-	hash = ft_maphash(shell->internals, key);
-	node = &shell->internals->nodes[hash];
-	ft_memdel(&node->value);
-	ft_strdel(&node->key);
-	node->is_used = 0;
-	shell->internals->size--;
+	if (!shell->vars)
+		return (SH_ERR_NOEXIST);
+	if ((old = (t_var*)ft_mapget(shell->vars, key)))
+	{
+		if (!(val_dup = ft_strdup(value)))
+			return (SH_ERR_MALLOC);
+		free(old->var);
+		old->var = val_dup;
+		return (SH_SUCCESS);
+	}
+	return (add_var(shell, key, value));
 }

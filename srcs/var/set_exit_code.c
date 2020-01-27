@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_last_return_code.c                             :+:      :+:    :+:   */
+/*   set_exit_code.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/09 15:45:58 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 01:20:36 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/27 21:50:39 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/27 21:51:27 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-/*
-** NOTE: since ? is a read only value for users it should always be present
-*/
-
-int		get_last_return_code(t_sh *shell)
+int		set_exit_code(t_sh *shell, int ret)
 {
-	char	*var;
+	char	*str;
+	int		ret_;
 
-	if (get_internal(shell, "?", &var) == SH_SUCCESS)
-		return (ft_atoi(var));
-	return (0);
+	if (shell->block_ret_update)
+		return (SH_SUCCESS);
+	if (get_exit_code(shell) == ret)
+		return (SH_SUCCESS);
+	if (!(str = ft_itoa(ret)))
+		return (SH_ERR_MALLOC);
+	ret_ = repl_var(shell, "?", str);
+	free(str);
+	return (ret_);
 }

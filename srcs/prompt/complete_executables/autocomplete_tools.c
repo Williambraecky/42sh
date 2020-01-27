@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:00:39 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/27 17:27:13 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:50:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		get_path(t_sh *shell, char **line, char **path)
 	int		i;
 
 	tmp = NULL;
-	if (**line == '~' && get_env(shell, "HOME", &home) == SH_SUCCESS)
+	if (**line == '~' && get_var(shell, "HOME", &home) == SH_SUCCESS)
 	{
 		*line = ft_strsrepl(*line, "~", home);
 		tmp = *line;

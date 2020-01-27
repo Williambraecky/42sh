@@ -6,25 +6,59 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:21:03 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 22:15:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:55:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 
-static void	print_env(t_map *map)
+static int	export_make_array(t_sh *shell, char ***array)
 {
+	t_map	*vars;
+	t_var	*var;
 	size_t	i;
+	size_t	j;
 
-	if (!map)
-		return ;
+	vars = shell->vars;
+	if (!(*array = ft_memalloc(sizeof(**array) * (count_env(shell) + 1))))
+		return (SH_ERR_MALLOC);
 	i = 0;
-	while (i < map->max_size)
+	j = 0;
+	while (i < vars->max_size)
 	{
-		if (map->nodes[i].is_used)
-			ft_printf("%s=%s{eoc}\n", map->nodes[i].key, map->nodes[i].value);
+		if (vars->nodes[i].is_used)
+		{
+			var = vars->nodes[i].value;
+			if (var->exported && !((*array)[j++] = ft_strformat("%s='%s'",
+				vars->nodes[i].key, var->var)))
+			{
+				ft_freesplit(*array);
+				return (SH_ERR_MALLOC);
+			}
+		}
 		i++;
 	}
+	return (SH_SUCCESS);
+}
+
+static void	print_env(t_sh *shell)
+{
+	char	**array;
+	size_t	i;
+
+	if (export_make_array(shell, &array) != SH_SUCCESS)
+	{
+		ft_dprintf(2, "42sh: export: malloc error\n");
+		return ;
+	}
+	ft_strsort(array, ft_splitlen(array), ft_strcmp);
+	i = 0;
+	while (array[i])
+	{
+		ft_printf("%s{eoc}\n", array[i]);
+		i++;
+	}
+	ft_freesplit(array);
 }
 
 static int	handle_define(t_sh *shell, char *definition)
@@ -47,12 +81,17 @@ static int	handle_define(t_sh *shell, char *definition)
 
 static int	handle_export(t_sh *shell, char *key)
 {
-	char	*value;
+	t_var	*var;
 
-	if (get_internal(shell, key, &value) != SH_SUCCESS)
-		value = "";
-	if (repl_env(shell, key, value) != SH_SUCCESS)
-		return (SH_ERR_MALLOC);
+	if (!str_is_name(key))
+	{
+		ft_dprintf(2, "42sh: export: `%s': not a valid identifier\n", key);
+		return (1);
+	}
+	if (!has_var(shell, key))
+		return (add_env(shell, key, ""));
+	var = ft_mapget(shell->vars, key);
+	var->exported = 1;
 	return (SH_SUCCESS);
 }
 
@@ -62,7 +101,7 @@ int			export_builtin(int argc, char **argv, t_sh *shell)
 	int		ret;
 
 	if (argc == 1)
-		print_env(shell->env);
+		print_env(shell);
 	i = 1;
 	ret = SH_SUCCESS;
 	while (i < (size_t)argc)

@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 16:51:59 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/25 23:22:13 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:50:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ static int	open_history_file(t_sh *shell)
 	int		fd;
 
 	path[0] = '\0';
-	if (get_internal(shell, "HISTFILE", &home) == SH_SUCCESS &&
+	if (get_var(shell, "HISTFILE", &home) == SH_SUCCESS &&
 		(fd = open(path, O_CREAT | O_APPEND | O_RDWR, 0666)) != -1)
 		return (fd);
-	if (get_env(shell, "HOME", &home) != SH_SUCCESS)
+	if (get_var(shell, "HOME", &home) != SH_SUCCESS)
 		return (-1);
 	ft_strlcat(path, home, PATH_MAX + 1);
 	if (path[0] && path[ft_strlen(path) - 1] != '/')
@@ -73,7 +73,7 @@ static int	open_history_file(t_sh *shell)
 	ft_strlcat(path, ".willish_history", PATH_MAX + 1);
 	if ((fd = open(path, O_CREAT | O_APPEND | O_RDWR, 0666)) == -1)
 		return (-1);
-	add_internal(shell, "HISTFILE", path);
+	add_var(shell, "HISTFILE", path);
 	return (fd);
 }
 

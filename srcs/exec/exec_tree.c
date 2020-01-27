@@ -29,7 +29,7 @@ int		exec_tree(t_sh *shell, t_cmd *tree)
 	{
 		next = curr->next;
 		if (shell->running &&
-			(!curr->condition || curr->condition(get_last_return_code(shell))))
+			(!curr->condition || curr->condition(get_exit_code(shell))))
 			exec_cmd(shell, curr);
 		else
 			free_cmd(curr);

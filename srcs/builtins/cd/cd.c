@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 13:43:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 00:29:56 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:09:16 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int	get_start_operand(int argc, char **argv,
 {
 	if (argc == 0)
 	{
-		if (get_env(shell, "HOME", operand) != SH_SUCCESS)
+		if (get_var(shell, "HOME", operand) != SH_SUCCESS)
 		{
 			ft_dprintf(2, "42sh: cd: HOME not set\n");
 			return (1);
@@ -107,7 +107,7 @@ static int	get_start_operand(int argc, char **argv,
 	}
 	else if (ft_strequ(argv[0], "-"))
 	{
-		if (get_env(shell, "OLDPWD", operand) != SH_SUCCESS)
+		if (get_var(shell, "OLDPWD", operand) != SH_SUCCESS)
 		{
 			ft_dprintf(2, "42sh: cd: OLDPWD not set\n");
 			return (1);

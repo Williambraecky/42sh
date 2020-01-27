@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/27 15:24:52 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:50:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int					complete_command(t_sh *shell, char *start, t_vec *poss)
 	size_t	i;
 	int		ret;
 
-	if (get_env(shell, "PATH", &path) != SH_SUCCESS)
+	if (get_var(shell, "PATH", &path) != SH_SUCCESS)
 		return (SH_ERR_NOEXIST);
 	if (!(path_dir = ft_strsplit(path, ':')))
 		return (SH_ERR_MALLOC);

@@ -80,17 +80,17 @@ static void		job_react(t_sh *shell, t_cmd *cmd, int status)
 {
 	cmd->status = status;
 	if (WIFEXITED(status))
-		set_last_return_code(shell, WEXITSTATUS(status));
+		set_exit_code(shell, WEXITSTATUS(status));
 	else if (WIFSTOPPED(status))
 	{
 		ft_printf("\n");
-		set_last_return_code(shell, WSTOPSIG(status) + 128);
+		set_exit_code(shell, WSTOPSIG(status) + 128);
 		jobs_add(shell, cmd, 0);
 		return ;
 	}
 	else if (WIFSIGNALED(status))
 	{
-		set_last_return_code(shell, WTERMSIG(status) + 128);
+		set_exit_code(shell, WTERMSIG(status) + 128);
 		if (WTERMSIG(status) != 2)
 			job_notify_cmd(cmd, shell->jobs.size + 1, shell->jobs.size);
 	}

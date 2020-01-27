@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 02:51:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 16:05:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:11:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	fc_do_edit(t_sh *shell, t_fc *fc, char *filename)
 	char	*command;
 
 	if (fc->editor == NULL &&
-		get_internal(shell, "FCEDIT", &fc->editor) != SH_SUCCESS)
+		get_var(shell, "FCEDIT", &fc->editor) != SH_SUCCESS)
 		fc->editor = "vim";
 	shell->block_history = 1;
 	if ((command = ft_strformat("%s %s\n", fc->editor, filename)))
@@ -58,7 +58,7 @@ static int	fc_do_edit(t_sh *shell, t_fc *fc, char *filename)
 	}
 	free(command);
 	shell->block_history = 0;
-	return (get_last_return_code(shell));
+	return (get_exit_code(shell));
 }
 
 static int	fc_exec_edited(t_sh *shell, char *filename)
@@ -85,7 +85,7 @@ static int	fc_exec_edited(t_sh *shell, char *filename)
 	close(fd);
 	unlink(filename);
 	free(filename);
-	return (get_last_return_code(shell) > 0);
+	return (get_exit_code(shell) > 0);
 }
 
 int			fc_handle_edit(t_sh *shell, t_fc *fc)

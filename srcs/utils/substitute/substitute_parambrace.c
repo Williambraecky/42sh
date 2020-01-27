@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 21:08:52 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 23:37:44 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:31:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ static int		var_exists(t_subst *subst, char *str, size_t start)
 
 	buffer[0] = str[start];
 	buffer[1] = '\0';
-	return (has_internal(subst->shell, buffer) ||
-		has_env(subst->shell, buffer));
+	return (has_var(subst->shell, buffer));
 }
 
 static size_t	count_characters(t_subst *subst, char *str, size_t start)

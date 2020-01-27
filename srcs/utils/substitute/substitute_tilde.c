@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 20:54:43 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 23:37:13 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:51:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	basic_tilde(t_subst *subst)
 	struct passwd	*pwnam;
 
 	home = NULL;
-	if (get_env(subst->shell, "HOME", &home) != SH_SUCCESS)
+	if (get_var(subst->shell, "HOME", &home) != SH_SUCCESS)
 		pwnam = getpwent();
 	if (!home && pwnam)
 		home = pwnam->pw_dir;

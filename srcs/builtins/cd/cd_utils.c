@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 13:39:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 23:19:07 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:09:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		cd_get_pwd(t_sh *shell, char *buffer, size_t buff_size)
 {
 	char	*value;
 
-	if (get_env(shell, "PWD", &value) != SH_SUCCESS)
+	if (get_var(shell, "PWD", &value) != SH_SUCCESS)
 	{
 		ft_strlcat(buffer, value, buff_size);
 		return (0);
@@ -49,7 +49,7 @@ int		cd_scan_cdpath(t_sh *shell, char *path, char *curpath)
 	char		**split;
 	size_t		i;
 
-	if (get_env(shell, "CDPATH", &cdpath) != SH_SUCCESS ||
+	if (get_var(shell, "CDPATH", &cdpath) != SH_SUCCESS ||
 		!(split = ft_strsplit(cdpath, ':')))
 		return (-1);
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 18:03:06 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 21:57:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@ char		*g_error_str[] =
 static int	init_shell(t_sh *shell, const char **env)
 {
 	ft_memset(shell, 0, sizeof(*shell));
-	if (!(shell->internals = ft_mapnew(100)) ||
-		!(shell->env = ft_mapnew(100)) ||
+	if (!(shell->vars = ft_mapnew(100)) ||
 		!(shell->aliases = ft_mapnew(10)) ||
 		!(shell->builtins = ft_mapnew(30)) ||
 		!(shell->use_hash = ft_mapnew(30)))
@@ -107,7 +106,7 @@ static void	run(t_sh *shell)
 	char	*ps1;
 	int		ret;
 
-	get_internal(shell, "PS1", &ps1);
+	get_var(shell, "PS1", &ps1);
 	gen_prompt_string(shell, ps1, &prompt);
 	ret = handle_prompt(shell, prompt, &line);
 	free(prompt);

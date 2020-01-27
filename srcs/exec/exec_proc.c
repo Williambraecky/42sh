@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 15:15:23 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:52:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,19 @@ static int	make_env(t_sh *shell, t_proc *proc)
 	size_t	i;
 	char	*equal;
 
-	if (!(proc->env_backup = ft_mapclone(shell->env)))
+	if (!(proc->env_backup = clone_var(shell)))
 		return (SH_ERR_MALLOC);
-	ft_memswap(&proc->env_backup, &shell->env, sizeof(t_map *));
+	ft_memswap(&proc->env_backup, &shell->vars, sizeof(t_map *));
 	ft_memswap(&proc->hash_backup, &shell->use_hash, sizeof(t_map *));
 	i = proc->assignments.size;
 	while (i--)
 	{
 		equal = ft_strchr(ft_vecget(&proc->assignments, i), '=');
 		*equal = '\0';
-		if (repl_env(shell, ft_vecget(&proc->assignments, i), equal + 1))
+		if (repl_var(shell, ft_vecget(&proc->assignments, i), equal + 1))
 		{
-			ft_memswap(&proc->env_backup, &shell->env, sizeof(t_map *));
-			ft_mapfilter(proc->env_backup, map_del_filter);
+			ft_memswap(&proc->env_backup, &shell->vars, sizeof(t_map *));
+			ft_mapfilter(proc->env_backup, var_del_filter);
 			ft_mapdel(proc->env_backup);
 			proc->env_backup = NULL;
 			return (SH_ERR_MALLOC);
@@ -46,9 +46,9 @@ static void	revert_env(t_sh *shell, t_proc *proc)
 {
 	if (!proc->env_backup)
 		return ;
-	ft_memswap(&proc->env_backup, &shell->env, sizeof(t_map *));
+	ft_memswap(&proc->env_backup, &shell->vars, sizeof(t_map *));
 	ft_memswap(&proc->hash_backup, &shell->use_hash, sizeof(t_map *));
-	ft_mapfilter(proc->env_backup, map_del_filter);
+	ft_mapfilter(proc->env_backup, var_del_filter);
 	ft_mapdel(proc->env_backup);
 }
 
@@ -70,7 +70,7 @@ static int	apply_assigns(t_sh *shell, t_proc *proc)
 		current = (char*)ft_vecget(&proc->assignments, i);
 		tmp = ft_strchr(current, '=');
 		*tmp = '\0';
-		if (repl_internal(shell, current, tmp + 1) != SH_SUCCESS)
+		if (repl_var(shell, current, tmp + 1) != SH_SUCCESS)
 			return (SH_ERR_MALLOC);
 		*tmp = '=';
 		i++;

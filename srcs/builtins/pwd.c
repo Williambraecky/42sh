@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:24:02 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/18 19:13:26 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:17:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		pwd_builtin(int argc, char **argv, t_sh *shell)
 	(void)argv;
 	buffer[0] = '\0';
 	pwd = NULL;
-	if (get_env(shell, "PWD", &pwd) == SH_SUCCESS && access(pwd, F_OK) == 0)
+	if (get_var(shell, "PWD", &pwd) == SH_SUCCESS && access(pwd, F_OK) == 0)
 		ft_strlcat(buffer, pwd, MAXPATHLEN + 1);
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:15:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 23:32:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:37:15 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,53 @@
 /*
 ** NOTE: defines internal variable + other
 */
-
-static void	print_internals(t_map *map)
+static int	set_make_array(t_sh *shell, char ***array)
 {
+	t_map	*vars;
+	t_var	*var;
 	size_t	i;
+	size_t	j;
 
-	if (!map)
-		return ;
+	vars = shell->vars;
+	if (!(*array = ft_memalloc(sizeof(**array) * (vars->size + 1))))
+		return (SH_ERR_MALLOC);
 	i = 0;
-	while (i < map->max_size)
+	j = 0;
+	while (i < vars->max_size)
 	{
-		if (map->nodes[i].is_used)
-			ft_printf("%s=%s{eoc}\n", map->nodes[i].key, map->nodes[i].value);
+		if (vars->nodes[i].is_used)
+		{
+			var = (t_var*)vars->nodes[i].value;
+			if (!((*array)[j++] = ft_strformat("%s='%s'",
+				vars->nodes[i].key, var->var)))
+			{
+				ft_freesplit(*array);
+				return (SH_ERR_MALLOC);
+			}
+		}
 		i++;
 	}
+	return (SH_SUCCESS);
+}
+
+static void	print_vars(t_sh *shell)
+{
+	char	**array;
+	size_t	i;
+
+	if (set_make_array(shell, &array) != SH_SUCCESS)
+	{
+		ft_dprintf(2, "42sh: export: malloc error\n");
+		return ;
+	}
+	ft_strsort(array, ft_splitlen(array), ft_strcmp);
+	i = 0;
+	while (array[i])
+	{
+		ft_printf("%s{eoc}\n", array[i]);
+		i++;
+	}
+	ft_freesplit(array);
 }
 
 static int	handle_define(t_sh *shell, char *definition)
@@ -44,7 +77,7 @@ static int	handle_define(t_sh *shell, char *definition)
 			definition);
 		return (1);
 	}
-	if (repl_internal(shell, definition, equals + 1) != SH_SUCCESS)
+	if (repl_var(shell, definition, equals + 1) != SH_SUCCESS)
 		return (SH_ERR_MALLOC);
 	return (SH_SUCCESS);
 }
@@ -55,7 +88,7 @@ int			set_builtin(int argc, char **argv, t_sh *shell)
 	int		ret;
 
 	if (argc == 1)
-		print_internals(shell->internals);
+		print_vars(shell);
 	i = 1;
 	ret = SH_SUCCESS;
 	while (i < (size_t)argc)

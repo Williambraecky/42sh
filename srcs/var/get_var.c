@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_internal_clone.c                               :+:      :+:    :+:   */
+/*   get_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 17:14:38 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/19 15:24:39 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/27 21:38:39 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/27 21:49:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-/*
-** NOTE: get_env but clones the result to *result
-*/
-
-int		get_internal_clone(t_sh *shell, char *key, char **result)
+int			get_var(t_sh *shell, char *key, char **result)
 {
-	if (!shell->internals)
+	t_var	*var;
+
+	if (!shell->vars || !(var = ft_mapget(shell->vars, key)))
 		return (SH_ERR_NOEXIST);
-	if (!(*result = ft_mapget(shell->internals, key)))
-		return (SH_ERR_ENV_NOEXIST);
-	if (!(*result = ft_strdup(*result)))
-		return (SH_ERR_MALLOC);
+	*result = var->var;
 	return (SH_SUCCESS);
 }

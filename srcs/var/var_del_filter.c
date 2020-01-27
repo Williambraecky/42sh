@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   add_internal.c                                     :+:      :+:    :+:   */
+/*   var_del_filter.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 17:17:23 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/26 21:53:26 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/27 22:45:51 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/27 22:46:05 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-/*
-** NOTE: clones the key and the value
-*/
-
-int		add_internal(t_sh *shell, char *key, char *value)
+int			var_del_filter(t_node *node)
 {
-	if (!shell->internals)
-		return (SH_ERR_NOEXIST);
-	if (!(key = ft_strdup(key))
-		|| !(value = ft_strdup(value)))
-		return (SH_ERR_MALLOC);
-	if (ft_mapputnoclone(shell->internals,
-		key, value, ft_strlen(value) + 1) != MAP_OK)
-		return (SH_ERR_MALLOC);
-	return (SH_SUCCESS);
+	t_var	*var;
+
+	var = (t_var*)node->value;
+	ft_strdel(&var->var);
+	ft_memdel(&node->value);
+	ft_strdel(&node->key);
+	return (0);
 }

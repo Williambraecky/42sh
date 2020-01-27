@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 00:35:13 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:46:02 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,6 @@ int			map_del_filter(t_node *node)
 	free(node->value);
 	return (0);
 }
-
-/*
-** TODO: actually do it lol
-*/
 
 static void	jobs_destroy(t_cmd *cmd)
 {
@@ -68,10 +64,8 @@ static void	reset_signals(t_sh *shell)
 
 void		free_sh(t_sh *shell)
 {
-	ft_mapfilter(shell->internals, map_del_filter);
-	ft_mapdel(shell->internals);
-	ft_mapfilter(shell->env, map_del_filter);
-	ft_mapdel(shell->env);
+	ft_mapfilter(shell->vars, var_del_filter);
+	ft_mapdel(shell->vars);
 	ft_mapfilter(shell->aliases, map_del_filter);
 	ft_mapdel(shell->aliases);
 	ft_mapfilter(shell->use_hash, map_hash_filter);

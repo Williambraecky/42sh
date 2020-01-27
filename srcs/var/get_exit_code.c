@@ -1,27 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   get_exit_code.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/16 18:18:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:20:18 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/01/27 21:49:10 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/01/27 21:49:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "builtin.h"
+#include "sh.h"
 
-/*
-** NOTE: unsets internal variable from internals table
-*/
-
-int		unset_builtin(int argc, char **argv, t_sh *shell)
+int		get_exit_code(t_sh *shell)
 {
-	int		i;
+	char	*var;
 
-	i = 1;
-	while (i < argc)
-		remove_var(shell, argv[i++]);
+	if (get_var(shell, "?", &var) == SH_SUCCESS)
+		return (ft_atoi(var));
 	return (0);
 }

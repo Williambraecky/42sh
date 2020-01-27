@@ -6,38 +6,15 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/27 17:36:45 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:34:52 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-int		get_internals(char *str, t_vec *poss, t_map *internals)
-{
-	char	*key;
-	size_t	i;
-
-	i = 0;
-	while (i < internals->max_size)
-	{
-		if (internals->nodes[i].is_used)
-		{
-			key = internals->nodes[i].key;
-			if (ft_strstartswith(key, str + 1))
-				if (posscpush(poss, key, ft_strlen(key) + 1))
-					return (SH_ERR_NOEXIST);
-		}
-		i++;
-	}
-	free(str);
-	return (SH_SUCCESS);
-}
-
 int		complete_shell_var(char *line, t_vec *poss, t_sh *shell,
 		t_prompt *prompt)
 {
-	t_map	*env;
-	t_map	*internals;
 	char	*key;
 	size_t	i;
 	char	*str;
@@ -45,21 +22,23 @@ int		complete_shell_var(char *line, t_vec *poss, t_sh *shell,
 	prompt->select.shell_var_brace = line[1] == '{' ? 1 : 0;
 	if (!(str = get_brace_str(prompt->select.shell_var_brace, line, prompt)))
 		return (SH_ERR_MALLOC);
-	env = shell->env;
-	internals = shell->internals;
 	i = 0;
-	while (i < env->max_size)
+	while (i < shell->vars->max_size)
 	{
-		if (env->nodes[i].is_used)
+		if (shell->vars->nodes[i].is_used)
 		{
-			key = env->nodes[i].key;
+			key = shell->vars->nodes[i].key;
 			if (ft_strstartswith(key, str + 1))
 				if (posscpush(poss, key, ft_strlen(key) + 1))
-					return (SH_ERR_NOEXIST);
+				{
+					free(str);
+					return (SH_ERR_MALLOC);
+				}
 		}
 		i++;
 	}
-	return (get_internals(str, poss, internals));
+	free(str);
+	return (SH_SUCCESS);
 }
 
 int		get_files(char *line, char *path, t_vec *poss)

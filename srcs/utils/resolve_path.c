@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 15:51:35 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 23:16:28 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 21:56:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int			resolve_path(t_sh *shell, char *name, char **result)
 			return (SH_ERR_MALLOC);
 		return (SH_SUCCESS);
 	}
-	if ((ret = get_env(shell, "PATH", &paths)) != SH_SUCCESS)
+	if ((ret = get_var(shell, "PATH", &paths)) != SH_SUCCESS)
 		return (ret);
 	return (resolve_path_env(paths, name, result));
 }

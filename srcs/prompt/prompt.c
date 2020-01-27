@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 00:26:29 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:58:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 
 extern sig_atomic_t	g_winchange;
 extern sig_atomic_t	g_sigint;
-
-/*
-** TODO: we cannot just recalculate cursor position as it doesn't always follow
-**  window changement (cursor at end of text or not) so we need something else
-**  or simply reprint the prompt aswell before reprint buffer
-*/
 
 static void	recalc_cursor(t_prompt *prompt)
 {

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/02 16:41:05 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 23:33:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:50:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static int		get_append(t_sh *shell, char c, char **result)
 		*result = getpwd(shell);
 	else if (c == 'u')
 	{
-		if (!has_env(shell, "USER"))
+		if (!has_var(shell, "USER"))
 			*result = ft_strdup("");
 		else
-			get_env_clone(shell, "USER", result);
+			get_var_clone(shell, "USER", result);
 	}
 	else if (c == 'h')
 		*result = get_hostname_short(shell);

@@ -53,13 +53,13 @@ static int		handle_args(int argc, char **argv, t_sh *shell)
 		if (!cmd)
 		{
 			ft_dprintf(2, "42sh: fg: %s: no such job\n", argv[i]);
-			return (get_last_return_code(shell));
+			return (get_exit_code(shell));
 		}
 		ft_printf("%s\n", cmd->cmd_str);
 		goto_fg(shell, cmd);
 		i++;
 	}
-	return (get_last_return_code(shell));
+	return (get_exit_code(shell));
 }
 
 int				fg_builtin(int argc, char **argv, t_sh *shell)

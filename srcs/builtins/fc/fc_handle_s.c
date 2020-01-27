@@ -37,5 +37,5 @@ int			fc_handle_s(t_sh *shell, t_fc *fc)
 		run_command(shell, command);
 	}
 	free(command);
-	return (get_last_return_code(shell));
+	return (get_exit_code(shell));
 }

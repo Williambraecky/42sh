@@ -54,13 +54,13 @@ static void	post_exec(t_sh *shell, t_cmd *cmd, int ret)
 	if (ret != SH_SUCCESS)
 	{
 		free_cmd(cmd);
-		set_last_return_code(shell, 1);
+		set_exit_code(shell, 1);
 		return ;
 	}
 	if (cmd->background)
 	{
 		jobs_to_background(shell, cmd, 0);
-		set_last_return_code(shell, ret);
+		set_exit_code(shell, ret);
 	}
 	else
 		jobs_to_foreground(shell, cmd, 0);

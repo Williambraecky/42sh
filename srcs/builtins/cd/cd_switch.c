@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 21:35:25 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/12/16 15:59:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 22:11:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ static int	change_envs(char *curpath, int pflag, t_sh *shell)
 {
 	char	*old_pwd;
 
-	if (get_env(shell, "PWD", &old_pwd) == SH_SUCCESS)
-		repl_env(shell, "OLDPWD", old_pwd);
+	if (get_var(shell, "PWD", &old_pwd) == SH_SUCCESS)
+		if (repl_var(shell, "OLDPWD", old_pwd) != SH_SUCCESS)
+			return (SH_ERR_MALLOC);
 	if (pflag)
-		getcwd(curpath, MAXPATHLEN * 2 + 1);
-	repl_env(shell, "PWD", curpath);
-	return (0);
+		getcwd(curpath, MAXPATHLEN * 2);
+	return (repl_env(shell, "PWD", curpath));
 }
 
 int			cd_switch_dir(char *operand, char *curpath,

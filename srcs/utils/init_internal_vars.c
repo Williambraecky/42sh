@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 14:39:11 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 01:57:36 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 21:55:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,12 @@ int		init_internal_vars(t_sh *shell)
 	ret = 0;
 	if (!(tmp = ft_itoa(getpid())))
 		return (1);
-	ret += add_internal(shell, "$", tmp);
+	ret += add_var(shell, "$", tmp);
 	free(tmp);
 	i = 0;
 	while (g_base_vars[i][0] != NULL && ret == 0)
 	{
-		ret += add_internal(shell, g_base_vars[i][0], g_base_vars[i][1]);
+		ret += add_var(shell, g_base_vars[i][0], g_base_vars[i][1]);
 		i++;
 	}
 	return (ret);

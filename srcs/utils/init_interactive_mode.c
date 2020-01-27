@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:24:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/13 17:02:18 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 21:55:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			init_interactive_mode(t_sh *shell)
 	char	*term_env;
 
 	tcgetattr(SH_IN, &shell->old_termios);
-	if (get_env(shell, "TERM", &term_env))
+	if (get_var(shell, "TERM", &term_env))
 		return (1);
 	tgetent(NULL, term_env);
 	while (tcgetpgrp(SH_IN) != (pid = getpgrp()))
