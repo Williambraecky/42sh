@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:26:13 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 17:05:42 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:05:13 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 /*
 ** NOTE: puts current top job to background (no waiting)
-** TODO: handle arguments (multiple)
-** TODO: job id as argument
 */
 
 static int	goto_bg(t_sh *shell, t_cmd *cmd)

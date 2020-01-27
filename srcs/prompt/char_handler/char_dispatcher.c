@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 16:00:19 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:18:22 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,10 +125,6 @@ static int		(*g_search_dispatch[])(t_prompt *, char *, t_sh *) =
 
 static size_t	g_search_size =
 	(sizeof(g_search_dispatch) / sizeof(*g_search_dispatch));
-
-/*
-** TODO: some characters are just to be ignored
-*/
 
 static int		(*g_dispatch_char[])(t_prompt *, char *, t_sh *) =
 {

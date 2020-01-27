@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 15:42:00 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 22:09:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:05:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,6 @@ static int	check_redirand(t_redir *redir)
 		return (1);
 	return (0);
 }
-
-/*
-** TODO: handle errors
-*/
 
 int			redir_open_file(t_redir *redir)
 {

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:46:02 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:23:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	jobs_destroy(t_cmd *cmd)
 /*
 ** NOTE: we might need to move the signal stuff right after stopping the prompt
 **  as we do need to reset it anywayy before executing anything
-** TODO: this should be done in the prompt code
 */
 
 static void	reset_signals(t_sh *shell)

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/23 13:43:01 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:09:16 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:18:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ extern int	g_optopt;
 ** NOTE: do we really need another buffer?
 */
 
-void		dot_dot_sanitization(char *curpath)
+static void	dot_dot_sanitization(char *curpath)
 {
 	char	buffer[MAXPATHLEN * 2 + 1];
 	char	*tok;
@@ -52,7 +52,7 @@ void		dot_dot_sanitization(char *curpath)
 ** NOTE: Does not allocate another string, directly modifies the current one
 */
 
-int			sanitize_curpath(char *curpath)
+static int	sanitize_curpath(char *curpath)
 {
 	char	*error;
 	size_t	len;
@@ -68,7 +68,7 @@ int			sanitize_curpath(char *curpath)
 	return (0);
 }
 
-int			get_curpath(char *path, t_sh *shell, char *curpath, int pflag)
+static int	get_curpath(char *path, t_sh *shell, char *curpath, int pflag)
 {
 	char	pwd[MAXPATHLEN * 2 + 1];
 
@@ -122,11 +122,6 @@ static int	get_start_operand(int argc, char **argv,
 	}
 	return (0);
 }
-
-/*
-** TODO: rework cd completely we should not limit input size
-** NOTE: is MAXPATHLEN + 1 enough?
-*/
 
 int			cd_builtin(int argc, char **argv, t_sh *shell)
 {

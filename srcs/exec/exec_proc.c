@@ -6,15 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:52:45 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:23:29 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
-
-/*
-** TODO: add assignments to shell env and undo after execution
-*/
 
 static int	make_env(t_sh *shell, t_proc *proc)
 {
@@ -125,7 +121,8 @@ int			exec_proc(t_sh *shell, t_proc *proc)
 	revert_env(shell, proc);
 	if (ret != SH_SUCCESS)
 		proc->status = ret;
-	ret = proc_exec_cmd(shell, proc);
+	if (ret != SH_ERR_MALLOC)
+		ret = proc_exec_cmd(shell, proc);
 	ret = undo_redir(proc, ret);
 	return (ret);
 }

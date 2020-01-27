@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/27 22:50:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:25:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,6 @@ static int			get_aliases(t_sh *shell, char *start, t_vec *poss)
 	}
 	return (SH_SUCCESS);
 }
-
-/*
-** TODO: used shell->builtins for builtin list
-**		DONE but check if it works
-*/
 
 static int			get_builtin(t_sh *shell, char *start, t_vec *poss)
 {

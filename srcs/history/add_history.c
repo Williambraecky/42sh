@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 02:41:43 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 02:22:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:03:44 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ static int	add_to_file(t_sh *shell, char *str)
 	free(replaced);
 	return (SH_SUCCESS);
 }
-
-/*
-** TODO: do not add if empty or if last line was the same
-*/
 
 int			add_history(t_sh *shell, char *str)
 {

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 22:49:47 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:16:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,6 @@ static int	exec_builtin(t_sh *shell, t_proc *proc, int bg)
 	return (ret);
 }
 
-/*
-** TODO: free path
-** TODO: add path verification (directory etc)
-*/
-
 static void	exec_bin(t_proc *proc)
 {
 	if (proc->status != 0)
@@ -106,7 +101,6 @@ static int	post_fork(t_sh *shell, t_proc *proc, int builtin, int need_fork)
 ** NOTE: fetch exec type
 ** NOTE: fork if necessary, if forked we can close all backup_fds
 ** NOTE: exec properly
-** TODO: reduce lines
 */
 
 int			proc_exec_cmd(t_sh *shell, t_proc *proc)

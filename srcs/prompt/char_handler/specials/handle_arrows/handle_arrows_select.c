@@ -6,16 +6,11 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 19:21:43 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/27 16:00:31 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:14:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
-
-/*
-** TODO: maybe rethink some of these
-** Also if select_mode is one and arrow is pressed we should erase the pos
-*/
 
 static void	select_handle_up_arrow(t_select *select)
 {

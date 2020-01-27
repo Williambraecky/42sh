@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/13 16:02:19 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/25 23:08:05 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:13:40 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ struct		s_redir
 ** NOTE: io used for pipes
 ** NOTE: fd_backups is for restoring fds after redirection
 ** NOTE: implementation only asks to handle 0 to 9 inclusive
-** TODO: if status != 0 do not do execution (still fork if needed)
 */
 
 struct		s_proc
@@ -149,7 +148,6 @@ struct		s_proc
 ** NOTE: pipeline represented by [] t_proc represented by ()
 **    t_lexer represented by {}
 ** {[(foo bar) | (baz)]; [(far bor)] && [(boz)]}
-** TODO: find a way to rewrite the executed command
 */
 
 struct		s_cmd
@@ -185,11 +183,6 @@ struct		s_token
 	char	*str;
 	size_t	len;
 };
-
-/*
-** TODO: content needs to be substituted
-** but only before runtime so it needs to be stored
-*/
 
 struct		s_hdoc
 {

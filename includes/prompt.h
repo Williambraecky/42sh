@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 17:27:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:23:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ struct			s_select
 /*
 ** buffer_index = index in buffer
 ** char_index = index in char (unicode char are multibytes)
-** TODO: store max prompt pos to avoid processing everything (write pos)
 ** NOTE: 0: nothing 1: processed 2: select mode
 */
 

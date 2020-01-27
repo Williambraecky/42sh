@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/07 15:19:09 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/27 15:37:56 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:16:20 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ int					print_selected(t_select *select, t_vec *poss, int i)
 		ft_dprintf(0, "%-*s", select->max_len + 2, (char *)ft_vecget(poss, i));
 	return (SH_SUCCESS);
 }
-
-/*
-** TODO: move to render
-*/
 
 int					print_poss(t_vec *poss, t_select *select, int selected,
 		int i)

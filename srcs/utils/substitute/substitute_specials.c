@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 19:43:04 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 16:31:21 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:07:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static void	(*g_special_table[])(t_subst *) =
 };
 
 /*
-** TODO: handle these ' " \ $ ${ ~
 ** NOTE: in theory none of them aren't closed (for quotes etc)
 **    so we can just use push_or_pop for these
 */

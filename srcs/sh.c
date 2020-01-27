@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 21:57:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:25:37 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,6 @@
 #include "lexer.h"
 #include "builtin.h"
 
-/*
-** TODO: Variables such as HOME avec PWD should not be gotten from env vars
-**   since they can be changed by the user
-*/
 char		*g_error_str[] =
 {
 	[SH_ERR_NOEXIST] = "no exist error",
@@ -76,10 +72,6 @@ int			run_command(t_sh *shell, char *command)
 	return (ret);
 }
 
-/*
-** TODO: print errors
-*/
-
 static int	do_event_subst(t_sh *shell, char **line)
 {
 	char	*new;
@@ -98,6 +90,10 @@ static int	do_event_subst(t_sh *shell, char **line)
 	}
 	return (ret);
 }
+
+/*
+** TODO: print errors
+*/
 
 static void	run(t_sh *shell)
 {

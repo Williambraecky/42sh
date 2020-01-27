@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:58:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/28 00:03:34 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 extern sig_atomic_t	g_winchange;
 extern sig_atomic_t	g_sigint;
 
-static void	recalc_cursor(t_prompt *prompt)
+static void	recalc_cursor(t_prompt *prompt, int print)
 {
 	size_t	written;
 
@@ -29,7 +29,8 @@ static void	recalc_cursor(t_prompt *prompt)
 	if (prompt->buffer.buffer)
 		written += prompt->char_index;
 	prompt->cursor_pos = calc_cursor_pos(prompt, written);
-	reprint_everything(prompt);
+	if (print)
+		reprint_everything(prompt);
 }
 
 static void	print_prompt(t_sh *shell, t_prompt *prompt)
@@ -39,12 +40,11 @@ static void	print_prompt(t_sh *shell, t_prompt *prompt)
 		ft_dprintf(0, "{invert}{bold}%%{eoc}\n");
 	ft_putstr_fd(prompt->prompt, 0);
 	prompt->prompt_len = strlen_nocolor(prompt->prompt);
-	recalc_cursor(prompt);
+	recalc_cursor(prompt, 0);
 }
 
 /*
 ** NOTE: Interactive prompt; Prompt gets printed here
-** TODO: if read returns 0 make it exit
 */
 
 static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
@@ -65,7 +65,7 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 		}
 		j += read(0, (char *)(&buffer) + 1, wcharlen(buffer) - 1);
 		if (g_winchange)
-			recalc_cursor(prompt);
+			recalc_cursor(prompt, 1);
 		if ((ret = handle_new_char(prompt, (char*)&buffer, shell))
 			!= SH_SUCCESS)
 			break ;

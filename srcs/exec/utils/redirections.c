@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:51:10 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 22:21:33 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:15:33 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static int	redirand_check_closed(t_proc *proc, int fd)
 
 /*
 ** NOTE: greater and lesser- and might be combinable in one function
-** TODO: if fd to be closed is one of the backup fds, create another backup
 */
 
 int			apply_and_redir(t_proc *proc, t_redir *redir)
@@ -104,7 +103,6 @@ int			apply_and_redir(t_proc *proc, t_redir *redir)
 
 /*
 ** NOTE: this can be used for greater lesser and double greater
-** TODO: move this in its own file
 */
 
 int			apply_base_redir(t_proc *proc, t_redir *redir)

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 02:51:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:11:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:04:03 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ static int	write_history_to_file(t_sh *shell, t_fc *fc, char *filename)
 	close(fd);
 	return (0);
 }
-
-/*
-** TODO: execute the command
-*/
 
 static int	fc_do_edit(t_sh *shell, t_fc *fc, char *filename)
 {

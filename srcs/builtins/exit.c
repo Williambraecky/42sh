@@ -6,17 +6,12 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 15:59:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 21:19:35 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:03:17 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "lexer.h"
-
-/*
-** TODO: define behaviour when jobs are stopped
-** TODO: better handle arg reading
-*/
 
 static int	check_stopped_jobs(t_sh *shell)
 {

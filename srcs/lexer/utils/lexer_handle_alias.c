@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 23:04:45 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/14 13:12:31 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:14:24 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,6 @@ static void	alias_stack_add(t_lexer *lexer, char *str)
 		i++;
 	lexer->alias_stack[i] = str;
 }
-
-/*
-** TODO: make sure aliases finishing in space allow for another alias
-*/
 
 int			lexer_handle_alias(t_sh *shell, t_lexer *lexer, char *str)
 {

@@ -6,16 +6,12 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 18:11:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/18 14:22:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:01:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 #include "lexer.h"
-
-/*
-** TODO: actually use the SUB_ stuff
-*/
 
 static char		*g_special_charset = "\'\"\\$~";
 

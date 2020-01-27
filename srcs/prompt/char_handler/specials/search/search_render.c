@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 23:20:00 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 19:07:24 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/27 23:16:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,6 @@ int			search_render_found(t_prompt *prompt, char *found)
 	prompt->buffer_index = 0;
 	return (default_char_handler(prompt, found, NULL));
 }
-
-/*
-**TODO: move to max_pos.y + 1 print search prompt
-*/
 
 void		search_render(t_prompt *prompt)
 {

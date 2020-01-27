@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 19:10:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 22:16:00 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:07:18 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,11 @@ int			proc_apply_redir(t_proc *proc)
 	{
 		redir = (t_redir*)ft_vecget(&proc->redirections, i++);
 		if ((ret = actual_redir(proc, redir)) != SH_SUCCESS)
+		{
+			if (ret == SH_ERR_DUP)
+				ft_dprintf(2, "42sh: %s: error duping fd\n", proc->proc_str);
 			return (ret);
+		}
 	}
 	return (SH_SUCCESS);
 }

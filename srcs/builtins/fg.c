@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:25:11 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 17:05:32 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:14:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,6 @@
 
 /*
 ** NOTE: puts current top job to foreground and waits
-** TODO: job id as argument
-*/
-
-/*
-** TODO: remove cmd from jobs
 */
 
 static size_t	job_index(t_sh *shell, t_cmd *cmd)

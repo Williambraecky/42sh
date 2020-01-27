@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 01:36:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 22:55:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:02:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,6 @@ static int	assign_substitute(t_sh *shell, char *assign, char **result)
 	free(sub);
 	return (SH_SUCCESS);
 }
-
-/*
-** TODO: assigns are weird only the part after = is substituted
-*/
 
 static int	prepare_assigns(t_sh *shell, t_proc *proc)
 {

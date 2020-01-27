@@ -6,15 +6,16 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:43:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 22:32:26 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:25:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-/*
-** TODO: some errors are not critical (i. e open errors)
-*/
+static int	can_continue(int ret)
+{
+	return (ret != SH_ERR_MALLOC && ret != SH_ERR_FORK);
+}
 
 static int	exec_pipeline(t_sh *shell, t_proc *pipeline)
 {
@@ -31,7 +32,7 @@ static int	exec_pipeline(t_sh *shell, t_proc *pipeline)
 			pipeline->next->io.in = pipe_[0];
 			pipeline->io.pipe_close = pipe_[0];
 		}
-		if ((ret = exec_proc(shell, pipeline)) != SH_SUCCESS)
+		if (!can_continue((ret = exec_proc(shell, pipeline))))
 			break ;
 		if (pipeline->parent->background && pipeline->io.out)
 			close(pipeline->io.out);
@@ -65,10 +66,6 @@ static void	post_exec(t_sh *shell, t_cmd *cmd, int ret)
 	else
 		jobs_to_foreground(shell, cmd, 0);
 }
-
-/*
-** TODO: validate that cmd_is_empty is good
-*/
 
 int			exec_cmd(t_sh *shell, t_cmd *cmd)
 {

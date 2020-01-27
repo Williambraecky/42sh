@@ -6,15 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:53:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/16 00:31:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:24:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
-
-/*
-** TODO: this should validate the selection and clear the screen of it
-*/
 
 int	erase_poss(t_prompt *prompt)
 {

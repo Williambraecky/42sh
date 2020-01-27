@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:13:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 02:46:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:02:00 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 /*
 ** NOTE: Main builtin initializing method
-** TODO: add more builtins
 */
 
 t_bltin		g_builtin_table[] =

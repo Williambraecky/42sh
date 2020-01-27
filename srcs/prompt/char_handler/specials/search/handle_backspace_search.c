@@ -6,15 +6,11 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 23:02:45 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 00:29:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:13:56 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
-
-/*
-** TODO: if we find
-*/
 
 int			handle_backspace_search(t_prompt *prompt, char *buffer, t_sh *shell)
 {

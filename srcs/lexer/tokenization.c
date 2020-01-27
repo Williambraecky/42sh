@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/24 18:46:07 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/27 23:04:59 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,6 @@ static int	get_next_part(t_lexer *lexer, t_sh *shell)
 		stack_pop(&lexer->stack);
 	return (ret);
 }
-
-/*
-** TODO: Handle aliases better: we should probably not modify line
-*/
 
 static void	tokenize_current(t_lexer *lexer, t_sh *shell, int *res)
 {

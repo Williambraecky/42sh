@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/17 21:08:52 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:31:04 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:04:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@ static size_t	count_characters(t_subst *subst, char *str, size_t start)
 		return (1);
 	return (end - start);
 }
-
-/*
-** TODO: extract key, define operator, substitute word id needed, apply operator
-*/
 
 static void		expand_parambrace(t_subst *subst, char *param)
 {

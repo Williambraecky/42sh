@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 14:23:53 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/20 20:30:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 23:03:53 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,6 @@ static void		setup_fds(t_subst *subst, int *pipe_, int *new_fd)
 	}
 	close(pipe_[1]);
 }
-
-/*
-** TODO: documentation says to remove trailing \n
-*/
 
 static void		read_pipe(t_subst *subst, int pipe_in)
 {
