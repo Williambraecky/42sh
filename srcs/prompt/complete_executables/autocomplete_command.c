@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 16:57:42 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/24 19:09:36 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/27 17:27:25 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ t_prompt *prompt)
 		free(to_complete);
 		return (SH_SUCCESS);
 	}
-	if (!first_word(line, 0, 1))
+	if (!first_word(line, 0, prompt->buffer_index, 1))
 		return (complete_files(shell, prompt, to_complete, poss));
 	if (!ft_strequ(to_complete, ".") && !ft_strequ(to_complete, ".."))
 	{

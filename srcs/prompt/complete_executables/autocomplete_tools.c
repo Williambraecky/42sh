@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:00:39 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/27 16:43:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 17:27:13 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,20 +30,20 @@ char	*get_brace_str(int shell_var_brace, char *line, t_prompt *prompt)
 	return (ft_strdup(line));
 }
 
-int		first_word(char *line, size_t i, int first)
+int		first_word(char *line, size_t i, size_t max, int first)
 {
 	while (line[i] && line[i] == ' ')
 		i++;
 	while (line[i] && line[i] != ' ')
 		i++;
-	if (line[i])
+	if (line[i] && i < max)
 		first = 0;
-	while (line[i])
+	while (line[i] && i < max)
 	{
 		if (line[i] == '|' || line[i] == '&' || line[i] == ';')
 		{
 			i++;
-			return (first_word(line, i + 2, 1));
+			return (first_word(line, i + 2, max, 1));
 		}
 		i++;
 	}
@@ -86,7 +86,7 @@ int		get_cursor_word_len(char *line, t_prompt *prompt, int i, int j)
 	i = j;
 	while (line[j] && line[j] != ' ' && line[j] != '\t' && line[j] != '\n')
 		j++;
-	prompt->select.cursor_right_len = j - i - 1;
+	prompt->select.cursor_right_len = j - i;
 	return (SH_SUCCESS);
 }
 
@@ -97,17 +97,15 @@ char	*get_cursor_word(char *line, t_prompt *prompt)
 	char	*word;
 	char	*tmp;
 
-	i = (int)prompt->buffer_index - 1;
+	i = (int)prompt->buffer_index;
 	j = i;
-	if (i == -1)
+	while (i > 0)
 	{
-		if (!(word = ft_strdup("")))
-			return (NULL);
-		return (word);
-	}
-	while (i > 0 && line[i] != ' ' && line[i] != '\t' && line[i] != '\n')
+		if (line[i - 1] == ' ' || line[i - 1] == '\t' || line[i - 1] == '\n')
+			break ;
 		i--;
-	tmp = ft_strsub(line, i, (j - i) + 1);
+	}
+	tmp = ft_strsub(line, i, (j - i));
 	if (!tmp || !(word = ft_strtrim(tmp)))
 		return (NULL);
 	free(tmp);

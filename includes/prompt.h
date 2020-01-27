@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 15:41:27 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/01/27 17:27:08 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,7 +196,7 @@ int				print_selected(t_select *sel, t_vec *poss, int i);
 int				replace_cursor(t_select *sel, t_prompt *prompt);
 int				select_render(t_prompt *prompt, t_select *select);
 int				change_line(t_select *select, t_prompt *prompt);
-int				first_word(char *line, size_t i, int first_word);
+int				first_word(char *line, size_t i, size_t max, int first_word);
 char			*get_brace_str(int shell_var_brace, char *line, t_prompt *p);
 int				display_poss_scroll(t_select *se, t_vec *poss, int s,
 	t_prompt *p);
