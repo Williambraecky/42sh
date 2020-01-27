@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 23:09:18 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 15:15:23 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	apply_assigns(t_sh *shell, t_proc *proc)
 	size_t	i;
 
 	if (proc->assignments.size == 0)
-		return (SH_SUCCESS);
+		return (make_env_array(shell, &proc->env));
 	if (proc->unprocessed_argv.size > 0)
 		return (make_env(shell, proc));
 	if (proc->parent->background)
