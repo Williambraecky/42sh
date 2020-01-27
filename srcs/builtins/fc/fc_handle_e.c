@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/24 02:51:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/25 22:35:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 16:05:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ static int	fc_do_edit(t_sh *shell, t_fc *fc, char *filename)
 		ft_dprintf(2, "42sh: fc: malloc error\n");
 		return (1);
 	}
+	free(command);
 	shell->block_history = 0;
 	return (get_last_return_code(shell));
 }
