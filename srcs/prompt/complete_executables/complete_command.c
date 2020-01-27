@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/17 18:17:11 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/15 02:38:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 15:24:52 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,5 @@ int					complete_command(t_sh *shell, char *start, t_vec *poss)
 	if ((ret = get_builtin(shell, start, poss)) != SH_SUCCESS)
 		return (ret);
 	get_aliases(shell, start, poss);
-//	prompt->select.command_complete = poss->size != 0 ? 1 : 0;
 	return (SH_SUCCESS);
 }
