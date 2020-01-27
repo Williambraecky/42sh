@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 19:21:43 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/16 00:28:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 16:00:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 ** Also if select_mode is one and arrow is pressed we should erase the pos
 */
 
-void	select_handle_up_arrow(t_select *select)
+static void	select_handle_up_arrow(t_select *select)
 {
 	select->selected =
 		((select->selected - 1) % select->nb_elem + select->nb_elem) %
 		select->nb_elem;
 }
 
-void	select_handle_right_arrow(t_select *select)
+static void	select_handle_right_arrow(t_select *select)
 {
 	int real_row_total;
 
@@ -41,7 +41,7 @@ void	select_handle_right_arrow(t_select *select)
 	}
 }
 
-void	select_handle_left_arrow(t_select *select)
+static void	select_handle_left_arrow(t_select *select)
 {
 	int real_row_total;
 
@@ -58,7 +58,7 @@ void	select_handle_left_arrow(t_select *select)
 		select->selected -= real_row_total;
 }
 
-int		select_handle_arrows(t_prompt *prompt, char *buffer)
+int			select_handle_arrows(t_prompt *prompt, char *buffer)
 {
 	t_select *select;
 

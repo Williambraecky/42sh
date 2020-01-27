@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 15:32:10 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/27 16:00:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,14 +180,16 @@ static void	finish_query(t_prompt *prompt)
 static int	handle_select_char(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	int		(*dispatch_func)(t_prompt *, char *, t_sh *);
+	int		ret;
 
 	dispatch_func = NULL;
 	if (prompt->select_mode == 1 && *buffer == '\t')
 		dispatch_func = handle_tab;
 	else if (prompt->select_mode == 2 && (t_u64)buffer[0] < g_select_size)
 		dispatch_func = g_select_dispatch[(int)*buffer];
-	if (dispatch_func)
-		return (dispatch_func(prompt, buffer, shell));
+	if (dispatch_func &&
+		(ret = dispatch_func(prompt, buffer, shell)) != PROMPT_EXIT_SELECT)
+		return (ret);
 	prompt->select_mode = 0;
 	ft_vecdestroy(&prompt->select.poss, default_vec_destroy_function);
 	if ((t_u64)buffer[0] < g_dispatch_size)
