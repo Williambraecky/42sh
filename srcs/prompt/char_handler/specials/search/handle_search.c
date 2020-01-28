@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 22:44:43 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 00:26:27 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/28 14:02:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int			handle_search(t_prompt *prompt, char *buffer, t_sh *shell)
 	(void)buffer;
 	if (prompt->searching == 0)
 	{
+		prompt->search_found = 1;
 		prompt->searching = 1;
 		buff_clear(&prompt->search_buffer);
 		search_render(prompt);

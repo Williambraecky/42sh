@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/20 23:20:00 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:16:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/28 14:01:41 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void		search_render(t_prompt *prompt)
 	result.y = prompt->max_pos.y - prompt->cursor_pos.y + 1;
 	move_cursor((t_pos){.x = 0, .y = prompt->max_pos.y - prompt->cursor_pos.y});
 	ft_dprintf(0, "\n");
+	ft_putstr_fd(tgetstr("cd", NULL), 0);
 	if (prompt->search_found)
 		s_prompt = "bck-i-search: ";
 	else
