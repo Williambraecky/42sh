@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:15:22 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:37:15 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/28 13:58:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 /*
 ** NOTE: defines internal variable + other
 */
+
 static int	set_make_array(t_sh *shell, char ***array)
 {
 	t_map	*vars;
