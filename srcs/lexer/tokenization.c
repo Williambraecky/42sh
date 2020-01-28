@@ -6,7 +6,7 @@
 /*   By: ntom <ntom@student.s19.be>                 +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/07 20:22:45 by ntom              #+#    #+#             */
-/*   Updated: 2020/01/27 23:04:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/28 14:43:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ t_tdef		*determine_type(t_lexer *lexer, t_token *token)
 	return (NULL);
 }
 
-static int	g_top_mask = M_QUOTE | M_DOUBLE_QUOTE | M_BRACEPARAM | M_NEWLINE;
+static int	g_top_mask =
+	M_QUOTE | M_DOUBLE_QUOTE | M_BRACEPARAM | M_NEWLINE | M_CMDSUBST;
 
 /*
 ** NOTE: returns whether a stack object from delimiter
