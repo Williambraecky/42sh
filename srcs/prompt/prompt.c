@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/28 00:03:34 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/28 13:51:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 extern sig_atomic_t	g_winchange;
 extern sig_atomic_t	g_sigint;
 
-static void	recalc_cursor(t_prompt *prompt, int print)
+static void	recalc_cursor(t_prompt *prompt)
 {
 	size_t	written;
 
@@ -29,8 +29,7 @@ static void	recalc_cursor(t_prompt *prompt, int print)
 	if (prompt->buffer.buffer)
 		written += prompt->char_index;
 	prompt->cursor_pos = calc_cursor_pos(prompt, written);
-	if (print)
-		reprint_everything(prompt);
+	reprint_everything(prompt);
 }
 
 static void	print_prompt(t_sh *shell, t_prompt *prompt)
@@ -40,7 +39,7 @@ static void	print_prompt(t_sh *shell, t_prompt *prompt)
 		ft_dprintf(0, "{invert}{bold}%%{eoc}\n");
 	ft_putstr_fd(prompt->prompt, 0);
 	prompt->prompt_len = strlen_nocolor(prompt->prompt);
-	recalc_cursor(prompt, 0);
+	recalc_cursor(prompt);
 }
 
 /*
@@ -65,7 +64,7 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 		}
 		j += read(0, (char *)(&buffer) + 1, wcharlen(buffer) - 1);
 		if (g_winchange)
-			recalc_cursor(prompt, 1);
+			recalc_cursor(prompt);
 		if ((ret = handle_new_char(prompt, (char*)&buffer, shell))
 			!= SH_SUCCESS)
 			break ;
