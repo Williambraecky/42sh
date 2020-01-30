@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:25:37 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 23:49:09 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,6 @@
 #include "prompt.h"
 #include "lexer.h"
 #include "builtin.h"
-
-char		*g_error_str[] =
-{
-	[SH_ERR_NOEXIST] = "no exist error",
-	[SH_ERR_MALLOC] = "malloc error",
-	[SH_ERR_ENV_NOEXIST] = "env does not exist",
-	[SH_ERR_OPEN_HIST] = "open history fail",
-	[SH_ERR_OPEN_DIR] = "open dir fail",
-	[SH_ERR_PIPE] = "pipe failed",
-	[SH_ERR_DUP] = "dup error"
-};
 
 static int	init_shell(t_sh *shell, const char **env)
 {
@@ -46,11 +35,16 @@ static int	init_shell(t_sh *shell, const char **env)
 		return (1);
 	if (init_history(shell) != SH_SUCCESS)
 		return (1);
-	if ((shell->prompt_mode = isatty(SH_IN)))
+	shell->pid = getpid();
+	if ((shell->interactive_mode = isatty(SH_IN)))
 		if (init_interactive_mode(shell))
 			return (1);
 	return (0);
 }
+
+/*
+** TODO: differentiate between critical return code and non critical
+*/
 
 int			run_command(t_sh *shell, char *command)
 {
@@ -95,7 +89,7 @@ static int	do_event_subst(t_sh *shell, char **line)
 ** TODO: print errors
 */
 
-static void	run(t_sh *shell)
+static int	run(t_sh *shell)
 {
 	char	*prompt;
 	char	*line;
@@ -110,11 +104,12 @@ static void	run(t_sh *shell)
 		ret = do_event_subst(shell, &line);
 	job_notify(shell);
 	if (ret == SH_SUCCESS)
-		run_command(shell, line);
+		ret = run_command(shell, line);
 	usleep(50000);
 	job_notify(shell);
 	shell->block_history = 0;
 	free(line);
+	return (ret);
 }
 
 int			main(int argc, const char **argv, const char **env)
@@ -122,6 +117,7 @@ int			main(int argc, const char **argv, const char **env)
 	t_sh			shell;
 	int				stop_code;
 	struct timeval	time;
+	int				ret;
 
 	(void)argc;
 	(void)argv;
@@ -133,10 +129,11 @@ int			main(int argc, const char **argv, const char **env)
 		return (1);
 	}
 	shell.running = 1;
-	while (shell.running)
-	{
-		run(&shell);
-	}
+	ret = SH_SUCCESS;
+	while (shell.running && ret != SH_ERR_MALLOC && ret != SH_READ_DONE)
+		ret = run(&shell);
+	if (ret == SH_ERR_MALLOC)
+		ft_dprintf(2, "42sh: malloc error (exiting)\n");
 	stop_code = shell.stop_code;
 	free_sh(&shell);
 	return (stop_code);

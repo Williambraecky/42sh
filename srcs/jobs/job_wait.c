@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:51:21 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 18:44:19 by ntom             ###   ########.fr       */
+/*   Updated: 2020/01/30 23:57:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,11 @@ static void		job_react(t_sh *shell, t_cmd *cmd, int status)
 	{
 		ft_printf("\n");
 		set_exit_code(shell, WSTOPSIG(status) + 128);
-		jobs_add(shell, cmd, 0);
-		return ;
+		if (shell->job_control)
+		{
+			jobs_add(shell, cmd, 0);
+			return ;
+		}
 	}
 	else if (WIFSIGNALED(status))
 	{

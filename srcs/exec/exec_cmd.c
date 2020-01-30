@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/09 15:43:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:25:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 22:59:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	post_exec(t_sh *shell, t_cmd *cmd, int ret)
 		set_exit_code(shell, 1);
 		return ;
 	}
-	if (cmd->background)
+	if (cmd->background && shell->job_control)
 	{
 		jobs_to_background(shell, cmd, 0);
 		set_exit_code(shell, ret);

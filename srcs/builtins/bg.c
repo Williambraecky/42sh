@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:26:13 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:05:13 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 22:59:30 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,9 @@ int			bg_builtin(int argc, char **argv, t_sh *shell)
 {
 	t_cmd	*cmd;
 
-	if (getpid() != shell->pid)
+	if (getpid() != shell->pid || !shell->job_control)
 	{
-		ft_dprintf(2, "fg: not useable in background\n");
+		ft_dprintf(2, "bg: job control currently disabled\n");
 		return (1);
 	}
 	if (argc == 1)

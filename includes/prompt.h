@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:23:51 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 22:15:55 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int				handle_prompt(t_sh *shell, char *prompt_str, char **result);
 */
 
 int				gen_prompt(t_sh *shell, char *prompt_str, t_prompt *prompt);
-void			free_prompt(t_prompt *prompt);
+void			free_prompt(t_sh *shell, t_prompt *prompt);
 size_t			wcharlen(char c);
 void			move_goto(t_prompt *prompt, t_pos pos);
 void			move_cursor(t_pos rel_pos);

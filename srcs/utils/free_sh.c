@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 17:49:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:23:59 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 22:59:06 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void		free_sh(t_sh *shell)
 	ft_vecdestroy(&shell->history, default_vec_destroy_function);
 	if (shell->history_file > 0)
 		close(shell->history_file);
-	if (shell->prompt_mode)
+	if (shell->interactive_mode)
 		reset_signals(shell);
 	ft_bzero(shell, sizeof(*shell));
 }

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:53:32 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 22:58:39 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@
 # define SH_IN 0
 # define SH_OUT 1
 # define SH_ERR 2
-# define INTERACTIVE 0
-# define NON_INTERACTIVE 1
 # define SH_SUCCESS 0
 # define SH_ERR_NOEXIST 1
 # define SH_ERR_MALLOC 2
@@ -55,6 +53,7 @@
 # define SH_ERR_READ 14
 # define SH_ERR_PARSE 15
 # define SH_ERR_NOEVENT 16
+# define SH_READ_DONE 17
 # ifndef PATH_MAX
 #  define PATH_MAX 4096
 # endif
@@ -150,7 +149,8 @@ struct		s_sh
 	t_vec	history;
 	int		history_file;
 	t_vec	jobs;
-	int		prompt_mode;
+	int		interactive_mode;
+	int		job_control;
 	t_termi	old_termios;
 	t_termi	current_termios;
 	pid_t	pid;

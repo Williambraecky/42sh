@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/28 13:51:07 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 23:30:58 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,19 @@ static int	interactive_prompt(t_sh *shell, t_prompt *prompt)
 
 static int	basic_prompt(t_sh *shell, t_prompt *prompt)
 {
+	char	buff;
+	int		ret;
+
 	(void)shell;
-	(void)prompt;
-	return (0);
+	buff = 0;
+	while (buff != '\n' && (ret = read(0, &buff, 1)) == 1)
+		if ((ret = buff_nappend(&prompt->buffer, &buff, 1)) != SH_SUCCESS)
+			return (ret);
+	if (ret == 0 && !prompt->buffer.size)
+		return (SH_READ_DONE);
+	else if (ret == -1)
+		return (SH_ERR_MALLOC);
+	return (SH_SUCCESS);
 }
 
 int			handle_prompt(t_sh *shell, char *prompt_str, char **result)
@@ -93,10 +103,9 @@ int			handle_prompt(t_sh *shell, char *prompt_str, char **result)
 
 	ft_memset(&prompt, 0, sizeof(prompt));
 	g_sigint = 0;
-	tcsetattr(SH_IN, TCSADRAIN, &shell->current_termios);
 	if ((err_code = gen_prompt(shell, prompt_str, &prompt)) != SH_SUCCESS)
 		return (err_code);
-	if (shell->prompt_mode)
+	if (shell->interactive_mode)
 		err_code = interactive_prompt(shell, &prompt);
 	else
 		err_code = basic_prompt(shell, &prompt);
@@ -107,7 +116,6 @@ int			handle_prompt(t_sh *shell, char *prompt_str, char **result)
 		*result = NULL;
 		free(prompt.buffer.buffer);
 	}
-	tcsetattr(SH_IN, TCSADRAIN, &shell->old_termios);
-	free_prompt(&prompt);
+	free_prompt(shell, &prompt);
 	return (err_code);
 }

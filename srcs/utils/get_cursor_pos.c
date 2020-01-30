@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 16:44:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/28 00:07:36 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 23:00:39 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int			get_cursor_pos(t_sh *sh, int *x, int *y)
 	int		ret;
 	size_t	i;
 
-	if (sh->prompt_mode == 0)
+	if (sh->interactive_mode == 0)
 		return (1);
 	ft_memset(buf, 0, 256);
 	write(0, "\033[6n", 4);

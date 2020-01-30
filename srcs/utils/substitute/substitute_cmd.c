@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/18 14:23:53 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:03:53 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 23:10:35 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static void		expand_cmdsubst(t_subst *subst, char *cmd)
 	int		new_fd;
 	int		ret;
 
-	cmd += 2;
 	cmd[ft_strlen(cmd) - 1] = '\n';
 	setup_fds(subst, pipe_, &new_fd);
 	ft_bzero(&lexer_, sizeof(lexer_));
@@ -125,7 +124,7 @@ void			substitute_cmd(t_subst *subst)
 		subst->err = SH_ERR_MALLOC;
 		return ;
 	}
-	expand_cmdsubst(subst, tmp);
+	expand_cmdsubst(subst, tmp + 2);
 	free(tmp);
 	subst->i += j;
 }

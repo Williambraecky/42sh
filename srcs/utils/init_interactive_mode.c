@@ -6,13 +6,13 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:24:09 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:15:24 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 22:59:22 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh.h"
 
-static int	init_signals(t_sh *shell)
+static void	init_signals(t_sh *shell)
 {
 	struct sigaction action;
 
@@ -25,7 +25,6 @@ static int	init_signals(t_sh *shell)
 	signal(SIGTSTP, SIG_IGN);
 	signal(SIGTTIN, SIG_IGN);
 	signal(SIGTTOU, SIG_IGN);
-	return (0);
 }
 
 int			init_interactive_mode(t_sh *shell)
@@ -33,15 +32,14 @@ int			init_interactive_mode(t_sh *shell)
 	pid_t	pid;
 	char	*term_env;
 
+	shell->job_control = 1;
 	tcgetattr(SH_IN, &shell->old_termios);
 	if (get_var(shell, "TERM", &term_env))
 		return (1);
 	tgetent(NULL, term_env);
 	while (tcgetpgrp(SH_IN) != (pid = getpgrp()))
 		kill(-pid, SIGTTIN);
-	if (init_signals(shell))
-		return (1);
-	shell->pid = getpid();
+	init_signals(shell);
 	if (setpgid(shell->pid, shell->pid) < 0)
 		return (1);
 	tcsetpgrp(SH_IN, shell->pid);

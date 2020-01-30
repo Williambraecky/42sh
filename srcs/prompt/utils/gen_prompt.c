@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 16:37:51 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/20 23:22:40 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 22:59:07 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 int		gen_prompt(t_sh *shell, char *prompt_str, t_prompt *prompt)
 {
+	if (shell->interactive_mode)
+		tcsetattr(SH_IN, TCSADRAIN, &shell->current_termios);
 	if (!(prompt->prompt = ft_strdup(prompt_str)))
 		return (SH_ERR_MALLOC);
 	if (!get_cursor_pos(shell, &prompt->cursor_pos.x, &prompt->cursor_pos.y))

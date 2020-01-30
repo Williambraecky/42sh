@@ -6,13 +6,13 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 23:57:32 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:16:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 23:20:28 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-static void	fork_reset_stuff(t_proc *proc)
+static void	fork_reset_stuff(t_sh *shell, t_proc *proc)
 {
 	size_t	i;
 	int		ret;
@@ -21,13 +21,16 @@ static void	fork_reset_stuff(t_proc *proc)
 	while (i--)
 		if (proc->fd_backups[i] != -1)
 			close(proc->fd_backups[i]);
-	signal(SIGINT, SIG_DFL);
-	signal(SIGWINCH, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	if (!proc->block_sigtstp)
-		signal(SIGTSTP, SIG_DFL);
-	signal(SIGTTIN, SIG_DFL);
-	signal(SIGTTOU, SIG_DFL);
+	if (shell->interactive_mode)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGWINCH, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		if (!proc->block_sigtstp)
+			signal(SIGTSTP, SIG_DFL);
+		signal(SIGTTIN, SIG_DFL);
+		signal(SIGTTOU, SIG_DFL);
+	}
 	if (proc->io.pipe_close)
 		close(proc->io.pipe_close);
 	if (proc->parent->background && (ret = proc_apply_redir(proc)))
@@ -88,7 +91,7 @@ static int	post_fork(t_sh *shell, t_proc *proc, int builtin, int need_fork)
 
 	ret = SH_SUCCESS;
 	if (need_fork)
-		fork_reset_stuff(proc);
+		fork_reset_stuff(shell, proc);
 	if (builtin)
 		ret = exec_builtin(shell, proc, need_fork);
 	else

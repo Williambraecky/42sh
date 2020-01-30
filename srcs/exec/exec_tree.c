@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 14:44:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/22 22:39:52 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/01/30 22:52:03 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ int		exec_tree(t_sh *shell, t_cmd *tree)
 {
 	t_cmd	*curr;
 	t_cmd	*next;
+	int		ret;
 
 	curr = tree;
 	while (curr)
@@ -30,10 +31,12 @@ int		exec_tree(t_sh *shell, t_cmd *tree)
 		next = curr->next;
 		if (shell->running &&
 			(!curr->condition || curr->condition(get_exit_code(shell))))
-			exec_cmd(shell, curr);
+			ret = exec_cmd(shell, curr);
 		else
 			free_cmd(curr);
 		curr = next;
 	}
+	if (ret == SH_ERR_MALLOC)
+		return (ret);
 	return (SH_SUCCESS);
 }
