@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:21:56 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 18:20:56 by ntom             ###   ########.fr       */
+/*   Updated: 2020/02/04 18:10:44 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	clear_hash_table(t_sh *shell)
 {
 	t_node		*node;
 	t_hashed	*hashed;
-	size_t	i;
+	size_t		i;
 
 	i = 0;
 	while (i < shell->use_hash->max_size)

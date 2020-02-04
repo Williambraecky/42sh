@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:24:02 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:17:41 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/04 18:10:24 by ntom             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		pwd_builtin(int argc, char **argv, t_sh *shell)
 {
 	char		*pwd;
 	char		buffer[MAXPATHLEN + 1];
-	t_stat	stat_t;
+	t_stat		stat_t;
 
 	(void)argc;
 	(void)argv;
