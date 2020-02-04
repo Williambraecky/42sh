@@ -41,13 +41,23 @@ static void	print_hash_table(t_sh *shell)
 
 static void	clear_hash_table(t_sh *shell)
 {
+	t_node		*node;
+	t_hashed	*hashed;
 	size_t	i;
 
 	i = 0;
 	while (i < shell->use_hash->max_size)
 	{
 		if (shell->use_hash->nodes[i].is_used)
-			remove_hash(shell, shell->use_hash->nodes[i].key);
+		{
+			node = &shell->use_hash->nodes[i];
+			hashed = node->value;
+			free(hashed->path);
+			ft_memdel(&node->value);
+			ft_strdel(&node->key);
+			node->is_used = 0;
+			shell->use_hash->size--;
+		}
 		i++;
 	}
 }
@@ -102,7 +112,7 @@ int			hash_builtin(int argc, char **argv, t_sh *shell)
 	argv += g_optind;
 	if (r_flg)
 		clear_hash_table(shell);
-	if (argc == 0)
+	else if (argc == 0)
 		print_hash_table(shell);
 	else
 		return (hash_arguments(shell, argc, argv));
