@@ -69,11 +69,11 @@ int			select_handle_arrows(t_prompt *prompt, char *buffer)
 	else if (buffer[2] == 'D')
 		select_handle_left_arrow(select);
 	else if (buffer[2] == 'H')
-		while (select->selected > select->row_total - 1)
+		while (select->selected > select->row_total - 1 && select->row_total)
 			select->selected -= select->row_total;
 	else if (buffer[2] == 'F')
 	{
-		while (select->selected < select->nb_elem)
+		while (select->selected < select->nb_elem && select->row_total)
 			select->selected += select->row_total;
 		select->selected -= select->row_total;
 	}
