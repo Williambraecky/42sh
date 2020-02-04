@@ -66,6 +66,7 @@ int		select_render(t_prompt *prompt, t_select *select)
 		change_line(select, prompt);
 	move_cursor((t_pos){.x = prompt->max_pos.x - prompt->cursor_pos.x,
 		.y = prompt->max_pos.y - prompt->cursor_pos.y});
+	ft_putstr_fd(tgetstr("cd", NULL), 0);
 	if (select->row_total > select->nb_row - prompt->max_pos.y + 1)
 	{
 		select->scroll = 1;
