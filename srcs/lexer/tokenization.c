@@ -49,7 +49,7 @@ t_tdef		*determine_type(t_lexer *lexer, t_token *token)
 }
 
 static int	g_top_mask =
-	M_QUOTE | M_DOUBLE_QUOTE | M_BRACEPARAM | M_NEWLINE | M_CMDSUBST;
+M_QUOTE | M_DOUBLE_QUOTE | M_BRACEPARAM | M_NEWLINE | M_CMDSUBST;
 
 /*
 ** NOTE: returns whether a stack object from delimiter
