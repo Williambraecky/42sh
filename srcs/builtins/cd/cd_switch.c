@@ -38,7 +38,7 @@ static int	change_envs(char *curpath, int pflag, t_sh *shell)
 			return (SH_ERR_MALLOC);
 	if (pflag)
 		getcwd(curpath, MAXPATHLEN * 2);
-	return (repl_env(shell, "PWD", curpath));
+	return (repl_var(shell, "PWD", curpath));
 }
 
 int			cd_switch_dir(char *operand, char *curpath,
