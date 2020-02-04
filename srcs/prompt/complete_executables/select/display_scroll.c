@@ -6,7 +6,7 @@
 /*   By: mpizzaga <mpizzaga@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 15:34:56 by mpizzaga          #+#    #+#             */
-/*   Updated: 2020/01/27 15:55:39 by mpizzaga         ###   ########.fr       */
+/*   Updated: 2020/02/04 15:24:55 by mpizzaga         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int					get_scroll_limit(t_select *select, int selected,
 	int		diff;
 
 	(void)prompt;
-	current_row = selected == -1 ? 0 : selected % select->row_total;
+	current_row = selected == -1 ? 0 : selected % ft_max(select->row_total, 1);
 	if (current_row < select->scroll_top)
 	{
 		diff = select->scroll_top - current_row;
