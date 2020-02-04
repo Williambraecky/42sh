@@ -33,7 +33,7 @@ void		print_lflag(t_cmd *cmd, size_t index, size_t max)
 				ft_printf("   ");
 		}
 		else
-			ft_printf("%*s    ", len + 2);
+			ft_printf("%*s    ", len + 2, "");
 		ft_printf("%d %-10s %s\n", curr->pid, get_signal_str(curr),
 			curr->proc_str);
 		curr = curr->next;
@@ -57,12 +57,12 @@ void		print_pflag(t_cmd *cmd, size_t index, size_t max)
 				ft_printf("[%zu]  %s ", index == max - 1 ? "-" : " ");
 		}
 		else
-			ft_printf("%*s    ", len + 2);
+			ft_printf("%*s    ", len + 2, "");
 		if (curr == cmd->pipeline)
 			ft_printf("%d %-*s %s\n", curr->pid, 10, get_signal_str(curr),
 				curr->proc_str);
 		else
-			ft_printf("%*s, %-*s %s", ft_intlen(cmd->pipeline->pid), "", 10,
+			ft_printf("%*s %-*s %s\n", ft_intlen(cmd->pipeline->pid), "", 10,
 				get_signal_str(curr), curr->proc_str);
 		curr = curr->next;
 	}
