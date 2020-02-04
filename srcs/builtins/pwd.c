@@ -19,8 +19,9 @@
 
 int		pwd_builtin(int argc, char **argv, t_sh *shell)
 {
-	char	*pwd;
-	char	buffer[MAXPATHLEN + 1];
+	char		*pwd;
+	char		buffer[MAXPATHLEN + 1];
+	t_stat	stat_t;
 
 	(void)argc;
 	(void)argv;
@@ -36,7 +37,7 @@ int		pwd_builtin(int argc, char **argv, t_sh *shell)
 			return (1);
 		}
 	}
-	if (access(buffer, F_OK) == -1)
+	if (stat(buffer, &stat_t) == -1)
 	{
 		ft_dprintf(2, "pwd: %s: No such file or directory\n", buffer);
 		return (1);

@@ -19,7 +19,7 @@ int		cd_get_pwd(t_sh *shell, char *buffer, size_t buff_size)
 {
 	char	*value;
 
-	if (get_var(shell, "PWD", &value) != SH_SUCCESS)
+	if (get_var(shell, "PWD", &value) == SH_SUCCESS)
 	{
 		ft_strlcat(buffer, value, buff_size);
 		return (0);
