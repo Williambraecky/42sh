@@ -18,7 +18,8 @@ static int	is_dquote_escaped(char *str, size_t len)
 		str[len] == '\"' ||
 		str[len] == '}' ||
 		str[len] == ')' ||
-		str[len] == '!')
+		str[len] == '!' ||
+		str[len] == '\\')
 		return (is_char_escaped(str, len));
 	return (1);
 }
@@ -29,7 +30,8 @@ static int	is_bparam_escaped(char *str, size_t len)
 		str[len] == '\"' ||
 		str[len] == '\'' ||
 		str[len] == '}' ||
-		str[len] == '!')
+		str[len] == '!' ||
+		str[len] == '\\')
 		return (is_char_escaped(str, len));
 	return (1);
 }
@@ -40,7 +42,8 @@ static int	is_cmdsubst_escaped(char *str, size_t len)
 		str[len] == '\"' ||
 		str[len] == '\'' ||
 		str[len] == ')' ||
-		str[len] == '!')
+		str[len] == '!' ||
+		str[len] == '\\')
 		return (is_char_escaped(str, len));
 	return (1);
 }
