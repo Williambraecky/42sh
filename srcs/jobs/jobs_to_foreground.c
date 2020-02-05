@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/13 00:38:29 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 21:54:08 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/05 14:42:26 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,21 @@ static int	job_contains(t_sh *shell, t_cmd *cmd)
 
 int			jobs_to_foreground(t_sh *shell, t_cmd *cmd, int wake)
 {
-	tcsetpgrp(STDIN_FILENO, cmd->pgid);
+	if (shell->interactive_mode)
+		tcsetpgrp(STDIN_FILENO, cmd->pgid);
 	if (wake)
 	{
-		tcsetattr(STDIN_FILENO, TCSADRAIN, &cmd->termios);
+		if (shell->interactive_mode)
+			tcsetattr(STDIN_FILENO, TCSADRAIN, &cmd->termios);
 		if (kill(-cmd->pgid, SIGCONT) < 0)
 			return (SH_ERR_KILL);
 	}
 	job_wait(shell, cmd);
-	tcsetpgrp(STDIN_FILENO, shell->pid);
-	if (job_contains(shell, cmd))
+	if (shell->interactive_mode)
+		tcsetpgrp(STDIN_FILENO, shell->pid);
+	if (job_contains(shell, cmd) && shell->interactive_mode)
 		tcgetattr(STDIN_FILENO, &cmd->termios);
-	tcsetattr(STDIN_FILENO, TCSADRAIN, &shell->old_termios);
+	if (shell->interactive_mode)
+		tcsetattr(STDIN_FILENO, TCSADRAIN, &shell->old_termios);
 	return (SH_SUCCESS);
 }

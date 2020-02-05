@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:26 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/30 23:49:09 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/05 14:44:04 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	init_shell(t_sh *shell, const char **env)
 	if (init_history(shell) != SH_SUCCESS)
 		return (1);
 	shell->pid = getpid();
-	if ((shell->interactive_mode = isatty(SH_IN)))
+	if (has_var(shell, "TERM") && (shell->interactive_mode = isatty(SH_IN)))
 		if (init_interactive_mode(shell))
 			return (1);
 	return (0);
@@ -60,7 +60,7 @@ int			run_command(t_sh *shell, char *command)
 	}
 	else
 		free_tree(lexer_.build.head);
-	if (ret != SH_ERR_MALLOC)
+	if (ret != SH_ERR_MALLOC && shell->interactive_mode)
 		add_history(shell, lexer_.clean_line);
 	lexer_free(&lexer_);
 	return (ret);
