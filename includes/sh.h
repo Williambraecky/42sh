@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/30 22:58:39 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 19:41:11 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@
 # define REMOVE_PREFIX 6
 # define DO_NOTHING 7
 # define PBUFF_DEF_SIZE 512
-# define SUB_QUOTE (1 << 0)
-# define SUB_PARAM (1 << 1)
-# define SUB_TILDE (1 << 2)
-# define SUB_ASSIGN (1 << 3)
-# define SUB_CMDSUBST (1 << 4)
+# define SUB_QUOTE 0x1
+# define SUB_PARAM 0x2
+# define SUB_TILDE 0x4
+# define SUB_ASSIGN 0x8
+# define SUB_CMDSUBST 010
 
 /*
 ** Typedefs

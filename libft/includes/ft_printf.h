@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/05 16:40:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2019/10/04 16:52:51 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 19:44:20 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,18 @@
 # include <stdarg.h>
 # include <wchar.h>
 
-# define ZERO (1 << 0)
-# define MINUS (1 << 1)
-# define BLANK (1 << 2)
-# define PLUS (1 << 3)
-# define HASHTAG (1 << 4)
-# define ARGED_WIDTH (1 << 5)
-# define ARGED_PRECISION (1 << 6)
-# define LENGTH_Z (1 << 7)
-# define LENGTH_J (1 << 8)
-# define POINTER (1 << 9)
-# define PRECISION (1 << 10)
-# define DOUBLE_L (1 << 11)
+# define ZERO 0x001
+# define MINUS 0x002
+# define BLANK 0x004
+# define PLUS 0x008
+# define HASHTAG 0x010
+# define ARGED_WIDTH 0x020
+# define ARGED_PRECISION 0x040
+# define LENGTH_Z 0x080
+# define LENGTH_J 0x100
+# define POINTER 0x200
+# define PRECISION 0x400
+# define DOUBLE_L 0x800
 
 # define UNDEFINED_WIDTH 0
 
