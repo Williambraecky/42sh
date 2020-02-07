@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/21 21:13:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/21 21:34:29 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 19:51:31 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_cmd		*job_by_id(t_sh *shell, char *id)
 	int		(*cmp_func)();
 	size_t	len;
 
-	if (shell->jobs.size == 0)
+	if (shell->jobs.size == 0 || !id)
 		return (NULL);
 	else if (ft_strstartswith(id, "%%") || ft_strstartswith(id, "%+"))
 		return (ft_vecgettop(&shell->jobs));

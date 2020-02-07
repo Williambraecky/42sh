@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/16 18:26:55 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/22 00:18:49 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 19:52:27 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int		print_args(t_sh *shell, int argc, char **argv, int lpflag)
 		job = job_by_id(shell, argv[argc]);
 		if (!job)
 		{
-			ft_dprintf(2, "42sh: jobs: %s: no such job\n", argv[argc]);
+			ft_dprintf(2, "42sh: jobs: %s: no such job\n", argv[i]);
 			return (127);
 		}
 		index = job_index(shell, job);
