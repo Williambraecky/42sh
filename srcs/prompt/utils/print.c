@@ -6,60 +6,20 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 00:51:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 01:56:50 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 20:48:54 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "prompt.h"
 
-/*
-** NOTE: currently unstable
-*/
-
-void			reprint_everything(t_prompt *prompt)
+static int		check_edit_line(t_prompt *prompt,
+	size_t i, size_t curr_line)
 {
-	t_pos	back;
-	size_t	buffer_index_back;
-	size_t	char_index_back;
-	size_t	nb_lines;
-
-	nb_lines = prompt->cursor_pos.y;
-	while (nb_lines--)
-		ft_putstr_fd(tgetstr("up", NULL), 0);
-	ft_putstr_fd(tgetstr("cr", NULL), 0);
-	ft_putstr_fd(prompt->prompt, 0);
-	back = prompt->cursor_pos;
-	buffer_index_back = prompt->buffer_index;
-	char_index_back = prompt->char_index;
-	prompt->buffer_index = 0;
-	prompt->char_index = 0;
-	prompt->cursor_pos = prompt->prompt_pos;
-	print_from_cursor(prompt, &back);
-	prompt->buffer_index = buffer_index_back;
-	prompt->char_index = char_index_back;
-	if (prompt->select_mode == 1)
-		select_render(prompt, &prompt->select);
-}
-
-/*
-** NOTE: reprints whole buffer
-*/
-
-void			reprint_buffer(t_prompt *prompt)
-{
-	t_pos	back;
-	size_t	buffer_index_back;
-	size_t	char_index_back;
-
-	back = prompt->cursor_pos;
-	buffer_index_back = prompt->buffer_index;
-	char_index_back = prompt->char_index;
-	prompt->buffer_index = 0;
-	prompt->char_index = 0;
-	move_goto(prompt, prompt->prompt_pos);
-	print_from_cursor(prompt, &back);
-	prompt->buffer_index = buffer_index_back;
-	prompt->char_index = char_index_back;
+	if (i < prompt->edit_from && i + curr_line >= prompt->edit_from)
+		return (1);
+	else if (i >= prompt->edit_from && i < prompt->edit_to)
+		return (1);
+	return (0);
 }
 
 static size_t	calc_line_size(t_prompt *prompt, size_t index, t_pos *pos)
@@ -84,6 +44,33 @@ static size_t	calc_line_size(t_prompt *prompt, size_t index, t_pos *pos)
 ** if next_pos is NULL moves back to prompt->cursor_pos
 */
 
+static void		edit_mode_print(t_prompt *prompt,
+	size_t index, size_t curr_line)
+{
+	if (index < prompt->edit_from)
+	{
+		write(0, prompt->buffer.buffer + index, prompt->edit_from - index);
+		curr_line -= prompt->edit_from - index;
+		index += prompt->edit_from - index;
+	}
+	ft_putstr_fd(tgetstr("so", NULL), 0);
+	if (index + curr_line < prompt->edit_to)
+	{
+		write(0, prompt->buffer.buffer + index, curr_line);
+		index += curr_line;
+		curr_line = 0;
+	}
+	else
+	{
+		write(0, prompt->buffer.buffer + index, prompt->edit_to - index);
+		curr_line -= prompt->edit_to - index;
+		index += prompt->edit_to - index;
+	}
+	ft_putstr_fd(tgetstr("se", NULL), 0);
+	if (curr_line)
+		write(0, prompt->buffer.buffer + index, curr_line);
+}
+
 void			print_from_cursor(t_prompt *prompt, t_pos *next_pos)
 {
 	size_t	index;
@@ -95,10 +82,15 @@ void			print_from_cursor(t_prompt *prompt, t_pos *next_pos)
 	ft_putstr_fd(tgetstr("cd", NULL), 0);
 	index = prompt->buffer_index;
 	pos = prompt->cursor_pos;
+	if (prompt->edit_mode)
+		ft_dprintf(2, "from %zu to %zu\n", prompt->edit_from, prompt->edit_to);
 	while (prompt->buffer.buffer[index])
 	{
 		curr_line = calc_line_size(prompt, index, &pos);
-		write(0, prompt->buffer.buffer + index, curr_line);
+		if (prompt->edit_mode && check_edit_line(prompt, index, curr_line))
+			edit_mode_print(prompt, index, curr_line);
+		else
+			write(0, prompt->buffer.buffer + index, curr_line);
 		index += curr_line;
 		if (prompt->buffer.buffer[index - 1] != '\n' && pos.x == 0)
 			ft_putstr_fd(tgetstr("do", NULL), 0);

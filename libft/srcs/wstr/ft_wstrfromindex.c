@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_prompt.c                                      :+:      :+:    :+:   */
+/*   ft_wstrfromindex.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/08 16:37:07 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/02/07 21:44:32 by wbraeckm         ###   ########.fr       */
+/*   Created: 2020/02/07 20:41:34 by wbraeckm          #+#    #+#             */
+/*   Updated: 2020/02/07 21:50:12 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "prompt.h"
+#include "libft.h"
 
-void	free_prompt(t_sh *shell, t_prompt *prompt)
+size_t	ft_wstrfromindex(char *str, size_t index)
 {
-	ft_strdel(&prompt->query.query);
-	ft_strdel(&prompt->query.orig);
-	ft_strdel(&prompt->prompt);
-	ft_strdel(&prompt->search_buffer.buffer);
-	ft_strdel(&prompt->clipboard);
-	if (prompt->select.poss.vec)
-		ft_vecfree(&prompt->select.poss);
-	if (shell->interactive_mode)
-		tcsetattr(SH_IN, TCSADRAIN, &shell->old_termios);
+	size_t	len;
+	size_t	i;
+
+	len = 0;
+	i = 0;
+	while (*str)
+	{
+		if ((*str & 0xC0) != 0x80)
+			len++;
+		if (i == index)
+			return (len - 1);
+		str++;
+		i++;
+	}
+	return (len);
 }

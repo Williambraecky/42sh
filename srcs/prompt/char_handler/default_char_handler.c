@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:54:46 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/19 01:56:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 21:57:14 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int			default_char_handler(t_prompt *prompt, char *buffer, t_sh *shell)
 	size_t	wlen;
 
 	(void)shell;
+	prompt->edit_mode = 0;
 	if (buff_insert(&prompt->buffer, buffer, prompt->buffer_index)
 			!= SH_SUCCESS)
 		return (SH_ERR_MALLOC);

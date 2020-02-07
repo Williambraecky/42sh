@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 16:53:17 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:18:22 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 21:47:29 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ static int		(*g_dispatch_char[])(t_prompt *, char *, t_sh *) =
 	[2] = char_ignore,
 	[3] = char_ignore,
 	[4] = char_empty,
-	[5] = char_ignore,
+	[5] = handle_edit,
 	[6] = char_ignore,
 	[7] = char_ignore,
 	[8] = char_ignore,
@@ -144,7 +144,7 @@ static int		(*g_dispatch_char[])(t_prompt *, char *, t_sh *) =
 	[13] = char_ignore,
 	[14] = char_ignore,
 	[15] = char_ignore,
-	[16] = char_ignore,
+	[16] = handle_paste,
 	[17] = char_ignore,
 	[18] = handle_search,
 	[19] = char_ignore,
@@ -165,6 +165,18 @@ static int		(*g_dispatch_char[])(t_prompt *, char *, t_sh *) =
 
 static size_t	g_dispatch_size =
 	(sizeof(g_dispatch_char) / sizeof(*g_dispatch_char));
+
+static int		(*g_edit_dispatch[])(t_prompt *, char *, t_sh *) =
+{
+	[5] = handle_edit,
+	[21] = handle_copy,
+	[24] = handle_cut,
+	[27] = handle_escape,
+	[127] = handle_backspace,
+};
+
+static size_t	g_edit_size =
+	(sizeof(g_edit_dispatch) / sizeof(*g_edit_dispatch));
 
 static void	finish_query(t_prompt *prompt)
 {
@@ -213,6 +225,25 @@ static int	handle_search_char(t_prompt *prompt, char *buffer, t_sh *shell)
 	return (dispatch_func(prompt, buffer, shell));
 }
 
+static int	handle_edit_char(t_prompt *prompt, char *buffer, t_sh *shell)
+{
+	int		(*dispatch_func)(t_prompt *, char *, t_sh *);
+
+	dispatch_func = NULL;
+	if ((t_u64)buffer[0] < g_edit_size)
+		dispatch_func = g_edit_dispatch[(int)*buffer];
+	if (dispatch_func)
+		return (dispatch_func(prompt, buffer, shell));
+	handle_backspace(prompt, buffer, shell);
+	prompt->edit_mode = 0;
+	reprint_buffer(prompt);
+	if ((t_u64)buffer[0] < g_dispatch_size)
+		dispatch_func = g_dispatch_char[(int)*buffer];
+	if (dispatch_func == NULL)
+		dispatch_func = default_char_handler;
+	return (dispatch_func(prompt, buffer, shell));
+}
+
 int			handle_new_char(t_prompt *prompt, char *buffer, t_sh *shell)
 {
 	int		(*dispatch_func)(t_prompt *, char *, t_sh *);
@@ -226,6 +257,8 @@ int			handle_new_char(t_prompt *prompt, char *buffer, t_sh *shell)
 		return (handle_select_char(prompt, buffer, shell));
 	else if (prompt->searching)
 		return (handle_search_char(prompt, buffer, shell));
+	else if (prompt->edit_mode)
+		return (handle_edit_char(prompt, buffer, shell));
 	if ((t_u64)buffer[0] < g_dispatch_size)
 		dispatch_func = g_dispatch_char[(int)*buffer];
 	if (dispatch_func == NULL)

@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/08 14:45:34 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/30 23:30:58 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 20:15:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ static void	recalc_cursor(t_prompt *prompt)
 	gettermsize(&prompt->winsize);
 	written = prompt->prompt_len;
 	prompt->prompt_pos = calc_prompt_pos(prompt);
-	prompt->from_line = prompt->prompt_pos.y;
 	if (prompt->buffer.buffer)
 		written += prompt->char_index;
 	prompt->cursor_pos = calc_cursor_pos(prompt, written);

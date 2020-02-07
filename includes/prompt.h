@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 18:08:42 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/30 22:15:55 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 22:00:48 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,6 @@ struct			s_prompt
 	size_t		prompt_len;
 	size_t		buffer_index;
 	size_t		char_index;
-	size_t		from_line;
 	int			valid_pos;
 	t_select	select;
 	int			select_mode;
@@ -105,6 +104,11 @@ struct			s_prompt
 	int			querying;
 	int			done;
 	int			nl_offset;
+	int			edit_mode;
+	size_t		edit_start;
+	size_t		edit_from;
+	size_t		edit_to;
+	char		*clipboard;
 };
 
 /*
@@ -165,6 +169,11 @@ int				handle_backspace_search(t_prompt *prompt, char *buffer,
 	t_sh *shell);
 void			next_line(t_prompt *prompt);
 void			prev_line(t_prompt *prompt);
+int				handle_edit(t_prompt *prompt, char *buffer, t_sh *shell);
+int				handle_paste(t_prompt *prompt, char *buffer, t_sh *shell);
+int				handle_copy(t_prompt *prompt, char *buffer, t_sh *shell);
+int				handle_cut(t_prompt *prompt, char *buffer, t_sh *shell);
+void			edit_move(t_prompt *prompt, char buffer_char);
 
 /*
 ** History

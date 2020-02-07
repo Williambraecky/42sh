@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/02/07 19:41:11 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 21:36:02 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,6 +212,7 @@ int			buff_nappend(t_buff *buffer, char *str, size_t n);
 int			buff_append(t_buff *buffer, char *str);
 int			buff_init(t_buff *buffer);
 int			buff_init_size(t_buff *buffer, size_t size);
+int			buff_nremove(t_buff *buffer, size_t pos, size_t n);
 
 /*
 **  Env
