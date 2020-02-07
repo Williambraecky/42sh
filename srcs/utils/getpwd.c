@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 15:43:47 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:51:06 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/07 19:46:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ char	*getpwd_short(t_sh *shell)
 		return (ft_strdup("~"));
 	}
 	last = ft_strrchr(pwd, '/');
-	if (last == pwd)
+	if (!last)
+		short_pwd = ft_strdup(pwd);
+	else if (last == pwd)
 		short_pwd = ft_strdup(last);
 	else
 		short_pwd = ft_strdup(last + 1);
