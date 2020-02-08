@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 00:51:16 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/02/07 20:48:54 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/08 01:22:51 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void			print_from_cursor(t_prompt *prompt, t_pos *next_pos)
 	ft_putstr_fd(tgetstr("cd", NULL), 0);
 	index = prompt->buffer_index;
 	pos = prompt->cursor_pos;
-	if (prompt->edit_mode)
-		ft_dprintf(2, "from %zu to %zu\n", prompt->edit_from, prompt->edit_to);
 	while (prompt->buffer.buffer[index])
 	{
 		curr_line = calc_line_size(prompt, index, &pos);
