@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 22:41:38 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 22:47:51 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/10 17:48:45 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_var	*clone_val(t_var *var)
 		free(new);
 		return (NULL);
 	}
+	new->exported = var->exported;
 	return (new);
 }
 

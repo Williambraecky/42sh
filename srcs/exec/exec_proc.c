@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:32:41 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 23:23:29 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/10 17:45:21 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	make_env(t_sh *shell, t_proc *proc)
 	{
 		equal = ft_strchr(ft_vecget(&proc->assignments, i), '=');
 		*equal = '\0';
-		if (repl_var(shell, ft_vecget(&proc->assignments, i), equal + 1))
+		if (repl_env(shell, ft_vecget(&proc->assignments, i), equal + 1))
 		{
 			ft_memswap(&proc->env_backup, &shell->vars, sizeof(t_map *));
 			ft_mapfilter(proc->env_backup, var_del_filter);
