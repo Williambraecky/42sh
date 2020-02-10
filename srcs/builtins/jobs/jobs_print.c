@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/22 00:12:40 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/22 00:13:12 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/10 17:55:49 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void		print_pflag(t_cmd *cmd, size_t index, size_t max)
 			if (index == max)
 				ft_printf("[%zu]  + ", index);
 			else
-				ft_printf("[%zu]  %s ", index == max - 1 ? "-" : " ");
+				ft_printf("[%zu]  %s ", index, index == max - 1 ? "-" : " ");
 		}
 		else
 			ft_printf("%*s    ", len + 2, "");
