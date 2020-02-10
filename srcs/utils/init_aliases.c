@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 17:43:57 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/27 17:52:16 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/10 17:34:43 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 static char	*g_base_alias[][2] =
 {
 	{"ls", "ls -G"},
-	{"grep", "grep  --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn}"},
 	{NULL, NULL},
 };
 
