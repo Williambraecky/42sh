@@ -38,6 +38,7 @@ SRCSUBS = ./srcs \
 ./srcs/prompt \
 ./srcs/prompt/char_handler \
 ./srcs/prompt/char_handler/specials \
+./srcs/prompt/char_handler/specials/edit \
 ./srcs/prompt/char_handler/specials/handle_arrows \
 ./srcs/prompt/char_handler/specials/search \
 ./srcs/prompt/complete_executables \
