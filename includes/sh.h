@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 16:39:37 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/02/07 21:36:02 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/10 14:52:19 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@
 # define SUB_PARAM 0x2
 # define SUB_TILDE 0x4
 # define SUB_ASSIGN 0x8
-# define SUB_CMDSUBST 010
+# define SUB_CMDSUBST 0x10
 
 /*
 ** Typedefs
