@@ -6,13 +6,13 @@
 #    By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/09/25 16:38:11 by wbraeckm          #+#    #+#              #
-#    Updated: 2020/01/23 11:03:35 by ntom             ###   ########.fr        #
+#    Updated: 2020/02/10 17:53:09 by wbraeckm         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = 42sh
 CC = gcc
-FLAGS = -O3 -Wall -Wextra -Werror #-fsanitize=address
+FLAGS = -O3 -Wall -Wextra -Werror -fsanitize=address
 INCLUDES = ./includes/
 SRCSFOLDER = ./srcs/
 OBJFOLDER = ./obj/
@@ -20,12 +20,10 @@ OBJFOLDER = ./obj/
 
 LIBFT_FOLDER = ./libft/
 include $(LIBFT_FOLDER)libft.mk
+include files.mk
 
-ITEMS = $(shell find srcs -type f | grep -E "\.c$$" | sed 's/srcs//g')
 SRCS = $(addprefix $(SRCSFOLDER), $(ITEMS))
-HEADERS = $(shell find includes -type f)
 OBJ = $(addprefix $(OBJFOLDER), $(ITEMS:.c=.o))
-SRCSUBS = $(shell find ./srcs -type d)
 OBJSUBS = $(SRCSUBS:./srcs%=./obj%)
 LONGEST = $(shell echo $(notdir $(SRCS)) | tr " " "\n" | \
 	awk ' { if ( length > x ) { x = length; y = $$0 } }END{ print y }' | wc -c \

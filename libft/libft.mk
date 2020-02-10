@@ -22,12 +22,10 @@ LIBFT = $(LIBFT_FOLDER)libft.a
 LIBFT_INCLUDES = $(LIBFT_FOLDER)includes
 LIBFT_SRCSFOLDER = $(LIBFT_FOLDER)srcs
 LIBFT_OBJFOLDER = $(LIBFT_FOLDER)obj
-LIBFT_ITEMS = $(shell find $(LIBFT_SRCSFOLDER) -type f \
-	| grep -E "\.c$$" | sed 's;$(LIBFT_SRCSFOLDER);;g')
-LIBFT_HEADERS = $(shell find $(LIBFT_INCLUDES) -type f)
+
+include $(LIBFT_FOLDER)files.mk
 LIBFT_SRCS = $(addprefix $(LIBFT_SRCSFOLDER), $(LIBFT_ITEMS))
 LIBFT_OBJS = $(addprefix $(LIBFT_OBJFOLDER), $(LIBFT_ITEMS:.c=.o))
-LIBFT_SRCSUBS = $(shell find $(LIBFT_SRCSFOLDER) -type d)
 LIBFT_OBJSUBS = $(LIBFT_SRCSUBS:$(LIBFT_SRCSFOLDER)%=$(LIBFT_OBJFOLDER)%)
 LIBFT_LONGEST = $(shell echo $(notdir $(LIBFT_SRCS)) | tr " " "\n" | \
 	awk ' { if ( length > x ) { x = length; y = $$0 } }END{ print y }' | wc -c \
