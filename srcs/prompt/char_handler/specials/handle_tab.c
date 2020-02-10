@@ -6,7 +6,7 @@
 /*   By: wbraeckm <wbraeckm@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 15:55:39 by wbraeckm          #+#    #+#             */
-/*   Updated: 2020/01/24 23:50:48 by wbraeckm         ###   ########.fr       */
+/*   Updated: 2020/02/10 18:31:01 by wbraeckm         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			select_handle_tab(t_prompt *prompt, char *buffer, t_sh *shell)
 static int	one_poss_only(t_vec *poss, t_prompt *prompt)
 {
 	char	*str;
-	size_t	i;
+	int		i;
 
 	str = (char *)ft_vecget(poss, 0);
 	i = (int)prompt->buffer_index - 1;
@@ -42,7 +42,7 @@ static int	one_poss_only(t_vec *poss, t_prompt *prompt)
 	{
 		handle_backspace(prompt, NULL, NULL);
 		prompt->select.cursor_left_len--;
-		i--;
+		i = ft_max(i, i - 1);
 	}
 	default_char_handler(prompt, str, NULL);
 	if (prompt->select.shell_var_brace)
